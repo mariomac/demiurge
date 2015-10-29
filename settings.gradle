@@ -1,0 +1,12 @@
+rootProject.name = 'clurge-parent'
+include 'core'
+include 'sched:clopla'
+findProject(':sched:clopla')?.name = 'sched-clopla'
+include 'frontend'
+include 'monitoring:zabbix'
+findProject(':monitoring:zabbix')?.name = 'monitoring-zabbix'
+include 'monitoring:ganglia'
+findProject(':monitoring:ganglia')?.name = 'monitoring-ganglia'
+include 'monitoring:openstack'
+findProject(':monitoring:openstack')?.name = 'monitoring-openstack'
+
