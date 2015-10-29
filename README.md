@@ -1,5 +1,6 @@
-# clurge
-Clurge: the Cloud's Demiurge
+# Clurge: the Cloud's Demiurge
+
+![Demiurge](demiurge.png)
 
 Folder structure:
 
