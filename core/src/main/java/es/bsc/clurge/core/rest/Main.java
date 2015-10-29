@@ -21,7 +21,7 @@ package es.bsc.clurge.core.rest;
 import com.sun.jersey.api.container.grizzly2.GrizzlyServerFactory;
 import com.sun.jersey.api.core.PackagesResourceConfig;
 import com.sun.jersey.api.core.ResourceConfig;
-import es.bsc.vmmanagercore.configuration.VmManagerConfiguration;
+import es.bsc.clurge.core.configuration.VmManagerConfiguration;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.glassfish.grizzly.http.server.HttpServer;

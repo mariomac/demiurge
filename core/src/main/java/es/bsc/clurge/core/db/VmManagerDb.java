@@ -18,8 +18,8 @@
 
 package es.bsc.clurge.core.db;
 
-import es.bsc.vmmanagercore.models.scheduling.SchedAlgorithmNameEnum;
-import es.bsc.vmmanagercore.selfadaptation.options.SelfAdaptationOptions;
+import es.bsc.clopla.models.scheduling.SchedAlgorithmNameEnum;
+import es.bsc.clopla.selfadaptation.options.SelfAdaptationOptions;
 
 import java.util.List;
 

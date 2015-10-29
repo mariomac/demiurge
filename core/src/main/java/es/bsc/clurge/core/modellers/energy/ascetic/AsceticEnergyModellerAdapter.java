@@ -18,10 +18,10 @@
 
 package es.bsc.clurge.core.modellers.energy.ascetic;
 
-import es.bsc.vmmanagercore.models.scheduling.DeploymentPlan;
-import es.bsc.vmmanagercore.models.vms.Vm;
-import es.bsc.vmmanagercore.models.vms.VmDeployed;
-import es.bsc.vmmanagercore.monitoring.hosts.Host;
+import es.bsc.clurge.core.models.scheduling.DeploymentPlan;
+import es.bsc.clurge.core.models.vms.Vm;
+import es.bsc.clurge.core.models.vms.VmDeployed;
+import es.bsc.clurge.core.monitoring.hosts.Host;
 import eu.ascetic.asceticarchitecture.iaas.energymodeller.EnergyModeller;
 import eu.ascetic.asceticarchitecture.iaas.energymodeller.types.energyuser.VM;
 import eu.ascetic.asceticarchitecture.iaas.energymodeller.types.usage.EnergyUsagePrediction;
@@ -34,7 +34,7 @@ import java.util.List;
  *
  * @author David Ortiz Lopez (david.ortiz@bsc.es)
  */
-public class AsceticEnergyModellerAdapter implements es.bsc.vmmanagercore.modellers.energy.EnergyModeller {
+public class AsceticEnergyModellerAdapter implements es.bsc.clurge.core.modellers.energy.EnergyModeller {
 
     private static eu.ascetic.asceticarchitecture.iaas.energymodeller.EnergyModeller energyModeller =
             eu.ascetic.asceticarchitecture.iaas.energymodeller.EnergyModeller.getInstance();

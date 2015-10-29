@@ -19,18 +19,18 @@
 package es.bsc.clurge.core.rest;
 
 import com.sun.jersey.spi.resource.Singleton;
-import es.bsc.vmmanagercore.cloudmiddleware.CloudMiddlewareException;
-import es.bsc.vmmanagercore.configuration.VmManagerConfiguration;
-import es.bsc.vmmanagercore.db.VmManagerDb;
-import es.bsc.vmmanagercore.db.VmManagerDbFactory;
-import es.bsc.vmmanagercore.manager.GenericVmManager;
-import es.bsc.vmmanagercore.manager.VmManager;
+import es.bsc.clurge.core.cloudmiddleware.CloudMiddlewareException;
+import es.bsc.clurge.core.configuration.VmManagerConfiguration;
+import es.bsc.clurge.core.db.VmManagerDb;
+import es.bsc.clurge.core.db.VmManagerDbFactory;
+import es.bsc.clurge.core.manager.GenericVmManager;
+import es.bsc.clurge.core.manager.VmManager;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import es.bsc.vmmanagercore.rest.error.ErrorHandler;
+import es.bsc.clurge.core.rest.error.ErrorHandler;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 

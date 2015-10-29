@@ -18,7 +18,7 @@
 
 package es.bsc.clurge.core.message_queue;
 
-import es.bsc.vmmanagercore.logging.VMMLogger;
+import es.bsc.clurge.core.logging.VMMLogger;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import javax.jms.*;

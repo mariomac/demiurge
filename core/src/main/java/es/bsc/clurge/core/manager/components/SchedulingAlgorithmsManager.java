@@ -18,8 +18,8 @@
 
 package es.bsc.clurge.core.manager.components;
 
-import es.bsc.vmmanagercore.db.VmManagerDb;
-import es.bsc.vmmanagercore.models.scheduling.SchedAlgorithmNameEnum;
+import es.bsc.clurge.core.db.VmManagerDb;
+import es.bsc.clurge.core.models.scheduling.SchedAlgorithmNameEnum;
 
 import java.util.ArrayList;
 import java.util.Arrays;

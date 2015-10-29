@@ -18,7 +18,7 @@
 
 package es.bsc.clurge.core.modellers.price.ascetic;
 
-import es.bsc.vmmanagercore.modellers.price.PricingModeller;
+import es.bsc.clurge.core.modellers.price.PricingModeller;
 import eu.ascetic.asceticarchitecture.iaas.energymodeller.EnergyModeller;
 import eu.ascetic.asceticarchitecture.iaas.iaaspricingmodeller.IaaSPricingModeller;
 import eu.ascetic.asceticarchitecture.iaas.iaaspricingmodeller.billing.IaaSPricingModellerBilling;

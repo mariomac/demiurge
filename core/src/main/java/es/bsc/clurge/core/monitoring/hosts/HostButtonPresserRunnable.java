@@ -18,7 +18,7 @@
 
 package es.bsc.clurge.core.monitoring.hosts;
 
-import es.bsc.vmmanagercore.models.hosts.HostPowerButtonAction;
+import es.bsc.clurge.core.models.hosts.HostPowerButtonAction;
 
 /**
  * @author David Ortiz Lopez (david.ortiz@bsc.es)

@@ -18,7 +18,7 @@
 
 package es.bsc.clurge.core.vmplacement;
 
-import es.bsc.vmmanagercore.monitoring.hosts.Host;
+import es.bsc.clurge.core.monitoring.hosts.Host;
 
 import java.util.HashMap;
 import java.util.Map;

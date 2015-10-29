@@ -21,8 +21,8 @@ package es.bsc.clurge.core.rest;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import es.bsc.vmmanagercore.manager.VmManager;
-import es.bsc.vmmanagercore.models.scheduling.SchedAlgorithmNameEnum;
+import es.bsc.clurge.core.manager.VmManager;
+import es.bsc.clurge.core.models.scheduling.SchedAlgorithmNameEnum;
 
 import javax.ws.rs.WebApplicationException;
 

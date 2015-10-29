@@ -19,9 +19,9 @@
 package es.bsc.clurge.core.monitoring.hosts;
 
 import com.google.gson.Gson;
-import es.bsc.vmmanagercore.cloudmiddleware.CloudMiddleware;
-import es.bsc.vmmanagercore.cloudmiddleware.fake.FakeCloudMiddleware;
-import es.bsc.vmmanagercore.cloudmiddleware.openstack.OpenStackJclouds;
+import es.bsc.clurge.core.cloudmiddleware.CloudMiddleware;
+import es.bsc.clurge.core.cloudmiddleware.fake.FakeCloudMiddleware;
+import es.bsc.clurge.core.cloudmiddleware.openstack.OpenStackJclouds;
 
 import java.io.BufferedReader;
 import java.io.IOException;

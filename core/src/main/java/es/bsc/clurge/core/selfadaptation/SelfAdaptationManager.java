@@ -18,16 +18,16 @@
 
 package es.bsc.clurge.core.selfadaptation;
 
-import es.bsc.vmmanagercore.cloudmiddleware.CloudMiddlewareException;
-import es.bsc.vmmanagercore.db.VmManagerDb;
-import es.bsc.vmmanagercore.db.VmManagerDbFactory;
-import es.bsc.vmmanagercore.manager.VmManager;
-import es.bsc.vmmanagercore.models.scheduling.*;
-import es.bsc.vmmanagercore.models.vms.Vm;
-import es.bsc.vmmanagercore.selfadaptation.options.AfterVmDeleteSelfAdaptationOps;
-import es.bsc.vmmanagercore.selfadaptation.options.AfterVmDeploymentSelfAdaptationOps;
-import es.bsc.vmmanagercore.selfadaptation.options.PeriodicSelfAdaptationOps;
-import es.bsc.vmmanagercore.selfadaptation.options.SelfAdaptationOptions;
+import es.bsc.clurge.core.cloudmiddleware.CloudMiddlewareException;
+import es.bsc.clurge.core.db.VmManagerDb;
+import es.bsc.clurge.core.db.VmManagerDbFactory;
+import es.bsc.clurge.core.manager.VmManager;
+import es.bsc.clurge.core.models.scheduling.*;
+import es.bsc.clurge.core.models.vms.Vm;
+import es.bsc.clurge.core.selfadaptation.options.AfterVmDeleteSelfAdaptationOps;
+import es.bsc.clurge.core.selfadaptation.options.AfterVmDeploymentSelfAdaptationOps;
+import es.bsc.clurge.core.selfadaptation.options.PeriodicSelfAdaptationOps;
+import es.bsc.clurge.core.selfadaptation.options.SelfAdaptationOptions;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 

@@ -18,10 +18,10 @@
 
 package es.bsc.clurge.core.cloudmiddleware;
 
-import es.bsc.vmmanagercore.models.images.ImageToUpload;
-import es.bsc.vmmanagercore.models.images.ImageUploaded;
-import es.bsc.vmmanagercore.models.vms.Vm;
-import es.bsc.vmmanagercore.models.vms.VmDeployed;
+import es.bsc.clurge.core.models.images.ImageToUpload;
+import es.bsc.clurge.core.models.images.ImageUploaded;
+import es.bsc.clurge.core.models.vms.Vm;
+import es.bsc.clurge.core.models.vms.VmDeployed;
 
 import java.util.List;
 

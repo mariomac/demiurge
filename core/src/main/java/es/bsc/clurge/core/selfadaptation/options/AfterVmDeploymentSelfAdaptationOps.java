@@ -18,8 +18,8 @@
 
 package es.bsc.clurge.core.selfadaptation.options;
 
-import es.bsc.vmmanagercore.models.scheduling.ConstructionHeuristic;
-import es.bsc.vmmanagercore.models.scheduling.LocalSearchAlgorithmOptionsSet;
+import es.bsc.clurge.core.models.scheduling.ConstructionHeuristic;
+import es.bsc.clurge.core.models.scheduling.LocalSearchAlgorithmOptionsSet;
 
 /**
  * @author David Ortiz Lopez (david.ortiz@bsc.es)

@@ -19,7 +19,7 @@
 package es.bsc.clurge.core.message_queue;
 
 import com.google.gson.Gson;
-import es.bsc.vmmanagercore.models.vms.VmDeployed;
+import es.bsc.clurge.core.models.vms.VmDeployed;
 
 
 public class MessageQueue {

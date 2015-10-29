@@ -18,14 +18,14 @@
 
 package es.bsc.clurge.core.manager.components;
 
-import es.bsc.vmmanagercore.db.VmManagerDb;
-import es.bsc.vmmanagercore.modellers.energy.EnergyModeller;
-import es.bsc.vmmanagercore.modellers.price.PricingModeller;
-import es.bsc.vmmanagercore.models.estimates.ListVmEstimates;
-import es.bsc.vmmanagercore.models.estimates.VmToBeEstimated;
-import es.bsc.vmmanagercore.models.vms.Vm;
-import es.bsc.vmmanagercore.scheduler.EstimatesGenerator;
-import es.bsc.vmmanagercore.scheduler.Scheduler;
+import es.bsc.clurge.core.db.VmManagerDb;
+import es.bsc.clurge.core.modellers.energy.EnergyModeller;
+import es.bsc.clurge.core.modellers.price.PricingModeller;
+import es.bsc.clurge.core.models.estimates.ListVmEstimates;
+import es.bsc.clurge.core.models.estimates.VmToBeEstimated;
+import es.bsc.clurge.core.models.vms.Vm;
+import es.bsc.clurge.core.scheduler.EstimatesGenerator;
+import es.bsc.clurge.core.scheduler.Scheduler;
 
 import java.util.ArrayList;
 import java.util.List;

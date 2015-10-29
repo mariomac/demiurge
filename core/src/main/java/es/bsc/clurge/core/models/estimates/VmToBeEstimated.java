@@ -18,7 +18,7 @@
 
 package es.bsc.clurge.core.models.estimates;
 
-import es.bsc.vmmanagercore.models.vms.Vm;
+import es.bsc.clurge.core.models.vms.Vm;
 
 /**
  * VM for which an price/energy estimation needs to be provided.

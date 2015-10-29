@@ -18,7 +18,7 @@
 
 package es.bsc.clurge.core.models.vms;
 
-import es.bsc.vmmanagercore.models.estimates.VmToBeEstimated;
+import es.bsc.clurge.core.models.estimates.VmToBeEstimated;
 
 import java.util.List;
 

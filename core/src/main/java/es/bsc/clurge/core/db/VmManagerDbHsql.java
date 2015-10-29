@@ -19,8 +19,8 @@
 package es.bsc.clurge.core.db;
 
 import com.google.gson.Gson;
-import es.bsc.vmmanagercore.models.scheduling.SchedAlgorithmNameEnum;
-import es.bsc.vmmanagercore.selfadaptation.options.SelfAdaptationOptions;
+import es.bsc.clurge.core.models.scheduling.SchedAlgorithmNameEnum;
+import es.bsc.clurge.core.selfadaptation.options.SelfAdaptationOptions;
 import org.apache.log4j.Logger;
 
 import java.sql.*;

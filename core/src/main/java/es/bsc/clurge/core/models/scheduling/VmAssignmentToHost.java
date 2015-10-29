@@ -18,12 +18,12 @@
 
 package es.bsc.clurge.core.models.scheduling;
 
-import es.bsc.vmmanagercore.modellers.energy.EnergyModeller;
-import es.bsc.vmmanagercore.modellers.price.PricingModeller;
-import es.bsc.vmmanagercore.models.estimates.VmEstimate;
-import es.bsc.vmmanagercore.models.vms.Vm;
-import es.bsc.vmmanagercore.models.vms.VmDeployed;
-import es.bsc.vmmanagercore.monitoring.hosts.Host;
+import es.bsc.clurge.core.modellers.energy.EnergyModeller;
+import es.bsc.clurge.core.modellers.price.PricingModeller;
+import es.bsc.clurge.core.models.estimates.VmEstimate;
+import es.bsc.clurge.core.models.vms.Vm;
+import es.bsc.clurge.core.models.vms.VmDeployed;
+import es.bsc.clurge.core.monitoring.hosts.Host;
 
 import java.util.List;
 

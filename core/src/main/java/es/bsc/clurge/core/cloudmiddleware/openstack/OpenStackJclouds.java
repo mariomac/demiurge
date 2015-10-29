@@ -18,12 +18,12 @@
 
 package es.bsc.clurge.core.cloudmiddleware.openstack;
 
-import es.bsc.vmmanagercore.cloudmiddleware.CloudMiddleware;
-import es.bsc.vmmanagercore.cloudmiddleware.CloudMiddlewareException;
-import es.bsc.vmmanagercore.models.images.ImageToUpload;
-import es.bsc.vmmanagercore.models.images.ImageUploaded;
-import es.bsc.vmmanagercore.models.vms.Vm;
-import es.bsc.vmmanagercore.models.vms.VmDeployed;
+import es.bsc.clurge.core.cloudmiddleware.CloudMiddleware;
+import es.bsc.clurge.core.cloudmiddleware.CloudMiddlewareException;
+import es.bsc.clurge.core.models.images.ImageToUpload;
+import es.bsc.clurge.core.models.images.ImageUploaded;
+import es.bsc.clurge.core.models.vms.Vm;
+import es.bsc.clurge.core.models.vms.VmDeployed;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.validator.UrlValidator;
 import org.apache.log4j.LogManager;

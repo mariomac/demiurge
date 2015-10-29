@@ -31,9 +31,9 @@ import java.util.List;
  */
 public class CloplaEnergyModeller implements EnergyModeller {
 
-    private final es.bsc.vmmanagercore.modellers.energy.EnergyModeller energyModeller;
+    private final es.bsc.clurge.core.modellers.energy.EnergyModeller energyModeller;
 
-    public CloplaEnergyModeller(es.bsc.vmmanagercore.modellers.energy.EnergyModeller energyModeller) {
+    public CloplaEnergyModeller(es.bsc.clurge.core.modellers.energy.EnergyModeller energyModeller) {
         this.energyModeller = energyModeller;
     }
 

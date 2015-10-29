@@ -18,7 +18,7 @@
 
 package es.bsc.clurge.core.monitoring.hosts;
 
-import es.bsc.vmmanagercore.monitoring.zabbix.ZabbixConnector;
+import es.bsc.clurge.core.monitoring.zabbix.ZabbixConnector;
 import org.apache.log4j.LogManager;
 
 import java.util.Map;

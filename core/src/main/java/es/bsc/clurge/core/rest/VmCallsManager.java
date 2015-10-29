@@ -21,10 +21,10 @@ package es.bsc.clurge.core.rest;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import es.bsc.vmmanagercore.cloudmiddleware.CloudMiddlewareException;
-import es.bsc.vmmanagercore.manager.VmManager;
-import es.bsc.vmmanagercore.models.vms.ListVms;
-import es.bsc.vmmanagercore.models.vms.ListVmsDeployed;
+import es.bsc.clurge.core.cloudmiddleware.CloudMiddlewareException;
+import es.bsc.clurge.core.manager.VmManager;
+import es.bsc.clurge.core.models.vms.ListVms;
+import es.bsc.clurge.core.models.vms.ListVmsDeployed;
 
 import java.util.List;
 

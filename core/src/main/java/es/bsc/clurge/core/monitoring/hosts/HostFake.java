@@ -19,7 +19,7 @@
 package es.bsc.clurge.core.monitoring.hosts;
 
 import com.google.common.base.Preconditions;
-import es.bsc.vmmanagercore.models.vms.Vm;
+import es.bsc.clurge.core.models.vms.Vm;
 
 /**
  * Information about the status of a fake host.

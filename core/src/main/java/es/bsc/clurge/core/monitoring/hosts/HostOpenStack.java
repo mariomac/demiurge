@@ -20,7 +20,7 @@ package es.bsc.clurge.core.monitoring.hosts;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.FluentIterable;
-import es.bsc.vmmanagercore.cloudmiddleware.openstack.OpenStackJclouds;
+import es.bsc.clurge.core.cloudmiddleware.openstack.OpenStackJclouds;
 import org.jclouds.openstack.nova.v2_0.domain.HostResourceUsage;
 import org.jclouds.openstack.nova.v2_0.extensions.HostAdministrationApi;
 

@@ -18,11 +18,11 @@
 
 package es.bsc.clurge.core.monitoring.hosts;
 
-import es.bsc.vmmanagercore.configuration.VmManagerConfiguration;
-import es.bsc.vmmanagercore.logging.VMMLogger;
-import es.bsc.vmmanagercore.models.hosts.HostPowerButtonAction;
-import es.bsc.vmmanagercore.models.hosts.ServerLoad;
-import es.bsc.vmmanagercore.models.vms.Vm;
+import es.bsc.clurge.core.configuration.VmManagerConfiguration;
+import es.bsc.clurge.core.logging.VMMLogger;
+import es.bsc.clurge.core.models.hosts.HostPowerButtonAction;
+import es.bsc.clurge.core.models.hosts.ServerLoad;
+import es.bsc.clurge.core.models.vms.Vm;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;

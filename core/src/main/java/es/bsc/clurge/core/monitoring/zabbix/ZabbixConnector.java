@@ -19,7 +19,7 @@
 package es.bsc.clurge.core.monitoring.zabbix;
 
 import com.google.common.collect.ImmutableMap;
-import es.bsc.vmmanagercore.configuration.VmManagerConfiguration;
+import es.bsc.clurge.core.configuration.VmManagerConfiguration;
 import eu.ascetic.asceticarchitecture.iaas.zabbixApi.client.ZabbixClient;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;

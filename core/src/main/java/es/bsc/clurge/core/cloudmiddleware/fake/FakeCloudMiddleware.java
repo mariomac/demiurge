@@ -18,12 +18,12 @@
 
 package es.bsc.clurge.core.cloudmiddleware.fake;
 
-import es.bsc.vmmanagercore.cloudmiddleware.CloudMiddleware;
-import es.bsc.vmmanagercore.models.images.ImageToUpload;
-import es.bsc.vmmanagercore.models.images.ImageUploaded;
-import es.bsc.vmmanagercore.models.vms.Vm;
-import es.bsc.vmmanagercore.models.vms.VmDeployed;
-import es.bsc.vmmanagercore.monitoring.hosts.HostFake;
+import es.bsc.clurge.core.cloudmiddleware.CloudMiddleware;
+import es.bsc.clurge.core.models.images.ImageToUpload;
+import es.bsc.clurge.core.models.images.ImageUploaded;
+import es.bsc.clurge.core.models.vms.Vm;
+import es.bsc.clurge.core.models.vms.VmDeployed;
+import es.bsc.clurge.core.monitoring.hosts.HostFake;
 
 import java.util.ArrayList;
 import java.util.Collections;

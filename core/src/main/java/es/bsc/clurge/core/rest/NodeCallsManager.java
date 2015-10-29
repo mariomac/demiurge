@@ -19,8 +19,8 @@
 package es.bsc.clurge.core.rest;
 
 import com.google.gson.Gson;
-import es.bsc.vmmanagercore.manager.VmManager;
-import es.bsc.vmmanagercore.monitoring.hosts.Host;
+import es.bsc.clurge.core.manager.VmManager;
+import es.bsc.clurge.core.monitoring.hosts.Host;
 
 import java.util.List;
 

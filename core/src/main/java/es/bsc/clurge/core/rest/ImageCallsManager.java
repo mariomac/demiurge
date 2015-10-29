@@ -20,10 +20,10 @@ package es.bsc.clurge.core.rest;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import es.bsc.vmmanagercore.cloudmiddleware.CloudMiddlewareException;
-import es.bsc.vmmanagercore.manager.VmManager;
-import es.bsc.vmmanagercore.models.images.ImageToUpload;
-import es.bsc.vmmanagercore.models.images.ListImagesUploaded;
+import es.bsc.clurge.core.cloudmiddleware.CloudMiddlewareException;
+import es.bsc.clurge.core.manager.VmManager;
+import es.bsc.clurge.core.models.images.ImageToUpload;
+import es.bsc.clurge.core.models.images.ListImagesUploaded;
 
 /**
  * This class implements the REST calls that are related with VM images.

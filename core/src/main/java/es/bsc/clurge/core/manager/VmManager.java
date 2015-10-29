@@ -1,15 +1,15 @@
 package es.bsc.clurge.core.manager;
 
-import es.bsc.vmmanagercore.cloudmiddleware.CloudMiddlewareException;
-import es.bsc.vmmanagercore.models.estimates.ListVmEstimates;
-import es.bsc.vmmanagercore.models.estimates.VmToBeEstimated;
-import es.bsc.vmmanagercore.models.images.ImageToUpload;
-import es.bsc.vmmanagercore.models.images.ImageUploaded;
-import es.bsc.vmmanagercore.models.scheduling.*;
-import es.bsc.vmmanagercore.models.vms.Vm;
-import es.bsc.vmmanagercore.models.vms.VmDeployed;
-import es.bsc.vmmanagercore.monitoring.hosts.Host;
-import es.bsc.vmmanagercore.selfadaptation.options.SelfAdaptationOptions;
+import es.bsc.clurge.core.cloudmiddleware.CloudMiddlewareException;
+import es.bsc.clurge.core.models.estimates.ListVmEstimates;
+import es.bsc.clurge.core.models.estimates.VmToBeEstimated;
+import es.bsc.clurge.core.models.images.ImageToUpload;
+import es.bsc.clurge.core.models.images.ImageUploaded;
+import es.bsc.clurge.core.models.scheduling.*;
+import es.bsc.clurge.core.models.vms.Vm;
+import es.bsc.clurge.core.models.vms.VmDeployed;
+import es.bsc.clurge.core.monitoring.hosts.Host;
+import es.bsc.clurge.core.selfadaptation.options.SelfAdaptationOptions;
 
 import java.util.List;
 
