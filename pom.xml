@@ -10,12 +10,12 @@
 	</properties>
 
 	<modules>
-		<!--<module>deployment</module>-->
-		<!--<module>frontend</module>-->
-		<!--<module>middleware</module>-->
-		<!--<module>monitoring</module>-->
+		<module>deployment</module>
+		<module>frontend</module>
+		<module>middleware</module>
+		<module>monitoring</module>
 		<module>sched</module>
-		<!--<module>utility</module>-->
+		<module>utility</module>
 		<module>core</module>
 	</modules>
 

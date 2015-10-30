@@ -18,7 +18,6 @@
  */
 
 package es.bsc.clopla.lib;
-
 import es.bsc.clopla.domain.*;
 import es.bsc.clopla.placement.config.Policy;
 import es.bsc.clopla.placement.config.VmPlacementConfig;
@@ -26,7 +25,7 @@ import org.junit.Test;
 
 import java.util.*;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * @author David Ortiz (david.ortiz@bsc.es)
