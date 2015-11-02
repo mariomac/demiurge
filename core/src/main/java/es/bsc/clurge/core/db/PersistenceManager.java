@@ -33,7 +33,7 @@ import java.util.List;
  * @author David Ortiz Lopez (david.ortiz@bsc.es)
  *
  */
-public interface VmManagerDb {
+public interface PersistenceManager {
 
     /**
      * Closes the connection with the DB.

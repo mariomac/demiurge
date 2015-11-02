@@ -18,7 +18,7 @@ package es.bsc.clurge.frontend.rest; /**
 
 import es.bsc.clurge.core.cloudmiddleware.CloudMiddlewareException;
 import es.bsc.clurge.core.configuration.VmManagerConfiguration;
-import es.bsc.clurge.core.db.VmManagerDb;
+import es.bsc.clurge.core.db.PersistenceManager;
 import es.bsc.clurge.core.db.VmManagerDbFactory;
 import es.bsc.clurge.core.manager.GenericVmManager;
 import es.bsc.clurge.core.manager.VmManager;
@@ -337,7 +337,7 @@ public class ClurgeRestAPI {
     @Produces(MediaType.TEXT_PLAIN)
     public String getDbInfo() {
         StringBuilder sb = new StringBuilder("**********\nDB contents\n********\n");
-        VmManagerDb db = VmManagerDbFactory.getDb(VmManagerConfiguration.getInstance().dbName);
+        PersistenceManager db = VmManagerDbFactory.getDb(VmManagerConfiguration.getInstance().dbName);
         List<String> vmIds = db.getAllVmIds();
         if(vmIds != null && vmIds.size() > 0) {
             sb.append("== Virtual Machines ==\n");

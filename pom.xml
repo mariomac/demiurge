@@ -7,34 +7,17 @@
 	<name>Clurge</name>
 	<properties>
 		<lang.level>1.8</lang.level>
+		<maven.wagon.http.ssl.insecure>true</maven.wagon.http.ssl.insecure>
 	</properties>
 
 	<modules>
-		<module>deployment</module>
-		<module>frontend</module>
 		<module>middleware</module>
 		<module>monitoring</module>
 		<module>sched</module>
 		<module>utility</module>
 		<module>core</module>
+		<module>core-old</module>
+		<module>frontend</module>
 	</modules>
-
-	<!-- TODO : REMOVE THIS SHIT -->
-	<repositories>
-		<!-- ASCETiC's private repo -->
-		<repository>
-			<id>ascetic-repository</id>
-			<snapshots>
-				<enabled>true</enabled>
-				<updatePolicy>daily</updatePolicy>
-			</snapshots>
-			<releases>
-				<enabled>true</enabled>
-				<updatePolicy>never</updatePolicy>
-			</releases>
-			<name>repo</name>
-			<url>https://ascetic-artifactory.cit.tu-berlin.de/artifactory/repo</url>
-		</repository>
-	</repositories>
 
 </project>

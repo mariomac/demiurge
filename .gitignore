@@ -12,3 +12,5 @@
 **/*.iml
 **/*.ipr
 **/*.iws
+
+erasemeLibs/*.jar
