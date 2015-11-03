@@ -1,15 +1,14 @@
 package es.bsc.clurge.vmm;
 
-import es.bsc.clurge.core.cloudmiddleware.CloudMiddlewareException;
+import es.bsc.clurge.cloudmw.CloudMiddlewareException;
 import es.bsc.clurge.models.estimates.ListVmEstimates;
 import es.bsc.clurge.models.estimates.VmToBeEstimated;
 import es.bsc.clurge.models.images.ImageToUpload;
 import es.bsc.clurge.models.images.ImageUploaded;
 import es.bsc.clurge.models.vms.Vm;
 import es.bsc.clurge.models.vms.VmDeployed;
-import es.bsc.clurge.core.monitoring.hosts.Host;
-import es.bsc.clurge.core.selfadaptation.options.SelfAdaptationOptions;
 import es.bsc.clurge.models.scheduling.*;
+import es.bsc.clurge.monit.Host;
 
 import java.util.List;
 
@@ -200,24 +199,6 @@ public interface VmManager {
     void executeDeploymentPlan(VmPlacement[] deploymentPlan) throws CloudMiddlewareException;
 
 
-    //================================================================================
-    // Self Adaptation
-    //================================================================================
-
-    /**
-     * This function updates the configuration options for the self-adaptation capabilities of the VMM.
-     *
-     * @param selfAdaptationOptions the options
-     */
-    void saveSelfAdaptationOptions(SelfAdaptationOptions selfAdaptationOptions);
-
-    /**
-     * Returns the self-adaptation options for the self-adaptation capabilities of the VMM.
-     *
-     * @return the options
-     */
-    SelfAdaptationOptions getSelfAdaptationOptions();
-
 
     //================================================================================
     // Hosts
@@ -263,5 +244,8 @@ public interface VmManager {
 	 */
 	String getVmsCost(List<String> vmIds) throws Exception;
 
-	void executeOnDemandSelfAdaptation() throws CloudMiddlewareException ;
+	void executeOnDemandSelfAdaptation() throws CloudMiddlewareException;
+
+	void addListener(VmManagerListener listener);
+	void removeListener(VmManagerListener listener);
 }

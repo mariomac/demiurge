@@ -34,8 +34,8 @@ import es.bsc.clurge.models.vms.Vm;
 import es.bsc.clurge.models.vms.VmDeployed;
 import es.bsc.clurge.monit.Host;
 import es.bsc.clurge.vmm.VmManager;
+import es.bsc.clurge.vmm.VmManagerListener;
 import org.apache.activemq.memory.buffer.MessageQueue;
-import org.apache.activemq.util.TimeUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -70,9 +70,6 @@ public class GenericVmManager implements VmManager {
 	private final PersistenceManager db;
 
     private List<Host> hosts = new ArrayList<>();
-
-    public static EnergyModeller energyModeller;
-    public static PricingModeller pricingModeller;
 
     // Specific for the Ascetic project
     private static final String[] ASCETIC_DEFAULT_SEC_GROUPS = {"vmm_allow_all", "default"};
@@ -110,8 +107,18 @@ public class GenericVmManager implements VmManager {
 
     }
 
+	private final Set<VmManagerListener> listeners = new HashSet<>();
+	@Override
+	public void removeListener(VmManagerListener listener) {
+		listeners.add(listener);
+	}
 
-    //================================================================================
+	@Override
+	public void addListener(VmManagerListener listener) {
+		listeners.remove(listener);
+	}
+
+	//================================================================================
     // VM Methods
     //================================================================================
 
@@ -203,11 +210,9 @@ public class GenericVmManager implements VmManager {
 		cloudMiddleware.destroy(vmId);
 		db.deleteVm(vmId);
 
-		// TODO: PUT THIS AS A "ondeleteListener" PLUGIN
-		// If the monitoring system is Zabbix, then we need to delete the VM from Zabbix
-		if (isUsingZabbix()) {
+		for(VmManagerListener listener : listeners) {
 			try {
-				ZabbixConnector.deleteVmFromZabbix(vmId, vmToBeDeleted.getHostName());
+				listener.onVmDestruction(vmToBeDeleted);
 			} catch(Exception e) {
 				log.error(e.getMessage(),e);
 			}
@@ -735,9 +740,6 @@ public class GenericVmManager implements VmManager {
 
 
 	// TODO: remove the next methods
-	private boolean isUsingZabbix() {
-		return VmManagerConfiguration.getInstance().monitoring.equals(VmManagerConfiguration.Monitoring.ZABBIX);
-	}
 
 	// this should be a plugin
 	private void setAsceticInitScript(Vm vmToDeploy) {

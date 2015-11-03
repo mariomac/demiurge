@@ -11,5 +11,66 @@
 
 	<artifactId>deployments-ascetic</artifactId>
 
+	<repositories>
+		<!-- ASCETiC's private repo -->
+		<repository>
+			<id>ascetic-repository</id>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>daily</updatePolicy>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<name>repo</name>
+			<url>https://ascetic-artifactory.cit.tu-berlin.de/artifactory/repo</url>
+		</repository>
+	</repositories>
 
+	<dependencies>
+		<dependency>
+			<groupId>es.bsc.clurge</groupId>
+			<artifactId>clurge-common</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>es.bsc.clurge</groupId>
+			<artifactId>clurge-core</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>es.bsc.clurge</groupId>
+			<artifactId>clurge-monitoring-zabbix</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>eu.ascetic.utils</groupId>
+			<artifactId>zabbix-api</artifactId>
+			<version>0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>eu.ascetic.iaas</groupId>
+			<artifactId>energy-modeller</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>eu.ascetic.iaas</groupId>
+			<artifactId>iaas-pricing-modeller</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>${lang.level}</source>
+					<target>${lang.level}</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

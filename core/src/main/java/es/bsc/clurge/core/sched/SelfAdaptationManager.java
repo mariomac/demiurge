@@ -187,4 +187,22 @@ public class SelfAdaptationManager {
                 new PeriodicSelfAdaptationOps(null, 0, 0));
     }
 
+
+	//================================================================================
+	// Self Adaptation
+	//================================================================================
+
+	/**
+	 * This function updates the configuration options for the self-adaptation capabilities of the VMM.
+	 *
+	 * @param selfAdaptationOptions the options
+	 */
+	void saveSelfAdaptationOptions(SelfAdaptationOptions selfAdaptationOptions);
+
+	/**
+	 * Returns the self-adaptation options for the self-adaptation capabilities of the VMM.
+	 *
+	 * @return the options
+	 */
+	SelfAdaptationOptions getSelfAdaptationOptions();
 }

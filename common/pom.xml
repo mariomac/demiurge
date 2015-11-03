@@ -10,6 +10,18 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>clurge-common</artifactId>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>${lang.level}</source>
+					<target>${lang.level}</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 
 </project>

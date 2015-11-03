@@ -51,6 +51,16 @@
                 </configuration>
             </plugin>
         </plugins>
-    </build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>${lang.level}</source>
+					<target>${lang.level}</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>

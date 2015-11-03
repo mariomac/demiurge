@@ -105,37 +105,9 @@
             <version>2.4.1</version>
         </dependency>
         <dependency>
-            <groupId>eu.ascetic.iaas</groupId>
-            <artifactId>GangliaMonitoring</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-			<systemPath>${home.dir}/.m2/repository/eu/ascetic/iaas/GangliaMonitoring/0.0.1-SNAPSHOT/GangliaMonitoring-0.0.1-SNAPSHOT.jar</systemPath>
-			<scope>system</scope>
-        </dependency>
-        <dependency>
             <groupId>es.bsc.clurge</groupId>
             <artifactId>sched-clopla</artifactId>
             <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>eu.ascetic.utils</groupId>
-            <artifactId>zabbix-api</artifactId>
-            <version>0.1-SNAPSHOT</version>
-            <systemPath>${home.dir}/.m2/repository/eu/ascetic/utils/zabbix-api/0.1-SNAPSHOT/zabbix-api-0.1-SNAPSHOT.jar</systemPath>
-            <scope>system</scope>
-        </dependency>
-        <dependency>
-            <groupId>eu.ascetic.iaas</groupId>
-            <artifactId>energy-modeller</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <systemPath>${home.dir}/.m2/repository/eu/ascetic/iaas/energy-modeller/1.0-SNAPSHOT/energy-modeller-1.0-SNAPSHOT.jar</systemPath>
-            <scope>system</scope>
-        </dependency>
-        <dependency>
-            <groupId>eu.ascetic.iaas</groupId>
-            <artifactId>iaas-pricing-modeller</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <systemPath>${home.dir}/.m2/repository/eu/ascetic/iaas/iaas-pricing-modeller/1.0-SNAPSHOT/iaas-pricing-modeller-1.0-SNAPSHOT.jar</systemPath>
-            <scope>system</scope>
         </dependency>
         <dependency>
             <groupId>commons-collections</groupId>
