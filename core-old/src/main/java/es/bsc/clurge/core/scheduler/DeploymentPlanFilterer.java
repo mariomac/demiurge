@@ -18,8 +18,8 @@
 
 package es.bsc.clurge.core.scheduler;
 
-import es.bsc.clurge.core.models.scheduling.DeploymentPlan;
-import es.bsc.clurge.core.models.scheduling.VmAssignmentToHost;
+import es.bsc.clurge.common.models.scheduling.DeploymentPlan;
+import es.bsc.clurge.common.models.scheduling.VmAssignmentToHost;
 
 import java.util.ArrayList;
 import java.util.List;

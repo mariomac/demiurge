@@ -18,8 +18,8 @@
 
 package es.bsc.clurge.core.monitoring;
 
-import es.bsc.clurge.core.models.hosts.ServerLoad;
-import es.bsc.clurge.core.models.vms.Vm;
+import es.bsc.clurge.common.models.hosts.ServerLoad;
+import es.bsc.clurge.common.models.vms.Vm;
 import es.bsc.clurge.core.monitoring.hosts.HostFake;
 import org.junit.Rule;
 import org.junit.Test;

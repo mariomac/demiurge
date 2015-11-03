@@ -19,10 +19,10 @@
 package es.bsc.clurge.core.cloudmiddleware.fake;
 
 import es.bsc.clurge.core.cloudmiddleware.CloudMiddleware;
-import es.bsc.clurge.core.models.images.ImageToUpload;
-import es.bsc.clurge.core.models.images.ImageUploaded;
-import es.bsc.clurge.core.models.vms.Vm;
-import es.bsc.clurge.core.models.vms.VmDeployed;
+import es.bsc.clurge.common.models.images.ImageToUpload;
+import es.bsc.clurge.common.models.images.ImageUploaded;
+import es.bsc.clurge.common.models.vms.Vm;
+import es.bsc.clurge.common.models.vms.VmDeployed;
 import es.bsc.clurge.core.monitoring.hosts.HostFake;
 
 import java.util.ArrayList;

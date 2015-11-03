@@ -19,8 +19,8 @@
 package es.bsc.clurge.core.scheduler.schedulingalgorithms;
 
 import es.bsc.clurge.core.logging.VMMLogger;
-import es.bsc.clurge.core.models.scheduling.DeploymentPlan;
-import es.bsc.clurge.core.models.scheduling.SchedAlgorithmNameEnum;
+import es.bsc.clurge.common.models.scheduling.DeploymentPlan;
+import es.bsc.clurge.common.models.scheduling.SchedAlgorithmNameEnum;
 import es.bsc.clurge.core.monitoring.hosts.Host;
 
 import java.util.List;

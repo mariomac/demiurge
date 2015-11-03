@@ -21,7 +21,7 @@ package es.bsc.clurge.core.rest;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import es.bsc.clurge.core.models.images.ImageToUpload;
+import es.bsc.clurge.common.models.images.ImageToUpload;
 
 import javax.ws.rs.WebApplicationException;
 import java.util.Arrays;

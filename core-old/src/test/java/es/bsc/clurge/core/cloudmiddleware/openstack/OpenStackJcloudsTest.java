@@ -20,8 +20,7 @@ package es.bsc.clurge.core.cloudmiddleware.openstack;
 
 import es.bsc.clurge.core.configuration.VmManagerConfiguration;
 import es.bsc.clurge.core.db.VmManagerDb;
-import es.bsc.clurge.core.db.VmManagerDbFactory;
-import es.bsc.clurge.core.models.vms.Vm;
+import es.bsc.clurge.common.models.vms.Vm;
 import org.jclouds.openstack.nova.v2_0.domain.Flavor;
 import org.jclouds.openstack.nova.v2_0.domain.Server;
 import org.jclouds.openstack.nova.v2_0.features.FlavorApi;

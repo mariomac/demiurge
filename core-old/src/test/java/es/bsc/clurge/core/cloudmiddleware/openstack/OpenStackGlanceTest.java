@@ -19,7 +19,7 @@
 package es.bsc.clurge.core.cloudmiddleware.openstack;
 
 import es.bsc.clurge.core.configuration.VmManagerConfiguration;
-import es.bsc.clurge.core.models.images.ImageToUpload;
+import es.bsc.clurge.common.models.images.ImageToUpload;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

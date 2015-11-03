@@ -21,9 +21,9 @@ package es.bsc.clurge.core.rest;
 import com.google.gson.Gson;
 import es.bsc.clurge.core.cloudmiddleware.CloudMiddlewareException;
 import es.bsc.clurge.core.manager.VmManager;
-import es.bsc.clurge.core.models.scheduling.RecommendedPlanRequest;
-import es.bsc.clurge.core.models.scheduling.VmPlacement;
-import es.bsc.clurge.core.models.vms.Vm;
+import es.bsc.clurge.common.models.scheduling.RecommendedPlanRequest;
+import es.bsc.clurge.common.models.scheduling.VmPlacement;
+import es.bsc.clurge.common.models.vms.Vm;
 
 import java.util.ArrayList;
 

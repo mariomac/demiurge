@@ -5,6 +5,11 @@
 	<version>1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
+	<parent>
+		<groupId>es.bsc.clurge</groupId>
+		<artifactId>clurge-parent</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
 	<modules>
 		<module>brute</module>
 		<module>clopla</module>

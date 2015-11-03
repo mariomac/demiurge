@@ -18,9 +18,9 @@
 
 package es.bsc.clurge.core.modellers.energy;
 
-import es.bsc.clurge.core.models.scheduling.DeploymentPlan;
-import es.bsc.clurge.core.models.vms.Vm;
-import es.bsc.clurge.core.models.vms.VmDeployed;
+import es.bsc.clurge.common.models.scheduling.DeploymentPlan;
+import es.bsc.clurge.common.models.vms.Vm;
+import es.bsc.clurge.common.models.vms.VmDeployed;
 import es.bsc.clurge.core.monitoring.hosts.Host;
 
 import java.util.List;

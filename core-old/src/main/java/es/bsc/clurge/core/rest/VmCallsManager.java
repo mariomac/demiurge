@@ -23,8 +23,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import es.bsc.clurge.core.cloudmiddleware.CloudMiddlewareException;
 import es.bsc.clurge.core.manager.VmManager;
-import es.bsc.clurge.core.models.vms.ListVms;
-import es.bsc.clurge.core.models.vms.ListVmsDeployed;
+import es.bsc.clurge.common.models.vms.ListVms;
+import es.bsc.clurge.common.models.vms.ListVmsDeployed;
 
 import java.util.List;
 

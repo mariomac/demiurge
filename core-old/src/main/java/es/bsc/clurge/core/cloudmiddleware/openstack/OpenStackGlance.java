@@ -19,7 +19,7 @@
 package es.bsc.clurge.core.cloudmiddleware.openstack;
 
 import es.bsc.clurge.core.cloudmiddleware.CloudMiddlewareException;
-import es.bsc.clurge.core.models.images.ImageToUpload;
+import es.bsc.clurge.common.models.images.ImageToUpload;
 import es.bsc.clurge.core.utils.CommandExecutor;
 import es.bsc.clurge.core.utils.HttpUtils;
 import org.apache.commons.validator.UrlValidator;

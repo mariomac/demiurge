@@ -20,11 +20,11 @@ package es.bsc.clurge.core.scheduler;
 
 import es.bsc.clurge.core.modellers.energy.EnergyModeller;
 import es.bsc.clurge.core.modellers.price.PricingModeller;
-import es.bsc.clurge.core.models.estimates.ListVmEstimates;
-import es.bsc.clurge.core.models.estimates.VmEstimate;
-import es.bsc.clurge.core.models.scheduling.DeploymentPlan;
-import es.bsc.clurge.core.models.scheduling.VmAssignmentToHost;
-import es.bsc.clurge.core.models.vms.VmDeployed;
+import es.bsc.clurge.common.models.estimates.ListVmEstimates;
+import es.bsc.clurge.common.models.estimates.VmEstimate;
+import es.bsc.clurge.common.models.scheduling.DeploymentPlan;
+import es.bsc.clurge.common.models.scheduling.VmAssignmentToHost;
+import es.bsc.clurge.common.models.vms.VmDeployed;
 
 import java.util.ArrayList;
 import java.util.List;

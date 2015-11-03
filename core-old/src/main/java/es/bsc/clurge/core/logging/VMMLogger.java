@@ -18,7 +18,7 @@
 
 package es.bsc.clurge.core.logging;
 
-import es.bsc.clurge.core.models.scheduling.DeploymentPlan;
+import es.bsc.clurge.common.models.scheduling.DeploymentPlan;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 

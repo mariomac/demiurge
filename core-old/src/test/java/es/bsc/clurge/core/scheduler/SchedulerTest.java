@@ -18,10 +18,10 @@
 
 package es.bsc.clurge.core.scheduler;
 
-import es.bsc.clurge.core.models.hosts.ServerLoad;
-import es.bsc.clurge.core.models.scheduling.DeploymentPlan;
-import es.bsc.clurge.core.models.scheduling.VmAssignmentToHost;
-import es.bsc.clurge.core.models.vms.Vm;
+import es.bsc.clurge.common.models.hosts.ServerLoad;
+import es.bsc.clurge.common.models.scheduling.DeploymentPlan;
+import es.bsc.clurge.common.models.scheduling.VmAssignmentToHost;
+import es.bsc.clurge.common.models.vms.Vm;
 import es.bsc.clurge.core.monitoring.hosts.Host;
 import es.bsc.clurge.core.monitoring.hosts.HostFake;
 import org.junit.Test;
