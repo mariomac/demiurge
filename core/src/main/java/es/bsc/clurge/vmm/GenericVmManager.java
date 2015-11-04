@@ -69,7 +69,7 @@ public class GenericVmManager implements VmManager {
 
     private static boolean periodicSelfAdaptationThreadRunning = false;
 
-	private Logger log = LogManager.getLogger(GenericVmManager.class);
+	protected Logger log = LogManager.getLogger(GenericVmManager.class);
 
     public GenericVmManager() {
         db = Clurge.INSTANCE.getPersistenceManager();
@@ -579,32 +579,6 @@ public class GenericVmManager implements VmManager {
 			}
 		},"onDemandSelfAdaptationThread").start();
 
-	}
-
-	@Override
-	public String getVmsCost(List<String> vmIds) throws Exception {
-		StringBuilder sb = new StringBuilder("[");
-		boolean first = true;
-		for(String vmid : vmIds) {
-			VmDeployed vm = Clurge.INSTANCE.getVmManager().getVm(vmid);
-			if(vm == null) {
-				throw new Exception("VM '"+vmid+"' does not exist");
-			}
-			if(first) {
-				first = false;
-			} else {
-				sb.append(',');
-			}
-			sb.append("{\"vmId\":\"").append(vmid)
-					.append("\",\"cost\":")
-					.append(pricingModeller.getVMFinalCharges(vmid,false))
-					.append('}');
-		}
-		String retJson = sb.append(']').toString();
-
-		log.debug("getVMscost returned: " + retJson);
-
-		return retJson;
 	}
 
 

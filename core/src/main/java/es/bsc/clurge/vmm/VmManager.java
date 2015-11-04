@@ -216,14 +216,6 @@ public interface VmManager {
      */
     void pressHostPowerButton(String hostname);
 
-
-	/**
-	 * Returns cost for a given vm
-	 * @param vmIds
-	 * @return a JSON with the next fields: 'vmId' as the id of the requested machine. 'cost' as the cost for the vm
-	 */
-	String getVmsCost(List<String> vmIds) throws Exception;
-
 	void executeOnDemandSelfAdaptation() throws CloudMiddlewareException;
 
 	void addListener(VmManagerListener listener);

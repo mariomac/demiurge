@@ -18,10 +18,11 @@
 
 package es.bsc.clurge.ascetic.modellers.energy.ascetic;
 
+import es.bsc.clurge.ascetic.modellers.energy.EnergyModeller;
 import es.bsc.clurge.models.scheduling.DeploymentPlan;
 import es.bsc.clurge.models.vms.Vm;
 import es.bsc.clurge.models.vms.VmDeployed;
-import es.bsc.clurge.core.monitoring.hosts.Host;
+import es.bsc.clurge.monit.Host;
 import eu.ascetic.asceticarchitecture.iaas.energymodeller.types.energyuser.VM;
 import eu.ascetic.asceticarchitecture.iaas.energymodeller.types.usage.EnergyUsagePrediction;
 
@@ -40,7 +41,7 @@ public class AsceticEnergyModellerAdapter implements EnergyModeller {
 
     @Override
     public double getPredictedAvgPowerVm(Vm vm, Host host, List<VmDeployed> vmsDeployed,
-            DeploymentPlan deploymentPlan) {
+										 DeploymentPlan deploymentPlan) {
         return getEnergyUsagePrediction(vm, host, vmsDeployed, deploymentPlan).getAvgPowerUsed();
     }
 
@@ -57,8 +58,13 @@ public class AsceticEnergyModellerAdapter implements EnergyModeller {
                 VMMToEMConversor.getVmsEnergyModFromVms(vms))
                 .getAvgPowerUsed();
     }
-    
-    public void setStaticVMInformation(String vmId, Vm vm) {
+
+	@Override
+	public eu.ascetic.asceticarchitecture.iaas.energymodeller.EnergyModeller getAsceticEnergyModeller() {
+		return energyModeller;
+	}
+
+	public void setStaticVMInformation(String vmId, Vm vm) {
             eu.ascetic.asceticarchitecture.iaas.energymodeller.types.energyuser.VmDeployed deployed = energyModeller.getVM(vmId);
             if (deployed != null && vm != null) {
                 deployed.setRamMb(vm.getRamMb());
@@ -76,10 +82,6 @@ public class AsceticEnergyModellerAdapter implements EnergyModeller {
             deployed.addDiskImage(diskId);
             energyModeller.setVMProfileData(deployed);
         }
-    }
-
-    public static EnergyModeller getEnergyModeller() {
-        return energyModeller;
     }
 
     /**
@@ -100,7 +102,7 @@ public class AsceticEnergyModellerAdapter implements EnergyModeller {
 
         // Add the VMs that would be deployed if the deployment plan was executed
         for (Vm vmInHost: deploymentPlan.getVmsAssignedToHost(host.getHostname())) {
-            vmsInHost.add(EnergyModeller.getVM(vmInHost.getCpus(), vmInHost.getRamMb(), vmInHost.getDiskGb()));
+            vmsInHost.add(eu.ascetic.asceticarchitecture.iaas.energymodeller.EnergyModeller.getVM(vmInHost.getCpus(), vmInHost.getRamMb(), vmInHost.getDiskGb()));
         }
 
         return energyModeller.getPredictedEnergyForVM(

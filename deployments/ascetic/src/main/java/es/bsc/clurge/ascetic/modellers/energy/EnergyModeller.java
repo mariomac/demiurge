@@ -21,7 +21,7 @@ package es.bsc.clurge.ascetic.modellers.energy;
 import es.bsc.clurge.models.scheduling.DeploymentPlan;
 import es.bsc.clurge.models.vms.Vm;
 import es.bsc.clurge.models.vms.VmDeployed;
-import es.bsc.clurge.core.monitoring.hosts.Host;
+import es.bsc.clurge.monit.Host;
 
 import java.util.List;
 
@@ -61,4 +61,6 @@ public interface EnergyModeller {
      */
     double getHostPredictedAvgPower(String hostname, List<Vm> vms);
 
+
+	eu.ascetic.asceticarchitecture.iaas.energymodeller.EnergyModeller getAsceticEnergyModeller();
 }

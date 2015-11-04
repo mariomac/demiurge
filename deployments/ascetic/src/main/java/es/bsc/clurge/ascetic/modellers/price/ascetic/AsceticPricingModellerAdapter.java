@@ -18,8 +18,8 @@
 
 package es.bsc.clurge.ascetic.modellers.price.ascetic;
 
+import es.bsc.clurge.ascetic.modellers.energy.EnergyModeller;
 import es.bsc.clurge.ascetic.modellers.price.PricingModeller;
-import eu.ascetic.asceticarchitecture.iaas.energymodeller.EnergyModeller;
 import eu.ascetic.asceticarchitecture.iaas.iaaspricingmodeller.IaaSPricingModeller;
 import eu.ascetic.asceticarchitecture.iaas.iaaspricingmodeller.billing.IaaSPricingModellerBilling;
 import eu.ascetic.asceticarchitecture.iaas.iaaspricingmodeller.energyprovider.EnergyProvider;
@@ -44,7 +44,7 @@ public class AsceticPricingModellerAdapter implements PricingModeller {
     private static IaaSPricingModeller pricingModeller;
 
     public AsceticPricingModellerAdapter(EnergyModeller energyModeller) {
-        pricingModeller = new IaaSPricingModeller(energyModeller);
+        pricingModeller = new IaaSPricingModeller(energyModeller.getAsceticEnergyModeller());
     }
 
 	/*
