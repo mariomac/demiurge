@@ -18,7 +18,6 @@
 
 package es.bsc.clurge.vmm;
 
-import core_old.logging.VMMLogger;
 import es.bsc.clurge.Clurge;
 import es.bsc.clurge.common.cloudmw.CloudMiddleware;
 import es.bsc.clurge.common.cloudmw.CloudMiddlewareException;
@@ -28,11 +27,11 @@ import es.bsc.clurge.common.models.scheduling.*;
 import es.bsc.clurge.common.vmm.VmAction;
 import es.bsc.clurge.common.vmm.VmManager;
 import es.bsc.clurge.common.vmm.VmManagerListener;
-import es.bsc.clurge.config.VmManagerConfiguration;
+import es.bsc.clurge.common.config.VmManagerConfiguration;
 
 import es.bsc.clurge.sched.SelfAdaptationManager;
 import es.bsc.clurge.common.sched.SelfAdaptationOptions;
-import es.bsc.clurge.utils.TimeUtils;
+import es.bsc.clurge.common.utils.TimeUtils;
 
 import es.bsc.clurge.common.db.PersistenceManager;
 import es.bsc.clurge.common.models.images.ImageToUpload;

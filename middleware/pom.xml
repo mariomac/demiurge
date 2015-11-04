@@ -1,0 +1,19 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>es.bsc.clurge</groupId>
+	<artifactId>clurge-middleware</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<parent>
+		<groupId>es.bsc.clurge</groupId>
+		<artifactId>clurge-parent</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+	<modules>
+		<module>openstack</module>
+		<!--Zabbix is not as submodule of clurge-monitoring since it relies in ascetic-specific libraries
+		It is directly located within "deployments/ascetic" folder-->
+		<!--<module>zabbix</module>-->
+	</modules>
+</project>

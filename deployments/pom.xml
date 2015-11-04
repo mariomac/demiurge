@@ -13,6 +13,7 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>ascetic</module>
+		<module>fake</module>
 	</modules>
 
 

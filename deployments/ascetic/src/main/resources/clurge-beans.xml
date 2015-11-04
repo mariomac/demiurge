@@ -6,10 +6,12 @@
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<bean id="persistenceManager" class="es.bsc.clurge.db.HsqlDbManager">
-		<constructor-arg value="#{systemProperties['dbName']}"/>
+	</bean>
+	<bean id="vmManager" class="es.bsc.clurge.vmm.GenericVmManager"/>
+
+	<bean id="deploymentMiddleware" class="es.bsc.clurge.mw.ostack.OpenStackJclouds">
 	</bean>
 
-	<bean id="vmManager" class="es.bsc.clurge.vmm.GenericVmManager"/>
 
 	<!-- ASCETiC components will be invoked in the same order as enmuerated in this list -->
 	<util:list id="vmManagerListeners" value-type="es.bsc.clurge.common.vmm.VmManagerListener">

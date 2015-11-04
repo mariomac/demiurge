@@ -12,8 +12,8 @@
 
 	<modules>
 		<module>common</module>
-		<!--<module>middleware</module>-->
-		<!--<module>monitoring</module>-->
+		<module>middleware</module>
+		<module>monitoring</module>
 		<!--<module>utility</module>-->
 		<module>core</module>
 		<!--<module>core-old</module>-->

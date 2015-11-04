@@ -23,6 +23,8 @@ import es.bsc.clurge.core.logging.VMMLogger;
 import es.bsc.clurge.common.models.hosts.HostPowerButtonAction;
 import es.bsc.clurge.common.models.hosts.ServerLoad;
 import es.bsc.clurge.common.models.vms.Vm;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -47,6 +49,8 @@ public abstract class Host {
     protected AtomicBoolean turnedOff = new AtomicBoolean(false); // Several threads might try to turn on/off
     protected final int turnOnDelaySeconds;
     protected final int turnOffDelaySeconds;
+
+	private Logger log = LogManager.getLogger(Host.class);
 
     /**
      * Class constructor
@@ -215,11 +219,11 @@ public abstract class Host {
         // In order to avoid blocking the main thread of execution, this is executed in a different thread.
         Thread thread;
         if (turnedOff.get()) {
-            VMMLogger.logServerTurnOnRequest(hostname);
+            log.info("Server requested to be turned on: " + hostname);
             thread = new Thread(new HostButtonPresserRunnable(this, HostPowerButtonAction.TURN_ON));
         }
         else {
-            VMMLogger.logServerTurnOffRequest(hostname);
+			log.info("Server requested to be turned off: " + hostname);
             thread = new Thread(new HostButtonPresserRunnable(this, HostPowerButtonAction.TURN_OFF));
         }
         thread.start();
@@ -230,7 +234,7 @@ public abstract class Host {
      */
     public void turnOn() {
         turnedOff.getAndSet(false);
-        VMMLogger.logServerTurnedOn(hostname);
+		log.info("Server turned on: " + hostname);
     }
 
     /**
@@ -238,7 +242,7 @@ public abstract class Host {
      */
     public void turnOff() {
         turnedOff.getAndSet(true);
-        VMMLogger.logServerTurnedOff(hostname);
+		log.info("Server turned off: " + hostname);
     }
 
     /**

@@ -18,7 +18,6 @@
 
 package core_old.scheduler.schedulingalgorithms;
 
-import core_old.logging.VMMLogger;
 import es.bsc.clurge.ascetic.modellers.energy.EnergyModeller;
 import es.bsc.clurge.common.models.scheduling.DeploymentPlan;
 import es.bsc.clurge.common.models.scheduling.SchedAlgorithmNameEnum;

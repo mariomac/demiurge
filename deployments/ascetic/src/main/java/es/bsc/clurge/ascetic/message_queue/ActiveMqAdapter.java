@@ -18,7 +18,6 @@
 
 package es.bsc.clurge.ascetic.message_queue;
 
-import core_old.logging.VMMLogger;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import javax.jms.*;

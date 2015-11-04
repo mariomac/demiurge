@@ -22,6 +22,7 @@ import es.bsc.clurge.common.models.images.ImageUploaded;
 import es.bsc.clurge.common.models.images.ImageToUpload;
 import es.bsc.clurge.common.models.vms.Vm;
 import es.bsc.clurge.common.models.vms.VmDeployed;
+import es.bsc.clurge.common.monit.Host;
 
 import java.util.List;
 
@@ -176,5 +177,7 @@ public interface CloudMiddleware {
      * @param vmId the ID of the VM
      */
     void assignFloatingIp(String vmId) throws CloudMiddlewareException;
+
+	void addHost(Host host) throws CloudMiddlewareException;
 
 }

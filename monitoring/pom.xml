@@ -11,6 +11,8 @@
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 	<modules>
+		<module>ganglia</module>
+		<module>openstack</module>
 		<!--Zabbix is not as submodule of clurge-monitoring since it relies in ascetic-specific libraries
 		It is directly located within "deployments/ascetic" folder-->
 		<!--<module>zabbix</module>-->

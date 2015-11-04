@@ -1,6 +1,9 @@
 package es.bsc.clurge.ascetic.monitoring;
 
+import com.google.common.collect.ImmutableMap;
+import es.bsc.clurge.common.config.VmManagerConfiguration;
 import eu.ascetic.asceticarchitecture.iaas.zabbixApi.client.ZabbixClient;
+import org.apache.logging.log4j.LogManager;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,7 +15,7 @@ import java.util.Map;
 /**
  * Created by mmacias on 3/11/15.
  */
-public class ZabbixConnector {
+class ZabbixConnector {
 	private final static ZabbixClient zabbixClient = new ZabbixClient();
 
 	private static final String DB_URL = "jdbc:mysql://" + VmManagerConfiguration.getInstance().zabbixDbIp + "/zabbix";
@@ -132,7 +135,7 @@ public class ZabbixConnector {
 			}
 			catch (Exception e) {
 				if(!doNotSpam)
-					Logger.getLogger(ZabbixConnector.class).warn("Could not get data from Zabbix",e);
+					LogManager.getLogger(ZabbixConnector.class).warn("Could not get data from Zabbix",e);
 				doNotSpam = true;
 			}
 		}

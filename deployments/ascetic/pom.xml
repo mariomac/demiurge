@@ -33,15 +33,11 @@
 			<groupId>es.bsc.clurge</groupId>
 			<artifactId>clurge-common</artifactId>
 			<version>1.0-SNAPSHOT</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>es.bsc.clurge</groupId>
 			<artifactId>clurge-core</artifactId>
-			<version>1.0-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>es.bsc.clurge</groupId>
-			<artifactId>clurge-monitoring-zabbix</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
 
@@ -59,6 +55,16 @@
 			<groupId>eu.ascetic.iaas</groupId>
 			<artifactId>iaas-pricing-modeller</artifactId>
 			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>es.bsc.clurge</groupId>
+			<artifactId>clurge-middleware-openstack</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.3</version>
 		</dependency>
 	</dependencies>
 	<build>

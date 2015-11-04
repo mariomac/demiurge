@@ -19,9 +19,10 @@
 package es.bsc.clurge.db;
 
 import com.google.gson.Gson;
+import es.bsc.clurge.Clurge;
 import es.bsc.clurge.common.db.PersistenceManager;
 import es.bsc.clurge.common.models.scheduling.SchedAlgorithmNameEnum;
-import es.bsc.clurge.core.selfadaptation.options.SelfAdaptationOptions;
+import es.bsc.clurge.common.sched.SelfAdaptationOptions;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
@@ -35,6 +36,9 @@ import java.util.List;
  *
  */
 public class HsqlDbManager implements PersistenceManager {
+
+	private static final String CONFIG_DB_NAME = "dbName";
+	private static final String CONFIG_DB_NAME_DEFAULT = "VmManagerDb";
 
     // This class needs a refactor. I should probably use something like jOOQ.
 
@@ -53,7 +57,8 @@ public class HsqlDbManager implements PersistenceManager {
     private static final String ERROR_DELETE_ALL_VMS = "There was an error while deleting the VMs from the DB.";
     private static final String ERROR_GET_VMS_OF_APP = "There was an error while getting the VMs IDs from the DB.";
 
-    public HsqlDbManager(String dbFileNamePrefix) {
+    public HsqlDbManager() {
+		String dbFileNamePrefix = Clurge.INSTANCE.getConfiguration().getString(CONFIG_DB_NAME, CONFIG_DB_NAME_DEFAULT);
 		log = Logger.getLogger(getClass());
         try {
             // Load the HSQL Database Engine JDBC driver

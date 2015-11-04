@@ -19,7 +19,7 @@
 package es.bsc.clurge.common.db;
 
 import es.bsc.clurge.common.models.scheduling.SchedAlgorithmNameEnum;
-import es.bsc.clurge.core.selfadaptation.options.SelfAdaptationOptions;
+import es.bsc.clurge.common.sched.SelfAdaptationOptions;
 
 import java.util.List;
 
