@@ -16,7 +16,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package es.bsc.clurge.sched;
+package es.bsc.clurge.common.sched;
 
 import es.bsc.clurge.common.models.scheduling.LocalSearchAlgorithmOptionsSet;
 

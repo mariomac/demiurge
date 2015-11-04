@@ -9,6 +9,7 @@ import es.bsc.clurge.common.monit.Host;
 import es.bsc.clurge.common.models.images.ImageToUpload;
 import es.bsc.clurge.common.models.vms.Vm;
 import es.bsc.clurge.common.models.vms.VmDeployed;
+import es.bsc.clurge.common.sched.SelfAdaptationOptions;
 
 import java.util.List;
 
@@ -249,4 +250,9 @@ public interface VmManager {
 	void addListener(VmManagerListener listener);
 	void removeListener(VmManagerListener listener);
 
-	public void performActionOnVm(String vmId, VmAction action) throws CloudMiddlewareException;
+	void performActionOnVm(String vmId, VmAction action) throws CloudMiddlewareException;
+
+	SelfAdaptationOptions getSelfAdaptationOptions();
+	void saveSelfAdaptationOptions(SelfAdaptationOptions selfAdaptationOptions);
+
+}

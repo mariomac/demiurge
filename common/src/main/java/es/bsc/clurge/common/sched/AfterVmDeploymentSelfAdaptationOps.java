@@ -16,21 +16,30 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package es.bsc.clurge.sched;
+package es.bsc.clurge.common.sched;
 
+import es.bsc.clurge.common.models.scheduling.ConstructionHeuristic;
 import es.bsc.clurge.common.models.scheduling.LocalSearchAlgorithmOptionsSet;
 
 /**
  * @author David Ortiz Lopez (david.ortiz@bsc.es)
  */
-public class AfterVmDeleteSelfAdaptationOps {
+public class AfterVmDeploymentSelfAdaptationOps {
 
+    private final ConstructionHeuristic constructionHeuristic;
     private final LocalSearchAlgorithmOptionsSet localSearchAlgorithm;
     private final int maxExecTimeSeconds;
 
-    public AfterVmDeleteSelfAdaptationOps(LocalSearchAlgorithmOptionsSet localSearchAlgorithm, int maxExecTimeSeconds) {
+    public AfterVmDeploymentSelfAdaptationOps(ConstructionHeuristic constructionHeuristic,
+                                              LocalSearchAlgorithmOptionsSet localSearchAlgorithm,
+                                              int maxExecTimeSeconds) {
+        this.constructionHeuristic = constructionHeuristic;
         this.localSearchAlgorithm = localSearchAlgorithm;
         this.maxExecTimeSeconds = maxExecTimeSeconds;
+    }
+
+    public ConstructionHeuristic getConstructionHeuristic() {
+        return constructionHeuristic;
     }
 
     public LocalSearchAlgorithmOptionsSet getLocalSearchAlgorithm() {
@@ -44,7 +53,8 @@ public class AfterVmDeleteSelfAdaptationOps {
     @Override
     public String toString() {
         return "{" +
-                "localSearchAlgorithm=" + localSearchAlgorithm +
+                "constructionHeuristic=" + constructionHeuristic +
+                ", localSearchAlgorithm=" + localSearchAlgorithm +
                 ", maxExecTimeSeconds=" + maxExecTimeSeconds +
                 '}';
     }

@@ -22,6 +22,8 @@ import core_old.logging.VMMLogger;
 import es.bsc.clurge.Clurge;
 import es.bsc.clurge.common.cloudmw.CloudMiddleware;
 import es.bsc.clurge.common.cloudmw.CloudMiddlewareException;
+import es.bsc.clurge.common.models.estimates.ListVmEstimates;
+import es.bsc.clurge.common.models.estimates.VmToBeEstimated;
 import es.bsc.clurge.common.models.scheduling.*;
 import es.bsc.clurge.common.vmm.VmAction;
 import es.bsc.clurge.common.vmm.VmManager;
@@ -29,6 +31,7 @@ import es.bsc.clurge.common.vmm.VmManagerListener;
 import es.bsc.clurge.config.VmManagerConfiguration;
 
 import es.bsc.clurge.sched.SelfAdaptationManager;
+import es.bsc.clurge.common.sched.SelfAdaptationOptions;
 import es.bsc.clurge.utils.TimeUtils;
 
 import es.bsc.clurge.common.db.PersistenceManager;
@@ -582,26 +585,10 @@ public class GenericVmManager implements VmManager {
     /**
      * Instantiates the hosts according to the monitoring software selected.
      *
-     * @param monitoring the monitoring software (Ganglia, Zabbix, etc.)
      * @param hostnames the names of the hosts in the infrastructure
      */
-    private void initializeHosts(VmManagerConfiguration.Monitoring monitoring, String[] hostnames) {
-        switch (monitoring) {
-            case OPENSTACK:
-                generateOpenStackHosts(hostnames);
-                break;
-            case GANGLIA:
-                generateGangliaHosts(hostnames);
-                break;
-            case ZABBIX:
-                generateZabbixHosts(hostnames);
-                break;
-            case FAKE:
-                generateFakeHosts(hostnames);
-                break;
-            default:
-                break;
-        }
+    private void initializeHosts(String[] hostnames) {
+		Clurge.INSTANCE.getMonitoringManager();
     }
 
     private void generateOpenStackHosts(String[] hostnames) {

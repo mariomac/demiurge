@@ -19,6 +19,7 @@
 package core_old.monitoring.hosts;
 
 import com.google.gson.Gson;
+import es.bsc.clurge.common.monit.Host;
 import es.bsc.clurge.core.cloudmiddleware.CloudMiddleware;
 import core_old.cloudmiddleware.fake.FakeCloudMiddleware;
 import core_old.cloudmiddleware.openstack.OpenStackJclouds;

@@ -1,7 +1,8 @@
 package es.bsc.clurge.vmm.components;
 
-import es.bsc.clurge.core.selfadaptation.SelfAdaptationManager;
-import es.bsc.clurge.core.selfadaptation.options.SelfAdaptationOptions;
+
+import es.bsc.clurge.sched.SelfAdaptationManager;
+import es.bsc.clurge.common.sched.SelfAdaptationOptions;
 
 public class SelfAdaptationOptsManager {
 

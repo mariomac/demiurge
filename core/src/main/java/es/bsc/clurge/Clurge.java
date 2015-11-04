@@ -2,6 +2,7 @@ package es.bsc.clurge;
 
 import es.bsc.clurge.common.cloudmw.CloudMiddleware;
 import es.bsc.clurge.common.db.PersistenceManager;
+import es.bsc.clurge.common.monit.MonitoringManager;
 import es.bsc.clurge.common.sched.DeploymentScheduler;
 import es.bsc.clurge.common.vmm.VmManager;
 import es.bsc.clurge.config.VmManagerConfiguration;
@@ -27,6 +28,7 @@ public enum Clurge {
 	private PersistenceManager persistenceManager;
 	private VmManager vmManager;
 	private CloudMiddleware cloudMiddleware;
+	private MonitoringManager monitoringManager;
 
 	private VmManagerConfiguration configuration;
 
@@ -89,5 +91,9 @@ public enum Clurge {
 
 	public VmManagerConfiguration getConfiguration() {
 		return configuration;
+	}
+
+	public MonitoringManager getMonitoringManager() {
+		return monitoringManager;
 	}
 }
