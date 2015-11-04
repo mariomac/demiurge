@@ -16,7 +16,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package core_old.vmplacement;
+package es.bsc.clurge.core_old.vmplacement;
 
 import es.bsc.clurge.clopla.domain.ClusterState;
 import es.bsc.clurge.clopla.domain.ConstructionHeuristic;

@@ -23,7 +23,7 @@ import es.bsc.clurge.models.scheduling.VmAssignmentToHost;
 import es.bsc.clurge.models.vms.Vm;
 import es.bsc.clurge.core.monitoring.hosts.Host;
 import core_old.monitoring.hosts.HostFake;
-import core_old.scheduler.schedulingalgorithms.SchedAlgConsolidation;
+import es.bsc.clurge.sched.schedulingalgorithms.SchedAlgConsolidation;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

@@ -24,7 +24,7 @@ import es.bsc.clurge.models.vms.Vm;
 import es.bsc.clurge.models.vms.VmDeployed;
 import es.bsc.clurge.core.monitoring.hosts.Host;
 import core_old.monitoring.hosts.HostFake;
-import core_old.scheduler.schedulingalgorithms.SchedAlgGroupByApp;
+import es.bsc.clurge.sched.schedulingalgorithms.SchedAlgGroupByApp;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

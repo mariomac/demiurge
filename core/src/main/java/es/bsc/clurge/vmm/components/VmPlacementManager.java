@@ -19,7 +19,7 @@
 package es.bsc.clurge.vmm.components;
 
 import es.bsc.clurge.models.scheduling.*;
-import core_old.vmplacement.CloplaConversor;
+import es.bsc.clurge.core_old.vmplacement.CloplaConversor;
 import es.bsc.clurge.clopla.domain.ClusterState;
 import es.bsc.clurge.clopla.domain.LocalSearchHeuristicOption;
 import es.bsc.clurge.clopla.lib.Clopla;

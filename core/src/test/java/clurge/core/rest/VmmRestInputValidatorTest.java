@@ -18,7 +18,7 @@
 
 package clurge.core.rest;
 
-import core_old.rest.VmmRestInputValidator;
+import es.bsc.clurge.core_old.rest.VmmRestInputValidator;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;

@@ -16,31 +16,31 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package core_old.vmplacement;
+package es.bsc.clurge.core_old.rest.error;
 
-import es.bsc.clurge.clopla.domain.Host;
-import es.bsc.clurge.clopla.domain.Vm;
-
-import java.util.List;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
- * This class is an energy modeller that can be used by the Vm Placement library.
- *
- * @author David Ortiz Lopez (david.ortiz@bsc.es)
+ * Created by mmacias on 15/10/15.
  */
-public class CloplaEnergyModeller implements EnergyModeller {
+public class ErrorHandler extends WebApplicationException {
+	private Response.Status status;
+	public ErrorHandler(Throwable cause, Response.Status status) {
+		super(cause, status);
+		this.status = status;
+	}
 
-    private final EnergyModeller energyModeller;
-
-    public CloplaEnergyModeller(EnergyModeller energyModeller) {
-        this.energyModeller = energyModeller;
-    }
-
-    @Override
-    public double getPowerConsumption(Host host, List<Vm> vms) {
-        return energyModeller.getHostPredictedAvgPower(
-                host.getHostname(),
-                CloplaConversor.cloplaVmsToVmmType(vms));
-    }
-
+	@Override
+	public Response getResponse() {
+		StringBuilder sb = new StringBuilder("Error deploying VMs: ");
+		Throwable th = getCause();
+		while(th != null) {
+			sb.append("\n\tCaused by ").append(th.getClass().getName()).append(": ").append(th.getMessage());
+			th = th.getCause();
+		}
+		return Response.status(status)
+				.entity(sb.toString()).type(MediaType.TEXT_PLAIN_TYPE).build();
+	}
 }

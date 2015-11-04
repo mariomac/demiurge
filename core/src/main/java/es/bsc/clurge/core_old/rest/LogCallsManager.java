@@ -16,7 +16,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package core_old.rest;
+package es.bsc.clurge.core_old.rest;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

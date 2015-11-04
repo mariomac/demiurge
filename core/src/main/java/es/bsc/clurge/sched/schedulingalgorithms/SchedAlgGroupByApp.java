@@ -16,7 +16,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package core_old.scheduler.schedulingalgorithms;
+package es.bsc.clurge.sched.schedulingalgorithms;
 
 import es.bsc.clurge.models.scheduling.DeploymentPlan;
 import es.bsc.clurge.models.scheduling.SchedAlgorithmNameEnum;

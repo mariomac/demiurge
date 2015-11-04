@@ -11,6 +11,7 @@ import es.bsc.clurge.vmm.VmManagerListener;
 public class MessageQueueVmListener implements VmManagerListener {
 	@Override
 	public void onVmDeployment(VmDeployed vm) {
+		MessageQueue.publishMessageVmDeployed(vm);
 	}
 
 	@Override

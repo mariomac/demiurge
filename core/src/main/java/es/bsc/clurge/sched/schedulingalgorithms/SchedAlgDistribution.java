@@ -16,7 +16,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package core_old.scheduler.schedulingalgorithms;
+package es.bsc.clurge.sched.schedulingalgorithms;
 
 import es.bsc.clurge.models.hosts.ServerLoad;
 import es.bsc.clurge.models.scheduling.DeploymentPlan;
@@ -28,34 +28,30 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Consolidation scheduling algorithm.
+ * Distribution scheduling algorithm.
  *
  * @author David Ortiz Lopez (david.ortiz@bsc.es)
  *
  */
-public class SchedAlgConsolidation implements SchedAlgorithm {
-    @Override
-    public SchedAlgorithmNameEnum getNameEnum() {
-        return SchedAlgorithmNameEnum.CONSOLIDATION;
+public class SchedAlgDistribution implements SchedAlgorithm {
+
+    public SchedAlgDistribution() {}
+
+    private boolean hasLessStdDevCpu(Collection<ServerLoad> serversLoad1, Collection<ServerLoad> serversLoad2) {
+        return Scheduler.calculateStDevCpuLoad(serversLoad1) < Scheduler.calculateStDevCpuLoad(serversLoad2);
     }
 
-    public SchedAlgConsolidation() {}
-
-    private boolean hasLessUnusedCpu(Collection<ServerLoad> serversLoad1, Collection<ServerLoad> serversLoad2) {
-        return Scheduler.getTotalUnusedCpuPerc(serversLoad1) < Scheduler.getTotalUnusedCpuPerc(serversLoad2);
-    }
-
-    private boolean hasSameUnusedCpuAndLessUnusedMem (Collection<ServerLoad> serversLoad1,
+    private boolean hasSameStDevCpuAndLessStdDevMem(Collection<ServerLoad> serversLoad1,
             Collection<ServerLoad> serversLoad2) {
-        return (Scheduler.getTotalUnusedCpuPerc(serversLoad1) == Scheduler.getTotalUnusedCpuPerc(serversLoad2))
-                && (Scheduler.getTotalUnusedMemPerc(serversLoad1) < Scheduler.getTotalUnusedMemPerc(serversLoad2));
+        return (Scheduler.calculateStDevCpuLoad(serversLoad1) == Scheduler.calculateStDevCpuLoad(serversLoad2))
+                && (Scheduler.calculateStDevMemLoad(serversLoad1) < Scheduler.calculateStDevMemLoad(serversLoad2));
     }
 
-    private boolean hasSameUnusedCpuAndMemAndLessUnusedDisk (Collection<ServerLoad> serversLoad1,
+    private boolean hasSameStdDevCpuAndSameStdDevMemAndLessStdDevDisk(Collection<ServerLoad> serversLoad1,
             Collection<ServerLoad> serversLoad2) {
-        return (Scheduler.getTotalUnusedCpuPerc(serversLoad1) == Scheduler.getTotalUnusedCpuPerc(serversLoad2))
-                && (Scheduler.getTotalUnusedMemPerc(serversLoad1) == Scheduler.getTotalUnusedMemPerc(serversLoad2))
-                && (Scheduler.getTotalUnusedDiskPerc(serversLoad1) < Scheduler.getTotalUnusedDiskPerc(serversLoad2));
+        return (Scheduler.calculateStDevCpuLoad(serversLoad1) == Scheduler.calculateStDevCpuLoad(serversLoad2))
+                && (Scheduler.calculateStDevMemLoad(serversLoad1) == Scheduler.calculateStDevMemLoad(serversLoad2))
+                && (Scheduler.calculateStDevDiskLoad(serversLoad1) < Scheduler.calculateStDevDiskLoad(serversLoad2));
     }
 
     private int countIdleServers(Collection<ServerLoad> serversLoad) {
@@ -78,21 +74,25 @@ public class SchedAlgConsolidation implements SchedAlgorithm {
         return countIdleServers(serversLoad1) < countIdleServers(serversLoad2);
     }
 
-    private boolean usesLessResources(Collection<ServerLoad> serversLoad1, Collection<ServerLoad> serversLoad2) {
-        return hasLessUnusedCpu(serversLoad1, serversLoad2)
-                || hasSameUnusedCpuAndLessUnusedMem(serversLoad1, serversLoad2)
-                || hasSameUnusedCpuAndMemAndLessUnusedDisk(serversLoad1, serversLoad2);
-    }
-
-    private boolean serverLoadsAreMoreConsolidated(Collection<ServerLoad> serversLoad1,
+    /**
+     * Compares two sets of server loads.
+     *
+     * @param serversLoad1 first set of server loads
+     * @param serversLoad2 second set of server loads
+     * @return True if serversLoad1 is more distributed than serversLoad2, false otherwise
+     */
+    private boolean serverLoadsAreMoreDistributed(Collection<ServerLoad> serversLoad1,
             Collection<ServerLoad> serversLoad2) {
-        return (usesLessHosts(serversLoad1, serversLoad2))
-                || (!usesMoreHosts(serversLoad1, serversLoad2) && usesLessResources(serversLoad1, serversLoad2));
+        return usesMoreHosts(serversLoad1, serversLoad2) ||
+                (!usesLessHosts(serversLoad1, serversLoad2) &&
+                (hasLessStdDevCpu(serversLoad1, serversLoad2)
+                || hasSameStDevCpuAndLessStdDevMem(serversLoad1, serversLoad2)
+                || hasSameStdDevCpuAndSameStdDevMemAndLessStdDevDisk(serversLoad1, serversLoad2)));
     }
 
     private boolean isBetterDeploymentPlan(DeploymentPlan deploymentPlan1, DeploymentPlan deploymentPlan2,
             List<Host> hosts) {
-        return serverLoadsAreMoreConsolidated(
+        return serverLoadsAreMoreDistributed(
                 Scheduler.getServersLoadsAfterDeploymentPlanExecuted(deploymentPlan1, hosts).values(),
                 Scheduler.getServersLoadsAfterDeploymentPlanExecuted(deploymentPlan2, hosts).values());
     }
@@ -104,14 +104,19 @@ public class SchedAlgConsolidation implements SchedAlgorithm {
         for (DeploymentPlan deploymentPlan: deploymentPlans) {
             Collection<ServerLoad> serversLoad =
                     Scheduler.getServersLoadsAfterDeploymentPlanExecuted(deploymentPlan, hosts).values();
-            VMMLogger.logUnusedServerLoadsAfterDeploymentPlan(deploymentPlan, countIdleServers(serversLoad),
-                    Scheduler.getTotalUnusedCpuPerc(serversLoad), Scheduler.getTotalUnusedMemPerc(serversLoad),
-                    Scheduler.getTotalUnusedDiskPerc(serversLoad), deploymentId);
+            VMMLogger.logServersLoadsAfterDeploymentPlan(deploymentPlan, countIdleServers(serversLoad),
+                    Scheduler.calculateStDevCpuLoad(serversLoad), Scheduler.calculateStDevMemLoad(serversLoad),
+                    Scheduler.calculateStDevDiskLoad(serversLoad), deploymentId);
             if (bestDeploymentPlan == null || isBetterDeploymentPlan(deploymentPlan, bestDeploymentPlan, hosts)) {
                 bestDeploymentPlan = deploymentPlan;
             }
         }
         return bestDeploymentPlan;
+    }
+
+    @Override
+    public SchedAlgorithmNameEnum getNameEnum() {
+        return SchedAlgorithmNameEnum.DISTRIBUTION;
     }
 
 }

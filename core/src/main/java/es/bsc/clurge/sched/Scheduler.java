@@ -18,15 +18,12 @@
 
 package es.bsc.clurge.sched;
 
-import core_old.scheduler.DeploymentPlanFilterer;
-import core_old.scheduler.DeploymentPlanGenerator;
 import es.bsc.clurge.models.hosts.ServerLoad;
 import es.bsc.clurge.models.scheduling.DeploymentPlan;
 import es.bsc.clurge.models.scheduling.SchedAlgorithmNameEnum;
 import es.bsc.clurge.models.scheduling.VmAssignmentToHost;
 import es.bsc.clurge.models.vms.Vm;
 import es.bsc.clurge.models.vms.VmDeployed;
-import core_old.scheduler.schedulingalgorithms.*;
 import es.bsc.clurge.monit.Host;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

@@ -23,7 +23,7 @@ import es.bsc.clurge.models.scheduling.VmAssignmentToHost;
 import es.bsc.clurge.models.vms.Vm;
 import es.bsc.clurge.core.monitoring.hosts.Host;
 import core_old.monitoring.hosts.HostFake;
-import core_old.scheduler.DeploymentPlanFilterer;
+import es.bsc.clurge.sched.DeploymentPlanFilterer;
 import org.junit.Test;
 
 import java.util.ArrayList;

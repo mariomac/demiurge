@@ -23,9 +23,7 @@ import es.bsc.clurge.cloudmw.CloudMiddleware;
 import es.bsc.clurge.cloudmw.CloudMiddlewareException;
 import es.bsc.clurge.models.scheduling.*;
 
-import es.bsc.clurge.sched.PeriodicSelfAdaptationRunnable;
-import es.bsc.clurge.sched.SelfAdaptationManager;
-import es.bsc.clurge.sched.SelfAdaptationOptions;
+import es.bsc.clurge.sched.*;
 import es.bsc.clurge.utils.TimeUtils;
 
 import es.bsc.clurge.db.PersistenceManager;
@@ -238,8 +236,8 @@ public class GenericVmManager implements VmManager {
 			// If the monitoring system is Zabbix, we need to make sure that the script that sets up the Zabbix
 			// agents is executed.
 			String originalVmInitScript = vmToDeploy.getInitScript();
-			setAsceticInitScript(vmToDeploy);
 
+			listeners.forEach(l -> l.onPreVmDeployment(vmToDeploy));
 
 			String vmId;
 			if (Clurge.INSTANCE.getConfiguration().getBoolean(CONF_DEPLOY_VM_WITH_VOLUME,false)) {
@@ -278,7 +276,6 @@ public class GenericVmManager implements VmManager {
 			idsDeployedVms.add(ids.get(vm));
 		}
 
-		queueDeployedVmsMessages(idsDeployedVms);
 		return idsDeployedVms;
     }
 
@@ -648,43 +645,31 @@ public class GenericVmManager implements VmManager {
 		thread.start();
 	}
 
-	private DeploymentPlan chooseBestDeploymentPlan(List<Vm> vms, DeploymentEngine deploymentEngine) throws CloudMiddlewareException {
-		switch (deploymentEngine) {
-			case LEGACY:
-				// The scheduling algorithm could have been changed. Therefore, we need to set it again.
-				// This is a quick fix. I need to find a way of telling the system to update properly the
-				// scheduling algorithm when using the legacy deployment engine. This does not occur when using
-				// the optaplanner deployment engine.
-				SchedAlgorithmNameEnum currentSchedulingAlg = db.getCurrentSchedulingAlg();
-				scheduler.setSchedAlgorithm(currentSchedulingAlg);
-				return scheduler.chooseBestDeploymentPlan(vms, hostsManager.getHosts());
-			case OPTAPLANNER:
-				if (repeatedNameInVmList(vms)) {
-					throw new IllegalArgumentException("There was an error while choosing a deployment plan.");
-				}
+	private DeploymentPlan chooseBestDeploymentPlan(List<Vm> vms) throws CloudMiddlewareException {
 
-				RecommendedPlan recommendedPlan = selfAdaptationManager.getRecommendedPlanForDeployment(vms);
-
-				// Construct deployment plan from recommended plan with only the VMs that we want to deploy,
-				// we do not need here the ones that are already deployed even though they appear in the plan
-				List<VmAssignmentToHost> vmAssignmentToHosts = new ArrayList<>();
-				for (Vm vm: vms) {
-					// TODO: analyze if this works when some VMs have a preferred host and others do not
-					if (vm.getPreferredHost() != null && !vm.getPreferredHost().equals("")) {
-						vmAssignmentToHosts.add(new VmAssignmentToHost(
-								vm, hostsManager.getHost(vm.getPreferredHost())));
-					}
-					else {
-						VmPlacement vmPlacement = findVmPlacementByVmId(
-								recommendedPlan.getVMPlacements(), vm.getName());
-						Host host = hostsManager.getHost(vmPlacement.getHostname());
-						vmAssignmentToHosts.add(new VmAssignmentToHost(vm, host));
-					}
-				}
-				return new DeploymentPlan(vmAssignmentToHosts);
-			default:
-				throw new IllegalArgumentException("The deployment engine selected is not supported.");
+		if (repeatedNameInVmList(vms)) {
+			throw new IllegalArgumentException("There was an error while choosing a deployment plan.");
 		}
+
+		RecommendedPlan recommendedPlan = selfAdaptationManager.getRecommendedPlanForDeployment(vms);
+
+		// Construct deployment plan from recommended plan with only the VMs that we want to deploy,
+		// we do not need here the ones that are already deployed even though they appear in the plan
+		List<VmAssignmentToHost> vmAssignmentToHosts = new ArrayList<>();
+		for (Vm vm: vms) {
+			// TODO: analyze if this works when some VMs have a preferred host and others do not
+			if (vm.getPreferredHost() != null && !vm.getPreferredHost().equals("")) {
+				vmAssignmentToHosts.add(new VmAssignmentToHost(
+						vm, hostsManager.getHost(vm.getPreferredHost())));
+			}
+			else {
+				VmPlacement vmPlacement = findVmPlacementByVmId(
+						recommendedPlan.getVMPlacements(), vm.getName());
+				Host host = hostsManager.getHost(vmPlacement.getHostname());
+				vmAssignmentToHosts.add(new VmAssignmentToHost(vm, host));
+			}
+		}
+		return new DeploymentPlan(vmAssignmentToHosts);
 	}
 
 
@@ -707,28 +692,5 @@ public class GenericVmManager implements VmManager {
 			}
 		}
 		return null;
-	}
-
-	private void queueDeployedVmsMessages(List<String> deployedVmsIds) throws CloudMiddlewareException {
-		for (String idDeployedVm: deployedVmsIds) {
-			MessageQueue.publishMessageVmDeployed(getVm(idDeployedVm));
-		}
-	}
-
-
-	// TODO: remove the next methods
-
-	// this should be a plugin
-	private void setAsceticInitScript(Vm vmToDeploy) {
-		if (isUsingZabbix()) { // It would be more correct to check whether the VMM is running for the Ascetic project.
-			Path zabbixAgentsScriptPath = FileSystems.getDefault().getPath(ASCETIC_ZABBIX_SCRIPT_PATH);
-			if (Files.exists(zabbixAgentsScriptPath)) {
-				vmToDeploy.setInitScript(ASCETIC_ZABBIX_SCRIPT_PATH);
-			}
-			else { // This is for when I perform tests locally and do not have access to the script (and
-				// do not need it)
-				vmToDeploy.setInitScript(null);
-			}
-		}
 	}
 }

@@ -23,7 +23,7 @@ import es.bsc.clurge.models.vms.VmDeployed;
 import es.bsc.clurge.clopla.domain.Host;
 import es.bsc.clurge.core.monitoring.hosts.Host;
 import core_old.monitoring.hosts.HostFake;
-import core_old.vmplacement.CloplaConversor;
+import es.bsc.clurge.core_old.vmplacement.CloplaConversor;
 import org.junit.Test;
 
 import java.util.ArrayList;
