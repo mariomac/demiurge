@@ -16,10 +16,11 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package es.bsc.clurge.vmm.components;
+package clurge;
 
 import es.bsc.clurge.core.monitoring.hosts.Host;
 import es.bsc.clurge.core.monitoring.hosts.HostFake;
+import es.bsc.clurge.vmm.components.HostsManager;
 import org.junit.Test;
 
 import java.util.ArrayList;

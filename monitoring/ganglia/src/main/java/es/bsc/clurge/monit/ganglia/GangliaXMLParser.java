@@ -41,8 +41,8 @@ class GangliaXMLParser extends DefaultHandler implements GangliaMetKeys {
 
     private List<Cluster> grid;
     private Cluster currentCluster;
-    private List<Host> currentClusterHosts;
-    private Host currentHost;
+    private List<GangliaHostXmlModel> currentClusterHosts;
+    private GangliaHostXmlModel currentHost;
     private List<Metric> currentHostMetrics;
     private Metric currentMetric;
     private HashMap<String, String> extraData;
@@ -95,7 +95,7 @@ class GangliaXMLParser extends DefaultHandler implements GangliaMetKeys {
             this.extraData.put(atts.getValue(NAME), atts.getValue(VAL));
 
         } else if (name.equals(HOST)) {
-            this.currentHost = new Host(atts.getValue(NAME), atts.getValue(IP), atts.getValue(REPORTED),
+            this.currentHost = new GangliaHostXmlModel(atts.getValue(NAME), atts.getValue(IP), atts.getValue(REPORTED),
                     atts.getValue(TN), atts.getValue(TMAX), atts.getValue(DMAX), atts.getValue(LOCATION),
                     atts.getValue(GMOND_STARTED));
             this.currentHostMetrics = new ArrayList<Metric>();
@@ -103,7 +103,7 @@ class GangliaXMLParser extends DefaultHandler implements GangliaMetKeys {
         } else if (name.equals(CLUSTER)) {
             this.currentCluster = new Cluster(atts.getValue(NAME), atts.getValue(LOCALTIME), atts.getValue(OWNER),
                     atts.getValue(LATLONG), atts.getValue(URL));
-            this.currentClusterHosts = new ArrayList<Host>();
+            this.currentClusterHosts = new ArrayList<GangliaHostXmlModel>();
         }       
     }
 

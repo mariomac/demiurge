@@ -8,6 +8,7 @@
 	<bean id="persistenceManager" class="es.bsc.clurge.db.HsqlDbManager"/>
 	<bean id="vmManager" class="es.bsc.clurge.vmm.GenericVmManager"/>
 	<bean id="deploymentMiddleware" class="es.bsc.clurge.mw.ostack.OpenStackMiddleware"/>
+	<bean id="hostsMonitoringManager" class="es.bsc.clurge.ascetic.monitoring.HostsZabbixManager"/>
 
 
 	<!-- ASCETiC components will be invoked in the same order as enmuerated in this list -->

@@ -9,12 +9,17 @@ import java.util.Map;
 /**
  * Created by mmacias on 4/11/15.
  */
+
+// TO DO: MAKE A GENERIC HOSTS MONITORING MANAGER AND ONLY HAVE AN MONITORING-TAILORED HOST INSTANTIATOR
 public class HostsZabbixManager implements HostsMonitoringManager {
 	private static Map<String, Host> hosts = new HashMap<>(); // List of hosts already created
 
 	@Override
 	public void generateHosts(String[] hostNames) {
-
+		for(String name : hostNames) {
+			// TO DO: PUT THIS IN A TRY/CATCH
+			hosts.put(name, new HostZabbix(name));
+		}
 	}
 
 	@Override
@@ -24,8 +29,6 @@ public class HostsZabbixManager implements HostsMonitoringManager {
 			host.refreshMonitoringInfo();
 			return host;
 		}
-
-		Host newHost = new HostZabbix(hostname);
-		hosts.put(hostname, newHost);
-		return newHost;	}
+		return null;
+	}
 }

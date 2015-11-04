@@ -2,9 +2,8 @@ package es.bsc.clurge.fake;
 
 import com.google.gson.Gson;
 import es.bsc.clurge.Clurge;
-import es.bsc.clurge.common.cloudmw.CloudMiddlewareException;
-import es.bsc.clurge.common.monit.Host;
-import es.bsc.clurge.common.monit.HostsMonitoringManager;
+import es.bsc.clurge.monit.Host;
+import es.bsc.clurge.monit.HostsMonitoringManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,33 +18,12 @@ import java.util.Map;
  */
 public class FakeMonitoringManager implements HostsMonitoringManager {
 
-	private static boolean fakeHostsGenerated = false;
 	private static final String FAKE_HOSTS_DESCRIPTIONS_PATH = "/hostsFakeMonitoring.json";
 	private static final Gson gson = new Gson();
 	private static Map<String, Host> hosts = new HashMap<>(); // List of hosts already created
 
 	@Override
 	public void generateHosts(String[] hostNames) {
-
-	}
-
-	@Override
-	public Host getHost(String hostname) {
-
-		if (!fakeHostsGenerated) {
-			generateFakeHosts();
-			fakeHostsGenerated = true;
-		}
-
-		return hosts.get(hostname);
-	}
-
-	/**
-	 * Generates fake hosts read from a JSON file.
-	 * The hosts generated are added to the fake middleware connector received.
-	 *
-	 */
-	private static void generateFakeHosts() {
 		BufferedReader bReader = new BufferedReader(new InputStreamReader(
 				FakeMonitoringManager.class.getResourceAsStream(FAKE_HOSTS_DESCRIPTIONS_PATH)));
 		List<HostFake> hostsFromFile = Arrays.asList(gson.fromJson(bReader, HostFake[].class));
@@ -67,6 +45,12 @@ public class FakeMonitoringManager implements HostsMonitoringManager {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public Host getHost(String hostname) {
+
+		return hosts.get(hostname);
 	}
 
 }

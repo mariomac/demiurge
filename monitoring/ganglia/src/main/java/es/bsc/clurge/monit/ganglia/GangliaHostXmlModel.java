@@ -20,7 +20,7 @@ package es.bsc.clurge.monit.ganglia;
 
 import java.util.List;
 
-import static es.bsc.clurge.monit.ganglia.configuration.GangliaMetKeys.*;
+import static es.bsc.clurge.monit.ganglia.GangliaMetKeys.*;
 /**
  *
  * Configuration element for the Ganglia host mapping. Consists with Metrics information
@@ -34,7 +34,7 @@ import static es.bsc.clurge.monit.ganglia.configuration.GangliaMetKeys.*;
  * 
  * @author Mauro Canuto <mauro.canuto@bsc.es>
  */
-class Host {
+class GangliaHostXmlModel {
 
     private String name;
     private String ip;
@@ -46,8 +46,8 @@ class Host {
     private String gmondstarted;
     private List<Metric> metrics;
 
-    public Host(String name, String ip, String reported, String tn, String tmax,
-            String dmax, String location, String gmondstarted) {
+    public GangliaHostXmlModel(String name, String ip, String reported, String tn, String tmax,
+							   String dmax, String location, String gmondstarted) {
         this.name = name;
         this.ip = ip;
         this.reported = reported;

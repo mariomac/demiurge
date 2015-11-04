@@ -18,8 +18,6 @@
 
 package es.bsc.clurge.monit.ganglia;
 
-import es.bsc.clurge.common.monit.Host;
-
 import java.util.List;
 
 /**
@@ -28,9 +26,9 @@ import java.util.List;
  * @author David Ortiz Lopez (david.ortiz@bsc.es)
  *
  */
-class HostGanglia extends Host {
+class HostGanglia extends es.bsc.clurge.monit.Host {
 
-    es.bsc.clurge.monit.ganglia.Host gangliaHost;
+    GangliaHostXmlModel gangliaHost;
 
     public HostGanglia(String hostname) {
         super(hostname);
@@ -43,8 +41,8 @@ class HostGanglia extends Host {
     private void setGangliaHost() {
         List<Cluster> clusterList = new Ganglia().getGridInfo();
         for (Cluster cluster : clusterList) {
-            List<es.bsc.clurge.monit.ganglia.Host> hosts = cluster.getHosts();
-            for (es.bsc.clurge.monit.ganglia.Host host: hosts) {
+            List<GangliaHostXmlModel> hosts = cluster.getHosts();
+            for (GangliaHostXmlModel host: hosts) {
                 if (host.getName().equals(hostname)) {
                     gangliaHost = host;
                 }

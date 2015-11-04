@@ -1,7 +1,7 @@
 package es.bsc.clurge.monit.ostack;
 
-import es.bsc.clurge.common.monit.Host;
-import es.bsc.clurge.common.monit.HostsMonitoringManager;
+import es.bsc.clurge.monit.Host;
+import es.bsc.clurge.monit.HostsMonitoringManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,6 +14,9 @@ public class HostsOpenStackManager implements HostsMonitoringManager {
 
 	@Override
 	public void generateHosts(String[] hostNames) {
+		for(String hostName : hostNames) {
+			hosts.put(hostName, new HostOpenStack(hostName));
+		}
 
 	}
 
@@ -25,12 +28,7 @@ public class HostsOpenStackManager implements HostsMonitoringManager {
 			host.refreshMonitoringInfo();
 			return host;
 		}
+		return null;
 
-		// If the host does not already exist, create and return it.
-		// If the type is Fake, this switch will not be called, because all the fake hosts are created beforehand.
-		// This is because we do not want to have to read the description file more than once.
-		Host newHost = new HostOpenStack(hostname);
-		hosts.put(hostname, newHost);
-		return newHost;
 	}
 }

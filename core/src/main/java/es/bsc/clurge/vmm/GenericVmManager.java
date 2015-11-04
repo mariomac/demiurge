@@ -548,44 +548,17 @@ public class GenericVmManager implements VmManager {
     //================================================================================
     // Private Methods
     //================================================================================
-    
+
     /**
      * Instantiates the hosts according to the monitoring software selected.
      *
      * @param hostnames the names of the hosts in the infrastructure
      */
+	// TODO: mira donde se llama esto en el original
     private void initializeHosts(String[] hostnames) {
-		Clurge.INSTANCE.getMonitoringManager();
+		Clurge.INSTANCE.getHostsMonitoringManager().generateHosts(hostnames);
     }
 
-    private void generateOpenStackHosts(String[] hostnames) {
-        for (String hostname: hostnames) {
-            hosts.add(HostFactory.getHost(hostname, HostType.OPENSTACK, cloudMiddleware));
-        }
-    }
-
-    private void generateGangliaHosts(String[] hostnames) {
-        for (String hostname: hostnames) {
-            hosts.add(HostFactory.getHost(hostname, HostType.GANGLIA, null));
-        }
-    }
-
-    private void generateZabbixHosts(String[] hostnames) {
-        for (String hostname: hostnames) {
-			log.debug("Generating zabbix host for host: " + hostname);
-			try {
-            	hosts.add(HostFactory.getHost(hostname, HostType.ZABBIX, null));
-			} catch(Exception e) {
-				log.error("Ignoring host due to the next error: " + e.getMessage(), e);
-			}
-        }
-    }
-
-    private void generateFakeHosts(String[] hostnames) {
-        for (String hostname: hostnames) {
-            hosts.add(HostFactory.getHost(hostname, HostType.FAKE, cloudMiddleware));
-        }
-    }
 
 
     private void startPeriodicSelfAdaptationThread() {

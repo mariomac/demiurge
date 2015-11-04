@@ -16,11 +16,12 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package es.bsc.clurge.vmm.components;
+package clurge;
 
 import es.bsc.clurge.core.cloudmiddleware.CloudMiddleware;
 import es.bsc.clurge.models.images.ImageToUpload;
 import es.bsc.clurge.models.images.ImageUploaded;
+import es.bsc.clurge.vmm.components.ImageManager;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;

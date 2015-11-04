@@ -19,8 +19,8 @@
 package es.bsc.clurge.fake;
 
 import com.google.common.base.Preconditions;
-import es.bsc.clurge.common.models.vms.Vm;
-import es.bsc.clurge.common.monit.Host;
+import es.bsc.clurge.models.vms.Vm;
+import es.bsc.clurge.monit.Host;
 
 /**
  * Information about the status of a fake host.

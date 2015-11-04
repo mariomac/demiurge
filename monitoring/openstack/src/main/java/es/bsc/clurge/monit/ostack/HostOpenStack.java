@@ -22,7 +22,7 @@ package es.bsc.clurge.monit.ostack;
 import com.google.common.base.Optional;
 import com.google.common.collect.FluentIterable;
 import es.bsc.clurge.Clurge;
-import es.bsc.clurge.common.monit.Host;
+import es.bsc.clurge.monit.Host;
 import es.bsc.clurge.mw.ostack.OpenStackMiddleware;
 import org.jclouds.openstack.nova.v2_0.domain.HostResourceUsage;
 import org.jclouds.openstack.nova.v2_0.extensions.HostAdministrationApi;

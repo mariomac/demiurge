@@ -83,6 +83,7 @@ public enum Clurge {
 			}
 		}
 
+		monitoringManager = springContext.getBean("hostsMonitoringManager",HostsMonitoringManager.class);
 		persistenceManager = springContext.getBean("persistenceManager",PersistenceManager.class);
 		vmManager = springContext.getBean("vmManager",VmManager.class);
 
@@ -121,7 +122,7 @@ public enum Clurge {
 		return cloudMiddleware;
 	}
 
-	public HostsMonitoringManager getMonitoringManager() {
+	public HostsMonitoringManager getHostsMonitoringManager() {
 		return monitoringManager;
 	}
 }

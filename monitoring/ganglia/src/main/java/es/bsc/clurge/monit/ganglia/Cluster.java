@@ -41,7 +41,7 @@ class Cluster {
     private String owner;
     private String latLong;
     private String url;
-    private List<Host> hosts;
+    private List<GangliaHostXmlModel> hosts;
 
     public Cluster(String name, String localtime, String owner, String latLong, String url) {
         this.name = name;
@@ -71,11 +71,11 @@ class Cluster {
         return url;
     }
 
-    public List<Host> getHosts() {
+    public List<GangliaHostXmlModel> getHosts() {
         return hosts;
     }
 
-    public void setHosts(List<Host> hosts) {
+    public void setHosts(List<GangliaHostXmlModel> hosts) {
         this.hosts = hosts;
     }
 }

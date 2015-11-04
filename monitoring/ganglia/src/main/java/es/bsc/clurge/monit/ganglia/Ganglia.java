@@ -119,11 +119,11 @@ class Ganglia {
      * Get metrics of a specific host;  grid -> clusters -> host
      *
      */
-    public Host getHostInfo(String clusterName, String hostName) {
+    public GangliaHostXmlModel getHostInfo(String clusterName, String hostName) {
 
         String gangliaXml = null;
         ArrayList<Cluster> cluster_list = new ArrayList<Cluster>();
-        Host ret_host = null;
+        GangliaHostXmlModel ret_host = null;
         try {
 
             ParseGanglia p = new ParseGanglia(gangliaCollectorIP, gangliaPort, gangliaPortQuery);
@@ -136,7 +136,7 @@ class Ganglia {
 
         for (Cluster cluster : cluster_list) {
             if (cluster.getName().equals(clusterName)) {
-                for (Host host : cluster.getHosts()) {
+                for (GangliaHostXmlModel host : cluster.getHosts()) {
 
                     if (host.getName().equals(hostName)) {
                         ret_host = host;
