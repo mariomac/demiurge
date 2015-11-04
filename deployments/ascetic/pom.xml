@@ -31,12 +31,6 @@
 	<dependencies>
 		<dependency>
 			<groupId>es.bsc.clurge</groupId>
-			<artifactId>clurge-common</artifactId>
-			<version>1.0-SNAPSHOT</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>es.bsc.clurge</groupId>
 			<artifactId>clurge-core</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>

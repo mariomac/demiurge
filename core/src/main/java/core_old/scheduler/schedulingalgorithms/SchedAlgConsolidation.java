@@ -18,11 +18,11 @@
 
 package core_old.scheduler.schedulingalgorithms;
 
-import es.bsc.clurge.common.models.hosts.ServerLoad;
-import es.bsc.clurge.common.models.scheduling.DeploymentPlan;
-import es.bsc.clurge.common.models.scheduling.SchedAlgorithmNameEnum;
+import es.bsc.clurge.models.hosts.ServerLoad;
+import es.bsc.clurge.models.scheduling.DeploymentPlan;
+import es.bsc.clurge.models.scheduling.SchedAlgorithmNameEnum;
 import es.bsc.clurge.core.monitoring.hosts.Host;
-import core_old.scheduler.Scheduler;
+import es.bsc.clurge.sched.Scheduler;
 
 import java.util.Collection;
 import java.util.List;

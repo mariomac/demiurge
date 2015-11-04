@@ -19,8 +19,8 @@
 package es.bsc.clurge.vmm.components;
 
 import es.bsc.clurge.core.cloudmiddleware.CloudMiddleware;
-import es.bsc.clurge.common.models.images.ImageToUpload;
-import es.bsc.clurge.common.models.images.ImageUploaded;
+import es.bsc.clurge.models.images.ImageToUpload;
+import es.bsc.clurge.models.images.ImageUploaded;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;

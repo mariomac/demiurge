@@ -20,12 +20,12 @@ package clurge.core.rest;
 
 import com.google.gson.*;
 import es.bsc.clurge.core.configuration.VmManagerConfiguration;
-import es.bsc.clurge.common.models.images.ImageToUpload;
-import es.bsc.clurge.common.models.images.ImageUploaded;
-import es.bsc.clurge.common.models.images.ListImagesUploaded;
-import es.bsc.clurge.common.models.vms.ListVmsDeployed;
-import es.bsc.clurge.common.models.vms.Vm;
-import es.bsc.clurge.common.models.vms.VmDeployed;
+import es.bsc.clurge.models.images.ImageToUpload;
+import es.bsc.clurge.models.images.ImageUploaded;
+import es.bsc.clurge.models.images.ListImagesUploaded;
+import es.bsc.clurge.models.vms.ListVmsDeployed;
+import es.bsc.clurge.models.vms.Vm;
+import es.bsc.clurge.models.vms.VmDeployed;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;

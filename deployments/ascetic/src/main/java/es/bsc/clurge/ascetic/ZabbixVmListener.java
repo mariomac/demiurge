@@ -1,9 +1,9 @@
 package es.bsc.clurge.ascetic;
 
 import es.bsc.clurge.ascetic.monitoring.ZabbixConnector;
-import es.bsc.clurge.common.models.vms.VmDeployed;
-import es.bsc.clurge.common.vmm.VmAction;
-import es.bsc.clurge.common.vmm.VmManagerListener;
+import es.bsc.clurge.models.vms.VmDeployed;
+import es.bsc.clurge.vmm.VmAction;
+import es.bsc.clurge.vmm.VmManagerListener;
 
 public class ZabbixVmListener implements VmManagerListener{
 	private static final String ASCETIC_ZABBIX_SCRIPT_PATH = "/DFS/ascetic/vm-scripts/zabbix_agents.sh";

@@ -18,9 +18,9 @@
 
 package es.bsc.clurge.vmm.components;
 
-import es.bsc.clurge.common.cloudmw.CloudMiddlewareException;
-import es.bsc.clurge.common.models.images.ImageToUpload;
-import es.bsc.clurge.common.models.images.ImageUploaded;
+import es.bsc.clurge.cloudmw.CloudMiddlewareException;
+import es.bsc.clurge.models.images.ImageToUpload;
+import es.bsc.clurge.models.images.ImageUploaded;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 

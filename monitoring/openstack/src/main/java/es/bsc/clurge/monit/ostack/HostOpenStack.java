@@ -23,7 +23,7 @@ import com.google.common.base.Optional;
 import com.google.common.collect.FluentIterable;
 import es.bsc.clurge.Clurge;
 import es.bsc.clurge.common.monit.Host;
-import es.bsc.clurge.mw.ostack.OpenStackJclouds;
+import es.bsc.clurge.mw.ostack.OpenStackMiddleware;
 import org.jclouds.openstack.nova.v2_0.domain.HostResourceUsage;
 import org.jclouds.openstack.nova.v2_0.extensions.HostAdministrationApi;
 
@@ -35,13 +35,13 @@ import org.jclouds.openstack.nova.v2_0.extensions.HostAdministrationApi;
  */
 class HostOpenStack extends Host {
 
-    private OpenStackJclouds openStackJclouds;
+    private OpenStackMiddleware openStackJclouds;
 
     public HostOpenStack(String name) {
         super(name);
         initTotalResources();
         initAssignedResources();
-		openStackJclouds = (OpenStackJclouds) Clurge.INSTANCE.getCloudMiddleware();
+		openStackJclouds = (OpenStackMiddleware) Clurge.INSTANCE.getCloudMiddleware();
 	}
 
     private void initTotalResources() {

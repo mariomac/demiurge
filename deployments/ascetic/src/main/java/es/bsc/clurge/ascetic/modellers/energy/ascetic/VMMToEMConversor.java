@@ -18,7 +18,7 @@
 
 package es.bsc.clurge.ascetic.modellers.energy.ascetic;
 
-import es.bsc.clurge.common.models.vms.Vm;
+import es.bsc.clurge.models.vms.Vm;
 import eu.ascetic.asceticarchitecture.iaas.energymodeller.EnergyModeller;
 import eu.ascetic.asceticarchitecture.iaas.energymodeller.types.energyuser.VM;
 

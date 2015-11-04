@@ -18,9 +18,9 @@
 
 package es.bsc.clurge.ascetic.modellers.energy.ascetic;
 
-import es.bsc.clurge.common.models.scheduling.DeploymentPlan;
-import es.bsc.clurge.common.models.vms.Vm;
-import es.bsc.clurge.common.models.vms.VmDeployed;
+import es.bsc.clurge.models.scheduling.DeploymentPlan;
+import es.bsc.clurge.models.vms.Vm;
+import es.bsc.clurge.models.vms.VmDeployed;
 import es.bsc.clurge.core.monitoring.hosts.Host;
 import eu.ascetic.asceticarchitecture.iaas.energymodeller.types.energyuser.VM;
 import eu.ascetic.asceticarchitecture.iaas.energymodeller.types.usage.EnergyUsagePrediction;

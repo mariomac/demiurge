@@ -18,10 +18,10 @@
 
 package clurge.core.cloudmiddleware.fake;
 
-import es.bsc.clurge.common.models.images.ImageToUpload;
-import es.bsc.clurge.common.models.images.ImageUploaded;
-import es.bsc.clurge.common.models.vms.Vm;
-import es.bsc.clurge.common.models.vms.VmDeployed;
+import es.bsc.clurge.models.images.ImageToUpload;
+import es.bsc.clurge.models.images.ImageUploaded;
+import es.bsc.clurge.models.vms.Vm;
+import es.bsc.clurge.models.vms.VmDeployed;
 import core_old.cloudmiddleware.fake.FakeCloudMiddleware;
 import core_old.monitoring.hosts.HostFake;
 import org.junit.Before;

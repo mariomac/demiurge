@@ -11,12 +11,10 @@
 	</properties>
 
 	<modules>
-		<module>common</module>
+		<module>estimates</module>
 		<module>middleware</module>
 		<module>monitoring</module>
-		<!--<module>utility</module>-->
 		<module>core</module>
-		<!--<module>core-old</module>-->
 		<module>frontend</module>
 		<module>deployments</module>
 	</modules>

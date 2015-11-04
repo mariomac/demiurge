@@ -21,17 +21,15 @@ package core_old.vmplacement;
 import es.bsc.clurge.clopla.domain.ClusterState;
 import es.bsc.clurge.clopla.domain.ConstructionHeuristic;
 import es.bsc.clurge.clopla.domain.Host;
-import es.bsc.clurge.clopla.domain.Vm;
 import es.bsc.clurge.clopla.placement.config.Policy;
 import es.bsc.clurge.clopla.placement.config.VmPlacementConfig;
 import es.bsc.clurge.ascetic.modellers.energy.EnergyModeller;
 import es.bsc.clurge.ascetic.modellers.price.PricingModeller;
 import es.bsc.clurge.clopla.placement.config.localsearch.*;
-import es.bsc.clurge.common.models.scheduling.RecommendedPlan;
-import es.bsc.clurge.common.models.scheduling.RecommendedPlanRequest;
-import es.bsc.clurge.common.models.scheduling.SchedAlgorithmNameEnum;
-import es.bsc.clurge.common.models.vms.Vm;
-import es.bsc.clurge.common.models.vms.VmDeployed;
+import es.bsc.clurge.models.scheduling.RecommendedPlan;
+import es.bsc.clurge.models.scheduling.RecommendedPlanRequest;
+import es.bsc.clurge.models.scheduling.SchedAlgorithmNameEnum;
+import es.bsc.clurge.models.vms.VmDeployed;
 import es.bsc.clurge.core.monitoring.hosts.Host;
 
 import java.util.ArrayList;
@@ -139,10 +137,10 @@ public class CloplaConversor {
      * @param vms the list of VMs for the placement library
      * @return the list of VMs for the Energy Modeller
      */
-    public static List<es.bsc.clurge.common.models.vms.Vm> cloplaVmsToVmmType(List<Vm> vms) {
-        List<es.bsc.clurge.common.models.vms.Vm> result = new ArrayList<>();
+    public static List<es.bsc.clurge.models.vms.Vm> cloplaVmsToVmmType(List<Vm> vms) {
+        List<es.bsc.clurge.models.vms.Vm> result = new ArrayList<>();
         for (Vm vm: vms) {
-            result.add(new es.bsc.clurge.common.models.vms.Vm(
+            result.add(new es.bsc.clurge.models.vms.Vm(
                     vm.getAlphaNumericId(),
                     null,
                     vm.getNcpus(),

@@ -18,18 +18,17 @@
 
 package es.bsc.clurge.vmm.components;
 
+import es.bsc.clurge.models.scheduling.*;
 import core_old.vmplacement.CloplaConversor;
 import es.bsc.clurge.clopla.domain.ClusterState;
 import es.bsc.clurge.clopla.domain.LocalSearchHeuristicOption;
 import es.bsc.clurge.clopla.lib.Clopla;
 import es.bsc.clurge.clopla.domain.LocalSearchHeuristic;
 import es.bsc.clurge.clopla.lib.IClopla;
-import es.bsc.clurge.clopla.modellers.EnergyModeller;
-import es.bsc.clurge.common.cloudmw.CloudMiddlewareException;
-import es.bsc.clurge.common.models.scheduling.*;
-import es.bsc.clurge.common.models.vms.Vm;
-import es.bsc.clurge.common.models.vms.VmDeployed;
-import es.bsc.clurge.common.monit.Host;
+import es.bsc.clurge.cloudmw.CloudMiddlewareException;
+import es.bsc.clurge.models.vms.Vm;
+import es.bsc.clurge.models.vms.VmDeployed;
+import es.bsc.clurge.monit.Host;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,21 +40,6 @@ import java.util.Map;
 public class VmPlacementManager {
 
     private final IClopla clopla = new Clopla(); // Library used for the VM Placement
-    private final VmsManager vmsManager;
-    private final HostsManager hostsManager;
-    private final SchedulingAlgorithmsManager schedulingAlgorithmsManager;
-    private final EnergyModeller energyModeller;
-    private final PricingModeller pricingModeller;
-    
-    public VmPlacementManager(VmsManager vmsManager, HostsManager hostsManager, 
-                              SchedulingAlgorithmsManager schedulingAlgorithmsManager,
-                              EnergyModeller energyModeller, PricingModeller pricingModeller) {
-        this.vmsManager = vmsManager;
-        this.hostsManager = hostsManager;
-        this.schedulingAlgorithmsManager = schedulingAlgorithmsManager;
-        this.energyModeller = energyModeller;
-        this.pricingModeller = pricingModeller;
-    }
     
     /**
      * Returns a list of the construction heuristics supported by the VM Manager.

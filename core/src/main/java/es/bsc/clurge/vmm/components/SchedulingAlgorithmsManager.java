@@ -19,7 +19,7 @@
 package es.bsc.clurge.vmm.components;
 
 
-import es.bsc.clurge.common.models.scheduling.SchedAlgorithmNameEnum;
+import es.bsc.clurge.models.scheduling.SchedAlgorithmNameEnum;
 
 import java.util.ArrayList;
 import java.util.Arrays;

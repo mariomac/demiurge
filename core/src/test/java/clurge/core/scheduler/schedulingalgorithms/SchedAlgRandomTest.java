@@ -18,9 +18,9 @@
 
 package clurge.core.scheduler.schedulingalgorithms;
 
-import es.bsc.clurge.common.models.scheduling.DeploymentPlan;
-import es.bsc.clurge.common.models.scheduling.VmAssignmentToHost;
-import es.bsc.clurge.common.models.vms.Vm;
+import es.bsc.clurge.models.scheduling.DeploymentPlan;
+import es.bsc.clurge.models.scheduling.VmAssignmentToHost;
+import es.bsc.clurge.models.vms.Vm;
 import es.bsc.clurge.core.monitoring.hosts.Host;
 import core_old.monitoring.hosts.HostFake;
 import core_old.scheduler.schedulingalgorithms.SchedAlgRandom;

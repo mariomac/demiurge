@@ -18,7 +18,7 @@
 
 package clurge.core.modellers.energy.ascetic;
 
-import es.bsc.clurge.common.models.vms.Vm;
+import es.bsc.clurge.models.vms.Vm;
 import es.bsc.clurge.ascetic.modellers.energy.ascetic.VMMToEMConversor;
 import eu.ascetic.asceticarchitecture.iaas.energymodeller.types.energyuser.VM;
 import org.junit.Test;

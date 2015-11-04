@@ -19,12 +19,13 @@
 package es.bsc.clurge.mw.ostack;
 
 import com.google.common.base.Preconditions;
-import es.bsc.clurge.common.config.VmManagerConfiguration;
+import org.apache.commons.configuration.Configuration;
+import static es.bsc.clurge.mw.ostack.OpenStackMiddleware.*;
 
 /**
  * OpenStack credentials.
  *
- * @author David Ortiz Lopez (david.ortiz@bsc.es)
+ * @author David Ortiz Lopez (david.ortiz@bsc.es), Mario Macias (http://github.com/mariomac)
  */
 class OpenStackCredentials {
 
@@ -36,15 +37,14 @@ class OpenStackCredentials {
     private final int glancePort;
     private final String keyStoneTenantId;
 
-    public OpenStackCredentials() {
-		VmManagerConfiguration c = VmManagerConfiguration.getInstance();
-        this.openStackIP = c.openStackIP;
-        this.keyStonePort = c.keyStonePort;
-        this.keyStoneTenant = c.keyStoneTenant;
-        this.keyStoneUser = c.keyStoneUser;
-        this.keyStonePassword = c.keyStonePassword;
-        this.glancePort = c.glancePort;
-        this.keyStoneTenantId = c.keyStoneTenantId;
+    public OpenStackCredentials(Configuration config) {
+        this.openStackIP = config.getString(CONFIG_IP);
+        this.keyStonePort = config.getInt(CONFIG_KEYSTONE_PORT);
+        this.keyStoneTenant = config.getString(CONFIG_KEYSTONE_TENANT);
+        this.keyStoneUser = config.getString(CONFIG_KEYSTONE_USER);
+        this.keyStonePassword = config.getString(CONFIG_KEYSTONE_PASSWORD);
+        this.glancePort = config.getInt(CONFIG_GLANCE_PORT);
+        this.keyStoneTenantId = config.getString(CONFIG_KEYSTONE_TENANT_ID);
 
 		validateConstructorParams(openStackIP, keyStonePort, keyStoneTenant, keyStoneUser, keyStonePassword,
 				glancePort, keyStoneTenantId);

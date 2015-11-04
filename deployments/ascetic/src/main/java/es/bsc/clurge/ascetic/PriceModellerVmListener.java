@@ -1,7 +1,7 @@
 package es.bsc.clurge.ascetic;
 
-import es.bsc.clurge.common.models.vms.VmDeployed;
-import es.bsc.clurge.common.vmm.VmManagerListener;
+import es.bsc.clurge.models.vms.VmDeployed;
+import es.bsc.clurge.vmm.VmManagerListener;
 import org.apache.log4j.LogManager;
 
 /**

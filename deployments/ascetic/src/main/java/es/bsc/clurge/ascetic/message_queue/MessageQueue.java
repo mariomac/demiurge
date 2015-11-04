@@ -19,7 +19,7 @@
 package es.bsc.clurge.ascetic.message_queue;
 
 import com.google.gson.Gson;
-import es.bsc.clurge.common.models.vms.VmDeployed;
+import es.bsc.clurge.models.vms.VmDeployed;
 
 
 public class MessageQueue {

@@ -5,16 +5,13 @@
 	   xmlns:util="http://www.springframework.org/schema/util"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<bean id="persistenceManager" class="es.bsc.clurge.db.HsqlDbManager">
-	</bean>
+	<bean id="persistenceManager" class="es.bsc.clurge.db.HsqlDbManager"/>
 	<bean id="vmManager" class="es.bsc.clurge.vmm.GenericVmManager"/>
-
-	<bean id="deploymentMiddleware" class="es.bsc.clurge.mw.ostack.OpenStackJclouds">
-	</bean>
+	<bean id="deploymentMiddleware" class="es.bsc.clurge.mw.ostack.OpenStackMiddleware"/>
 
 
 	<!-- ASCETiC components will be invoked in the same order as enmuerated in this list -->
-	<util:list id="vmManagerListeners" value-type="es.bsc.clurge.common.vmm.VmManagerListener">
+	<util:list id="vmManagerListeners" value-type="es.bsc.clurge.vmm.VmManagerListener">
 		<bean class="es.bsc.clurge.ascetic.ZabbixVmListener"/>
 		<bean class="es.bsc.clurge.ascetic.EnergyModellerVmListener"/>
 		<bean class="es.bsc.clurge.ascetic.MessageQueueVmListener"/>

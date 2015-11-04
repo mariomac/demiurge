@@ -22,7 +22,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import es.bsc.clurge.core.manager.VmManager;
-import es.bsc.clurge.common.models.scheduling.SchedAlgorithmNameEnum;
+import es.bsc.clurge.models.scheduling.SchedAlgorithmNameEnum;
 
 import javax.ws.rs.WebApplicationException;
 

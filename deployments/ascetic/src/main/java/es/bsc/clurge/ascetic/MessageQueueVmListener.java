@@ -1,9 +1,9 @@
 package es.bsc.clurge.ascetic;
 
 import es.bsc.clurge.ascetic.message_queue.MessageQueue;
-import es.bsc.clurge.common.models.vms.VmDeployed;
-import es.bsc.clurge.common.vmm.VmAction;
-import es.bsc.clurge.common.vmm.VmManagerListener;
+import es.bsc.clurge.models.vms.VmDeployed;
+import es.bsc.clurge.vmm.VmAction;
+import es.bsc.clurge.vmm.VmManagerListener;
 
 /**
  * Created by mmacias on 4/11/15.

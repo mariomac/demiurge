@@ -2,7 +2,7 @@ package es.bsc.clurge.vmm.components;
 
 
 import es.bsc.clurge.sched.SelfAdaptationManager;
-import es.bsc.clurge.common.sched.SelfAdaptationOptions;
+import es.bsc.clurge.sched.SelfAdaptationOptions;
 
 public class SelfAdaptationOptsManager {
 

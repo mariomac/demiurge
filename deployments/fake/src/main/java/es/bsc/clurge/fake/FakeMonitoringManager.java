@@ -5,7 +5,6 @@ import es.bsc.clurge.Clurge;
 import es.bsc.clurge.common.cloudmw.CloudMiddlewareException;
 import es.bsc.clurge.common.monit.Host;
 import es.bsc.clurge.common.monit.HostsMonitoringManager;
-import org.apache.logging.log4j.LogManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -59,11 +58,9 @@ public class FakeMonitoringManager implements HostsMonitoringManager {
 					0, 0, 0);
 
 			hosts.put(host.getHostname(), hostFake);
-			try {
-				Clurge.INSTANCE.getCloudMiddleware().addHost(hostFake);
-			} catch(CloudMiddlewareException e) {
-				LogManager.getLogger(FakeMonitoringManager.class).error(e.getMessage(),e);
-			}
+
+			((FakeCloudMiddleware)Clurge.INSTANCE.getCloudMiddleware()).addHost(hostFake);
+
 		}
 		try {
 			bReader.close();

@@ -1,6 +1,6 @@
 package clurge.models.estimates;
 
-import es.bsc.clurge.common.models.vms.Vm;
+import es.bsc.clurge.models.vms.Vm;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

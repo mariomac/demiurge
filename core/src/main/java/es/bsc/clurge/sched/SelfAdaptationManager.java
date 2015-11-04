@@ -18,15 +18,11 @@
 
 package es.bsc.clurge.sched;
 
-import es.bsc.clurge.common.models.scheduling.*;
-import es.bsc.clurge.common.sched.AfterVmDeleteSelfAdaptationOps;
-import es.bsc.clurge.common.sched.AfterVmDeploymentSelfAdaptationOps;
-import es.bsc.clurge.common.sched.PeriodicSelfAdaptationOps;
-import es.bsc.clurge.common.sched.SelfAdaptationOptions;
+import es.bsc.clurge.models.scheduling.*;
 import es.bsc.clurge.core.cloudmiddleware.CloudMiddlewareException;
 import es.bsc.clurge.core.db.VmManagerDb;
 import es.bsc.clurge.core.manager.VmManager;
-import es.bsc.clurge.common.models.vms.Vm;
+import es.bsc.clurge.models.vms.Vm;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 

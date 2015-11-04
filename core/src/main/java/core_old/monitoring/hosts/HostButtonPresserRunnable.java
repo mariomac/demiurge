@@ -18,7 +18,7 @@
 
 package core_old.monitoring.hosts;
 
-import es.bsc.clurge.common.models.hosts.HostPowerButtonAction;
+import es.bsc.clurge.models.hosts.HostPowerButtonAction;
 
 /**
  * @author David Ortiz Lopez (david.ortiz@bsc.es)

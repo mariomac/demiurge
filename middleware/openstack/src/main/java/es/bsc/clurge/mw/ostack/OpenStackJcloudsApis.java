@@ -1,5 +1,6 @@
 package es.bsc.clurge.mw.ostack;
 
+import es.bsc.clurge.Clurge;
 import org.jclouds.ContextBuilder;
 import org.jclouds.openstack.neutron.v2.NeutronApi;
 import org.jclouds.openstack.neutron.v2.NeutronApiMetadata;
@@ -26,9 +27,11 @@ class OpenStackJcloudsApis {
     private final ServerAdminApi serverAdminApi;
     private final FloatingIPApi floatingIpApi;
 
-    public OpenStackJcloudsApis() {
 
-		this.openStackCredentials = new OpenStackCredentials();
+
+
+    public OpenStackJcloudsApis(OpenStackCredentials credentials) {
+		this.openStackCredentials = credentials;
         novaApi = ContextBuilder.newBuilder(new NovaApiMetadata())
                 .endpoint("http://" + openStackCredentials.getOpenStackIP() + ":" +
                         openStackCredentials.getKeyStonePort() + "/v2.0")

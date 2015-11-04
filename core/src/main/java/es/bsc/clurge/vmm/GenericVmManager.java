@@ -19,26 +19,24 @@
 package es.bsc.clurge.vmm;
 
 import es.bsc.clurge.Clurge;
-import es.bsc.clurge.common.cloudmw.CloudMiddleware;
-import es.bsc.clurge.common.cloudmw.CloudMiddlewareException;
-import es.bsc.clurge.common.models.estimates.ListVmEstimates;
-import es.bsc.clurge.common.models.estimates.VmToBeEstimated;
-import es.bsc.clurge.common.models.scheduling.*;
-import es.bsc.clurge.common.vmm.VmAction;
-import es.bsc.clurge.common.vmm.VmManager;
-import es.bsc.clurge.common.vmm.VmManagerListener;
+import es.bsc.clurge.cloudmw.CloudMiddleware;
+import es.bsc.clurge.cloudmw.CloudMiddlewareException;
+import es.bsc.clurge.models.scheduling.*;
+import es.bsc.clurge.ascetic.estimates.ListVmEstimates;
+import es.bsc.clurge.ascetic.estimates.VmToBeEstimated;
 import es.bsc.clurge.common.config.VmManagerConfiguration;
 
+import es.bsc.clurge.sched.PeriodicSelfAdaptationRunnable;
 import es.bsc.clurge.sched.SelfAdaptationManager;
-import es.bsc.clurge.common.sched.SelfAdaptationOptions;
-import es.bsc.clurge.common.utils.TimeUtils;
+import es.bsc.clurge.sched.SelfAdaptationOptions;
+import es.bsc.clurge.utils.TimeUtils;
 
-import es.bsc.clurge.common.db.PersistenceManager;
-import es.bsc.clurge.common.models.images.ImageToUpload;
-import es.bsc.clurge.common.models.images.ImageUploaded;
-import es.bsc.clurge.common.models.vms.Vm;
-import es.bsc.clurge.common.models.vms.VmDeployed;
-import es.bsc.clurge.common.monit.Host;
+import es.bsc.clurge.db.PersistenceManager;
+import es.bsc.clurge.models.images.ImageToUpload;
+import es.bsc.clurge.models.images.ImageUploaded;
+import es.bsc.clurge.models.vms.Vm;
+import es.bsc.clurge.models.vms.VmDeployed;
+import es.bsc.clurge.monit.Host;
 import es.bsc.clurge.vmm.components.*;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -57,25 +55,20 @@ import java.util.*;
  */
 public class GenericVmManager implements VmManager {
 
-	// TO DO: REMOVE VMS MANAGER
-
+	private static final String CONF_DEPLOY_VM_WITH_VOLUME ="deployVmWithVolume";
     // VMM components. The VMM delegates all the work to this subcomponents
     private final ImageManager imageManager;
     private final SchedulingAlgorithmsManager schedulingAlgorithmsManager;
     private final HostsManager hostsManager;
     private final SelfAdaptationOptsManager selfAdaptationOptsManager;
     private final VmPlacementManager vmPlacementManager;
-    private final EstimatesManager estimatesManager;
-    
+
     private CloudMiddleware cloudMiddleware;
     private SelfAdaptationManager selfAdaptationManager;
 
 	private final PersistenceManager db;
 
-    private List<Host> hosts = new ArrayList<>();
-
     // Specific for the Ascetic project
-    private static final String[] ASCETIC_DEFAULT_SEC_GROUPS = {"vmm_allow_all", "default"};
 
     private static boolean periodicSelfAdaptationThreadRunning = false;
 
@@ -84,23 +77,13 @@ public class GenericVmManager implements VmManager {
     public GenericVmManager() {
         db = Clurge.INSTANCE.getPersistenceManager();
 
-		VmManagerConfiguration conf = Clurge.INSTANCE.getConfiguration();
-
-		selectMiddleware(conf.middleware);
-        initializeHosts(conf.monitoring, conf.hosts);
-        selectModellers(conf.project);
-
         // Initialize all the VMM components
-        imageManager = new ImageManager(cloudMiddleware);
-        schedulingAlgorithmsManager = new SchedulingAlgorithmsManager(db);
-        hostsManager = new HostsManager(hosts);
-        vmsManager = new VmsManager(hostsManager, cloudMiddleware, db, selfAdaptationManager,
-                energyModeller, pricingModeller);
+        imageManager = new ImageManager();
+        schedulingAlgorithmsManager = new SchedulingAlgorithmsManager();
+        hostsManager = new HostsManager();
         selfAdaptationOptsManager = new SelfAdaptationOptsManager(selfAdaptationManager);
-        vmPlacementManager = new VmPlacementManager(vmsManager, hostsManager, schedulingAlgorithmsManager,
-                energyModeller, pricingModeller);
-        estimatesManager = new EstimatesManager(vmsManager, hostsManager, db, energyModeller, pricingModeller);
-        
+        vmPlacementManager = new VmPlacementManager();
+
         // Start periodic self-adaptation thread if it is not already running.
         // This check would not be needed if only one instance of this class was created.
         if (!periodicSelfAdaptationThreadRunning) {
@@ -255,7 +238,7 @@ public class GenericVmManager implements VmManager {
 
 
 			String vmId;
-			if (VmManagerConfiguration.getInstance().deployVmWithVolume) {
+			if (Clurge.INSTANCE.getConfiguration().getBoolean(CONF_DEPLOY_VM_WITH_VOLUME,false)) {
 				vmId = deployVmWithVolume(vmToDeploy, hostForDeployment, originalVmInitScript);
 			}
 			else {
@@ -265,8 +248,8 @@ public class GenericVmManager implements VmManager {
 			db.insertVm(vmId, vmToDeploy.getApplicationId(), vmToDeploy.getOvfId(), vmToDeploy.getSlaId());
 			ids.put(vmToDeploy, vmId);
 
-			VMMLogger.logVmDeploymentWaitingTime(vmId,
-					TimeUtils.getDifferenceInSeconds(calendarDeployRequestReceived, Calendar.getInstance()));
+			log.debug("Deployment for " + vmId + " took " + TimeUtils.getDifferenceInSeconds(calendarDeployRequestReceived, Calendar.getInstance())
+			 				+ " seconds");
 
 			VmDeployed vmDeployed = getVm(vmId);
 			for(VmManagerListener listener : listeners) {
@@ -337,7 +320,7 @@ public class GenericVmManager implements VmManager {
      */
     @Override
     public void migrateVm(String vmId, String destinationHostName) throws CloudMiddlewareException {
-		VMMLogger.logMigration(vmId, destinationHostName);
+		log.info("Migrating VM " + vmId + " to host " + destinationHostName);
 		cloudMiddleware.migrate(vmId, destinationHostName);
 		VmDeployed vm = getVm(vmId);
 		for(VmManagerListener l : listeners) {
@@ -483,8 +466,8 @@ public class GenericVmManager implements VmManager {
      */
     @Override
     public RecommendedPlan getRecommendedPlan(RecommendedPlanRequest recommendedPlanRequest,
-                                              boolean assignVmsToCurrentHosts,
-                                              List<Vm> vmsToDeploy) throws CloudMiddlewareException {
+											  boolean assignVmsToCurrentHosts,
+											  List<Vm> vmsToDeploy) throws CloudMiddlewareException {
 
         return vmPlacementManager.getRecommendedPlan(recommendedPlanRequest, assignVmsToCurrentHosts, vmsToDeploy);
     }
@@ -561,21 +544,6 @@ public class GenericVmManager implements VmManager {
     }
 
     
-    //================================================================================
-    // VM price and energy estimates
-    //================================================================================
-
-    /**
-     * Returns price and energy estimates for a list of VMs.
-     *
-     * @param vmsToBeEstimated the VMs
-     * @return a list with price and energy estimates for each VM
-     */
-    @Override
-    public ListVmEstimates getVmEstimates(List<VmToBeEstimated> vmsToBeEstimated) {
-        return estimatesManager.getVmEstimates(vmsToBeEstimated);
-    }
-
 
     //================================================================================
     // Private Methods
@@ -619,61 +587,12 @@ public class GenericVmManager implements VmManager {
         }
     }
 
-    /**
-     * Instantiates the cloud middleware.
-     *
-     * @param middleware the cloud middleware to be used (OpenStack, CloudStack, etc.)
-     */
-    private void selectMiddleware(VmManagerConfiguration.Middleware middleware) {
-        switch (middleware) {
-            case OPENSTACK:
-                String[] securityGroups = {};
-                if (usingZabbix()) { // I should check whether the VMM is configured for the Ascetic project
-                    securityGroups = ASCETIC_DEFAULT_SEC_GROUPS;
-                }
-                cloudMiddleware = new OpenStackJclouds(getOpenStackCredentials(), securityGroups, conf.hosts);
-                break;
-            case FAKE:
-                cloudMiddleware = new FakeCloudMiddleware(new ArrayList<HostFake>());
-                break;
-            default:
-                throw new IllegalArgumentException("The cloud middleware selected is not supported");
-        }
-    }
-
-    private void selectModellers(String project) {
-        switch (project) {
-            case "ascetic":
-                energyModeller = new AsceticEnergyModellerAdapter();
-                pricingModeller = new AsceticPricingModellerAdapter(
-                        AsceticEnergyModellerAdapter.getEnergyModeller());
-                break;
-            default:
-                energyModeller = new DummyEnergyModeller();
-                pricingModeller = new DummyPricingModeller();
-                break;
-        }
-    }
-
-    private boolean usingZabbix() {
-        return VmManagerConfiguration.getInstance().monitoring.equals(VmManagerConfiguration.Monitoring.ZABBIX);
-    }
 
     private void startPeriodicSelfAdaptationThread() {
         Thread thread = new Thread(
                 new PeriodicSelfAdaptationRunnable(selfAdaptationManager),
                 "periodicSelfAdaptationThread");
         thread.start();
-    }
-
-    private OpenStackCredentials getOpenStackCredentials() {
-        return new OpenStackCredentials(conf.openStackIP,
-                conf.keyStonePort,
-                conf.keyStoneTenant,
-                conf.keyStoneUser,
-                conf.keyStonePassword,
-                conf.glancePort,
-                conf.keyStoneTenantId);
     }
 
 	@Override

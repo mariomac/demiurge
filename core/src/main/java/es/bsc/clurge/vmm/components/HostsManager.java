@@ -1,6 +1,6 @@
 package es.bsc.clurge.vmm.components;
 
-import es.bsc.clurge.common.monit.Host;
+import es.bsc.clurge.monit.Host;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,9 +13,9 @@ public class HostsManager {
     
     private final List<Host> hosts = new ArrayList<>();
     
-    public HostsManager(List<Host> hosts) {
-        this.hosts.addAll(hosts);
-    }
+	public void addHost(Host h) {
+		hosts.add(h);
+	}
 
     /**
      * Returns the hosts of the infrastructure.

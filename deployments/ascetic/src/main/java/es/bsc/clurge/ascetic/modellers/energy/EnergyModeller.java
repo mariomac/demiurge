@@ -18,9 +18,9 @@
 
 package es.bsc.clurge.ascetic.modellers.energy;
 
-import es.bsc.clurge.common.models.scheduling.DeploymentPlan;
-import es.bsc.clurge.common.models.vms.Vm;
-import es.bsc.clurge.common.models.vms.VmDeployed;
+import es.bsc.clurge.models.scheduling.DeploymentPlan;
+import es.bsc.clurge.models.vms.Vm;
+import es.bsc.clurge.models.vms.VmDeployed;
 import es.bsc.clurge.core.monitoring.hosts.Host;
 
 import java.util.List;

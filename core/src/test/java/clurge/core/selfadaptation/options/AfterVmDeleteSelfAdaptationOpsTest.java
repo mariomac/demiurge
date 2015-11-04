@@ -1,6 +1,6 @@
 package clurge.core.selfadaptation.options;
 
-import es.bsc.clurge.common.models.scheduling.LocalSearchAlgorithmOptionsSet;
+import es.bsc.clurge.models.scheduling.LocalSearchAlgorithmOptionsSet;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

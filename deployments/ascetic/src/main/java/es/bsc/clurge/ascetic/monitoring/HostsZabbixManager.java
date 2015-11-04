@@ -1,7 +1,7 @@
 package es.bsc.clurge.ascetic.monitoring;
 
-import es.bsc.clurge.common.monit.Host;
-import es.bsc.clurge.common.monit.HostsMonitoringManager;
+import es.bsc.clurge.monit.Host;
+import es.bsc.clurge.monit.HostsMonitoringManager;
 
 import java.util.HashMap;
 import java.util.Map;
