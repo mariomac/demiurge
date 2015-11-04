@@ -18,9 +18,9 @@
 
 package core_old.vmplacement;
 
-import es.bsc.clopla.domain.Host;
-import es.bsc.clopla.domain.Vm;
-import es.bsc.clopla.modellers.PriceModeller;
+import es.bsc.clurge.clopla.domain.Host;
+import es.bsc.clurge.clopla.domain.Vm;
+import es.bsc.clurge.clopla.modellers.PriceModeller;
 import es.bsc.clurge.ascetic.modellers.energy.EnergyModeller;
 import es.bsc.clurge.ascetic.modellers.price.PricingModeller;
 

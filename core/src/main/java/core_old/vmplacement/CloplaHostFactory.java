@@ -18,6 +18,7 @@
 
 package core_old.vmplacement;
 
+import es.bsc.clurge.clopla.domain.Host;
 import es.bsc.clurge.core.monitoring.hosts.Host;
 
 import java.util.HashMap;
@@ -36,16 +37,16 @@ public class CloplaHostFactory {
     }
 
     // hosts already created
-    private static final Map<String, es.bsc.clopla.domain.Host> cloplaHosts = new HashMap<>();
+    private static final Map<String, Host> cloplaHosts = new HashMap<>();
 
     private static Long cloplaHostId = (long) 0;
 
-    public static es.bsc.clopla.domain.Host getCloplaHost(Host host) {
-        es.bsc.clopla.domain.Host result = cloplaHosts.get(host.getHostname());
+    public static Host getCloplaHost(Host host) {
+        Host result = cloplaHosts.get(host.getHostname());
         if (result != null) {
             return result;
         }
-        result = new es.bsc.clopla.domain.Host(cloplaHostId, host.getHostname(), host.getTotalCpus(),
+        result = new Host(cloplaHostId, host.getHostname(), host.getTotalCpus(),
                 host.getTotalMemoryMb(), host.getTotalDiskGb(), !host.isOn());
         ++cloplaHostId;
         cloplaHosts.put(host.getHostname(), result);

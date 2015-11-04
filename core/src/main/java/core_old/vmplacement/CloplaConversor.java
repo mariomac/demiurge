@@ -18,13 +18,15 @@
 
 package core_old.vmplacement;
 
-import es.bsc.clopla.domain.ClusterState;
-import es.bsc.clopla.domain.ConstructionHeuristic;
-import es.bsc.clopla.placement.config.Policy;
-import es.bsc.clopla.placement.config.VmPlacementConfig;
-import es.bsc.clopla.placement.config.localsearch.*;
+import es.bsc.clurge.clopla.domain.ClusterState;
+import es.bsc.clurge.clopla.domain.ConstructionHeuristic;
+import es.bsc.clurge.clopla.domain.Host;
+import es.bsc.clurge.clopla.domain.Vm;
+import es.bsc.clurge.clopla.placement.config.Policy;
+import es.bsc.clurge.clopla.placement.config.VmPlacementConfig;
 import es.bsc.clurge.ascetic.modellers.energy.EnergyModeller;
 import es.bsc.clurge.ascetic.modellers.price.PricingModeller;
+import es.bsc.clurge.clopla.placement.config.localsearch.*;
 import es.bsc.clurge.common.models.scheduling.RecommendedPlan;
 import es.bsc.clurge.common.models.scheduling.RecommendedPlanRequest;
 import es.bsc.clurge.common.models.scheduling.SchedAlgorithmNameEnum;
@@ -57,11 +59,11 @@ public class CloplaConversor {
      * @param assignVmsToHosts indicates whether it is needed to set the hosts in the VMs
      * @return the list of VMs used by the VM placement library
      */
-    public static List<es.bsc.clopla.domain.Vm> getCloplaVms(List<VmDeployed> vms,
-                                                             List<Vm> vmsToDeploy,
-                                                             List<es.bsc.clopla.domain.Host> hosts,
-                                                             boolean assignVmsToHosts) {
-        List<es.bsc.clopla.domain.Vm> result = new ArrayList<>();
+    public static List<Vm> getCloplaVms(List<VmDeployed> vms,
+										List<Vm> vmsToDeploy,
+										List<Host> hosts,
+										boolean assignVmsToHosts) {
+        List<Vm> result = new ArrayList<>();
 
         // Add the VMs already deployed
         for (int i = 0; i < vms.size(); ++i) {
@@ -82,8 +84,8 @@ public class CloplaConversor {
      * @param hosts the list of host used by the VMM core
      * @return the list of host used by the VM placement library
      */
-    public static List<es.bsc.clopla.domain.Host> getCloplaHosts(List<Host> hosts) {
-        List<es.bsc.clopla.domain.Host> result = new ArrayList<>();
+    public static List<Host> getCloplaHosts(List<Host> hosts) {
+        List<Host> result = new ArrayList<>();
         for (Host host: hosts) {
             result.add(CloplaHostFactory.getCloplaHost(host));
         }
@@ -125,7 +127,7 @@ public class CloplaConversor {
      */
     public static RecommendedPlan getRecommendedPlan(ClusterState clusterState) {
         RecommendedPlan result = new RecommendedPlan();
-        for (es.bsc.clopla.domain.Vm vm: clusterState.getVms()) {
+        for (Vm vm: clusterState.getVms()) {
             result.addVmToHostAssignment(vm.getAlphaNumericId(), vm.getHost().getHostname());
         }
         return result;
@@ -137,9 +139,9 @@ public class CloplaConversor {
      * @param vms the list of VMs for the placement library
      * @return the list of VMs for the Energy Modeller
      */
-    public static List<es.bsc.clurge.common.models.vms.Vm> cloplaVmsToVmmType(List<es.bsc.clopla.domain.Vm> vms) {
+    public static List<es.bsc.clurge.common.models.vms.Vm> cloplaVmsToVmmType(List<Vm> vms) {
         List<es.bsc.clurge.common.models.vms.Vm> result = new ArrayList<>();
-        for (es.bsc.clopla.domain.Vm vm: vms) {
+        for (Vm vm: vms) {
             result.add(new es.bsc.clurge.common.models.vms.Vm(
                     vm.getAlphaNumericId(),
                     null,
@@ -162,10 +164,10 @@ public class CloplaConversor {
      * @param assignVmsToHosts indicates whether it is needed to set the hosts in the VMs
      * @return the VM used by the VM placement library
      */
-    private static es.bsc.clopla.domain.Vm getCloplaVm(Long id, VmDeployed vm,
-                                                       List<es.bsc.clopla.domain.Host> cloplaHosts,
-                                                       boolean assignVmsToHosts) {
-        es.bsc.clopla.domain.Vm result = new es.bsc.clopla.domain.Vm.Builder(
+    private static Vm getCloplaVm(Long id, VmDeployed vm,
+								  List<Host> cloplaHosts,
+								  boolean assignVmsToHosts) {
+        Vm result = new Vm.Builder(
                 id, vm.getCpus(), vm.getRamMb(), vm.getDiskGb())
                 .appId(vm.getApplicationId())
                 .alphaNumericId(vm.getId())
@@ -182,8 +184,8 @@ public class CloplaConversor {
     }
 
     // Note: This function should probably be merged with getCloplaVm
-    private static es.bsc.clopla.domain.Vm getCloplaVmToDeploy(Long id, Vm vm) {
-        return new es.bsc.clopla.domain.Vm.Builder(
+    private static Vm getCloplaVmToDeploy(Long id, Vm vm) {
+        return new Vm.Builder(
                 id, vm.getCpus(), vm.getRamMb(), vm.getDiskGb())
                 .appId(vm.getApplicationId())
                 .alphaNumericId(vm.getName())
@@ -282,9 +284,9 @@ public class CloplaConversor {
      * @param hostname the hostname
      * @return the cloplaHost found
      */
-    private static es.bsc.clopla.domain.Host findCloplaHost(List<es.bsc.clopla.domain.Host> cloplaHosts,
-                                                            String hostname) {
-        for (es.bsc.clopla.domain.Host cloplaHost: cloplaHosts) {
+    private static Host findCloplaHost(List<Host> cloplaHosts,
+									   String hostname) {
+        for (Host cloplaHost: cloplaHosts) {
             if (hostname.equals(cloplaHost.getHostname())) {
                 return cloplaHost;
             }

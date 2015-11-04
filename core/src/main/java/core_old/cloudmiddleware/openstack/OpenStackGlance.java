@@ -20,8 +20,8 @@ package core_old.cloudmiddleware.openstack;
 
 import es.bsc.clurge.core.cloudmiddleware.CloudMiddlewareException;
 import es.bsc.clurge.common.models.images.ImageToUpload;
-import es.bsc.clurge.core.utils.CommandExecutor;
-import es.bsc.clurge.core.utils.HttpUtils;
+import es.bsc.clurge.utils.CommandExecutor;
+import es.bsc.clurge.utils.HttpUtils;
 import org.apache.commons.validator.UrlValidator;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;

@@ -18,8 +18,9 @@
 
 package clurge.core.vmplacement;
 
-import es.bsc.clopla.domain.Vm;
+import es.bsc.clurge.clopla.domain.Vm;
 import es.bsc.clurge.common.models.vms.VmDeployed;
+import es.bsc.clurge.clopla.domain.Host;
 import es.bsc.clurge.core.monitoring.hosts.Host;
 import core_old.monitoring.hosts.HostFake;
 import core_old.vmplacement.CloplaConversor;
@@ -45,7 +46,7 @@ public class CloplaConversorTest {
         vmsDeployed.add(new VmDeployed("vm", "fakeImage", 1, 1024, 1, 0, "", "appId", "vmId", "172.16.8.1", "ACTIVE",
                 new Date(), "host1"));
         Vm cloplaVm = CloplaConversor.getCloplaVms(vmsDeployed, new ArrayList<es.bsc.clurge.common.models.vms.Vm>(),
-                new ArrayList<es.bsc.clopla.domain.Host>(), false).get(0);
+                new ArrayList<Host>(), false).get(0);
         assertEquals(1, cloplaVm.getNcpus());
         assertEquals(1024, cloplaVm.getRamMb());
         assertEquals(1, cloplaVm.getDiskGb());
@@ -58,7 +59,7 @@ public class CloplaConversorTest {
     public void getCloplaHosts() {
         List<Host> hosts = new ArrayList<>();
         hosts.add(new HostFake("host1", 1, 1024, 1, 0, 0, 0));
-        es.bsc.clopla.domain.Host cloplaHost = CloplaConversor.getCloplaHosts(hosts).get(0);
+        Host cloplaHost = CloplaConversor.getCloplaHosts(hosts).get(0);
         assertEquals("host1", cloplaHost.getHostname());
         assertEquals(1, cloplaHost.getNcpus());
         assertEquals(1024.0, cloplaHost.getRamMb());
