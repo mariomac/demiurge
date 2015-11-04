@@ -177,4 +177,6 @@ public interface CloudMiddleware {
      */
     void assignFloatingIp(String vmId) throws CloudMiddlewareException;
 
+
+	String[] getHostNames();
 }

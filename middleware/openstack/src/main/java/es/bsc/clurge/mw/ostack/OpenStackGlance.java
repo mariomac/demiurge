@@ -18,11 +18,10 @@
 
 package es.bsc.clurge.mw.ostack;
 
-import es.bsc.clurge.common.cloudmw.CloudMiddlewareException;
-import es.bsc.clurge.common.models.images.ImageToUpload;
-
-import es.bsc.clurge.common.utils.CommandExecutor;
-import es.bsc.clurge.common.utils.HttpUtils;
+import es.bsc.clurge.cloudmw.CloudMiddlewareException;
+import es.bsc.clurge.models.images.ImageToUpload;
+import es.bsc.clurge.utils.CommandExecutor;
+import es.bsc.clurge.utils.HttpUtils;
 import org.apache.commons.validator.UrlValidator;
 
 import org.apache.logging.log4j.LogManager;

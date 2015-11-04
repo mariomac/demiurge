@@ -18,10 +18,9 @@
 
 package es.bsc.clurge.sched;
 
+import es.bsc.clurge.Clurge;
+import es.bsc.clurge.cloudmw.CloudMiddlewareException;
 import es.bsc.clurge.models.scheduling.*;
-import es.bsc.clurge.core.cloudmiddleware.CloudMiddlewareException;
-import es.bsc.clurge.core.db.VmManagerDb;
-import es.bsc.clurge.core.manager.VmManager;
 import es.bsc.clurge.models.vms.Vm;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -36,20 +35,7 @@ import java.util.List;
  */
 public class SelfAdaptationManager {
 
-    private VmManager vmManager;
-    private VmManagerDb db;
 	private Logger logger = LogManager.getLogger(SelfAdaptationManager.class);
-
-    /**
-     * Class constructor.
-     *
-     * @param vmManager instance of the VMM
-     * @param dbName The name of the DB used by the VMM
-     */
-    public SelfAdaptationManager(VmManager vmManager, String dbName) {
-        this.vmManager = vmManager;
-        db = VmManagerDbFactory.getDb(dbName);
-    }
 
     /**
      * This function updates the configuration options in the DB.
@@ -57,7 +43,7 @@ public class SelfAdaptationManager {
      * @param selfAdaptationOptions the options
      */
     public void saveSelfAdaptationOptions(SelfAdaptationOptions selfAdaptationOptions) {
-        db.saveSelfAdaptationOptions(selfAdaptationOptions);
+		Clurge.INSTANCE.getPersistenceManager().saveSelfAdaptationOptions(selfAdaptationOptions);
     }
 
     /**
@@ -68,10 +54,10 @@ public class SelfAdaptationManager {
      * @return the options
      */
     public SelfAdaptationOptions getSelfAdaptationOptions() {
-        if (db.getSelfAdaptationOptions() == null) {
+        if (Clurge.INSTANCE.getPersistenceManager().getSelfAdaptationOptions() == null) {
             return getDefaultSelfAdaptationOptions();
         }
-        return db.getSelfAdaptationOptions();
+        return Clurge.INSTANCE.getPersistenceManager().getSelfAdaptationOptions();
     }
 
     /**
@@ -89,7 +75,7 @@ public class SelfAdaptationManager {
                 constrHeuristicName,
                 null);
 
-        return vmManager.getRecommendedPlan(recommendedPlanRequest, true, vmsToDeploy);
+        return Clurge.INSTANCE.getVmManager().getRecommendedPlan(recommendedPlanRequest, true, vmsToDeploy);
     }
 
     /**
@@ -113,8 +99,8 @@ public class SelfAdaptationManager {
 
         if (localSearchAlg != null) {
 			try {
-				vmManager.executeDeploymentPlan(
-						vmManager.getRecommendedPlan(recommendedPlanRequest, true, new ArrayList<Vm>()).getVMPlacements());
+				Clurge.INSTANCE.getVmManager().executeDeploymentPlan(
+						Clurge.INSTANCE.getVmManager().getRecommendedPlan(recommendedPlanRequest, true, new ArrayList<Vm>()).getVMPlacements());
 			} catch (CloudMiddlewareException e) {
 				logger.error(e.getMessage(),e);
 			}
@@ -133,8 +119,8 @@ public class SelfAdaptationManager {
                     options.getMaxExecTimeSeconds(), null, options.getLocalSearchAlgorithm());
 
 			try {
-				vmManager.executeDeploymentPlan(
-						vmManager.getRecommendedPlan(recommendedPlanRequest, true, new ArrayList<Vm>()).getVMPlacements());
+				Clurge.INSTANCE.getVmManager().executeDeploymentPlan(
+						Clurge.INSTANCE.getVmManager().getRecommendedPlan(recommendedPlanRequest, true, new ArrayList<Vm>()).getVMPlacements());
 			} catch (CloudMiddlewareException e) {
 				logger.error(e.getMessage(),e);
 			}
@@ -146,11 +132,11 @@ public class SelfAdaptationManager {
 		RecommendedPlanRequest recommendedPlanRequest = new RecommendedPlanRequest(
 				ops.getMaxExecTimeSeconds(),ops.getConstructionHeuristic().getName(),ops.getLocalSearchAlgorithm());
 
-		VmPlacement[] deploymentPlan = vmManager.getRecommendedPlan(recommendedPlanRequest,
+		VmPlacement[] deploymentPlan = Clurge.INSTANCE.getVmManager().getRecommendedPlan(recommendedPlanRequest,
 				true,
 				new ArrayList<Vm>()
 			).getVMPlacements();
-		vmManager.executeDeploymentPlan(deploymentPlan);
+		Clurge.INSTANCE.getVmManager().executeDeploymentPlan(deploymentPlan);
 	}
 
     /**
@@ -167,8 +153,8 @@ public class SelfAdaptationManager {
 				RecommendedPlanRequest recommendedPlanRequest = new RecommendedPlanRequest(
 						options.getMaxExecTimeSeconds(), null, options.getLocalSearchAlgorithm());
 
-				vmManager.executeDeploymentPlan(
-						vmManager.getRecommendedPlan(recommendedPlanRequest, true, new ArrayList<Vm>()).getVMPlacements());
+				Clurge.INSTANCE.getVmManager().executeDeploymentPlan(
+						Clurge.INSTANCE.getVmManager().getRecommendedPlan(recommendedPlanRequest, true, new ArrayList<Vm>()).getVMPlacements());
 			}
 		} catch(CloudMiddlewareException ex) {
             logger.error(ex.getMessage(),ex);
@@ -188,21 +174,4 @@ public class SelfAdaptationManager {
     }
 
 
-	//================================================================================
-	// Self Adaptation
-	//================================================================================
-
-	/**
-	 * This function updates the configuration options for the self-adaptation capabilities of the VMM.
-	 *
-	 * @param selfAdaptationOptions the options
-	 */
-	void saveSelfAdaptationOptions(SelfAdaptationOptions selfAdaptationOptions);
-
-	/**
-	 * Returns the self-adaptation options for the self-adaptation capabilities of the VMM.
-	 *
-	 * @return the options
-	 */
-	SelfAdaptationOptions getSelfAdaptationOptions();
 }

@@ -22,9 +22,6 @@ import es.bsc.clurge.Clurge;
 import es.bsc.clurge.cloudmw.CloudMiddleware;
 import es.bsc.clurge.cloudmw.CloudMiddlewareException;
 import es.bsc.clurge.models.scheduling.*;
-import es.bsc.clurge.ascetic.estimates.ListVmEstimates;
-import es.bsc.clurge.ascetic.estimates.VmToBeEstimated;
-import es.bsc.clurge.common.config.VmManagerConfiguration;
 
 import es.bsc.clurge.sched.PeriodicSelfAdaptationRunnable;
 import es.bsc.clurge.sched.SelfAdaptationManager;
@@ -76,6 +73,13 @@ public class GenericVmManager implements VmManager {
 
     public GenericVmManager() {
         db = Clurge.INSTANCE.getPersistenceManager();
+
+
+		Clurge.INSTANCE.getHostsMonitoringManager().generateHosts(
+			Clurge.INSTANCE.getCloudMiddleware().getHostNames()
+		);
+
+		selfAdaptationManager = new SelfAdaptationManager();
 
         // Initialize all the VMM components
         imageManager = new ImageManager();
@@ -549,15 +553,6 @@ public class GenericVmManager implements VmManager {
     // Private Methods
     //================================================================================
 
-    /**
-     * Instantiates the hosts according to the monitoring software selected.
-     *
-     * @param hostnames the names of the hosts in the infrastructure
-     */
-	// TODO: mira donde se llama esto en el original
-    private void initializeHosts(String[] hostnames) {
-		Clurge.INSTANCE.getHostsMonitoringManager().generateHosts(hostnames);
-    }
 
 
 
@@ -591,7 +586,7 @@ public class GenericVmManager implements VmManager {
 		StringBuilder sb = new StringBuilder("[");
 		boolean first = true;
 		for(String vmid : vmIds) {
-			VmDeployed vm = vmsManager.getVm(vmid);
+			VmDeployed vm = Clurge.INSTANCE.getVmManager().getVm(vmid);
 			if(vm == null) {
 				throw new Exception("VM '"+vmid+"' does not exist");
 			}

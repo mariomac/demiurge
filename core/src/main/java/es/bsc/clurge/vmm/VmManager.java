@@ -68,14 +68,6 @@ public interface VmManager {
     List<String> deployVms(List<Vm> vms) throws CloudMiddlewareException;
 
     /**
-     * Performs an action on a VM (reboot, suspend, etc.).
-     *
-     * @param vmId the Id of the VM
-     * @param action the action to perform
-     */
-    void performActionOnVm(String vmId, String action) throws CloudMiddlewareException;
-
-    /**
      * Migrates a VM to a specific host.
      *
      * @param vmId the ID of the VM

@@ -20,13 +20,12 @@ package es.bsc.clurge.mw.ostack;
 
 
 import es.bsc.clurge.Clurge;
-import es.bsc.clurge.common.cloudmw.CloudMiddleware;
-import es.bsc.clurge.common.cloudmw.CloudMiddlewareException;
-import es.bsc.clurge.common.models.images.ImageToUpload;
-import es.bsc.clurge.common.models.images.ImageUploaded;
-import es.bsc.clurge.common.models.vms.Vm;
-import es.bsc.clurge.common.models.vms.VmDeployed;
-import es.bsc.clurge.common.monit.Host;
+import es.bsc.clurge.cloudmw.CloudMiddleware;
+import es.bsc.clurge.cloudmw.CloudMiddlewareException;
+import es.bsc.clurge.models.images.ImageToUpload;
+import es.bsc.clurge.models.images.ImageUploaded;
+import es.bsc.clurge.models.vms.Vm;
+import es.bsc.clurge.models.vms.VmDeployed;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.validator.UrlValidator;
@@ -76,7 +75,7 @@ public class OpenStackMiddleware implements CloudMiddleware {
 
 	private Logger logger = LogManager.getLogger(OpenStackMiddleware.class);
 
-	private static final String CONFIG_OPENSTACK_SUBSET_PREFIX = "openstack";
+	private static final String CONFIG_OPENSTACK_SUBSET_PREFIX = "openstack.";
 	static final String CONFIG_IP = "IP";
 	static final String CONFIG_KEYSTONE_PORT = "keyStonePort";
 	static final String CONFIG_GLANCE_PORT = "glancePort";
@@ -98,6 +97,11 @@ public class OpenStackMiddleware implements CloudMiddleware {
         glanceConnector = new OpenStackGlance(credentials);
 		this.hostNames.addAll(Arrays.asList(configuration.getStringArray(CONFIG_HOSTS)));
     }
+
+	@Override
+	public String[] getHostNames() {
+		return hostNames.toArray(new String[0]);
+	}
 
 	private void assertHostName(String hostname) throws CloudMiddlewareException {
 		if(hostname != null && !hostNames.contains(hostname)) throw new CloudMiddlewareException("Host " + hostname + " is not registered in this VMM");
