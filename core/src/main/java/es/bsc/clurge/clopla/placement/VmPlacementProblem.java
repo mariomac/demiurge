@@ -21,7 +21,7 @@ package es.bsc.clurge.clopla.placement;
 
 import es.bsc.clurge.clopla.domain.ClusterState;
 import es.bsc.clurge.clopla.domain.Host;
-import es.bsc.clurge.clopla.domain.Vm;
+import es.bsc.clurge.clopla.domain.CloplaVmModel;
 import es.bsc.clurge.clopla.placement.config.VmPlacementConfig;
 import es.bsc.clurge.clopla.placement.solver.VmPlacementSolver;
 import org.optaplanner.core.api.solver.Solver;
@@ -38,7 +38,7 @@ import java.util.List;
  */
 public class VmPlacementProblem {
 
-    private final List<Vm> vms;
+    private final List<CloplaVmModel> vms;
     private final List<Host> hosts;
     private final VmPlacementConfig config;
     private final VmPlacementSolver vmPlacementSolver;
@@ -50,7 +50,7 @@ public class VmPlacementProblem {
      * @param vms the virtual machines
      * @param config the configuration object for the VM placement problem
      */
-    public VmPlacementProblem(List<Host> hosts, List<Vm> vms, VmPlacementConfig config) {
+    public VmPlacementProblem(List<Host> hosts, List<CloplaVmModel> vms, VmPlacementConfig config) {
         this.hosts = new ArrayList<>(hosts);
         this.vms = new ArrayList<>(vms);
         this.config = config;
@@ -80,7 +80,7 @@ public class VmPlacementProblem {
      */
     private void addFixedVmsToHosts() {
         if (config.vmsAreFixed()) {
-            for (Vm vm: vms) {
+            for (CloplaVmModel vm: vms) {
                 if (vm.getHost() != null) {
                     getHost(vm.getHost().getId()).addFixedVm(vm.getId());
                 }

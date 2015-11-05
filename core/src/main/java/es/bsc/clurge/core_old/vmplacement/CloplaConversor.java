@@ -18,19 +18,19 @@
 
 package es.bsc.clurge.core_old.vmplacement;
 
+import es.bsc.clurge.Clurge;
+import es.bsc.clurge.clopla.domain.CloplaVmModel;
 import es.bsc.clurge.clopla.domain.ClusterState;
 import es.bsc.clurge.clopla.domain.ConstructionHeuristic;
 import es.bsc.clurge.clopla.domain.Host;
 import es.bsc.clurge.clopla.placement.config.Policy;
 import es.bsc.clurge.clopla.placement.config.VmPlacementConfig;
-import es.bsc.clurge.ascetic.modellers.energy.EnergyModeller;
-import es.bsc.clurge.ascetic.modellers.price.PricingModeller;
 import es.bsc.clurge.clopla.placement.config.localsearch.*;
 import es.bsc.clurge.models.scheduling.RecommendedPlan;
 import es.bsc.clurge.models.scheduling.RecommendedPlanRequest;
 import es.bsc.clurge.models.scheduling.SchedAlgorithmNameEnum;
+import es.bsc.clurge.models.vms.Vm;
 import es.bsc.clurge.models.vms.VmDeployed;
-import es.bsc.clurge.core.monitoring.hosts.Host;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,11 +57,11 @@ public class CloplaConversor {
      * @param assignVmsToHosts indicates whether it is needed to set the hosts in the VMs
      * @return the list of VMs used by the VM placement library
      */
-    public static List<Vm> getCloplaVms(List<VmDeployed> vms,
-										List<Vm> vmsToDeploy,
-										List<Host> hosts,
-										boolean assignVmsToHosts) {
-        List<Vm> result = new ArrayList<>();
+    public static List<CloplaVmModel> getCloplaVms(List<VmDeployed> vms,
+												   List<Vm> vmsToDeploy,
+												   List<Host> hosts,
+												   boolean assignVmsToHosts) {
+        List<CloplaVmModel> result = new ArrayList<>();
 
         // Add the VMs already deployed
         for (int i = 0; i < vms.size(); ++i) {
@@ -98,8 +98,7 @@ public class CloplaConversor {
      * @return the placement configuration for the VM placement library
      */
     public static VmPlacementConfig getCloplaConfig(SchedAlgorithmNameEnum schedAlgorithmNameEnum,
-													RecommendedPlanRequest recommendedPlanRequest,
-													EnergyModeller energyModeller, PricingModeller pricingModeller) {
+													RecommendedPlanRequest recommendedPlanRequest) {
         int timeLimitSec = recommendedPlanRequest.getTimeLimitSeconds();
         if (getLocalSearch(recommendedPlanRequest) == null) {
             timeLimitSec = 1; // It does not matter because the local search alg will not be run, but the
@@ -112,7 +111,7 @@ public class CloplaConversor {
                 getConstructionHeuristic(recommendedPlanRequest.getConstructionHeuristicName()),
                 getLocalSearch(recommendedPlanRequest),
                 false)
-                .energyModeller(new CloplaEnergyModeller(energyModeller))
+                .energyModeller(new CloplaAsceticEnergyModeller(energyModeller))
                 .priceModeller(new CloplaPriceModeller(pricingModeller, energyModeller))
                 .build();
     }
@@ -125,7 +124,7 @@ public class CloplaConversor {
      */
     public static RecommendedPlan getRecommendedPlan(ClusterState clusterState) {
         RecommendedPlan result = new RecommendedPlan();
-        for (Vm vm: clusterState.getVms()) {
+        for (CloplaVmModel vm: clusterState.getVms()) {
             result.addVmToHostAssignment(vm.getAlphaNumericId(), vm.getHost().getHostname());
         }
         return result;
@@ -137,9 +136,9 @@ public class CloplaConversor {
      * @param vms the list of VMs for the placement library
      * @return the list of VMs for the Energy Modeller
      */
-    public static List<es.bsc.clurge.models.vms.Vm> cloplaVmsToVmmType(List<Vm> vms) {
+    public static List<es.bsc.clurge.models.vms.Vm> cloplaVmsToVmmType(List<CloplaVmModel> vms) {
         List<es.bsc.clurge.models.vms.Vm> result = new ArrayList<>();
-        for (Vm vm: vms) {
+        for (CloplaVmModel vm: vms) {
             result.add(new es.bsc.clurge.models.vms.Vm(
                     vm.getAlphaNumericId(),
                     null,
@@ -162,10 +161,10 @@ public class CloplaConversor {
      * @param assignVmsToHosts indicates whether it is needed to set the hosts in the VMs
      * @return the VM used by the VM placement library
      */
-    private static Vm getCloplaVm(Long id, VmDeployed vm,
+    private static CloplaVmModel getCloplaVm(Long id, VmDeployed vm,
 								  List<Host> cloplaHosts,
 								  boolean assignVmsToHosts) {
-        Vm result = new Vm.Builder(
+		CloplaVmModel result = new CloplaVmModel.Builder(
                 id, vm.getCpus(), vm.getRamMb(), vm.getDiskGb())
                 .appId(vm.getApplicationId())
                 .alphaNumericId(vm.getId())
@@ -182,8 +181,8 @@ public class CloplaConversor {
     }
 
     // Note: This function should probably be merged with getCloplaVm
-    private static Vm getCloplaVmToDeploy(Long id, Vm vm) {
-        return new Vm.Builder(
+    private static CloplaVmModel getCloplaVmToDeploy(Long id, Vm vm) {
+        return new CloplaVmModel.Builder(
                 id, vm.getCpus(), vm.getRamMb(), vm.getDiskGb())
                 .appId(vm.getApplicationId())
                 .alphaNumericId(vm.getName())
@@ -225,19 +224,7 @@ public class CloplaConversor {
         if (name == null) {
             return null;
         }
-
-        switch (name) {
-            case "FIRST_FIT":
-                return ConstructionHeuristic.FIRST_FIT;
-            case "FIRST_FIT_DECREASING":
-                return ConstructionHeuristic.FIRST_FIT_DECREASING;
-            case "BEST_FIT":
-                return ConstructionHeuristic.BEST_FIT;
-            case "BEST_FIT_DECREASING":
-                return ConstructionHeuristic.BEST_FIT_DECREASING;
-            default:
-                throw new IllegalArgumentException("Invalid construction heuristic");
-        }
+		return ConstructionHeuristic.valueOf(name);
     }
 
     /**
@@ -292,4 +279,7 @@ public class CloplaConversor {
         return null;
     }
 
+	public static es.bsc.clurge.monit.Host cloplaHostsToVmmType(Host host) {
+		return Clurge.INSTANCE.getHostsMonitoringManager().getHost(host.getHostname());
+	}
 }

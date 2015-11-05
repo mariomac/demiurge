@@ -42,7 +42,7 @@ import java.util.*;
 @PlanningSolution
 public class ClusterState extends AbstractPersistable implements Solution<Score> {
 
-    private List<Vm> vms;
+    private List<CloplaVmModel> vms;
     private List<Host> hosts;
 
     public ClusterState () { } // OptaPlanner needs no arg constructor to clone
@@ -86,7 +86,7 @@ public class ClusterState extends AbstractPersistable implements Solution<Score>
      */
     public List<String> getIdsOfAppsDeployedInHost(Host host) {
         List<String> result = new ArrayList<>();
-        for (Vm vm: vms) {
+        for (CloplaVmModel vm: vms) {
             if (host.equals(vm.getHost()) && vm.getAppId() != null) {
                 result.add(vm.getAppId());
             }
@@ -100,9 +100,9 @@ public class ClusterState extends AbstractPersistable implements Solution<Score>
      * @param host the host
      * @return the list of VMs
      */
-    public List<Vm> getVmsDeployedInHost(Host host) {
-        List<Vm> result = new ArrayList<>();
-        for (Vm vm: vms) {
+    public List<CloplaVmModel> getVmsDeployedInHost(Host host) {
+        List<CloplaVmModel> result = new ArrayList<>();
+        for (CloplaVmModel vm: vms) {
             if (host.equals(vm.getHost())) {
                 result.add(vm);
             }
@@ -127,7 +127,7 @@ public class ClusterState extends AbstractPersistable implements Solution<Score>
      */
     public int cpusAssignedInHost(Host host) {
         int result = 0;
-        for (Vm vm: getVmsDeployedInHost(host)) {
+        for (CloplaVmModel vm: getVmsDeployedInHost(host)) {
             result += vm.getNcpus();
         }
         return result;
@@ -180,7 +180,7 @@ public class ClusterState extends AbstractPersistable implements Solution<Score>
      */
     public int countVmMigrationsNeeded(ClusterState destinyClusterState) {
         int result = 0;
-        for (Vm vm: vms) {
+        for (CloplaVmModel vm: vms) {
             if (!vm.isInTheSameHost(destinyClusterState.getVmById(vm.getId()))) {
                 ++result;
             }
@@ -194,8 +194,8 @@ public class ClusterState extends AbstractPersistable implements Solution<Score>
      * @param id the VM ID
      * @return the VM or null if it does not exist
      */
-    public Vm getVmById(long id) {
-        for (Vm vm: vms) {
+    public CloplaVmModel getVmById(long id) {
+        for (CloplaVmModel vm: vms) {
             if (vm.getId() == id) {
                 return vm;
             }
@@ -204,11 +204,11 @@ public class ClusterState extends AbstractPersistable implements Solution<Score>
     }
     
     @PlanningEntityCollectionProperty
-    public List<Vm> getVms() {
+    public List<CloplaVmModel> getVms() {
         return vms;
     }
 
-    public void setVms(List<Vm> vms) {
+    public void setVms(List<CloplaVmModel> vms) {
         this.vms = vms;
     }
 
@@ -239,7 +239,7 @@ public class ClusterState extends AbstractPersistable implements Solution<Score>
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (Vm vm: getVms()) {
+        for (CloplaVmModel vm: getVms()) {
             sb.append(vm).append(" --> ").append(vm.getHost()).append("\n");
         }
         sb.append("Score: ").append(score);
@@ -254,7 +254,7 @@ public class ClusterState extends AbstractPersistable implements Solution<Score>
         }
 
         // Check what hosts are not idle
-        for (Vm vm: vms) {
+        for (CloplaVmModel vm: vms) {
             idleHosts.put(vm.getHost(), false);
         }
 

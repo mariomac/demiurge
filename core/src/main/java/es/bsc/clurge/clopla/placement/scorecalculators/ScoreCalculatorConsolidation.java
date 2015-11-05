@@ -20,7 +20,7 @@
 package es.bsc.clurge.clopla.placement.scorecalculators;
 
 import es.bsc.clurge.clopla.domain.ClusterState;
-import es.bsc.clurge.clopla.domain.Vm;
+import es.bsc.clurge.clopla.domain.CloplaVmModel;
 import es.bsc.clurge.clopla.placement.config.VmPlacementConfig;
 import org.optaplanner.core.api.score.buildin.hardmediumsoft.HardMediumSoftScore;
 import org.optaplanner.core.impl.score.director.simple.SimpleScoreCalculator;
@@ -48,7 +48,7 @@ public class ScoreCalculatorConsolidation implements SimpleScoreCalculator<Clust
 		if("1".equals(System.getenv("CLOPLA_DEBUG"))) {
 			boolean sameHosts = true;
 			Long firstHost = null;
-			for(Vm vm : solution.getVms()) {
+			for(CloplaVmModel vm : solution.getVms()) {
 				if(firstHost == null) {
 					firstHost = vm.getHost().getId();
 				} else {

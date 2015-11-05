@@ -18,7 +18,7 @@
 
 package clurge.core.vmplacement;
 
-import es.bsc.clurge.clopla.domain.Vm;
+import es.bsc.clurge.clopla.domain.CloplaVmModel;
 import es.bsc.clurge.models.vms.VmDeployed;
 import es.bsc.clurge.clopla.domain.Host;
 import es.bsc.clurge.core.monitoring.hosts.Host;
@@ -45,7 +45,7 @@ public class CloplaConversorTest {
         List<VmDeployed> vmsDeployed = new ArrayList<>();
         vmsDeployed.add(new VmDeployed("vm", "fakeImage", 1, 1024, 1, 0, "", "appId", "vmId", "172.16.8.1", "ACTIVE",
                 new Date(), "host1"));
-        Vm cloplaVm = CloplaConversor.getCloplaVms(vmsDeployed, new ArrayList<es.bsc.clurge.models.vms.Vm>(),
+        CloplaVmModel cloplaVm = CloplaConversor.getCloplaVms(vmsDeployed, new ArrayList<es.bsc.clurge.models.vms.Vm>(),
                 new ArrayList<Host>(), false).get(0);
         assertEquals(1, cloplaVm.getNcpus());
         assertEquals(1024, cloplaVm.getRamMb());

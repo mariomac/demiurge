@@ -19,7 +19,7 @@
 
 package es.bsc.clurge.clopla.domain.comparators;
 
-import es.bsc.clurge.clopla.domain.Vm;
+import es.bsc.clurge.clopla.domain.CloplaVmModel;
 
 import java.io.Serializable;
 import java.util.Comparator;
@@ -30,7 +30,7 @@ import java.util.Comparator;
  *
  * @author David Ortiz (david.ortiz@bsc.es)
  */
-public class VmDifficultyComparator implements Comparator<Vm>, Serializable {
+public class VmDifficultyComparator implements Comparator<CloplaVmModel>, Serializable {
 
     /**
      * This function compares the "difficulty" of two VMs.
@@ -41,7 +41,7 @@ public class VmDifficultyComparator implements Comparator<Vm>, Serializable {
      * vm2, 0 if they are equal
      */
     @Override
-    public int compare(Vm vm1, Vm vm2) {
+    public int compare(CloplaVmModel vm1, CloplaVmModel vm2) {
         return Double.compare(difficulty(vm1), difficulty(vm2));
     }
 
@@ -51,7 +51,7 @@ public class VmDifficultyComparator implements Comparator<Vm>, Serializable {
      * The memory and the disk capacity are divided in the formula because it would not be fair to give the same
      * weight to 1 CPU than to 1 MB or RAM.
      */
-    private double difficulty(Vm vm) {
+    private double difficulty(CloplaVmModel vm) {
         return vm.getNcpus()*(vm.getRamMb()/1000.0)*(vm.getDiskGb()/100.0);
     }
 

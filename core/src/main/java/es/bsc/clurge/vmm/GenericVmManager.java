@@ -222,8 +222,7 @@ public class GenericVmManager implements VmManager {
 		// HashMap (VmDescription,ID after deployment). Used to return the IDs in the same order that they are received
 		Map<Vm, String> ids = new HashMap<>();
 
-		DeploymentPlan deploymentPlan = Clurge.INSTANCE.getDeploymentScheduler().chooseBestDeploymentPlan(
-				vms/*, VmManagerConfiguration.getInstance().deploymentEngine*/);
+		DeploymentPlan deploymentPlan = chooseBestDeploymentPlan(vms);
 
 		// Loop through the VM assignments to hosts defined in the best deployment plan
 		for (VmAssignmentToHost vmAssignmentToHost: deploymentPlan.getVmsAssignationsToHosts()) {

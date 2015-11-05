@@ -20,18 +20,23 @@ package es.bsc.clurge.ascetic.modellers.price.ascetic;
 
 import es.bsc.clurge.ascetic.modellers.energy.EnergyModeller;
 import es.bsc.clurge.ascetic.modellers.price.PricingModeller;
+import es.bsc.clurge.models.vms.Vm;
+import es.bsc.clurge.models.vms.VmDeployed;
+import es.bsc.clurge.vmm.VmAction;
+import es.bsc.clurge.vmm.VmManagerListener;
 import eu.ascetic.asceticarchitecture.iaas.iaaspricingmodeller.IaaSPricingModeller;
 import eu.ascetic.asceticarchitecture.iaas.iaaspricingmodeller.billing.IaaSPricingModellerBilling;
 import eu.ascetic.asceticarchitecture.iaas.iaaspricingmodeller.energyprovider.EnergyProvider;
 import eu.ascetic.asceticarchitecture.iaas.iaaspricingmodeller.pricingschemesrepository.IaaSPricingModellerPricingScheme;
 import eu.ascetic.asceticarchitecture.iaas.iaaspricingmodeller.types.EnergyPrediction;
+import org.apache.log4j.LogManager;
 
 /**
  * Connector for the pricing modeller developed in the Ascetic project by AUEB.
  *
  * @author David Ortiz Lopez (david.ortiz@bsc.es)
  */
-public class AsceticPricingModellerAdapter implements PricingModeller {
+public class AsceticPricingModellerAdapter implements PricingModeller, VmManagerListener {
 
     /*
     Right now, we do not know at the IaaS level for how long a VM is going to be running.
@@ -107,5 +112,51 @@ public class AsceticPricingModellerAdapter implements PricingModeller {
 	@Override
 	public IaaSPricingModellerBilling getBilling() {
 		return pricingModeller.getBilling();
+	}
+
+	@Override
+	public void onVmDeployment(final VmDeployed vm) {
+		Thread thread = new Thread() {
+			public void run(){
+				//
+				try {
+					Thread.sleep(10000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				initializeVM(vm.getId(),  vm.getHostName(), vm.getApplicationId());
+			}
+		};
+		thread.start();
+	}
+
+	@Override
+	public void onVmDestruction(VmDeployed vm) {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					// indicating vm has been stopped
+					getVMFinalCharges(vm.getId(),true);
+				} catch (Exception e) {
+					LogManager.getLogger(AsceticPricingModellerAdapter.class).warn("Error closing pricing Modeler for VM " + vm.getId() + ": " + e.getMessage(), e);
+				}
+			}
+		}).start();
+	}
+
+	@Override
+	public void onVmMigration(VmDeployed vm) {
+
+	}
+
+	@Override
+	public void onVmAction(VmDeployed vm, VmAction action) {
+
+	}
+
+	@Override
+	public void onPreVmDeployment(Vm vm) {
+
 	}
 }

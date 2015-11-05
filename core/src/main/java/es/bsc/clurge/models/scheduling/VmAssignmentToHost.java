@@ -18,7 +18,9 @@
 
 package es.bsc.clurge.models.scheduling;
 
+import es.bsc.clurge.Clurge;
 import es.bsc.clurge.estimates.DeploymentPlanEstimation;
+import es.bsc.clurge.estimates.Estimator;
 import es.bsc.clurge.monit.Host;
 import es.bsc.clurge.models.vms.Vm;
 import es.bsc.clurge.models.vms.VmDeployed;
@@ -54,33 +56,11 @@ public class VmAssignmentToHost {
         return host;
     }
 
-    public DeploymentPlanEstimation getVmEstimate(List<VmDeployed> vmsDeployed, DeploymentPlan deploymentPlan) {
-        return new VmEstimate(
-                vm.getName(),
-                getPowerEstimate(vmsDeployed, deploymentPlan, energyModeller),
-                getPriceEstimate(pricingModeller));
-    }
 
-    /**
-     * Returns the predicted avg power of the placement.
-     *
-     * @param vmsDeployed VMs deployed in the infrastructure
-     * @return the predicted avg power
-     */
-    private double getPowerEstimate(List<VmDeployed> vmsDeployed, DeploymentPlan deploymentPlan,
-                                    EnergyModeller energyModeller) {
-        return energyModeller.getPredictedAvgPowerVm(vm, host, vmsDeployed, deploymentPlan);
-    }
+	public <T> T getEstimation(List<VmDeployed> vmsDeployed, DeploymentPlan deploymentPlan, Class<? extends Estimator<T>> estimatorClass) {
+		return (T) Clurge.INSTANCE.getEstimator(estimatorClass).getVmEstimation(vm,host,vmsDeployed,deploymentPlan);
 
-    /**
-     * Returns the predicted price of the placement.
-     *
-     * @param pricingModeller the Pricing Modeller responsible for calculating the price
-     * @return the predicted price
-     */
-    private double getPriceEstimate(PricingModeller pricingModeller) {
-        return pricingModeller.getVMChargesPrediction(vm.getCpus(), vm.getRamMb(), vm.getDiskGb(), host.getHostname());
-    }
+	}
 
     @Override
     public String toString() {

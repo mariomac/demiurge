@@ -33,7 +33,7 @@ import java.util.*;
 public class Clopla implements IClopla {
 
     @Override
-    public ClusterState getBestSolution(List<Host> hosts, List<Vm> vms, VmPlacementConfig config) {
+    public ClusterState getBestSolution(List<Host> hosts, List<CloplaVmModel> vms, VmPlacementConfig config) {
         return new VmPlacementProblem(hosts, vms, config).getBestSolution();
     }
 

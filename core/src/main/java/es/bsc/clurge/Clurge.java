@@ -2,10 +2,12 @@ package es.bsc.clurge;
 
 import es.bsc.clurge.db.PersistenceManager;
 import es.bsc.clurge.cloudmw.CloudMiddleware;
+import es.bsc.clurge.estimates.Estimator;
 import es.bsc.clurge.monit.HostsMonitoringManager;
 import es.bsc.clurge.sched.DeploymentScheduler;
 import es.bsc.clurge.vmm.VmManager;
 import es.bsc.clurge.vmm.VmManagerListener;
+import org.apache.commons.collections.map.UnmodifiableMap;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -16,7 +18,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Main Clurge class
@@ -42,6 +46,8 @@ public enum Clurge {
 	private Configuration configuration;
 
 	private Logger log = LogManager.getLogger(Clurge.class);
+
+	private Map<Class<? extends Estimator>, Estimator> estimators;
 
 	Clurge() {
 		init();
@@ -98,7 +104,7 @@ public enum Clurge {
 
 		cloudMiddleware = springContext.getBean("deploymentMiddleware",CloudMiddleware.class);
 
-
+		estimators = springContext.getBean("estimators",Map.class);
 
 
 
@@ -125,4 +131,13 @@ public enum Clurge {
 	public HostsMonitoringManager getHostsMonitoringManager() {
 		return monitoringManager;
 	}
+
+	public Map<Class<? extends Estimator>, Estimator> getEstimators() {
+		return estimators;
+	}
+
+	public Estimator getEstimator(Class<? extends Estimator> clazz) {
+		return estimators.get(clazz);
+	}
+
 }

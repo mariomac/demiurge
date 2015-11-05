@@ -31,9 +31,7 @@ import java.util.List;
 /**
  * @author David Ortiz Lopez (david.ortiz@bsc.es)
  */
-public class AsceticEstimatesManager implements EstimatesManager {
-
-    private final EstimatesGenerator estimatesGenerator = new EstimatesGenerator();
+public class AsceticEstimatesManager {
 
     private final EnergyModeller energyModeller;
 	private final PricingModeller pricingModeller;
@@ -44,6 +42,7 @@ public class AsceticEstimatesManager implements EstimatesManager {
     }
     
     public List<DeploymentPlanEstimation> getVmEstimates(List<DeploymentPlanEstimation> vmsToBeEstimated) {
+
         Scheduler scheduler = new Scheduler(
 				Clurge.INSTANCE.getPersistenceManager().getCurrentSchedulingAlg(),
 				Clurge.INSTANCE.getVmManager().getAllVms(),

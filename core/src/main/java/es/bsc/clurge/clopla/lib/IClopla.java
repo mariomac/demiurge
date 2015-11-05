@@ -39,7 +39,7 @@ public interface IClopla {
      * @param config the configuration parameters for the placement
      * @return the state of the cluster after applying the best placement that could be found
      */
-    ClusterState getBestSolution(List<Host> hosts, List<Vm> vms, VmPlacementConfig config);
+    ClusterState getBestSolution(List<Host> hosts, List<CloplaVmModel> vms, VmPlacementConfig config);
 
     /**
      * Returns a list of the construction heuristics that are supported by the library.

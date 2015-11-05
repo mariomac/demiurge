@@ -30,7 +30,7 @@ import org.optaplanner.core.api.domain.variable.PlanningVariable;
  * @author David Ortiz (david.ortiz@bsc.es)
  */
 @PlanningEntity(difficultyComparatorClass = VmDifficultyComparator.class)
-public class Vm extends AbstractPersistable {
+public class CloplaVmModel extends AbstractPersistable {
 
     private int ncpus;
     private int ramMb;
@@ -40,7 +40,7 @@ public class Vm extends AbstractPersistable {
     private String alphaNumericId; /* This might be needed in some cases. For example, OpenStack uses alphanumeric
                                    IDs, and optaplanner needs an ID of type long. */
 
-    public Vm() { } // OptaPlanner needs no arg constructor to clone
+    public CloplaVmModel() { } // OptaPlanner needs no arg constructor to clone
 
     public static class Builder {
         
@@ -71,13 +71,13 @@ public class Vm extends AbstractPersistable {
             return this;
         }
         
-        public Vm build() {
-            return new Vm(this);
+        public CloplaVmModel build() {
+            return new CloplaVmModel(this);
         }
         
     }
     
-    private Vm(Builder builder) {
+    private CloplaVmModel(Builder builder) {
         id = builder.id;
         ncpus = builder.ncpus;
         ramMb = builder.ramMb;
@@ -92,7 +92,7 @@ public class Vm extends AbstractPersistable {
      * @param vm the given VM
      * @return True if the two VMs are deployed in the same host, False otherwise.
      */
-    public boolean isInTheSameHost(Vm vm) {
+    public boolean isInTheSameHost(CloplaVmModel vm) {
         if (vm.getHost() == null && host == null) {
             return true;
         }

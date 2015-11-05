@@ -53,11 +53,11 @@ public class Host extends AbstractPersistable {
      * @param vms the list of VMs
      * @return the host usage
      */
-    public HostUsage getUsage(List<Vm> vms) {
+    public HostUsage getUsage(List<CloplaVmModel> vms) {
         int ncpusUsed = 0;
         int ramMbUsed = 0;
         int diskGbUsed = 0;
-        for (Vm vm: vms) {
+        for (CloplaVmModel vm: vms) {
             if (this.equals(vm.getHost())) {
                 ncpusUsed += vm.getNcpus();
                 ramMbUsed += vm.getRamMb();
@@ -79,7 +79,7 @@ public class Host extends AbstractPersistable {
      * @param vms the list of VMs
      * @return the overcapacity score
      */
-    public double getOverCapacityScore(List<Vm> vms) {
+    public double getOverCapacityScore(List<CloplaVmModel> vms) {
         HostUsage hostUsage = getUsage(vms);
         return getCpuOverCapacityScore(hostUsage)
                 + getRamOverCapacityScore(hostUsage)
@@ -94,9 +94,9 @@ public class Host extends AbstractPersistable {
      * @return False if any of the VMs that were marked as 'fixed' for this host have not been
      * assigned to this host, true otherwise 
      */
-    public boolean missingFixedVMs(List<Vm> vms) {
+    public boolean missingFixedVMs(List<CloplaVmModel> vms) {
         for (long vmId: fixedVmsIds) {
-            for (Vm vm: vms) {
+            for (CloplaVmModel vm: vms) {
                 if (vm.getId().equals(vmId)) {
                     if (vm.getHost() == null || !vm.getHost().getId().equals(id)) {
                         return true;

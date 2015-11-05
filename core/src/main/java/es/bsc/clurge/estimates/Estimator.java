@@ -1,7 +1,9 @@
 package es.bsc.clurge.estimates;
 
 import es.bsc.clurge.models.scheduling.DeploymentPlan;
+import es.bsc.clurge.models.vms.Vm;
 import es.bsc.clurge.models.vms.VmDeployed;
+import es.bsc.clurge.monit.Host;
 
 import java.util.List;
 
@@ -10,5 +12,5 @@ import java.util.List;
  */
 public interface Estimator<ReturnType> {
 	ReturnType getDeploymentPlanEstimation(List<VmDeployed> vmsDeployed, DeploymentPlan deploymentPlan);
-	ReturnType getVmEstimation(VmDeployed vm);
+	ReturnType getVmEstimation(Vm vm, Host host, List<VmDeployed> vmsDeployed, DeploymentPlan deploymentPlan);
 }

@@ -16,13 +16,13 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package es.bsc.clurge.core_old.vmplacement;
+package es.bsc.clurge.ascetic.clopla;
 
+import es.bsc.clurge.ascetic.modellers.energy.ascetic.AsceticEnergyModellerAdapter;
+import es.bsc.clurge.ascetic.modellers.price.ascetic.AsceticPricingModellerAdapter;
+import es.bsc.clurge.clopla.CloplaEstimator;
 import es.bsc.clurge.clopla.domain.Host;
-import es.bsc.clurge.clopla.domain.Vm;
-import es.bsc.clurge.clopla.modellers.PriceModeller;
-import es.bsc.clurge.ascetic.modellers.energy.EnergyModeller;
-import es.bsc.clurge.ascetic.modellers.price.PricingModeller;
+import es.bsc.clurge.clopla.domain.CloplaVmModel;
 
 import java.util.List;
 
@@ -31,23 +31,24 @@ import java.util.List;
  *
  * @author David Ortiz Lopez (david.ortiz@bsc.es)
  */
-public class CloplaPriceModeller implements PriceModeller {
+public class AsceticCloplaPriceModeller implements CloplaEstimator {
 
-    private final PricingModeller pricingModeller;
-    private final EnergyModeller energyModeller;
+	AsceticPricingModellerAdapter pricingModeller;
+	AsceticEnergyModellerAdapter energyModeller;
 
-    public CloplaPriceModeller(PricingModeller pricingModeller, EnergyModeller energyModeller) {
+    public AsceticCloplaPriceModeller(AsceticPricingModellerAdapter pricingModeller, AsceticEnergyModellerAdapter energyModeller) {
         this.pricingModeller = pricingModeller;
         this.energyModeller = energyModeller;
     }
 
-    @Override
-    public double getCost(Host host, List<Vm> vmsDeployedInHost) {
-        double result = 0.0;
-        for (Vm vm: vmsDeployedInHost) {
-            result += pricingModeller.getVMChargesPrediction(vm.getNcpus(), vm.getRamMb(), vm.getDiskGb(), host.getHostname());
-        }
-        return result;
-    }
+
+	@Override
+	public double getEstimation(Host host, List<CloplaVmModel> vmsDeployedInHost) {
+		double result = 0.0;
+		for (CloplaVmModel vm: vmsDeployedInHost) {
+			result += pricingModeller.getVMChargesPrediction(vm.getNcpus(), vm.getRamMb(), vm.getDiskGb(), host.getHostname());
+		}
+		return result;
+	}
 
 }

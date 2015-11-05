@@ -21,7 +21,7 @@
 <solver>
     <!--<environmentMode>FAST_ASSERT</environmentMode>-->
     <solutionClass>es.bsc.es.bsc.clurge.clopla.domain.ClusterState</solutionClass>
-    <planningEntityClass>es.bsc.es.bsc.clurge.clopla.domain.Vm</planningEntityClass>
+    <planningEntityClass>es.bsc.es.bsc.clurge.clopla.domain.CloplaVmModel</planningEntityClass>
 
     <scoreDirectorFactory>
         <scoreDefinitionType>HARD_SOFT</scoreDefinitionType>

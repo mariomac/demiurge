@@ -23,7 +23,7 @@ import es.bsc.clurge.clopla.domain.ConstructionHeuristic;
 import es.bsc.clurge.clopla.domain.Host;
 import es.bsc.clurge.clopla.lib.Clopla;
 import es.bsc.clurge.clopla.placement.config.VmPlacementConfig;
-import es.bsc.clurge.clopla.domain.Vm;
+import es.bsc.clurge.clopla.domain.CloplaVmModel;
 import es.bsc.clurge.clopla.lib.IClopla;
 import es.bsc.clurge.clopla.placement.config.Policy;
 import es.bsc.clurge.clopla.placement.config.localsearch.LateAcceptance;
@@ -67,10 +67,10 @@ public class ExampleClient {
      *
      * @return the list of VMs
      */
-    private static List<Vm> getInitialVms() {
-        List<Vm> result = new ArrayList<>();
+    private static List<CloplaVmModel> getInitialVms() {
+        List<CloplaVmModel> result = new ArrayList<>();
         for (int i = 0; i < N_VMS; ++i) {
-            result.add(new Vm.Builder(
+            result.add(new CloplaVmModel.Builder(
                     (long) i,
                     randInt(MIN_CPUS_VMS, MAX_CPUS_VMS),
                     randInt(MIN_RAMMB_VMS, MAX_RAMMB_VMS),

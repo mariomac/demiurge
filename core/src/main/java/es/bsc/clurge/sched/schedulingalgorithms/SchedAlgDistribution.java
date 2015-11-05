@@ -21,7 +21,7 @@ package es.bsc.clurge.sched.schedulingalgorithms;
 import es.bsc.clurge.models.hosts.ServerLoad;
 import es.bsc.clurge.models.scheduling.DeploymentPlan;
 import es.bsc.clurge.models.scheduling.SchedAlgorithmNameEnum;
-import es.bsc.clurge.core.monitoring.hosts.Host;
+import es.bsc.clurge.monit.Host;
 import es.bsc.clurge.sched.Scheduler;
 
 import java.util.Collection;
@@ -104,9 +104,6 @@ public class SchedAlgDistribution implements SchedAlgorithm {
         for (DeploymentPlan deploymentPlan: deploymentPlans) {
             Collection<ServerLoad> serversLoad =
                     Scheduler.getServersLoadsAfterDeploymentPlanExecuted(deploymentPlan, hosts).values();
-            VMMLogger.logServersLoadsAfterDeploymentPlan(deploymentPlan, countIdleServers(serversLoad),
-                    Scheduler.calculateStDevCpuLoad(serversLoad), Scheduler.calculateStDevMemLoad(serversLoad),
-                    Scheduler.calculateStDevDiskLoad(serversLoad), deploymentId);
             if (bestDeploymentPlan == null || isBetterDeploymentPlan(deploymentPlan, bestDeploymentPlan, hosts)) {
                 bestDeploymentPlan = deploymentPlan;
             }

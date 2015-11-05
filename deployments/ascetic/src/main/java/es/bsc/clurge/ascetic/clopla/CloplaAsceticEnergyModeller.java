@@ -16,10 +16,13 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package es.bsc.clurge.core_old.vmplacement;
+package es.bsc.clurge.ascetic.clopla;
 
+import es.bsc.clurge.ascetic.modellers.energy.ascetic.AsceticEnergyModellerAdapter;
+import es.bsc.clurge.clopla.domain.CloplaVmModel;
 import es.bsc.clurge.clopla.domain.Host;
-import es.bsc.clurge.clopla.domain.Vm;
+import es.bsc.clurge.clopla.CloplaEstimator;
+import es.bsc.clurge.core_old.vmplacement.CloplaConversor;
 
 import java.util.List;
 
@@ -28,19 +31,19 @@ import java.util.List;
  *
  * @author David Ortiz Lopez (david.ortiz@bsc.es)
  */
-public class CloplaEnergyModeller implements EnergyModeller {
+public class CloplaAsceticEnergyModeller implements CloplaEstimator {
 
-    private final EnergyModeller energyModeller;
+    private final AsceticEnergyModellerAdapter energyModeller;
 
-    public CloplaEnergyModeller(EnergyModeller energyModeller) {
+    public CloplaAsceticEnergyModeller(AsceticEnergyModellerAdapter energyModeller) {
         this.energyModeller = energyModeller;
     }
 
-    @Override
-    public double getPowerConsumption(Host host, List<Vm> vms) {
-        return energyModeller.getHostPredictedAvgPower(
-                host.getHostname(),
-                CloplaConversor.cloplaVmsToVmmType(vms));
-    }
+	@Override
+	public double getEstimation(Host host, List<CloplaVmModel> vmsDeployedInHost) {
+		return energyModeller.getHostPredictedAvgPower(
+				host.getHostname(),
+				CloplaConversor.cloplaVmsToVmmType(vmsDeployedInHost));
+	}
 
 }

@@ -25,6 +25,7 @@ import es.bsc.clurge.models.scheduling.VmAssignmentToHost;
 import es.bsc.clurge.models.vms.Vm;
 import es.bsc.clurge.models.vms.VmDeployed;
 import es.bsc.clurge.monit.Host;
+import es.bsc.clurge.sched.schedulingalgorithms.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -41,7 +42,7 @@ import java.util.*;
  */
 public class Scheduler {
 
-    private SchedAlgorithm schedAlgorithm;
+    private SchedAlgorithm schedAlgorithm = new SchedAlgConsolidation();
     private List<VmDeployed> vmsDeployed;
 	private List<Host> hosts;
     private static final DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd-HH:mm:ss.SSS"); // Useful for logs
@@ -306,10 +307,6 @@ public class Scheduler {
         // Get all the possible plans that do not use overbooking
         List<DeploymentPlan> possibleDeploymentPlans =
                 new DeploymentPlanGenerator().getPossibleDeploymentPlans(vms, hosts);
-
-        // TODO. This is an ugly quick fix for Ascetic so asok10 is never used.
-        possibleDeploymentPlans = DeploymentPlanFilterer.filterDeploymentPlansThatUseHost(
-                possibleDeploymentPlans, "asok10");
 
         // Find the best deployment plan
         DeploymentPlan bestDeploymentPlan = schedAlgorithm.chooseBestDeploymentPlan(

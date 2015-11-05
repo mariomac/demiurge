@@ -18,11 +18,15 @@
 
 package es.bsc.clurge.ascetic.modellers.energy.ascetic;
 
+import es.bsc.clurge.Clurge;
 import es.bsc.clurge.ascetic.modellers.energy.EnergyModeller;
+import es.bsc.clurge.estimates.Estimator;
 import es.bsc.clurge.models.scheduling.DeploymentPlan;
 import es.bsc.clurge.models.vms.Vm;
 import es.bsc.clurge.models.vms.VmDeployed;
 import es.bsc.clurge.monit.Host;
+import es.bsc.clurge.vmm.VmAction;
+import es.bsc.clurge.vmm.VmManagerListener;
 import eu.ascetic.asceticarchitecture.iaas.energymodeller.types.energyuser.VM;
 import eu.ascetic.asceticarchitecture.iaas.energymodeller.types.usage.EnergyUsagePrediction;
 
@@ -34,7 +38,7 @@ import java.util.List;
  *
  * @author David Ortiz Lopez (david.ortiz@bsc.es)
  */
-public class AsceticEnergyModellerAdapter implements EnergyModeller {
+public class AsceticEnergyModellerAdapter implements EnergyModeller, Estimator<Double>, VmManagerListener {
 
     private static eu.ascetic.asceticarchitecture.iaas.energymodeller.EnergyModeller energyModeller =
             eu.ascetic.asceticarchitecture.iaas.energymodeller.EnergyModeller.getInstance();
@@ -127,4 +131,47 @@ public class AsceticEnergyModellerAdapter implements EnergyModeller {
         return vms;
     }
 
+	@Override
+	public Double getDeploymentPlanEstimation(List<VmDeployed> vmsDeployed, DeploymentPlan deploymentPlan) {
+		return null;
+	}
+
+	@Override
+	public Double getVmEstimation(Vm vm, Host host, List<VmDeployed> vmsDeployed, DeploymentPlan deploymentPlan) {
+		return (Double) Clurge.INSTANCE.getEstimator(AsceticEnergyModellerAdapter.class).getVmEstimation(vm, host, vmsDeployed, deploymentPlan);
+	}
+
+	@Override
+	public void onVmAction(VmDeployed vm, VmAction action) {
+
+	}
+
+	@Override
+	public void onVmDeployment(VmDeployed vm) {
+		/**
+		 * The first call sets static host information. The second
+		 * writes extra profiling data for VMs. The second also
+		 * writes this data to the EM's database (including the static information.
+		 */
+		setStaticVMInformation(vm.getId(), vm);
+		initializeVmInEnergyModellerSystem(
+				vm.getId(),
+				vm.getApplicationId(),
+				vm.getImage());
+	}
+
+	@Override
+	public void onVmDestruction(VmDeployed vm) {
+
+	}
+
+	@Override
+	public void onVmMigration(VmDeployed vm) {
+
+	}
+
+	@Override
+	public void onPreVmDeployment(Vm vm) {
+
+	}
 }

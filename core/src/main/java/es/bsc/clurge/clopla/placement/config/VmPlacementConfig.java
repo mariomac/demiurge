@@ -22,8 +22,7 @@ package es.bsc.clurge.clopla.placement.config;
 import es.bsc.clurge.clopla.domain.ClusterState;
 import es.bsc.clurge.clopla.domain.ConstructionHeuristic;
 import es.bsc.clurge.clopla.placement.config.localsearch.LocalSearch;
-import es.bsc.clurge.clopla.modellers.EnergyModeller;
-import es.bsc.clurge.clopla.modellers.PriceModeller;
+import es.bsc.clurge.clopla.CloplaEstimator;
 
 /**
  * This class defines the configuration for the solver of the VM Placement problem.
@@ -42,8 +41,8 @@ public class VmPlacementConfig {
     // energyModeller, priceModeller, and initialClusterState are static variables because they are needed in 
     // the score calculators and I cannot call their constructors directly. 
     // I made them ThreadLocal to make the library thread-safe. Is there a cleaner solution?
-    public static ThreadLocal<EnergyModeller> energyModeller = new ThreadLocal<>();
-    public static ThreadLocal<PriceModeller> priceModeller = new ThreadLocal<>();
+    public static ThreadLocal<CloplaEstimator> energyModeller = new ThreadLocal<>();
+    public static ThreadLocal<CloplaEstimator> priceModeller = new ThreadLocal<>();
     public static ThreadLocal<ClusterState> initialClusterState = new ThreadLocal<>();
 
     public static class Builder {
@@ -55,8 +54,8 @@ public class VmPlacementConfig {
         private final boolean vmsAreFixed;
 
         // Optional parameters
-        private EnergyModeller energyModeller = null;
-        private PriceModeller priceModeller = null;
+        private CloplaEstimator energyModeller = null;
+        private CloplaEstimator priceModeller = null;
 
         public Builder(Policy policy, int timeLimitSeconds, ConstructionHeuristic constructionHeuristic,
                 LocalSearch localSearch, boolean vmsAreFixed) {
@@ -67,12 +66,12 @@ public class VmPlacementConfig {
             this.vmsAreFixed = vmsAreFixed;
         }
 
-        public Builder energyModeller(EnergyModeller energyModeller) {
+        public Builder energyModeller(CloplaEstimator energyModeller) {
             this.energyModeller = energyModeller;
             return this;
         }
 
-        public Builder priceModeller(PriceModeller priceModeller) {
+        public Builder priceModeller(CloplaEstimator priceModeller) {
             this.priceModeller = priceModeller;
             return this;
         }

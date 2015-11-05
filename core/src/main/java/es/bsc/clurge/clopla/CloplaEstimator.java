@@ -17,20 +17,20 @@
  * under the License.
  */
 
-package es.bsc.clurge.clopla.modellers;
+package es.bsc.clurge.clopla;
 
 import es.bsc.clurge.clopla.domain.Host;
-import es.bsc.clurge.clopla.domain.Vm;
+import es.bsc.clurge.clopla.domain.CloplaVmModel;
 
 import java.util.List;
 
 /**
- * Interface for the Price Modeller to be used in the pricing policy.
+ * Interface for the Energy Modeller to be used in the energy-aware and the pricing policies.
  *  
  * @author David Ortiz (david.ortiz@bsc.es)
  */
-public interface PriceModeller {
+public interface CloplaEstimator {
 
-    double getCost(Host host, List<Vm> vmsDeployedInHost);
+    double getEstimation(Host host, List<CloplaVmModel> vmsDeployedInHost);
 
 }

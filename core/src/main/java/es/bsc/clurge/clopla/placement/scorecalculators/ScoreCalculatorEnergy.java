@@ -53,7 +53,7 @@ public class ScoreCalculatorEnergy implements SimpleScoreCalculator<ClusterState
     private int calculateMediumScore(ClusterState solution) {
         double result = 0;
         for (Host host: solution.getHosts()) {
-            result -= VmPlacementConfig.energyModeller.get().getPowerConsumption(host, solution.getVmsDeployedInHost(host));
+            result -= VmPlacementConfig.energyModeller.get().getEstimation(host, solution.getVmsDeployedInHost(host));
         }
         return (int) result;
     }
