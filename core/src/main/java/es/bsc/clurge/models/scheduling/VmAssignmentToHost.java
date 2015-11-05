@@ -18,10 +18,8 @@
 
 package es.bsc.clurge.models.scheduling;
 
-import es.bsc.clurge.ascetic.estimates.VmEstimate;
+import es.bsc.clurge.estimates.DeploymentPlanEstimation;
 import es.bsc.clurge.monit.Host;
-import es.bsc.clurge.core.modellers.energy.EnergyModeller;
-import es.bsc.clurge.core.modellers.price.PricingModeller;
 import es.bsc.clurge.models.vms.Vm;
 import es.bsc.clurge.models.vms.VmDeployed;
 
@@ -56,8 +54,7 @@ public class VmAssignmentToHost {
         return host;
     }
 
-    public VmEstimate getVmEstimate(List<VmDeployed> vmsDeployed, DeploymentPlan deploymentPlan,
-									EnergyModeller energyModeller, PricingModeller pricingModeller) {
+    public DeploymentPlanEstimation getVmEstimate(List<VmDeployed> vmsDeployed, DeploymentPlan deploymentPlan) {
         return new VmEstimate(
                 vm.getName(),
                 getPowerEstimate(vmsDeployed, deploymentPlan, energyModeller),

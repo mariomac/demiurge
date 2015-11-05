@@ -16,9 +16,10 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package es.bsc.clurge.core_old.monitoring.hosts;
+package es.bsc.clurge.monit;
 
 import es.bsc.clurge.models.hosts.HostPowerButtonAction;
+import es.bsc.clurge.monit.Host;
 
 /**
  * @author David Ortiz Lopez (david.ortiz@bsc.es)

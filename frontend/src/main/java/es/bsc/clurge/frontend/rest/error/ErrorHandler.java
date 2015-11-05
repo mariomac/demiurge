@@ -16,7 +16,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package es.bsc.clurge.core_old.rest.error;
+package es.bsc.clurge.frontend.rest.error;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;

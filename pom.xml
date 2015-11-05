@@ -15,7 +15,7 @@
 		<module>middleware</module>
 		<module>monitoring</module>
 		<module>core</module>
-		<module>frontend</module>
+		<!--module>frontend</module-->
 		<module>deployments</module>
 	</modules>
 

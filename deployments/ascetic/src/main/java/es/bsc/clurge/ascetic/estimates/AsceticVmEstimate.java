@@ -18,7 +18,7 @@
 
 package es.bsc.clurge.ascetic.estimates;
 
-import es.bsc.clurge.estimates.AbstractVmEstimate;
+import es.bsc.clurge.estimates.DeploymentPlanEstimation;
 import es.bsc.clurge.models.vms.Vm;
 
 /**
@@ -26,7 +26,7 @@ import es.bsc.clurge.models.vms.Vm;
  *
  * @author David Ortiz Lopez (david.ortiz@bsc.es)
  */
-class AsceticVmEstimate extends AbstractVmEstimate {
+class AsceticVmEstimate extends DeploymentPlanEstimation {
 	private final double powerEstimate;
     private final double priceEstimate;
 

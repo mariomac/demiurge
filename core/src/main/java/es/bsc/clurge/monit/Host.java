@@ -18,11 +18,10 @@
 
 package es.bsc.clurge.monit;
 
+import es.bsc.clurge.Clurge;
 import es.bsc.clurge.models.hosts.HostPowerButtonAction;
 import es.bsc.clurge.models.hosts.ServerLoad;
 import es.bsc.clurge.models.vms.Vm;
-import es.bsc.clurge.core.configuration.VmManagerConfiguration;
-import es.bsc.clurge.core.logging.VMMLogger;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -36,6 +35,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
  *
  */
 public abstract class Host {
+
+	private static final String CONFIG_TURN_OFF_DELAY_SECONDS = "turnOffDelaySeconds";
+	private static final String CONFIG_TURN_ON_DELAY_SECONDS = "turnOnDelaySeconds";
 
     protected final String hostname;
     protected int totalCpus;
@@ -58,8 +60,8 @@ public abstract class Host {
      */
     public Host(String hostname) {
         this.hostname = hostname;
-        this.turnOnDelaySeconds = VmManagerConfiguration.getInstance().defaultServerTurnOnDelaySeconds;
-        this.turnOffDelaySeconds = VmManagerConfiguration.getInstance().defaultServerTurnOffDelaySeconds;
+        this.turnOnDelaySeconds = Clurge.INSTANCE.getConfiguration().getInt(CONFIG_TURN_ON_DELAY_SECONDS);
+		this.turnOffDelaySeconds = Clurge.INSTANCE.getConfiguration().getInt(CONFIG_TURN_OFF_DELAY_SECONDS);
     }
     
     public Host(String hostname, int turnOnDelaySeconds, int turnOffDelaySeconds) {

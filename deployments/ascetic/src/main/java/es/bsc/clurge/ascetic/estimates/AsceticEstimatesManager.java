@@ -22,7 +22,7 @@ package es.bsc.clurge.ascetic.estimates;
 import es.bsc.clurge.Clurge;
 import es.bsc.clurge.ascetic.modellers.energy.EnergyModeller;
 import es.bsc.clurge.ascetic.modellers.price.PricingModeller;
-import es.bsc.clurge.estimates.AbstractVmEstimate;
+import es.bsc.clurge.estimates.DeploymentPlanEstimation;
 import es.bsc.clurge.sched.Scheduler;
 
 
@@ -43,7 +43,7 @@ public class AsceticEstimatesManager implements EstimatesManager {
         this.pricingModeller = pricingModeller;
     }
     
-    public List<AbstractVmEstimate> getVmEstimates(List<AbstractVmEstimate> vmsToBeEstimated) {
+    public List<DeploymentPlanEstimation> getVmEstimates(List<DeploymentPlanEstimation> vmsToBeEstimated) {
         Scheduler scheduler = new Scheduler(
 				Clurge.INSTANCE.getPersistenceManager().getCurrentSchedulingAlg(),
 				Clurge.INSTANCE.getVmManager().getAllVms(),

@@ -18,7 +18,6 @@
 
 package es.bsc.clurge.utils;
 
-import es.bsc.clurge.core.cloudmiddleware.CloudMiddlewareException;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;

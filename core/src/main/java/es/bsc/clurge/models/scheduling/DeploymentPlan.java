@@ -19,7 +19,7 @@
 package es.bsc.clurge.models.scheduling;
 
 import es.bsc.clurge.models.vms.Vm;
-import es.bsc.clurge.core.monitoring.hosts.Host;
+import es.bsc.clurge.monit.Host;
 
 import java.util.ArrayList;
 import java.util.HashMap;

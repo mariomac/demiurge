@@ -21,7 +21,7 @@ package es.bsc.clurge.sched;
 import es.bsc.clurge.models.scheduling.DeploymentPlan;
 import es.bsc.clurge.models.scheduling.VmAssignmentToHost;
 import es.bsc.clurge.models.vms.Vm;
-import es.bsc.clurge.core.monitoring.hosts.Host;
+import es.bsc.clurge.monit.Host;
 
 import java.util.ArrayList;
 import java.util.List;

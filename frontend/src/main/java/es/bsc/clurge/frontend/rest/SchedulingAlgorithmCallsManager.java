@@ -16,12 +16,12 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package es.bsc.clurge.core_old.rest;
+package es.bsc.clurge.frontend.rest;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import es.bsc.clurge.core.manager.VmManager;
+import es.bsc.clurge.Clurge;
 import es.bsc.clurge.models.scheduling.SchedAlgorithmNameEnum;
 
 import javax.ws.rs.WebApplicationException;
@@ -34,16 +34,6 @@ import javax.ws.rs.WebApplicationException;
 public class SchedulingAlgorithmCallsManager {
 
     private Gson gson = new Gson();
-    private VmManager vmManager;
-
-    /**
-     * Class constructor.
-     *
-     * @param vmManager the VM manager
-     */
-    public SchedulingAlgorithmCallsManager(VmManager vmManager) {
-        this.vmManager = vmManager;
-    }
 
     /**
      * Returns a JSON document that contains the scheduling algorithms supported.
@@ -52,7 +42,7 @@ public class SchedulingAlgorithmCallsManager {
      */
     public String getSchedulingAlgorithms() {
         JsonArray schedAlgsArrayJson = new JsonArray();
-        for (SchedAlgorithmNameEnum schedAlg: vmManager.getAvailableSchedulingAlgorithms()) {
+        for (SchedAlgorithmNameEnum schedAlg: Clurge.INSTANCE.getVmManager().getAvailableSchedulingAlgorithms()) {
             JsonObject schedAlgJson = new JsonObject();
             schedAlgJson.addProperty("name", schedAlg.getName());
             schedAlgsArrayJson.add(schedAlgJson);
@@ -69,7 +59,7 @@ public class SchedulingAlgorithmCallsManager {
      */
     public String getCurrentSchedulingAlgorithm() {
         JsonObject result = new JsonObject();
-        result.addProperty("name", vmManager.getCurrentSchedulingAlgorithm().getName());
+        result.addProperty("name", Clurge.INSTANCE.getVmManager().getCurrentSchedulingAlgorithm().getName());
         return result.toString();
     }
 
@@ -108,7 +98,7 @@ public class SchedulingAlgorithmCallsManager {
         else { // Invalid algorithm. Throw error.
             throw new WebApplicationException(400);
         }
-        vmManager.setSchedulingAlgorithm(schedulingAlg);
+		Clurge.INSTANCE.getVmManager().setSchedulingAlgorithm(schedulingAlg);
     }
 
 

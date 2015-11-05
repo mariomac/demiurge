@@ -36,9 +36,6 @@ import es.bsc.clurge.vmm.components.*;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.*;
 
 /**
@@ -51,6 +48,7 @@ import java.util.*;
 public class GenericVmManager implements VmManager {
 
 	private static final String CONF_DEPLOY_VM_WITH_VOLUME ="deployVmWithVolume";
+
     // VMM components. The VMM delegates all the work to this subcomponents
     private final ImageManager imageManager;
     private final SchedulingAlgorithmsManager schedulingAlgorithmsManager;
