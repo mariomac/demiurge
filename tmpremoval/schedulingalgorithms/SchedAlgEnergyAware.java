@@ -18,12 +18,10 @@
 
 package es.bsc.clurge.sched.schedulingalgorithms;
 
-import es.bsc.clurge.ascetic.modellers.energy.EnergyModeller;
 import es.bsc.clurge.models.scheduling.DeploymentPlan;
 import es.bsc.clurge.models.scheduling.SchedAlgorithmNameEnum;
 import es.bsc.clurge.models.scheduling.VmAssignmentToHost;
 import es.bsc.clurge.models.vms.VmDeployed;
-import es.bsc.clurge.core.monitoring.hosts.Host;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +37,7 @@ import java.util.List;
 public class SchedAlgEnergyAware implements SchedAlgorithm {
 
     List<VmDeployed> vmsDeployed = new ArrayList<>();
-    EnergyModeller energyModeller;
+    EnergyModell energyModeller;
 
     public SchedAlgEnergyAware(List<VmDeployed> vmsDeployed, EnergyModeller energyModeller) {
         this.vmsDeployed = vmsDeployed;

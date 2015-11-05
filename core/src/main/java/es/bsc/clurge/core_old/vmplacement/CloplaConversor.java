@@ -111,8 +111,8 @@ public class CloplaConversor {
                 getConstructionHeuristic(recommendedPlanRequest.getConstructionHeuristicName()),
                 getLocalSearch(recommendedPlanRequest),
                 false)
-                .energyModeller(new CloplaAsceticEnergyModeller(energyModeller))
-                .priceModeller(new CloplaPriceModeller(pricingModeller, energyModeller))
+                .energyModeller(Clurge.INSTANCE.cloplaEnergyEstimator)
+                .priceModeller(Clurge.INSTANCE.cloplaPriceEstimator)
                 .build();
     }
 

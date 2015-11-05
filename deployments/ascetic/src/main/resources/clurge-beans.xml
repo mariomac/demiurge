@@ -17,6 +17,16 @@
 		<constructor-arg ref="energyModeller"/>
 	</bean>
 
+	<bean id="cloplaEnergyEstimator" class="es.bsc.clurge.ascetic.clopla.CloplaAsceticEnergyModeller">
+		<constructor-arg ref="energyModeller"/>
+	</bean>
+
+	<!-- TODO: REMOVE THIS SHIT FROM HERE -->
+	<bean id="cloplaPriceEstimator" class="es.bsc.clurge.ascetic.clopla.AsceticCloplaPriceModeller">
+		<constructor-arg ref="pricingModeller"/>
+		<constructor-arg ref="energyModeller"/>
+	</bean>
+
 	<!-- power and pricing modellers also implements Estimator interface, and are registered as ASCETIC estimators -->
 	<util:map id="estimators" key-type="java.lang.Class" value-type="es.bsc.clurge.estimates.Estimator">
 		<entry key="es.bsc.clurge.ascetic.modellers.energy.ascetic.AsceticEnergyModellerAdapter"

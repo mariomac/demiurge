@@ -1,5 +1,6 @@
 package es.bsc.clurge;
 
+import es.bsc.clurge.clopla.CloplaEstimator;
 import es.bsc.clurge.db.PersistenceManager;
 import es.bsc.clurge.cloudmw.CloudMiddleware;
 import es.bsc.clurge.estimates.Estimator;
@@ -106,7 +107,9 @@ public enum Clurge {
 
 		estimators = springContext.getBean("estimators",Map.class);
 
-
+		// todo: remove this
+		cloplaEnergyEstimator = springContext.getBean("cloplaEnergyEstimator",CloplaEstimator.class);
+		cloplaPriceEstimator = springContext.getBean("cloplaPriceEstimator",CloplaEstimator.class);
 
     }
 
@@ -139,5 +142,9 @@ public enum Clurge {
 	public Estimator getEstimator(Class<? extends Estimator> clazz) {
 		return estimators.get(clazz);
 	}
+
+
+	// TODO : REMOVE THIS
+	public CloplaEstimator cloplaEnergyEstimator, cloplaPriceEstimator;
 
 }

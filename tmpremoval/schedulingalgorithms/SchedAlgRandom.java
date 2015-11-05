@@ -20,7 +20,7 @@ package es.bsc.clurge.sched.schedulingalgorithms;
 
 import es.bsc.clurge.models.scheduling.DeploymentPlan;
 import es.bsc.clurge.models.scheduling.SchedAlgorithmNameEnum;
-import es.bsc.clurge.core.monitoring.hosts.Host;
+import es.bsc.clurge.monit.Host;
 
 import java.util.List;
 
@@ -41,7 +41,6 @@ public class SchedAlgRandom implements SchedAlgorithm {
         double bestDeploymentPlanScore = -1;
         for (DeploymentPlan deploymentPlan: deploymentPlans) {
             double deploymentPlanScore = Math.random();
-            VMMLogger.logDeploymentPlanRandomScore(deploymentPlan, deploymentPlanScore, deploymentId);
             if (deploymentPlanScore > bestDeploymentPlanScore) {
                 bestDeploymentPlan = deploymentPlan;
                 bestDeploymentPlanScore = deploymentPlanScore;
