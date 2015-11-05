@@ -1,7 +1,6 @@
 package es.bsc.clurge.vmm;
 
-import es.bsc.clurge.models.vms.Vm;
-import es.bsc.clurge.models.vms.VmDeployed;
+import es.bsc.clurge.domain.VirtualMachine;
 
 /**
  *
@@ -13,11 +12,11 @@ import es.bsc.clurge.models.vms.VmDeployed;
  * Created by mmacias on 3/11/15.
  */
 public interface VmManagerListener {
-	void onVmDeployment(VmDeployed vm);
-	void onVmDestruction(VmDeployed vm);
-	void onVmMigration(VmDeployed vm);
-	void onVmAction(VmDeployed vm, VmAction action);
+	void onVmDeployment(VirtualMachine vm);
+	void onVmDestruction(VirtualMachine vm);
+	void onVmMigration(VirtualMachine vm);
+	void onVmAction(VirtualMachine vm, VmAction action);
 
-	void onPreVmDeployment(Vm vm);
+	void onPreVmDeployment(VirtualMachine vm);
 }
 

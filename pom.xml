@@ -14,9 +14,9 @@
 		<module>estimates</module>
 		<module>middleware</module>
 		<module>monitoring</module>
-		<module>core</module>
 		<!--module>frontend</module-->
 		<module>deployments</module>
+		<module>core</module>
 	</modules>
 
 </project>

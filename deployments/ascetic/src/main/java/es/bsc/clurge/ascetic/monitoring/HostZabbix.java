@@ -18,7 +18,8 @@
 
 package es.bsc.clurge.ascetic.monitoring;
 
-import es.bsc.clurge.monit.Host;
+import es.bsc.clurge.domain.PhysicalHost;
+import es.bsc.clurge.monit.PhysicalHostMonitoringInfo;
 
 import java.util.Map;
 
@@ -28,7 +29,7 @@ import java.util.Map;
  * @author David Ortiz Lopez (david.ortiz@bsc.es)
  *
  */
-class HostZabbix extends Host {
+class HostZabbix implements PhysicalHostMonitoringInfo {
 
     /* Keys to identify each metric in Zabbix.
        Note: The metrics used for the disk space are specific for the Ascetic project. Also, some metrics might not
@@ -43,14 +44,15 @@ class HostZabbix extends Host {
 
     private final int zabbixId; // Each host has an ID in Zabbix and this ID is not the hostname
 
+	private final PhysicalHost host;
     /**
      * Class constructor.
      *
-     * @param hostname the hostname
+     * @param theHost the hostname
      */
-    public HostZabbix(String hostname) {
-        super(hostname);
-        zabbixId = getZabbixId(hostname);
+    public HostZabbix(PhysicalHost theHost) {
+		host = theHost;
+        zabbixId = getZabbixId(theHost.getHostname());
         updateMetrics();
     }
 
@@ -77,25 +79,25 @@ class HostZabbix extends Host {
         /* If there is an error while trying to get data from Zabbix, some of the fields that I expect to be in
            the latestMetricValues map are not going to be there. Therefore, I need to check that they are not null */
         if (latestMetricValues.get(NUMBER_OF_CPUS_KEY) != null) {
-            totalCpus = latestMetricValues.get(NUMBER_OF_CPUS_KEY).intValue();
+            host.setTotalCpus(latestMetricValues.get(NUMBER_OF_CPUS_KEY).intValue());
         }
         if (latestMetricValues.get(TOTAL_MEMORY_BYTES_KEY) != null) {
-            totalMemoryMb = (int) (latestMetricValues.get(TOTAL_MEMORY_BYTES_KEY) / (1024 * 1024));
+            host.setTotalMemoryMb( (int) (latestMetricValues.get(TOTAL_MEMORY_BYTES_KEY) / (1024 * 1024)));
         }
         if (latestMetricValues.get(TOTAL_DISK_BYTES_KEY) != null) {
-            totalDiskGb = latestMetricValues.get(TOTAL_DISK_BYTES_KEY) / (1024.0 * 1024 * 1024);
+            host.setTotalDiskGb( latestMetricValues.get(TOTAL_DISK_BYTES_KEY) / (1024.0 * 1024 * 1024));
         }
         if (latestMetricValues.get(SYSTEM_CPU_LOAD_KEY) != null) {
-            assignedCpus = latestMetricValues.get(SYSTEM_CPU_LOAD_KEY);
+            host.setAssignedCpus( latestMetricValues.get(SYSTEM_CPU_LOAD_KEY));
         }
         if (latestMetricValues.get(AVAILABLE_MEMORY_BYTES_KEY) != null) {
-            assignedMemoryMb = totalMemoryMb - latestMetricValues.get(AVAILABLE_MEMORY_BYTES_KEY) / (1024 * 1024);
+            host.setAssignedMemoryMb( host.getTotalMemoryMb() - latestMetricValues.get(AVAILABLE_MEMORY_BYTES_KEY) / (1024 * 1024));
         }
         if (latestMetricValues.get(USED_DISK_BYTES_KEY) != null) {
-            assignedDiskGb = latestMetricValues.get(USED_DISK_BYTES_KEY) / (1024.0 * 1024 * 1024);
+            host.setAssignedDiskGb( latestMetricValues.get(USED_DISK_BYTES_KEY) / (1024.0 * 1024 * 1024));
         }
         if (latestMetricValues.get(POWER_KEY) != null) {
-            currentPower = latestMetricValues.get(POWER_KEY);
+            host.setCurrentPower( latestMetricValues.get(POWER_KEY));
         }
 		//LogManager.getLogger(HostZabbix.class).trace(
 		//		"Updated host metrics: " + toString()
@@ -103,7 +105,7 @@ class HostZabbix extends Host {
     }
 
     @Override
-    public void refreshMonitoringInfo() {
+    public void refresh() {
         updateMetrics();
     }
 

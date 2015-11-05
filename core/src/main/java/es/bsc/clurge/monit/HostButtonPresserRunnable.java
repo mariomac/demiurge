@@ -18,18 +18,20 @@
 
 package es.bsc.clurge.monit;
 
-import es.bsc.clurge.models.hosts.HostPowerButtonAction;
-import es.bsc.clurge.monit.Host;
+import es.bsc.clurge.domain.PhysicalHost;
+
+import static es.bsc.clurge.monit.HostPowerButtonAction.TURN_OFF;
+import static es.bsc.clurge.monit.HostPowerButtonAction.TURN_ON;
 
 /**
  * @author David Ortiz Lopez (david.ortiz@bsc.es)
  */
 public class HostButtonPresserRunnable implements Runnable {
 
-    private final Host host;
+    private final PhysicalHost host;
     private final HostPowerButtonAction action;
 
-    public HostButtonPresserRunnable(Host host, HostPowerButtonAction action) {
+    public HostButtonPresserRunnable(PhysicalHost host, HostPowerButtonAction action) {
         this.host = host;
         this.action = action;
     }

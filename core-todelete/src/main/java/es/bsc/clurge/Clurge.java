@@ -1,13 +1,14 @@
 package es.bsc.clurge;
 
 import es.bsc.clurge.clopla.CloplaEstimator;
-import es.bsc.clurge.cloudmw.CloudMiddleware;
 import es.bsc.clurge.db.PersistenceManager;
+import es.bsc.clurge.cloudmw.CloudMiddleware;
 import es.bsc.clurge.estimates.Estimator;
 import es.bsc.clurge.monit.HostsMonitoringManager;
 import es.bsc.clurge.sched.DeploymentScheduler;
 import es.bsc.clurge.vmm.VmManager;
 import es.bsc.clurge.vmm.VmManagerListener;
+import org.apache.commons.collections.map.UnmodifiableMap;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;

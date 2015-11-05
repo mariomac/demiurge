@@ -18,10 +18,9 @@
 
 package es.bsc.clurge.cloudmw;
 
-import es.bsc.clurge.models.images.ImageToUpload;
-import es.bsc.clurge.models.images.ImageUploaded;
-import es.bsc.clurge.models.vms.Vm;
-import es.bsc.clurge.models.vms.VmDeployed;
+import es.bsc.clurge.domain.DiskImage;
+import es.bsc.clurge.domain.VirtualMachine;
+import es.bsc.clurge.exception.CloudMiddlewareException;
 
 import java.util.List;
 
@@ -41,7 +40,7 @@ public interface CloudMiddleware {
      * @param hostname the hostname
      * @return the ID of the deployed VM
      */
-    String deploy(Vm vm, String hostname) throws CloudMiddlewareException;
+    String deploy(VirtualMachine vm, String hostname) throws CloudMiddlewareException;
 
     /**
      * Deploys a virtual machine in a specific host and using a volume
@@ -51,7 +50,7 @@ public interface CloudMiddleware {
      * @param isoPath path of the ISO that the VM needs to mount. Can be null.
      * @return the ID of the deployed VM
      */
-    String deployWithVolume(Vm vm, String hostname, String isoPath) throws CloudMiddlewareException;
+    String deployWithVolume(VirtualMachine vm, String hostname, String isoPath) throws CloudMiddlewareException;
 
     /**
      * Destroys a Virtual Machine.
@@ -88,7 +87,7 @@ public interface CloudMiddleware {
      * @param vmId the ID of the VM
      * @return The VM or NULL if there is not a VM with the given ID
      */
-    VmDeployed getVM(String vmId) throws CloudMiddlewareException;
+    VirtualMachine getVM(String vmId) throws CloudMiddlewareException;
 
     /**
      * Checks whether a VM with the given ID exists in the system.
@@ -145,7 +144,7 @@ public interface CloudMiddleware {
      *
      * @return the images in the infrastructure
      */
-    List<ImageUploaded> getVmImages();
+    List<DiskImage> getVmImages();
 
     /**
      * Creates a new image in the infrastructure.
@@ -153,7 +152,7 @@ public interface CloudMiddleware {
      * @param imageToUpload the image to be created
      * @return the ID of the image created
      */
-    String createVmImage(ImageToUpload imageToUpload) throws CloudMiddlewareException;
+    String createVmImage(DiskImage imageToUpload) throws CloudMiddlewareException;
 
     /**
      * Retrieves an image from the infrastructure.
@@ -161,7 +160,7 @@ public interface CloudMiddleware {
      * @param imageId the ID of the image to retrieve
      * @return the image
      */
-    ImageUploaded getVmImage(String imageId);
+    DiskImage getVmImage(String imageId);
 
     /**
      * Deletes an image from the infrastructure.
