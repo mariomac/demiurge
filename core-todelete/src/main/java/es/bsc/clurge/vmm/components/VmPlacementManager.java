@@ -18,17 +18,21 @@
 
 package es.bsc.clurge.vmm.components;
 
-import es.bsc.clurge.models.scheduling.*;
 import es.bsc.clurge.core_old.vmplacement.CloplaConversor;
 import es.bsc.clurge.clopla.domain.ClusterState;
-import es.bsc.clurge.clopla.domain.LocalSearchHeuristicOption;
+import es.bsc.clurge.clopla.heuristic.LocalSearchHeuristicOption;
 import es.bsc.clurge.clopla.lib.Clopla;
-import es.bsc.clurge.clopla.domain.LocalSearchHeuristic;
+import es.bsc.clurge.clopla.heuristic.LocalSearchHeuristic;
 import es.bsc.clurge.clopla.lib.IClopla;
 import es.bsc.clurge.exception.CloudMiddlewareException;
+import es.bsc.clurge.models.scheduling.ConstructionHeuristic;
 import es.bsc.clurge.models.vms.Vm;
 import es.bsc.clurge.models.vms.VmDeployed;
 import es.bsc.clurge.monit.Host;
+import es.bsc.clurge.sched.LocalSearchAlgorithmOptionsUnset;
+import es.bsc.clurge.sched.RecommendedPlan;
+import es.bsc.clurge.sched.RecommendedPlanRequest;
+import es.bsc.clurge.sched.VmPlacement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +52,7 @@ public class VmPlacementManager {
      */
     public List<ConstructionHeuristic> getConstructionHeuristics() {
         List<ConstructionHeuristic> result = new ArrayList<>();
-        for (es.bsc.clurge.clopla.domain.ConstructionHeuristic heuristic: clopla.getConstructionHeuristics()) {
+        for (es.bsc.clurge.clopla.heuristic.ConstructionHeuristic heuristic: clopla.getConstructionHeuristics()) {
             result.add(new ConstructionHeuristic(heuristic.name()));
         }
         return result;

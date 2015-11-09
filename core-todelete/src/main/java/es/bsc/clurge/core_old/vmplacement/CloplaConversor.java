@@ -21,14 +21,14 @@ package es.bsc.clurge.core_old.vmplacement;
 import es.bsc.clurge.Clurge;
 import es.bsc.clurge.clopla.domain.CloplaVmModel;
 import es.bsc.clurge.clopla.domain.ClusterState;
-import es.bsc.clurge.clopla.domain.ConstructionHeuristic;
+import es.bsc.clurge.clopla.heuristic.ConstructionHeuristic;
 import es.bsc.clurge.clopla.domain.Host;
 import es.bsc.clurge.clopla.placement.config.Policy;
 import es.bsc.clurge.clopla.placement.config.VmPlacementConfig;
 import es.bsc.clurge.clopla.placement.config.localsearch.*;
-import es.bsc.clurge.models.scheduling.RecommendedPlan;
-import es.bsc.clurge.models.scheduling.RecommendedPlanRequest;
-import es.bsc.clurge.models.scheduling.SchedAlgorithmNameEnum;
+import es.bsc.clurge.sched.RecommendedPlan;
+import es.bsc.clurge.sched.RecommendedPlanRequest;
+import es.bsc.clurge.sched.SchedAlgorithmNameEnum;
 import es.bsc.clurge.models.vms.Vm;
 import es.bsc.clurge.models.vms.VmDeployed;
 

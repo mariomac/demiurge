@@ -21,7 +21,6 @@ package es.bsc.clurge.vmm;
 import es.bsc.clurge.Clurge;
 import es.bsc.clurge.cloudmw.CloudMiddleware;
 import es.bsc.clurge.exception.CloudMiddlewareException;
-import es.bsc.clurge.models.scheduling.*;
 
 import es.bsc.clurge.sched.*;
 import es.bsc.clurge.utils.TimeUtils;

@@ -1,14 +1,13 @@
 package es.bsc.clurge.domain;
 
+import com.google.common.base.Preconditions;
 import es.bsc.clurge.Clurge;
-import es.bsc.clurge.exception.MonitoringException;
 import es.bsc.clurge.monit.HostButtonPresserRunnable;
 import es.bsc.clurge.monit.HostPowerButtonAction;
 import es.bsc.clurge.monit.PhysicalHostMonitoringInfo;
 import es.bsc.clurge.monit.ServerLoad;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 

@@ -1,13 +1,11 @@
 package es.bsc.clurge.estimates;
 
 import es.bsc.clurge.Clurge;
-import es.bsc.clurge.models.scheduling.DeploymentPlan;
+import es.bsc.clurge.sched.DeploymentPlan;
 import es.bsc.clurge.models.vms.Vm;
 import es.bsc.clurge.models.vms.VmDeployed;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by mmacias on 4/11/15.

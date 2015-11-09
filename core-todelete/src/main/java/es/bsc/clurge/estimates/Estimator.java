@@ -1,6 +1,6 @@
 package es.bsc.clurge.estimates;
 
-import es.bsc.clurge.models.scheduling.DeploymentPlan;
+import es.bsc.clurge.sched.DeploymentPlan;
 import es.bsc.clurge.models.vms.Vm;
 import es.bsc.clurge.models.vms.VmDeployed;
 import es.bsc.clurge.monit.Host;

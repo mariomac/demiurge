@@ -20,7 +20,7 @@ package es.bsc.clurge.db;
 
 import com.google.gson.Gson;
 import es.bsc.clurge.Clurge;
-import es.bsc.clurge.models.scheduling.SchedAlgorithmNameEnum;
+import es.bsc.clurge.sched.SchedAlgorithmNameEnum;
 import es.bsc.clurge.sched.SelfAdaptationOptions;
 import org.apache.log4j.Logger;
 

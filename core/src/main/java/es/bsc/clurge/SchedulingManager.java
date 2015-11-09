@@ -53,7 +53,7 @@ public interface SchedulingManager {
 	 *
 	 * @return the list of local search algorithms
 	 */
-	List<LocalSearchAlgorithms> getLocalSearchAlgorithms();
+	List<LocalSearchAlgorithm> getLocalSearchAlgorithms();
 
 	/**
 	 * This function calculates a deployment plan based on a request. It uses the VM placement library.

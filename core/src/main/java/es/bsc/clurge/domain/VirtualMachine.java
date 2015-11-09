@@ -2,6 +2,8 @@ package es.bsc.clurge.domain;
 
 import com.google.common.base.Preconditions;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.optaplanner.core.api.domain.entity.PlanningEntity;
+import org.optaplanner.core.api.domain.variable.PlanningVariable;
 
 import java.io.File;
 import java.util.Date;
@@ -34,6 +36,7 @@ public class VirtualMachine {
 	private long creationTimeStamp;
 	private PhysicalHost host;
 	/* */
+
 
 	private VirtualMachine() {
 	}
@@ -264,7 +267,7 @@ public class VirtualMachine {
 			return this;
 		}
 		private PhysicalHost host;
-		public Builder setlHost(PhysicalHost host) {
+		public Builder setHost(PhysicalHost host) {
 			this.host = host;
 			return this;
 		}
