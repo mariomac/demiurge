@@ -31,6 +31,8 @@ import java.util.List;
 
 import es.bsc.clopla.domain.Vm;
 import es.bsc.clurge.sched.RecommendedPlan;
+import es.bsc.clurge.sched.RecommendedPlanRequest;
+import es.bsc.clurge.sched.SchedAlgorithmNameEnum;
 
 /**
  * The function of this class is to convert the data types used in then VM Manager Core, to the equivalent data

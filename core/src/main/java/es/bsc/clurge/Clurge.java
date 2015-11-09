@@ -1,12 +1,8 @@
 package es.bsc.clurge;
 
-import es.bsc.clurge.clopla.CloplaEstimator;
 import es.bsc.clurge.cloudmw.CloudMiddleware;
-import es.bsc.clurge.db.PersistenceManager;
 import es.bsc.clurge.estimates.Estimator;
-import es.bsc.clurge.monit.HostsMonitoringManager;
-import es.bsc.clurge.sched.DeploymentScheduler;
-import es.bsc.clurge.vmm.VmManager;
+import es.bsc.clurge.sched.SchedulingAlgorithm;
 import es.bsc.clurge.vmm.VmManagerListener;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
@@ -36,17 +32,21 @@ public enum Clurge {
     private static final String CLURGE_BEANS_SYSPROPERTY_NAME = "beans.file";
 	private static final String CLURGE_DEFAULT_FILE = "clurge-beans.xml";
 
-	private DeploymentScheduler deploymentScheduler;
+	private VirtualMachineManager vmManager;
+	private ImageManager imageManager;
+	private MonitoringManager monitoringManager;
 	private PersistenceManager persistenceManager;
-	private VmManager vmManager;
+	private PhysicalHostManager physicalHostManager;
+	private SchedulingManager schedulingManager;
 	private CloudMiddleware cloudMiddleware;
-	private HostsMonitoringManager monitoringManager;
 
 	private Configuration configuration;
 
 	private Logger log = LogManager.getLogger(Clurge.class);
 
 	private Map<Class<? extends Estimator>, Estimator> estimators;
+
+	private Map<Class<? extends SchedulingAlgorithm>, SchedulingAlgorithm> schedulingAlgorithmMap;
 
 	Clurge() {
 		init();
@@ -67,14 +67,12 @@ public enum Clurge {
      * 3. The file called clurge-beans.xml in the root of the classpath
      */
     public void init() throws RuntimeException {
-
 		try {
 			configuration = getPropertiesObjectFromConfigFile();
 		} catch(ConfigurationException e) {
 			throw new RuntimeException("Cannot load Configuration: " +e.getMessage(),e);
 		}
 
-		// http://crunchify.com/simplest-spring-mvc-hello-world-example-tutorial-spring-model-view-controller-tips/
 		ApplicationContext springContext;
         if(System.getProperty(CLURGE_BEANS_SYSPROPERTY_NAME) != null
                 && !System.getProperty(CLURGE_BEANS_SYSPROPERTY_NAME).trim().equals("")) {
@@ -88,9 +86,19 @@ public enum Clurge {
 			}
 		}
 
-		monitoringManager = springContext.getBean("hostsMonitoringManager",HostsMonitoringManager.class);
+//		<bean id="vmManager" scope="singleton" class="es.bsc.clurge.vmm.GenericVirtualMachineManager" />
+//		<bean id="imageManager" scope="singleton" class="..."/>
+//		<bean id="monitoringManager" scope="singleton" class="..."/>
+//		<bean id="persistenceManager" scope="singleton" class="..."/>
+//		<bean id="physicalHostManager" scope="singleton" class="..."/>
+//		<bean id="cloudMiddleware" scope="singleton" class="..."/>
+//		<bean id="schedulingManager" scope="singleton" class="..."/>
+
+		monitoringManager = springContext.getBean("monitoringManager",MonitoringManager.class);
 		persistenceManager = springContext.getBean("persistenceManager",PersistenceManager.class);
-		vmManager = springContext.getBean("vmManager",VmManager.class);
+		imageManager = springContext.getBean("imageManager",ImageManager.class);
+		physicalHostManager = springContext.getBean("physicalHostManager", PhysicalHostManager.class);
+		vmManager = springContext.getBean("vmManager",VirtualMachineManager.class);
 
 		@SuppressWarnings(value = "unchecked")
 		List listeners = springContext.getBean("vmManagerListeners",List.class);
@@ -109,28 +117,39 @@ public enum Clurge {
 		cloplaEnergyEstimator = springContext.getBean("cloplaEnergyEstimator",CloplaEstimator.class);
 		cloplaPriceEstimator = springContext.getBean("cloplaPriceEstimator",CloplaEstimator.class);
 
-    }
+		schedulingAlgorithmMap = springContext.getBean("schedulingAlgorithmMap", Map.class);
+
+
+	}
 
 	public Configuration getConfiguration() { return configuration; }
 
-	public DeploymentScheduler getDeploymentScheduler() {
-		return deploymentScheduler;
+	public VirtualMachineManager getVirtualMachineManager() {
+		return vmManager;
+	}
+
+	public ImageManager getImageManager() {
+		return imageManager;
+	}
+
+	public MonitoringManager getMonitoringManager() {
+		return monitoringManager;
+	}
+
+	public PhysicalHostManager getPhysicalHostManager() {
+		return physicalHostManager;
+	}
+
+	public SchedulingManager getSchedulingManager() {
+		return schedulingManager;
 	}
 
 	public PersistenceManager getPersistenceManager() {
 		return persistenceManager;
 	}
 
-	public VmManager getVmManager() {
-		return vmManager;
-	}
-
 	public CloudMiddleware getCloudMiddleware() {
 		return cloudMiddleware;
-	}
-
-	public HostsMonitoringManager getHostsMonitoringManager() {
-		return monitoringManager;
 	}
 
 	public Map<Class<? extends Estimator>, Estimator> getEstimators() {
@@ -140,9 +159,5 @@ public enum Clurge {
 	public Estimator getEstimator(Class<? extends Estimator> clazz) {
 		return estimators.get(clazz);
 	}
-
-
-	// TODO : REMOVE THIS
-	public CloplaEstimator cloplaEnergyEstimator, cloplaPriceEstimator;
 
 }

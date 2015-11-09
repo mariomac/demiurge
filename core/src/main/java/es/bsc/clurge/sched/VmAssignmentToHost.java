@@ -21,6 +21,7 @@ package es.bsc.clurge.sched;
 import es.bsc.clurge.Clurge;
 import es.bsc.clurge.domain.PhysicalHost;
 import es.bsc.clurge.domain.VirtualMachine;
+import es.bsc.clurge.estimates.Estimator;
 
 
 import java.util.List;

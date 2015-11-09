@@ -1,5 +1,6 @@
 package es.bsc.clurge;
 
+import es.bsc.clopla.domain.ConstructionHeuristic;
 import es.bsc.clurge.domain.VirtualMachine;
 import es.bsc.clurge.exception.CloudMiddlewareException;
 import es.bsc.clurge.sched.*;
@@ -80,4 +81,11 @@ public interface SchedulingManager {
 	SelfAdaptationOptions getSelfAdaptationOptions();
 	void saveSelfAdaptationOptions(SelfAdaptationOptions selfAdaptationOptions);
 
+	RecommendedPlan getRecommendedPlanForDeployment(List<VirtualMachine> vmsToDeploy)  throws CloudMiddlewareException ;
+
+	void applyAfterVmsDeploymentSelfAdaptation() throws CloudMiddlewareException;
+	void applyAfterVmDeleteSelfAdaptation() throws CloudMiddlewareException;
+	void applyOnDemandSelfAdaptation() throws CloudMiddlewareException;
+	void applyPeriodicSelfAdaptation() throws CloudMiddlewareException;;
 }
+

@@ -16,10 +16,10 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package es.bsc.clurge.db;
+package es.bsc.clurge;
 
 import es.bsc.clurge.sched.SchedAlgorithmNameEnum;
-import es.bsc.clurge.sched.SelfAdaptationOptions;
+import es.bsc.clurge.sched.opts.SelfAdaptationOptions;
 
 import java.util.List;
 

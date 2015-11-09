@@ -16,11 +16,11 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package es.bsc.clurge.vmm.components;
+package es.bsc.clurge.vmm.generic;
 
+import es.bsc.clurge.Clurge;
+import es.bsc.clurge.domain.DiskImage;
 import es.bsc.clurge.exception.CloudMiddlewareException;
-import es.bsc.clurge.models.images.ImageToUpload;
-import es.bsc.clurge.models.images.ImageUploaded;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -30,17 +30,17 @@ import java.util.List;
 /**
  * @author David Ortiz Lopez (david.ortiz@bsc.es)
  */
-public class ImageManager {
+public class GenericImageManager {
 
-	private final Logger log = LogManager.getLogger(ImageManager.class);
+	private final Logger log = LogManager.getLogger(GenericImageManager.class);
 
     /**
      * Returns all the VM images in the system.
      *
      * @return the VM images
      */
-    public List<ImageUploaded> getVmImages() {
-        return cloudMiddleware.getVmImages();
+    public List<DiskImage> getVmImages() {
+        return Clurge.INSTANCE.getCloudMiddleware().getVmImages();
     }
 
     /**
@@ -49,9 +49,9 @@ public class ImageManager {
      * @param imageToUpload the image to be created/uploaded in the system
      * @return the ID of the image
      */
-    public String createVmImage(ImageToUpload imageToUpload) throws CloudMiddlewareException {
+    public String createVmImage(DiskImage imageToUpload) throws CloudMiddlewareException {
 		log.debug("CreateVMImage: " + imageToUpload.getName());
-		return cloudMiddleware.createVmImage(imageToUpload);
+		return Clurge.INSTANCE.getCloudMiddleware().createVmImage(imageToUpload);
     }
 
     /**
@@ -60,8 +60,8 @@ public class ImageManager {
      * @param imageId the ID of the image
      * @return the image
      */
-    public ImageUploaded getVmImage(String imageId) {
-        return cloudMiddleware.getVmImage(imageId);
+    public DiskImage getVmImage(String imageId) {
+        return Clurge.INSTANCE.getCloudMiddleware().getVmImage(imageId);
     }
 
     /**
@@ -71,7 +71,7 @@ public class ImageManager {
      */
     public void deleteVmImage(String id) {
 		log.debug("DeleteVMImage: " + id);
-        cloudMiddleware.deleteVmImage(id);
+		Clurge.INSTANCE.getCloudMiddleware().deleteVmImage(id);
     }
 
     /**
@@ -81,7 +81,7 @@ public class ImageManager {
      */
     public List<String> getVmImagesIds() {
         List<String> vmImagesIds = new ArrayList<>();
-        for (ImageUploaded imageDesc: cloudMiddleware.getVmImages()) {
+        for (DiskImage imageDesc: Clurge.INSTANCE.getCloudMiddleware().getVmImages()) {
             vmImagesIds.add(imageDesc.getId());
         }
         return vmImagesIds;

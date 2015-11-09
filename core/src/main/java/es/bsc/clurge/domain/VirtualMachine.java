@@ -22,19 +22,12 @@ public class VirtualMachine {
 
 	// The next three parameters are just valid within the Ascetic project.
 	// It would be better to put them in a subclass
-	private String ovfId = "";
-	private String slaId = "";
-	private boolean needingFloatingIp = false;
 
-	private String preferredHost;
+	private PreDeploymentOptions preDeploymentOptions;
 
 	private boolean deployed = false;
 	/* the next properties only should be set when the VM is deployed */
-	private String deploymentId;
-	private String ipAddress;
-	private String state;
-	private long creationTimeStamp;
-	private PhysicalHost host;
+	private DeploymentInfo deploymentInfo;
 	/* */
 
 

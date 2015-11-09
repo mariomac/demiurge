@@ -11,11 +11,6 @@ import java.util.List;
  * Created by mmacias on 5/11/15.
  */
 public interface VirtualMachineManager {
-
-	ImageManager getImageManager();
-	SchedulingManager getSchedulingManager();
-
-
 	/**
 	 * Returns a list of the VMs deployed.
 	 *

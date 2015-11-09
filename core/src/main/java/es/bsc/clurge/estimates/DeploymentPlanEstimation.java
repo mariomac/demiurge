@@ -1,6 +1,7 @@
 package es.bsc.clurge.estimates;
 
 import es.bsc.clurge.Clurge;
+import es.bsc.clurge.domain.VirtualMachine;
 import es.bsc.clurge.sched.DeploymentPlan;
 import es.bsc.clurge.models.vms.Vm;
 import es.bsc.clurge.models.vms.VmDeployed;
@@ -11,10 +12,10 @@ import java.util.List;
  * Created by mmacias on 4/11/15.
  */
 public class DeploymentPlanEstimation {
-	private List<VmDeployed> vmsDeployed;
+	private List<VirtualMachine> vmsDeployed;
 	private DeploymentPlan deploymentPlan;
 
-	public DeploymentPlanEstimation(List<VmDeployed> vmsDeployed, DeploymentPlan deploymentPlan) {
+	public DeploymentPlanEstimation(List<VirtualMachine> vmsDeployed, DeploymentPlan deploymentPlan) {
 		this.vmsDeployed = vmsDeployed;
 		this.deploymentPlan = deploymentPlan;
 	}

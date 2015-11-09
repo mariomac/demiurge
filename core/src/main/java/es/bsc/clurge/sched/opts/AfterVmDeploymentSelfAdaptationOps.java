@@ -18,9 +18,8 @@
 
 package es.bsc.clurge.sched.opts;
 
-import es.bsc.clurge.models.scheduling.ConstructionHeuristic;
-import es.bsc.clurge.models.scheduling.LocalSearchAlgorithmOptionsSet;
-import es.bsc.clurge.sched.ConstructionHeuristic;
+import es.bsc.clopla.domain.ConstructionHeuristic;
+import es.bsc.clurge.sched.LocalSearchAlgorithmOptionsSet;
 
 /**
  * @author David Ortiz Lopez (david.ortiz@bsc.es)

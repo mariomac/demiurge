@@ -282,4 +282,8 @@ public class PhysicalHost {
 	public PhysicalHostMonitoringInfo getMonitoringInfo() {
 		return monitoringInfo;
 	}
+
+	public void setMonitoringInfo(PhysicalHostMonitoringInfo monitoringInfo) {
+		this.monitoringInfo = monitoringInfo;
+	}
 }

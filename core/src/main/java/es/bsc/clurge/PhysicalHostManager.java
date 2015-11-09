@@ -10,26 +10,16 @@ import java.util.List;
 /**
  * Created by mmacias on 5/11/15.
  */
-public class PhysicalHostManager {
+public interface PhysicalHostManager {
 
-	MonitoringManager monitoringManager;
-	CloudMiddleware cloudMiddleware;
-
-	private final List<PhysicalHost> hosts = new ArrayList<>();
-
-	public void addHost(PhysicalHost h) {
-		hosts.add(h);
-	}
+	void addHost(PhysicalHost h);
 
 	/**
 	 * Returns the hosts of the infrastructure.
 	 *
 	 * @return the list of hosts
 	 */
-	public List<PhysicalHost> getHosts() {
-		refreshHostsMonitoringInfo();
-		return Collections.unmodifiableList(hosts);
-	}
+	List<PhysicalHost> getHosts();
 
 	/**
 	 * Returns a host by hostname.
@@ -37,37 +27,11 @@ public class PhysicalHostManager {
 	 * @param hostname the hostname
 	 * @return the host
 	 */
-	public PhysicalHost getHost(String hostname) {
-		for (PhysicalHost host: hosts) {
-			if (hostname.equals(host.getHostname())) {
-				host.getMonitoringInfo().refresh();
-				return host;
-			}
-		}
-		return null;
-	}
+	PhysicalHost getHost(String hostname);
 
 	/**
 	 * Simulates pressing the power button of a host
 	 * @param hostname the hostname
 	 */
-	public void pressHostPowerButton(String hostname) {
-		for (PhysicalHost host: hosts) {
-			if (hostname.equals(host.getHostname())) {
-				host.pressPowerButton();
-			}
-		}
-	}
-
-	/**
-	 * Refresh the data for all the hosts. This operation can be costly because it needs to query the
-	 * monitoring infrastructure (Ganglia, Zabbix, etc.)
-	 */
-	private void refreshHostsMonitoringInfo() {
-		for (PhysicalHost host: hosts) {
-			host.getMonitoringInfo().refresh();
-		}
-	}
-
-
+	void pressHostPowerButton(String hostname);
 }
