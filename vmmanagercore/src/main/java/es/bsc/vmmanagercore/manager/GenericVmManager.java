@@ -26,6 +26,8 @@ import es.bsc.vmmanagercore.cloudmiddleware.openstack.OpenStackJclouds;
 import es.bsc.vmmanagercore.configuration.VmManagerConfiguration;
 import es.bsc.vmmanagercore.db.VmManagerDb;
 import es.bsc.vmmanagercore.db.VmManagerDbFactory;
+import es.bsc.vmmanagercore.drivers.Monitoring;
+import es.bsc.vmmanagercore.estimator.EstimatorsManager;
 import es.bsc.vmmanagercore.manager.components.*;
 import es.bsc.vmmanagercore.modellers.energy.EnergyModeller;
 import es.bsc.vmmanagercore.modellers.energy.ascetic.AsceticEnergyModellerAdapter;
@@ -74,29 +76,31 @@ public class GenericVmManager implements VmManager {
     private CloudMiddleware cloudMiddleware;
     private SelfAdaptationManager selfAdaptationManager;
 
+    private EstimatorsManager estimatorsManager;
 
     private List<Host> hosts = new ArrayList<>();
 
-    public static EnergyModeller energyModeller;
-    public static PricingModeller pricingModeller;
-
     // Specific for the Ascetic project
-    private static final String[] ASCETIC_DEFAULT_SEC_GROUPS = {"vmm_allow_all", "default"};
 
     private static boolean periodicSelfAdaptationThreadRunning = false;
 
-    private static final VmManagerConfiguration conf = VmManagerConfiguration.getInstance();
+    private static final VmManagerConfiguration conf = VmManagerConfiguration.INSTANCE;
 	private Logger log = LogManager.getLogger(GenericVmManager.class);
 
     /**
      * Constructs a VmManager with the name of the database to be used.
      *
-     * @param dbName the name of the DB
      */
-    public GenericVmManager(String dbName) {
-        VmManagerDb db = VmManagerDbFactory.getDb(dbName);
-        selectMiddleware(conf.middleware);
+    public GenericVmManager() {
+        VmManagerConfiguration cfg = VmManagerConfiguration.INSTANCE;
+        VmManagerDb db = VmManagerDbFactory.getDb(cfg.dbName);
+
+        this.cloudMiddleware = cfg.getCloudMiddleware();
+
         initializeHosts(conf.monitoring, conf.hosts);
+
+        estimatorsManager = c.
+
         selectModellers(conf.project);
         selfAdaptationManager = new SelfAdaptationManager(this, dbName);
 
@@ -477,7 +481,7 @@ public class GenericVmManager implements VmManager {
      * @param monitoring the monitoring software (Ganglia, Zabbix, etc.)
      * @param hostnames the names of the hosts in the infrastructure
      */
-    private void initializeHosts(VmManagerConfiguration.Monitoring monitoring, String[] hostnames) {
+    private void initializeHosts(Monitoring monitoring, String[] hostnames) {
         switch (monitoring) {
             case OPENSTACK:
                 generateOpenStackHosts(hostnames);
@@ -525,44 +529,8 @@ public class GenericVmManager implements VmManager {
         }
     }
 
-    /**
-     * Instantiates the cloud middleware.
-     *
-     * @param middleware the cloud middleware to be used (OpenStack, CloudStack, etc.)
-     */
-    private void selectMiddleware(VmManagerConfiguration.Middleware middleware) {
-        switch (middleware) {
-            case OPENSTACK:
-                String[] securityGroups = {};
-                if (usingZabbix()) { // I should check whether the VMM is configured for the Ascetic project
-                    securityGroups = ASCETIC_DEFAULT_SEC_GROUPS;
-                }
-                cloudMiddleware = new OpenStackJclouds(getOpenStackCredentials(), securityGroups, conf.hosts);
-                break;
-            case FAKE:
-                cloudMiddleware = new FakeCloudMiddleware(new ArrayList<HostFake>());
-                break;
-            default:
-                throw new IllegalArgumentException("The cloud middleware selected is not supported");
-        }
-    }
-
-    private void selectModellers(String project) {
-        switch (project) {
-            case "ascetic":
-                energyModeller = new AsceticEnergyModellerAdapter();
-                pricingModeller = new AsceticPricingModellerAdapter(
-                        AsceticEnergyModellerAdapter.getEnergyModeller());
-                break;
-            default:
-                energyModeller = new DummyEnergyModeller();
-                pricingModeller = new DummyPricingModeller();
-                break;
-        }
-    }
-
     private boolean usingZabbix() {
-        return VmManagerConfiguration.getInstance().monitoring.equals(VmManagerConfiguration.Monitoring.ZABBIX);
+        return VmManagerConfiguration.INSTANCE.monitoring.equals(VmManagerConfiguration.Monitoring.ZABBIX);
     }
 
     private void startPeriodicSelfAdaptationThread() {

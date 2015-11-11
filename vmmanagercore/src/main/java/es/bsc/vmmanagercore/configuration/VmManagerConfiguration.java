@@ -18,41 +18,41 @@
 
 package es.bsc.vmmanagercore.configuration;
 
+import es.bsc.vmmanagercore.cloudmiddleware.CloudMiddleware;
+import es.bsc.vmmanagercore.drivers.Monitoring;
+import es.bsc.vmmanagercore.estimator.EstimatorsManager;
 import es.bsc.vmmanagercore.manager.DeploymentEngine;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.Arrays;
 
 /**
  * Singleton class that contains all the configuration parameters.
  *
- * @author David Ortiz Lopez (david.ortiz@bsc.es)
+ * @author David Ortiz Lopez (david.ortiz@bsc.es), Mario Macias (http://github.com/mariomac)
  *
  */
-public class VmManagerConfiguration {
+public enum VmManagerConfiguration {
+    INSTANCE;
 
 	// Configuration file
 	private static final String PROPNAME_CONF_FILE = "config";
 
     private static final String DEFAULT_CONF_FILE_LOCATION = "/etc/ascetic/vmm/vmmconfig.properties";
     private static final String DEFAULT_DB_NAME = "VmManagerDb";
+    private static final String DEFAULT_BEANS_LOCATION = "/Beans.xml";
 
+    // TODO: remove ATTRIBUTES and access only through apache configuration
     public String dbName;
 
     // OpenStack configuration
-    public String openStackIP;
-    public int keyStonePort;
-    public int glancePort;
     public boolean deployVmWithVolume;
-    // OpenStack login credentials
-    public String keyStoneUser;
-    public String keyStoneTenant;
-    public String keyStoneTenantId;
-    public String keyStonePassword;
 
     // Testing configuration
     public String testingImageId;
@@ -70,16 +70,10 @@ public class VmManagerConfiguration {
     // VM deployments
     public DeploymentEngine deploymentEngine;
 
-    // Software used
-    public enum Monitoring { OPENSTACK, GANGLIA, ZABBIX, FAKE }
-    public enum Middleware { OPENSTACK, FAKE }
-    public Monitoring monitoring;
-    public Middleware middleware;
+    private Monitoring monitoring;
+    private CloudMiddleware cloudMiddleware;
+    private EstimatorsManager estimatorsManager;
 
-    // Some things need to be adapted depending on the project for which the VMM has been deployed.
-    // Therefore, we need an attribute that indicates the current project
-    public String project;
-    
     // Turn on/off servers
     public int defaultServerTurnOnDelaySeconds;
     public int defaultServerTurnOffDelaySeconds;
@@ -89,13 +83,24 @@ public class VmManagerConfiguration {
     public String zabbixDbUser;
     public String zabbixDbPassword;
 
+    private Configuration configuration;
+
+    VmManagerConfiguration() {
+        configuration = getPropertiesObjectFromConfigFile();
+        initializeClassAttributes();
+        loadBeansConfig();
+    }
+
+    public Configuration getConfiguration() {
+        return configuration;
+    }
+
     /**
      * Returns a properties file that contains the configuration parameters for the VM Manager.
      *
      * @return the properties file
      */
     private Configuration getPropertiesObjectFromConfigFile() {
-		Configuration config;
 		Logger log = LogManager.getLogger(VmManagerConfiguration.class);
         try {
 			String customFileLocation = System.getProperty(PROPNAME_CONF_FILE,DEFAULT_CONF_FILE_LOCATION);
@@ -112,105 +117,57 @@ public class VmManagerConfiguration {
     /**
      * Initializes all the configuration parameters.
      *
-     * @param prop properties file that contains the configuration parameters
      */
-    private void initializeClassAttributes(Configuration prop) {
+    private void initializeClassAttributes() {
         Logger logger = LogManager.getLogger(VmManagerConfiguration.class);
-        dbName = prop.getString("dbName", DEFAULT_DB_NAME);
-        openStackIP = prop.getString("openStackIP");
-        keyStonePort = prop.getInt("keyStonePort");
-        glancePort = prop.getInt("glancePort");
-        keyStoneUser = prop.getString("keyStoneUser");
-        keyStoneTenant = prop.getString("keyStoneTenant");
-        keyStoneTenantId = prop.getString("keyStoneTenantId");
-        keyStonePassword = prop.getString("keyStonePassword");
+        dbName = configuration.getString("dbName", DEFAULT_DB_NAME);
 
-        testingImageId = prop.getString("testingImageId");
-        testingImageUrl = prop.getString("testingImageUrl");
-        testingImageName = prop.getString("testingImageName");
-        testingDeploymentBaseUrl = prop.getString("testingDeploymentBaseUrl");
-        deployBaseUrl = prop.getString("deployBaseUrl");
-        deployPackage = prop.getString("deployPackage");
-        hosts = prop.getStringArray("hosts");
+        testingImageId = configuration.getString("testingImageId");
+        testingImageUrl = configuration.getString("testingImageUrl");
+        testingImageName = configuration.getString("testingImageName");
+        testingDeploymentBaseUrl = configuration.getString("testingDeploymentBaseUrl");
+        deployBaseUrl = configuration.getString("deployBaseUrl");
+        deployPackage = configuration.getString("deployPackage");
+        hosts = configuration.getStringArray("hosts");
         try {
-            deploymentEngine = DeploymentEngine.fromName(prop.getString("deploymentEngine"));
+            deploymentEngine = DeploymentEngine.fromName(configuration.getString("deploymentEngine"));
         } catch(Exception e) {
             logger.error("Deployment Engine null or unknown. Assuming LEGACY: " + e.getMessage());
             deploymentEngine = DeploymentEngine.LEGACY;
         }
-        project = prop.getString("project");
-        defaultServerTurnOnDelaySeconds = prop.getInt("defaultServerTurnOnDelaySeconds");
-        defaultServerTurnOffDelaySeconds = prop.getInt("defaultServerTurnOffDelaySeconds");
-        zabbixDbIp = prop.getString("zabbixDbIp");
-        zabbixDbUser = prop.getString("zabbixDbUser");
-        zabbixDbPassword = prop.getString("zabbixDbPassword");
-        deployVmWithVolume = prop.getBoolean("deployVmWithVolume", false);
-
-        if (prop.getProperty("monitoring").equals("openstack")) {
-            monitoring = Monitoring.OPENSTACK;
-        }
-        else if (prop.getProperty("monitoring").equals("ganglia")) {
-            monitoring = Monitoring.GANGLIA;
-        }
-        else if (prop.getProperty("monitoring").equals("zabbix")) {
-            monitoring = Monitoring.ZABBIX;
-        }
-        else if (prop.getProperty("monitoring").equals("fake")) {
-            monitoring = Monitoring.FAKE;
-        }
-        else {
-            throw new IllegalArgumentException("The monitoring software selected is not supported.");
-        }
-
-        if (prop.getProperty("middleware").equals("openstack")) {
-            middleware = Middleware.OPENSTACK;
-        }
-        else if (prop.getProperty("middleware").equals("fake")) {
-            middleware = Middleware.FAKE;
-        }
-        else {
-            throw new IllegalArgumentException("The cloud middleware selected is not supported");
-        }
+        defaultServerTurnOnDelaySeconds = configuration.getInt("defaultServerTurnOnDelaySeconds");
+        defaultServerTurnOffDelaySeconds = configuration.getInt("defaultServerTurnOffDelaySeconds");
+        zabbixDbIp = configuration.getString("zabbixDbIp");
+        zabbixDbUser = configuration.getString("zabbixDbUser");
+        zabbixDbPassword = configuration.getString("zabbixDbPassword");
+        deployVmWithVolume = configuration.getBoolean("deployVmWithVolume", false);
 
 		logger.debug("Loading configuration: " + toString());
     }
 
-    /**
-     * Private constructor that prevents instantiation from other classes (singleton pattern)
-     */
-    private VmManagerConfiguration() {
-        initializeClassAttributes(getPropertiesObjectFromConfigFile());
+    public void loadBeansConfig() {
+        ApplicationContext springContext = new ClassPathXmlApplicationContext(DEFAULT_BEANS_LOCATION);
+        cloudMiddleware = springContext.getBean("cloudMiddleware",CloudMiddleware.class);
+        monitoring = springContext.getBean("monitoring",Monitoring.class);
+        estimatorsManager = springContext.getBean("estimatorsManager", EstimatorsManager.class);
     }
 
-    /**
-     * Singleton holder.
-     */
-    private static class SingletonHolder {
-        private static final VmManagerConfiguration CONF_INSTANCE = new VmManagerConfiguration();
+    public Monitoring getMonitoring() {
+        return monitoring;
     }
 
-    /**
-     * Returns an instance of the VmManagerConfiguration class. It contains all the configuration parameters
-     * that the VM Manager needs.
-     *
-     * @return the instance of VmManagerConfiguration
-     */
-    public static VmManagerConfiguration getInstance() {
-        return SingletonHolder.CONF_INSTANCE;
+    public CloudMiddleware getCloudMiddleware() {
+        return cloudMiddleware;
     }
 
+    public EstimatorsManager getEstimatorsManager() {
+        return estimatorsManager;
+    }
 
-	@Override
+    @Override
 	public String toString() {
 		return "VmManagerConfiguration{" +
                 "\n\tdbName='" + dbName + '\'' +
-				"\n\topenStackIP='" + openStackIP + '\'' +
-				"\n\tkeyStonePort=" + keyStonePort +
-				"\n\tglancePort=" + glancePort +
-				"\n\tkeyStoneUser='" + keyStoneUser + '\'' +
-				"\n\tkeyStoneTenant='" + keyStoneTenant + '\'' +
-				"\n\tkeyStoneTenantId='" + keyStoneTenantId + '\'' +
-				"\n\tkeyStonePassword='" + keyStonePassword + '\'' +
 				"\n\ttestingImageId='" + testingImageId + '\'' +
 				"\n\ttestingImageUrl='" + testingImageUrl + '\'' +
 				"\n\ttestingImageName='" + testingImageName + '\'' +
@@ -219,9 +176,6 @@ public class VmManagerConfiguration {
 				"\n\tdeployBaseUrl='" + deployBaseUrl + '\'' +
 				"\n\tdeployPackage='" + deployPackage + '\'' +
 				"\n\tdeploymentEngine='" + deploymentEngine + '\'' +
-				"\n\tmonitoring=" + monitoring +
-				"\n\tmiddleware=" + middleware +
-				"\n\tproject='" + project + '\'' +
 				"\n\tdefaultServerTurnOnDelaySeconds=" + defaultServerTurnOnDelaySeconds +
 				"\n\tdefaultServerTurnOffDelaySeconds=" + defaultServerTurnOffDelaySeconds +
 				"\n\tzabbixDbIp='" + zabbixDbIp + '\'' +

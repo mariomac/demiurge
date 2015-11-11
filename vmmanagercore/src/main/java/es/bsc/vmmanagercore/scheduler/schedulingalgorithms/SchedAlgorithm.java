@@ -46,5 +46,5 @@ public interface SchedAlgorithm {
      * Returns the enumerated name of the scheduling algorithm
      * @return
      */
-    SchedAlgorithmNameEnum getNameEnum();
+    String getName();
 }

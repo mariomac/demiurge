@@ -54,8 +54,8 @@ public abstract class Host {
      */
     public Host(String hostname) {
         this.hostname = hostname;
-        this.turnOnDelaySeconds = VmManagerConfiguration.getInstance().defaultServerTurnOnDelaySeconds;
-        this.turnOffDelaySeconds = VmManagerConfiguration.getInstance().defaultServerTurnOffDelaySeconds;
+        this.turnOnDelaySeconds = VmManagerConfiguration.INSTANCE.defaultServerTurnOnDelaySeconds;
+        this.turnOffDelaySeconds = VmManagerConfiguration.INSTANCE.defaultServerTurnOffDelaySeconds;
     }
     
     public Host(String hostname, int turnOnDelaySeconds, int turnOffDelaySeconds) {

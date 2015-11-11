@@ -52,7 +52,7 @@ public class SchedAlgRandom implements SchedAlgorithm {
     }
 
     @Override
-    public SchedAlgorithmNameEnum getNameEnum() {
+    public SchedAlgorithmNameEnum getName() {
         return SchedAlgorithmNameEnum.RANDOM;
     }
 

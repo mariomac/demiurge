@@ -11,7 +11,7 @@ org.apache.commons.configuration.ConfigurationException: Cannot locate configura
 	at es.bsc.vmmanagercore.configuration.VmManagerConfiguration.<init>(VmManagerConfiguration.java:182)
 	at es.bsc.vmmanagercore.configuration.VmManagerConfiguration.<init>(VmManagerConfiguration.java:36)
 	at es.bsc.vmmanagercore.configuration.VmManagerConfiguration$SingletonHolder.<clinit>(VmManagerConfiguration.java:189)
-	at es.bsc.vmmanagercore.configuration.VmManagerConfiguration.getInstance(VmManagerConfiguration.java:199)
+	at INSTANCE(VmManagerConfiguration.java:199)
 	at es.bsc.vmmanagercore.monitoring.hosts.Host.<init>(Host.java:57)
 	at es.bsc.vmmanagercore.monitoring.hosts.HostFake.<init>(HostFake.java:53)
 	at FakeCloudMiddlewareTest.setUpBeforeClass(FakeCloudMiddlewareTest.java:53)

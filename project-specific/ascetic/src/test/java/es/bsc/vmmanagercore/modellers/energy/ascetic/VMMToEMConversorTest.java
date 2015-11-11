@@ -18,7 +18,6 @@
 
 package es.bsc.vmmanagercore.modellers.energy.ascetic;
 
-import es.bsc.vmmanagercore.modellers.energy.ascetic.VMMToEMConversor;
 import es.bsc.vmmanagercore.models.vms.Vm;
 import eu.ascetic.asceticarchitecture.iaas.energymodeller.types.energyuser.VM;
 import org.junit.Test;

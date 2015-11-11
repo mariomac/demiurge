@@ -25,13 +25,28 @@ import java.util.List;
  *
  * @author David Ortiz Lopez (david.ortiz@bsc.es)
  */
-// Note: At least for now, this class is only useful to make easier the conversion from JSON using Gson.
+// Note: this class was only useful to make easier the conversion from JSON using Gson. TODO: remove
 public class ListVmEstimates {
 
     private List<VmEstimate> estimates;
 
     public ListVmEstimates(List<VmEstimate> estimates) {
         this.estimates = estimates;
+    }
+
+    public String toJSON() {
+        StringBuilder sb = new StringBuilder("[");
+        boolean first = true;
+        for(VmEstimate e : estimates) {
+            if(first) {
+                first = false;
+            } else {
+                sb.append(",");
+            }
+            sb.append(e.toJSON());
+        }
+        sb.append("]");
+        return sb.toString();
     }
 
 }

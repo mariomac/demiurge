@@ -20,10 +20,12 @@ package es.bsc.vmmanagercore.cloudmiddleware.openstack;
 
 import es.bsc.vmmanagercore.cloudmiddleware.CloudMiddleware;
 import es.bsc.vmmanagercore.cloudmiddleware.CloudMiddlewareException;
+import es.bsc.vmmanagercore.configuration.VmManagerConfiguration;
 import es.bsc.vmmanagercore.models.images.ImageToUpload;
 import es.bsc.vmmanagercore.models.images.ImageUploaded;
 import es.bsc.vmmanagercore.models.vms.Vm;
 import es.bsc.vmmanagercore.models.vms.VmDeployed;
+import org.apache.commons.configuration.Configuration;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.validator.UrlValidator;
 import org.apache.log4j.LogManager;
@@ -61,7 +63,7 @@ public class OpenStackJclouds implements CloudMiddleware {
 
     private final String zone; // This could be important/problematic in the future because I am assuming that
                                // the cluster only has one zone configured for deployments.
-    private final String[] securityGroups;
+    private String[] securityGroups;
 
     private final OpenStackJcloudsApis openStackJcloudsApis;
     private final OpenStackGlance glanceConnector; // Connector for OS Glance
@@ -72,20 +74,42 @@ public class OpenStackJclouds implements CloudMiddleware {
 
 	private Logger logger = LogManager.getLogger(OpenStackJclouds.class);
 
+    private static final String CONFIG_OPENSTACK_SUBSET_PREFIX = "openstack.";
+    static final String CONFIG_IP = "IP";
+    static final String CONFIG_KEYSTONE_PORT = "keyStonePort";
+    static final String CONFIG_GLANCE_PORT = "glancePort";
+    static final String CONFIG_KEYSTONE_USER = "keyStoneUser";
+    static final String CONFIG_KEYSTONE_TENANT = "keyStoneTenant";
+    static final String CONFIG_KEYSTONE_TENANT_ID = "keyStoneTenantId";
+    static final String CONFIG_KEYSTONE_PASSWORD = "keyStonePassword";
+    static final String CONFIG_HOSTS= "hosts";
+    static final String CONFIG_SECURITY_GROUPS = "securityGroups";
 
-    /**
-     * Class constructor. It performs the connection to the infrastructure and initializes
-     * JClouds attributes.
-     *
-     * @param openStackCredentials OpenStack credentials
-     * @param securityGroups the security groups to which the VM will be part of
-     */
-    public OpenStackJclouds(OpenStackCredentials openStackCredentials, String[] securityGroups, String[] hostNames) {
-        openStackJcloudsApis = new OpenStackJcloudsApis(openStackCredentials);
+    public OpenStackJclouds() {
+        Configuration c = VmManagerConfiguration.INSTANCE.getConfiguration().subset(CONFIG_OPENSTACK_SUBSET_PREFIX);
+
+        OpenStackCredentials credentials = new OpenStackCredentials(
+                c.getString(CONFIG_IP),
+                c.getInt(CONFIG_KEYSTONE_PORT),
+                c.getString(CONFIG_KEYSTONE_TENANT),
+                c.getString(CONFIG_KEYSTONE_USER),
+                c.getString(CONFIG_KEYSTONE_PASSWORD),
+                c.getInt(CONFIG_GLANCE_PORT),
+                c.getString(CONFIG_KEYSTONE_TENANT_ID)
+        );
+        openStackJcloudsApis = new OpenStackJcloudsApis(credentials);
+
         zone = openStackJcloudsApis.getNovaApi().getConfiguredZones().toArray()[0].toString();
+        this.securityGroups = c.getStringArray(CONFIG_SECURITY_GROUPS);
+        glanceConnector = new OpenStackGlance(credentials);
+        this.hostNames.addAll(Arrays.asList(c.getStringArray(CONFIG_HOSTS)));
+    }
+
+    public OpenStackJclouds(String[] hosts, String[] securityGroups) {
+        this();
+        this.hostNames.clear();
+        this.hostNames.addAll(Arrays.asList(hosts));
         this.securityGroups = securityGroups;
-        glanceConnector = new OpenStackGlance(openStackCredentials);
-		this.hostNames.addAll(Arrays.asList(hostNames));
     }
 
 	private void assertHostName(String hostname) throws CloudMiddlewareException {

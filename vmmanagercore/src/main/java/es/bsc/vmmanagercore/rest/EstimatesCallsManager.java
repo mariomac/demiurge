@@ -49,7 +49,7 @@ public class EstimatesCallsManager {
      */
     public String getEstimates(String vms) {
         ListVmsToBeEstimated listVmsToBeEstimated = gson.fromJson(vms, ListVmsToBeEstimated.class);
-        return gson.toJson(vmManager.getVmEstimates(listVmsToBeEstimated.getVms()));
+        return vmManager.getVmEstimates(listVmsToBeEstimated.getVms()).toJSON();
     }
 
 }

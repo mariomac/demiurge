@@ -36,7 +36,7 @@ import java.util.List;
  */
 public class SchedAlgConsolidation implements SchedAlgorithm {
     @Override
-    public SchedAlgorithmNameEnum getNameEnum() {
+    public SchedAlgorithmNameEnum getName() {
         return SchedAlgorithmNameEnum.CONSOLIDATION;
     }
 

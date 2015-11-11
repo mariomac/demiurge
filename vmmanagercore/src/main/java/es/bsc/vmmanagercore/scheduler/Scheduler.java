@@ -18,9 +18,8 @@
 
 package es.bsc.vmmanagercore.scheduler;
 
+import es.bsc.vmmanagercore.estimator.EstimatorsManager;
 import es.bsc.vmmanagercore.logging.VMMLogger;
-import es.bsc.vmmanagercore.modellers.energy.EnergyModeller;
-import es.bsc.vmmanagercore.modellers.price.PricingModeller;
 import es.bsc.vmmanagercore.models.hosts.ServerLoad;
 import es.bsc.vmmanagercore.models.scheduling.DeploymentPlan;
 import es.bsc.vmmanagercore.models.scheduling.SchedAlgorithmNameEnum;
@@ -45,8 +44,8 @@ public class Scheduler {
 
     private SchedAlgorithm schedAlgorithm;
     private List<VmDeployed> vmsDeployed;
-    private EnergyModeller energyModeller;
-    private PricingModeller pricingModeller;
+    private EstimatorsManager estimatorsManager;
+
     private static final DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd-HH:mm:ss.SSS"); // Useful for logs
 
     /**
@@ -55,11 +54,9 @@ public class Scheduler {
      * @param schedAlg scheduling algorithm used
      * @param vmsDeployed list of VMs deployed in the infrastructure
      */
-    public Scheduler(SchedAlgorithmNameEnum schedAlg, List<VmDeployed> vmsDeployed,
-                     EnergyModeller energyModeller, PricingModeller pricingModeller) {
+    public Scheduler(SchedAlgorithmNameEnum schedAlg, List<VmDeployed> vmsDeployed, EstimatorsManager estimatorsManager) {
         this.vmsDeployed = vmsDeployed;
-        this.energyModeller = energyModeller;
-        this.pricingModeller = pricingModeller;
+        this.estimatorsManager = estimatorsManager;
         setSchedAlgorithm(schedAlg);
     }
 
@@ -74,13 +71,13 @@ public class Scheduler {
                 schedAlgorithm = new SchedAlgConsolidation();
                 break;
             case COST_AWARE:
-                schedAlgorithm = new SchedAlgCostAware(vmsDeployed, pricingModeller, energyModeller);
+                schedAlgorithm = new SchedAlgCostAware(vmsDeployed, estimatorsManager);
                 break;
             case DISTRIBUTION:
                 schedAlgorithm = new SchedAlgDistribution();
                 break;
             case ENERGY_AWARE:
-                schedAlgorithm = new SchedAlgEnergyAware(vmsDeployed, energyModeller);
+                schedAlgorithm = new SchedAlgEnergyAware(vmsDeployed, estimatorsManager);
                 break;
             case GROUP_BY_APP:
                 schedAlgorithm = new SchedAlgGroupByApp(vmsDeployed);
@@ -304,7 +301,7 @@ public class Scheduler {
      */
     public DeploymentPlan chooseBestDeploymentPlan(List<Vm> vms, List<Host> hosts) {
         String deploymentId = getDeploymentIdForLogMessages();
-        VMMLogger.logStartOfDeploymentPlansEvaluation(schedAlgorithm.getNameEnum().getName(), deploymentId);
+        VMMLogger.logStartOfDeploymentPlansEvaluation(schedAlgorithm.getName().getName(), deploymentId);
 
         // Get all the possible plans that do not use overbooking
         List<DeploymentPlan> possibleDeploymentPlans =
@@ -332,7 +329,7 @@ public class Scheduler {
             VMMLogger.logOverbookingNeeded(deploymentId);
         }
 
-        VMMLogger.logEndOfDeploymentPlansEvaluation(schedAlgorithm.getNameEnum().getName(), deploymentId);
+        VMMLogger.logEndOfDeploymentPlansEvaluation(schedAlgorithm.getName().getName(), deploymentId);
 
         return bestDeploymentPlan;
     }

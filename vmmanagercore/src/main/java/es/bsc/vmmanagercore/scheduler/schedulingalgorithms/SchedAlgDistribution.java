@@ -116,7 +116,7 @@ public class SchedAlgDistribution implements SchedAlgorithm {
     }
 
     @Override
-    public SchedAlgorithmNameEnum getNameEnum() {
+    public SchedAlgorithmNameEnum getName() {
         return SchedAlgorithmNameEnum.DISTRIBUTION;
     }
 

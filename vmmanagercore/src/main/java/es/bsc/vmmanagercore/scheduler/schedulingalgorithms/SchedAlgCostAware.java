@@ -87,7 +87,7 @@ public class SchedAlgCostAware implements SchedAlgorithm {
     }
 
     @Override
-    public SchedAlgorithmNameEnum getNameEnum() {
+    public SchedAlgorithmNameEnum getName() {
         return SchedAlgorithmNameEnum.COST_AWARE;
     }
 

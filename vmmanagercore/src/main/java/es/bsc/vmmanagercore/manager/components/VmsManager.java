@@ -22,18 +22,14 @@ import es.bsc.vmmanagercore.cloudmiddleware.CloudMiddleware;
 import es.bsc.vmmanagercore.cloudmiddleware.CloudMiddlewareException;
 import es.bsc.vmmanagercore.configuration.VmManagerConfiguration;
 import es.bsc.vmmanagercore.db.VmManagerDb;
+import es.bsc.vmmanagercore.estimator.EstimatorsManager;
 import es.bsc.vmmanagercore.logging.VMMLogger;
 import es.bsc.vmmanagercore.manager.DeploymentEngine;
 import es.bsc.vmmanagercore.message_queue.MessageQueue;
-import es.bsc.vmmanagercore.modellers.energy.EnergyModeller;
-import es.bsc.vmmanagercore.modellers.energy.ascetic.AsceticEnergyModellerAdapter;
-import es.bsc.vmmanagercore.modellers.price.PricingModeller;
-import es.bsc.vmmanagercore.modellers.price.ascetic.AsceticPricingModellerAdapter;
 import es.bsc.vmmanagercore.models.scheduling.*;
 import es.bsc.vmmanagercore.models.vms.Vm;
 import es.bsc.vmmanagercore.models.vms.VmDeployed;
 import es.bsc.vmmanagercore.monitoring.hosts.Host;
-import es.bsc.vmmanagercore.monitoring.zabbix.ZabbixConnector;
 import es.bsc.vmmanagercore.scheduler.Scheduler;
 import es.bsc.vmmanagercore.selfadaptation.AfterVmDeleteSelfAdaptationRunnable;
 import es.bsc.vmmanagercore.selfadaptation.AfterVmsDeploymentSelfAdaptationRunnable;
@@ -58,21 +54,19 @@ public class VmsManager {
     private final VmManagerDb db;
     private final SelfAdaptationManager selfAdaptationManager;
     private final Scheduler scheduler;
-    private final PricingModeller pricingModeller;
-    private final EnergyModeller energyModeller;
+    private final EstimatorsManager estimatorsManager;
 
     private static final String ASCETIC_ZABBIX_SCRIPT_PATH = "/DFS/ascetic/vm-scripts/zabbix_agents.sh";
 
     public VmsManager(HostsManager hostsManager, CloudMiddleware cloudMiddleware, VmManagerDb db, 
                       SelfAdaptationManager selfAdaptationManager, 
-                      EnergyModeller energyModeller, PricingModeller pricingModeller) {
+                      EstimatorsManager estimatorsManager) {
         this.hostsManager = hostsManager;
         this.cloudMiddleware = cloudMiddleware;
         this.db = db;
         this.selfAdaptationManager = selfAdaptationManager;
-        this.pricingModeller = pricingModeller;
-        this.energyModeller = energyModeller;
-        scheduler = new Scheduler(db.getCurrentSchedulingAlg(), getAllVms(), energyModeller, pricingModeller);
+        this.estimatorsManager = estimatorsManager;
+        scheduler = new Scheduler(db.getCurrentSchedulingAlg(), getAllVms(), estimatorsManager);
     }
     
     /**
@@ -215,7 +209,7 @@ public class VmsManager {
         Map<Vm, String> ids = new HashMap<>();
 
         DeploymentPlan deploymentPlan = chooseBestDeploymentPlan(
-                vms, VmManagerConfiguration.getInstance().deploymentEngine);
+                vms, VmManagerConfiguration.INSTANCE.deploymentEngine);
 
         // Loop through the VM assignments to hosts defined in the best deployment plan
         for (VmAssignmentToHost vmAssignmentToHost: deploymentPlan.getVmsAssignationsToHosts()) {
@@ -230,7 +224,7 @@ public class VmsManager {
 
 
             String vmId;
-            if (VmManagerConfiguration.getInstance().deployVmWithVolume) {
+            if (VmManagerConfiguration.INSTANCE.deployVmWithVolume) {
                 vmId = deployVmWithVolume(vmToDeploy, hostForDeployment, originalVmInitScript);
             }
             else {
@@ -344,7 +338,7 @@ public class VmsManager {
     }
 
     private boolean isUsingZabbix() {
-        return VmManagerConfiguration.getInstance().monitoring.equals(VmManagerConfiguration.Monitoring.ZABBIX);
+        return VmManagerConfiguration.INSTANCE.monitoring.equals(VmManagerConfiguration.Monitoring.ZABBIX);
     }
 
     private String deployVm(Vm vm, Host host) throws CloudMiddlewareException {

@@ -18,8 +18,8 @@
 
 package es.bsc.vmmanagercore.models.scheduling;
 
-import es.bsc.vmmanagercore.modellers.energy.EnergyModeller;
-import es.bsc.vmmanagercore.modellers.price.PricingModeller;
+import es.bsc.vmmanagercore.drivers.Estimator;
+import es.bsc.vmmanagercore.estimator.EstimatorsManager;
 import es.bsc.vmmanagercore.models.estimates.VmEstimate;
 import es.bsc.vmmanagercore.models.vms.Vm;
 import es.bsc.vmmanagercore.models.vms.VmDeployed;
@@ -56,34 +56,34 @@ public class VmAssignmentToHost {
         return host;
     }
 
-    public VmEstimate getVmEstimate(List<VmDeployed> vmsDeployed, DeploymentPlan deploymentPlan,
-                                    EnergyModeller energyModeller, PricingModeller pricingModeller) {
-        return new VmEstimate(
-                vm.getName(),
-                getPowerEstimate(vmsDeployed, deploymentPlan, energyModeller),
-                getPriceEstimate(pricingModeller));
+    public VmEstimate getVmEstimate(List<VmDeployed> vmsDeployed, DeploymentPlan deploymentPlan, EstimatorsManager em) {
+        VmEstimate vme = new VmEstimate(vm.getName());
+        for(Estimator e : em) {
+            vme.addEstimate(e.getName(),e.getValue(this,vmsDeployed,deploymentPlan));
+        }
+        return vme;
     }
 
-    /**
-     * Returns the predicted avg power of the placement.
-     *
-     * @param vmsDeployed VMs deployed in the infrastructure
-     * @return the predicted avg power
-     */
-    private double getPowerEstimate(List<VmDeployed> vmsDeployed, DeploymentPlan deploymentPlan,
-                                    EnergyModeller energyModeller) {
-        return energyModeller.getPredictedAvgPowerVm(vm, host, vmsDeployed, deploymentPlan);
-    }
-
-    /**
-     * Returns the predicted price of the placement.
-     *
-     * @param pricingModeller the Pricing Modeller responsible for calculating the price
-     * @return the predicted price
-     */
-    private double getPriceEstimate(PricingModeller pricingModeller) {
-        return pricingModeller.getVMChargesPrediction(vm.getCpus(), vm.getRamMb(), vm.getDiskGb(), host.getHostname());
-    }
+//    /**
+//     * Returns the predicted avg power of the placement.
+//     *
+//     * @param vmsDeployed VMs deployed in the infrastructure
+//     * @return the predicted avg power
+//     */
+//    private double getPowerEstimate(List<VmDeployed> vmsDeployed, DeploymentPlan deploymentPlan,
+//                                    EnergyModeller energyModeller) {
+//        return energyModeller.
+//    }
+//
+//    /**
+//     * Returns the predicted price of the placement.
+//     *
+//     * @param pricingModeller the Pricing Modeller responsible for calculating the price
+//     * @return the predicted price
+//     */
+//    private double getPriceEstimate(PricingModeller pricingModeller) {
+//        return pricingModeller.getVMChargesPrediction(vm.getCpus(), vm.getRamMb(), vm.getDiskGb(), host.getHostname());
+//    }
 
     @Override
     public String toString() {

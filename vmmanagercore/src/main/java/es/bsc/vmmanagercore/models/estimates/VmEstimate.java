@@ -18,6 +18,9 @@
 
 package es.bsc.vmmanagercore.models.estimates;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * VM power and price estimates.
  *
@@ -26,13 +29,10 @@ package es.bsc.vmmanagercore.models.estimates;
 public class VmEstimate {
 
     private String id;
-    private final double powerEstimate;
-    private final double priceEstimate;
+    private Map<String,Double> estimates = new HashMap<>();
 
-    public VmEstimate(String id, double powerEstimate, double priceEstimate) {
+    public VmEstimate(String id) {
         this.id = id;
-        this.powerEstimate = powerEstimate;
-        this.priceEstimate = priceEstimate;
     }
 
     public String getId() {
@@ -43,12 +43,20 @@ public class VmEstimate {
         this.id = id;
     }
 
-    public double getPowerEstimate() {
-        return powerEstimate;
+    public void addEstimate(String name, double value) {
+        estimates.put(name, value);
+    }
+    public double getEstimate(String name) {
+        return estimates.get(name);
     }
 
-    public double getPriceEstimate() {
-        return priceEstimate;
+    public String toJSON() {
+        StringBuilder sb = new StringBuilder("{\"id\":\"").append(id).append("\"");
+        for(Map.Entry<String,Double> e : estimates.entrySet()) {
+            sb.append(",\"").append(e.getKey()).append("\":").append(e.getValue());
+        }
+        sb.append("}");
+        return sb.toString();
     }
 
 }

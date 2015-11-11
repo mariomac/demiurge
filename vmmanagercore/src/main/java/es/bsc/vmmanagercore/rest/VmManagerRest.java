@@ -48,7 +48,7 @@ at every request. This increases performance greatly.*/
 @Path("/vmmanager")
 public class VmManagerRest {
 
-    private VmManager vmManager = new GenericVmManager(VmManagerConfiguration.getInstance().dbName);
+    private VmManager vmManager = new GenericVmManager(VmManagerConfiguration.INSTANCE.dbName);
 
     private VmCallsManager vmCallsManager = new VmCallsManager(vmManager);
     private ImageCallsManager imageCallsManager = new ImageCallsManager(vmManager);
@@ -338,7 +338,7 @@ public class VmManagerRest {
     @Produces(MediaType.TEXT_PLAIN)
     public String getDbInfo() {
         StringBuilder sb = new StringBuilder("**********\nDB contents\n********\n");
-        VmManagerDb db = VmManagerDbFactory.getDb(VmManagerConfiguration.getInstance().dbName);
+        VmManagerDb db = VmManagerDbFactory.getDb(VmManagerConfiguration.INSTANCE.dbName);
         List<String> vmIds = db.getAllVmIds();
         if(vmIds != null && vmIds.size() > 0) {
             sb.append("== Virtual Machines ==\n");

@@ -19,6 +19,7 @@
 package es.bsc.vmmanagercore.rest;
 
 import com.google.gson.*;
+import com.jayway.restassured.RestAssured;
 import es.bsc.vmmanagercore.configuration.VmManagerConfiguration;
 import es.bsc.vmmanagercore.models.images.ImageToUpload;
 import es.bsc.vmmanagercore.models.images.ImageUploaded;
@@ -33,7 +34,6 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.jayway.restassured.RestAssured.*;
 import static org.junit.Assert.*;
 
 public class GenericVmManagerRestTest {
@@ -433,7 +433,7 @@ public class GenericVmManagerRestTest {
     //================================================================================
 
     private static void initializeAttributesFromConfigFile() {
-        VmManagerConfiguration conf = VmManagerConfiguration.getInstance();
+        VmManagerConfiguration conf = VmManagerConfiguration.INSTANCE;
         testImageUrl = conf.testingImageUrl;
         testImageId = conf.testingImageId;
         testImageName = conf.testingImageName;

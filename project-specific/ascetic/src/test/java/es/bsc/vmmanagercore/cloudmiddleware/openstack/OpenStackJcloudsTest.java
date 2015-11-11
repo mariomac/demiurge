@@ -18,8 +18,6 @@
 
 package es.bsc.vmmanagercore.cloudmiddleware.openstack;
 
-import es.bsc.vmmanagercore.cloudmiddleware.openstack.OpenStackCredentials;
-import es.bsc.vmmanagercore.cloudmiddleware.openstack.OpenStackJclouds;
 import es.bsc.vmmanagercore.configuration.VmManagerConfiguration;
 import es.bsc.vmmanagercore.db.VmManagerDb;
 import es.bsc.vmmanagercore.db.VmManagerDbFactory;
@@ -79,15 +77,13 @@ public class OpenStackJcloudsTest {
 	
 	@BeforeClass
 	public static void setUpBeforeClass() {
-        VmManagerConfiguration conf = VmManagerConfiguration.getInstance();
+        VmManagerConfiguration conf = VmManagerConfiguration.INSTANCE;
 		testingImageId = conf.testingImageId;
 		VmManagerDb db = VmManagerDbFactory.getDb("testDb");
 		db.deleteAllVms();
 
         // Initialize JClouds variables
 		openStackJclouds = new OpenStackJclouds(
-                new OpenStackCredentials(conf.openStackIP, conf.keyStonePort, conf.keyStoneTenant,
-                conf.keyStoneUser, conf.keyStonePassword, conf.glancePort, conf.keyStoneTenantId),
                 new String[]{ "host1", "host2" }, // I am ignoring the sec. groups and hosts
 				new String[]{ "" });
         serverApi = openStackJclouds.getNovaApi().getServerApiForZone(openStackJclouds.getZone());

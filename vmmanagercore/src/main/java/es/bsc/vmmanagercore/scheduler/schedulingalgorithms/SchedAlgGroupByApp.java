@@ -117,7 +117,7 @@ public class SchedAlgGroupByApp implements SchedAlgorithm {
     }
 
     @Override
-    public SchedAlgorithmNameEnum getNameEnum() {
+    public SchedAlgorithmNameEnum getName() {
         return SchedAlgorithmNameEnum.GROUP_BY_APP;
     }
 

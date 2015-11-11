@@ -80,7 +80,7 @@ public class SchedAlgEnergyAware implements SchedAlgorithm {
     }
 
     @Override
-    public SchedAlgorithmNameEnum getNameEnum() {
+    public SchedAlgorithmNameEnum getName() {
         return SchedAlgorithmNameEnum.ENERGY_AWARE;
     }
 
