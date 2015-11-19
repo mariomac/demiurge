@@ -22,7 +22,7 @@ package es.bsc.clopla.domain;
 /**
  * Enumeration of the local search heuristics supported by this library.
  *
- * @author David Ortiz (david.ortiz@bsc.es)
+ * @author Mario Macias (github.com/mariomac), David Ortiz (david.ortiz@bsc.es)
  */
 public enum LocalSearchHeuristic {
     

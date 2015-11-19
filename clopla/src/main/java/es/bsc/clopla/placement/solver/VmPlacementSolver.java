@@ -25,7 +25,7 @@ import org.optaplanner.core.api.solver.Solver;
 /**
  * This class creates an instance of an OptaPlanner Solver from an instance of VmPlacementConfig.
  *  
- * @author David Ortiz (david.ortiz@bsc.es)
+ * @author Mario Macias (github.com/mariomac), David Ortiz (david.ortiz@bsc.es)
  */
 public class VmPlacementSolver {
     

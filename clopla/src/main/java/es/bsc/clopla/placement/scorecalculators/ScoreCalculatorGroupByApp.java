@@ -37,7 +37,7 @@ import java.util.List;
  *                 and that belong to the same application. (maximize)
  *              3) Number of migrations needed from initial state (minimize)
  *
- * @author David Ortiz (david.ortiz@bsc.es)
+ * @author Mario Macias (github.com/mariomac), David Ortiz (david.ortiz@bsc.es)
  */
 public class ScoreCalculatorGroupByApp implements SimpleScoreCalculator<ClusterState> {
 

@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * Hill Climbing algorithm.
  *
- * @author David Ortiz (david.ortiz@bsc.es)
+ * @author Mario Macias (github.com/mariomac), David Ortiz (david.ortiz@bsc.es)
  */
 public class HillClimbing extends LocalSearch {
 

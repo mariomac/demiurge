@@ -5,17 +5,18 @@
        xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <bean id="monitoring" class="es.bsc.vmmanagercore.monitoring.zabbix.ZabbixConnector"/>
+    <bean id="monitoring" class="es.bsc.vmm.ascetic.monitoring.zabbix.ZabbixConnector"/>
     <bean id="cloudMiddleware" class="es.bsc.vmmanagercore.cloudmiddleware.openstack.OpenStackJclouds"/>
 
     <bean id="vmm" class="es.bsc.vmmanagercore.manager.GenericVmManager"/>
 
-    <bean id="energyModeller" class="es.bsc.vmmanagercore.modellers.energy.ascetic.AsceticEnergyModellerAdapter"/>
-    <bean id="pricingModeller" class="es.bsc.vmmanagercore.modellers.price.ascetic.AsceticPricingModellerAdapter">
+    <bean id="energyModeller" class="es.bsc.vmm.ascetic.modellers.energy.ascetic.AsceticEnergyModellerAdapter"/>
+    <bean id="pricingModeller" class="es.bsc.vmm.ascetic.modellers.price.ascetic.AsceticPricingModellerAdapter">
         <constructor-arg ref="energyModeller"/>
     </bean>
 
-    <bean id="estimatorsManager" class="es.bsc.vmmanagercore.estimator.EstimatorsManager">
+    <bean id="estimatorsManager" class="es.bsc.vmm.core.manager.components.EstimatesManager">
+		<constructor-arg ref="vmm"/>
         <constructor-arg>
             <util:set value-type="es.bsc.vmmanagercore.drivers.Estimator">
                 <ref bean="energyModeller"/>
@@ -23,4 +24,25 @@
             </util:set>
         </constructor-arg>
     </bean>
+
+	<!-- deprecated: to substitute by clopla -->
+	<bean id="schedulingAlgorithmsRepository" class="es.bsc.vmm.core.scheduler.SchedulingAlgorithmsRepository">
+		<constructor-arg>
+			<util:set value-type="java.lang.Class">
+				<bean class="es.bsc.vmm.core.scheduler.schedulingalgorithms.SchedAlgConsolidation"/>
+				<bean class="es.bsc.vmm.core.scheduler.schedulingalgorithms.SchedAlgDistribution"/>
+				<bean class="es.bsc.vmm.core.scheduler.schedulingalgorithms.SchedAlgGroupByApp"/>
+				<bean class="es.bsc.vmm.core.scheduler.schedulingalgorithms.SchedAlgRandom"/>
+				<bean class="es.bsc.vmm.ascetic.scheduler.schedulingalgorithms.SchedAlgCostAware"/>
+				<bean class="es.bsc.vmm.ascetic.scheduler.schedulingalgorithms.SchedAlgEnergyAware"/>
+			</util:set>
+		</constructor-arg>
+	</bean>
+
+	<!-- poner lista de vmmlisteners. Recordar que energymodeller debe ir antes de pricingmodeller
+		energy modeller
+		pricing modeller
+		ascetic listener
+		mq listener
+	-->
 </beans>

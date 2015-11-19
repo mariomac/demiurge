@@ -35,7 +35,7 @@ import java.util.Random;
  *              2) random value. (maximize)
  *              3) Number of migrations needed from initial state (minimize)
  *
- * @author David Ortiz (david.ortiz@bsc.es)
+ * @author Mario Macias (github.com/mariomac), David Ortiz (david.ortiz@bsc.es)
  */
 public class ScoreCalculatorRandom implements SimpleScoreCalculator<ClusterState> {
 

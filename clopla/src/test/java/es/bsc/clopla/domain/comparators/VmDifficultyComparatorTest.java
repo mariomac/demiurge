@@ -25,7 +25,7 @@ import org.junit.Test;
 import static junit.framework.TestCase.assertTrue;
 
 /**
- * @author David Ortiz (david.ortiz@bsc.es)
+ * @author Mario Macias (github.com/mariomac), David Ortiz (david.ortiz@bsc.es)
  */
 public class VmDifficultyComparatorTest {
 

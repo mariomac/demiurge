@@ -35,7 +35,7 @@ import java.util.Random;
 /**
  * This class shows an example of how to use the library.
  *
- * @author David Ortiz (david.ortiz@bsc.es)
+ * @author Mario Macias (github.com/mariomac), David Ortiz (david.ortiz@bsc.es)
  */
 public class ExampleClient {
 

@@ -34,7 +34,7 @@ import org.optaplanner.core.impl.score.director.simple.SimpleScoreCalculator;
  *              2) std dev of the avg cpus_assigned/cpus_total in the hosts of the cluster. (minimize)
  *              3) Number of migrations needed from initial state (minimize)
  *
- * @author David Ortiz (david.ortiz@bsc.es)
+ * @author Mario Macias (github.com/mariomac), David Ortiz (david.ortiz@bsc.es)
  */
 public class ScoreCalculatorDistribution implements SimpleScoreCalculator<ClusterState> {
 

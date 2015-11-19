@@ -28,7 +28,7 @@ import java.util.*;
 /**
  * This class exposes the functionality of the library.
  *
- * @author David Ortiz (david.ortiz@bsc.es)
+ * @author Mario Macias (github.com/mariomac), David Ortiz (david.ortiz@bsc.es)
  */
 public class Clopla implements IClopla {
 

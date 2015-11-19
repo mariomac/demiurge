@@ -36,7 +36,7 @@ import java.util.Map;
 /**
  * This class creates an instance of an OptaPlanner SolverFactory from an instance of VmPlacementConfig.
  *
- * @author David Ortiz (david.ortiz@bsc.es)
+ * @author Mario Macias (github.com/mariomac), David Ortiz (david.ortiz@bsc.es)
  */
 public class VmPlacementSolverFactory {
 

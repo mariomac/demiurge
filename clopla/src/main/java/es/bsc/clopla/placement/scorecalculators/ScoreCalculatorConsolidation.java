@@ -37,7 +37,7 @@ import org.optaplanner.core.impl.score.director.simple.SimpleScoreCalculator;
  *              3) Total unused CPU %. (minimize)
  *              4) Number of migrations needed from initial state (minimize)              
  *  
- * @author David Ortiz (david.ortiz@bsc.es)
+ * @author Mario Macias (github.com/mariomac), David Ortiz (david.ortiz@bsc.es)
  */
 public class ScoreCalculatorConsolidation implements SimpleScoreCalculator<ClusterState> {
 

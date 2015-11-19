@@ -28,7 +28,7 @@ import es.bsc.clopla.placement.config.localsearch.LocalSearch;
 /**
  * This class defines the configuration for the solver of the VM Placement problem.
  *
- * @author David Ortiz (david.ortiz@bsc.es)
+ * @author Mario Macias (github.com/mariomac), David Ortiz (david.ortiz@bsc.es)
  */
 public class VmPlacementConfig {
 

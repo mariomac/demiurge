@@ -30,7 +30,7 @@ import java.util.Comparator;
  * Comparing the "strength" of two hosts is needed to apply some construction heuristic algorithms like the best fit
  * (aka weakest fit).
  *
- * @author David Ortiz (david.ortiz@bsc.es)
+ * @author Mario Macias (github.com/mariomac), David Ortiz (david.ortiz@bsc.es)
  */
 public class HostStrengthComparator implements Comparator<Host>, Serializable {
 

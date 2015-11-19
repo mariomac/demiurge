@@ -25,7 +25,7 @@ import es.bsc.clopla.domain.Host;
 /**
  * This class includes score functions that are used in several score calculators.
  *
- * @author David Ortiz (david.ortiz@bsc.es)
+ * @author Mario Macias (github.com/mariomac), David Ortiz (david.ortiz@bsc.es)
  */
 public abstract class ScoreCalculatorCommon {
 

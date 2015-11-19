@@ -37,7 +37,7 @@ import java.util.*;
  * The state contains the hosts of the cluster and the VMs that are deployed or need to be deployed. 
  * The state also specifies, for each VM, the host where it should be deployed.
  *  
- * @author David Ortiz (david.ortiz@bsc.es)
+ * @author Mario Macias (github.com/mariomac), David Ortiz (david.ortiz@bsc.es)
  */
 @PlanningSolution
 public class ClusterState extends AbstractPersistable implements Solution<Score> {

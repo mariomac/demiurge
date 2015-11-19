@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * This class describes a host where VMs can be deployed.
  *
- * @author David Ortiz (david.ortiz@bsc.es)
+ * @author Mario Macias (github.com/mariomac), David Ortiz (david.ortiz@bsc.es)
  */
 public class Host extends AbstractPersistable {
 

@@ -28,7 +28,7 @@ import java.util.Comparator;
  * This class implements the "difficulty" comparison of two VMs. VMs that demand more resources are considered to be
  * more "difficult" because it is more difficult to find a host with enough resources to deploy them.
  *
- * @author David Ortiz (david.ortiz@bsc.es)
+ * @author Mario Macias (github.com/mariomac), David Ortiz (david.ortiz@bsc.es)
  */
 public class VmDifficultyComparator implements Comparator<Vm>, Serializable {
 

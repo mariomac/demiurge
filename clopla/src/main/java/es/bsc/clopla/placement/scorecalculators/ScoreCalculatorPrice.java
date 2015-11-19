@@ -33,7 +33,7 @@ import org.optaplanner.core.impl.score.director.simple.SimpleScoreCalculator;
  * Medium score: price of running the VMs in the hosts indicated. (minimize)
  * Soft score: number of migrations needed from initial state (minimize) 
  *
- * @author David Ortiz (david.ortiz@bsc.es)
+ * @author Mario Macias (github.com/mariomac), David Ortiz (david.ortiz@bsc.es)
  */
 public class ScoreCalculatorPrice implements SimpleScoreCalculator<ClusterState> {
 

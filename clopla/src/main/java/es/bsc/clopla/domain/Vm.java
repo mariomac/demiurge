@@ -27,7 +27,7 @@ import org.optaplanner.core.api.domain.variable.PlanningVariable;
 /**
  * This class represents a virtual machine.
  *
- * @author David Ortiz (david.ortiz@bsc.es)
+ * @author Mario Macias (github.com/mariomac), David Ortiz (david.ortiz@bsc.es)
  */
 @PlanningEntity(difficultyComparatorClass = VmDifficultyComparator.class)
 public class Vm extends AbstractPersistable {

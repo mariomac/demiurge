@@ -25,7 +25,7 @@ import org.optaplanner.core.config.localsearch.decider.forager.ForagerConfig;
 /**
  * Local search algorithm.
  *
- * @author David Ortiz (david.ortiz@bsc.es)
+ * @author Mario Macias (github.com/mariomac), David Ortiz (david.ortiz@bsc.es)
  */
 public abstract class LocalSearch {
 

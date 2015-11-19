@@ -34,7 +34,7 @@ import java.util.List;
  * a list of hosts, and a configuration attribute that specifies how the problem should be solved (construction
  * heuristic algorithm, local search algorithm, time limit to solve the problem, etc.).
  *
- * @author David Ortiz (david.ortiz@bsc.es)
+ * @author Mario Macias (github.com/mariomac), David Ortiz (david.ortiz@bsc.es)
  */
 public class VmPlacementProblem {
 

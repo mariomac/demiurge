@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * Interface for the Energy Modeller to be used in the energy-aware and the pricing policies.
  *  
- * @author David Ortiz (david.ortiz@bsc.es)
+ * @author Mario Macias (github.com/mariomac), David Ortiz (david.ortiz@bsc.es)
  */
 public interface EnergyModeller {
 
