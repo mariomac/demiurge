@@ -15,15 +15,10 @@
         <constructor-arg ref="energyModeller"/>
     </bean>
 
-    <bean id="estimatorsManager" class="es.bsc.vmm.core.manager.components.EstimatesManager">
-		<constructor-arg ref="vmm"/>
-        <constructor-arg>
-            <util:set value-type="es.bsc.vmmanagercore.drivers.Estimator">
-                <ref bean="energyModeller"/>
-                <ref bean="pricingModeller"/>
-            </util:set>
-        </constructor-arg>
-    </bean>
+	<util:set id="estimators" value-type="es.bsc.vmmanagercore.drivers.Estimator">
+		<ref bean="energyModeller"/>
+		<ref bean="pricingModeller"/>
+	</util:set>
 
 	<!-- deprecated: to substitute by clopla -->
 	<bean id="schedulingAlgorithmsRepository" class="es.bsc.vmm.core.scheduler.SchedulingAlgorithmsRepository">
@@ -33,16 +28,20 @@
 				<bean class="es.bsc.vmm.core.scheduler.schedulingalgorithms.SchedAlgDistribution"/>
 				<bean class="es.bsc.vmm.core.scheduler.schedulingalgorithms.SchedAlgGroupByApp"/>
 				<bean class="es.bsc.vmm.core.scheduler.schedulingalgorithms.SchedAlgRandom"/>
-				<bean class="es.bsc.vmm.ascetic.scheduler.schedulingalgorithms.SchedAlgCostAware"/>
-				<bean class="es.bsc.vmm.ascetic.scheduler.schedulingalgorithms.SchedAlgEnergyAware"/>
+				<bean class="es.bsc.vmm.ascetic.scheduler.legacy.SchedAlgCostAware"/>
+				<bean class="es.bsc.vmm.ascetic.scheduler.legacy.SchedAlgEnergyAware"/>
 			</util:set>
 		</constructor-arg>
 	</bean>
 
-	<!-- poner lista de vmmlisteners. Recordar que energymodeller debe ir antes de pricingmodeller
-		energy modeller
-		pricing modeller
-		ascetic listener
-		mq listener
-	-->
+	<!-- poner lista de clopla modellers -->
+
+	<util:list id="vmmListeners" value-type="es.bsc.vmm.core.drivers.VmmListener">
+		<!-- poner lista de vmmlisteners. Recordar que energymodeller debe ir antes de pricingmodeller
+			energy modeller
+			pricing modeller
+			ascetic listener
+			mq listener
+		-->
+	</util:list>
 </beans>

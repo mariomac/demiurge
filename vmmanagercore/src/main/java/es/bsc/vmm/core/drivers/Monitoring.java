@@ -1,7 +1,12 @@
 package es.bsc.vmm.core.drivers;
 
+import es.bsc.vmm.core.monitoring.hosts.Host;
+
 /**
  * @author Mario Macías http://github.com/mariomac
  */
-public interface Monitoring {
+public interface Monitoring<T extends Host> {
+	T createHost(String hostName, int turnOnDelaySeconds, int turnOffDelaySeconds);
+	T createHost(String hostName);
+
 }

@@ -12,6 +12,11 @@
     <artifactId>vmm-renewit</artifactId>
 
     <dependencies>
+		<dependency>
+			<groupId>es.bsc</groupId>
+			<artifactId>vmmanagercore</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
         <dependency>
             <groupId>es.bsc</groupId>
             <artifactId>GangliaMonitoring</artifactId>
@@ -20,5 +25,19 @@
     </dependencies>
 
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<inherited>true</inherited>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>

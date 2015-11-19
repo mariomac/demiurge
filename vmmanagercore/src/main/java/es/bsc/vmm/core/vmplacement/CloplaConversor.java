@@ -23,6 +23,7 @@ import es.bsc.clopla.domain.ConstructionHeuristic;
 import es.bsc.clopla.placement.config.Policy;
 import es.bsc.clopla.placement.config.VmPlacementConfig;
 import es.bsc.clopla.placement.config.localsearch.*;
+import es.bsc.vmm.core.manager.components.EstimatesManager;
 import es.bsc.vmm.core.models.vms.Vm;
 import es.bsc.vmmanagercore.modellers.energy.EnergyModeller;
 import es.bsc.vmmanagercore.modellers.price.PricingModeller;
@@ -97,9 +98,9 @@ public class CloplaConversor {
      * @param recommendedPlanRequest the recommended plan request
      * @return the placement configuration for the VM placement library
      */
-    public static VmPlacementConfig getCloplaConfig(SchedAlgorithmNameEnum schedAlgorithmNameEnum,
-                                                    RecommendedPlanRequest recommendedPlanRequest,
-                                                    EnergyModeller energyModeller, PricingModeller pricingModeller) {
+    public static VmPlacementConfig getCloplaConfig(String schedAlgorithmName,
+													RecommendedPlanRequest recommendedPlanRequest,
+													EstimatesManager estimatesManager) {
         int timeLimitSec = recommendedPlanRequest.getTimeLimitSeconds();
         if (getLocalSearch(recommendedPlanRequest) == null) {
             timeLimitSec = 1; // It does not matter because the local search alg will not be run, but the
@@ -112,8 +113,8 @@ public class CloplaConversor {
                 getConstructionHeuristic(recommendedPlanRequest.getConstructionHeuristicName()),
                 getLocalSearch(recommendedPlanRequest),
                 false)
-                .energyModeller(new CloplaEnergyModeller(energyModeller))
-                .priceModeller(new CloplaPriceModeller(pricingModeller, energyModeller))
+                .energyModeller(new CloplaAsceticEnergyModeller(energyModeller))
+                .priceModeller(new CloplaAsceticPriceModeller(pricingModeller, energyModeller))
                 .build();
     }
 

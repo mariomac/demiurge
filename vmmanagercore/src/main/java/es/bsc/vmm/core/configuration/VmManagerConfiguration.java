@@ -19,9 +19,11 @@
 package es.bsc.vmm.core.configuration;
 
 import es.bsc.vmm.core.cloudmiddleware.CloudMiddleware;
+import es.bsc.vmm.core.drivers.Estimator;
+import es.bsc.vmm.core.drivers.VmmListener;
 import es.bsc.vmm.core.manager.DeploymentEngine;
 import es.bsc.vmm.core.drivers.Monitoring;
-import es.bsc.vmmanagercore.estimator.EstimatorsManager;
+import es.bsc.vmm.core.scheduler.SchedulingAlgorithmsRepository;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -31,6 +33,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Singleton class that contains all the configuration parameters.
@@ -72,7 +76,7 @@ public enum VmManagerConfiguration {
 
     private Monitoring monitoring;
     private CloudMiddleware cloudMiddleware;
-    private EstimatorsManager estimatorsManager;
+    private Set<Estimator> estimators;
 
     // Turn on/off servers
     public int defaultServerTurnOnDelaySeconds;
@@ -83,9 +87,11 @@ public enum VmManagerConfiguration {
     public String zabbixDbUser;
     public String zabbixDbPassword;
 
+	private SchedulingAlgorithmsRepository schedulingAlgorithmsRepository;
     private Configuration configuration;
+	private List<VmmListener> vmmListeners;
 
-    VmManagerConfiguration() {
+	VmManagerConfiguration() {
         configuration = getPropertiesObjectFromConfigFile();
         initializeClassAttributes();
         loadBeansConfig();
@@ -149,10 +155,17 @@ public enum VmManagerConfiguration {
         ApplicationContext springContext = new ClassPathXmlApplicationContext(DEFAULT_BEANS_LOCATION);
         cloudMiddleware = springContext.getBean("cloudMiddleware",CloudMiddleware.class);
         monitoring = springContext.getBean("monitoring",Monitoring.class);
-        estimatorsManager = springContext.getBean("estimatorsManager", EstimatorsManager.class);
+        estimators = springContext.getBean("estimatorsManager", Set.class);
+
+		schedulingAlgorithmsRepository = springContext.getBean("schedulingAlgorithmsRepository",SchedulingAlgorithmsRepository.class);
+		vmmListeners = springContext.getBean("vmmListeners", List.class);
     }
 
-    public Monitoring getMonitoring() {
+	public SchedulingAlgorithmsRepository getSchedulingAlgorithmsRepository() {
+		return schedulingAlgorithmsRepository;
+	}
+
+	public Monitoring getMonitoring() {
         return monitoring;
     }
 
@@ -160,11 +173,15 @@ public enum VmManagerConfiguration {
         return cloudMiddleware;
     }
 
-    public EstimatorsManager getEstimatorsManager() {
-        return estimatorsManager;
-    }
+	public Set<Estimator> getEstimators() {
+		return estimators;
+	}
 
-    @Override
+	public List<VmmListener> getVmmListeners() {
+		return vmmListeners;
+	}
+
+	@Override
 	public String toString() {
 		return "VmManagerConfiguration{" +
                 "\n\tdbName='" + dbName + '\'' +

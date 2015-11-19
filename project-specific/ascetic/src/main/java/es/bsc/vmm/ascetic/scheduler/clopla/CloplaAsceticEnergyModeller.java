@@ -16,38 +16,32 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package es.bsc.vmm.core.vmplacement;
+package es.bsc.vmm.ascetic.scheduler.clopla;
 
 import es.bsc.clopla.domain.Host;
 import es.bsc.clopla.domain.Vm;
-import es.bsc.clopla.modellers.PriceModeller;
-import es.bsc.vmmanagercore.modellers.energy.EnergyModeller;
-import es.bsc.vmmanagercore.modellers.price.PricingModeller;
+import es.bsc.clopla.modellers.EnergyModeller;
 
 import java.util.List;
 
 /**
- * This class is a pricing modeller that can be used by the Vm Placement library.
+ * This class is an energy modeller that can be used by the Vm Placement library.
  *
  * @author Mario Macias (github.com/mariomac), David Ortiz Lopez (david.ortiz@bsc.es)
  */
-public class CloplaPriceModeller implements PriceModeller {
+public class CloplaAsceticEnergyModeller implements EnergyModeller {
 
-    private final PricingModeller pricingModeller;
-    private final EnergyModeller energyModeller;
+    private final es.bsc.vmmanagercore.modellers.energy.EnergyModeller energyModeller;
 
-    public CloplaPriceModeller(PricingModeller pricingModeller, EnergyModeller energyModeller) {
-        this.pricingModeller = pricingModeller;
+    public CloplaAsceticEnergyModeller(es.bsc.vmmanagercore.modellers.energy.EnergyModeller energyModeller) {
         this.energyModeller = energyModeller;
     }
 
     @Override
-    public double getCost(Host host, List<Vm> vmsDeployedInHost) {
-        double result = 0.0;
-        for (Vm vm: vmsDeployedInHost) {
-            result += pricingModeller.getVMChargesPrediction(vm.getNcpus(), vm.getRamMb(), vm.getDiskGb(), host.getHostname());
-        }
-        return result;
+    public double getPowerConsumption(Host host, List<Vm> vms) {
+        return energyModeller.getHostPredictedAvgPower(
+                host.getHostname(),
+                CloplaConversor.cloplaVmsToVmmType(vms));
     }
 
 }

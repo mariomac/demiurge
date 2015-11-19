@@ -20,7 +20,6 @@ package es.bsc.vmm.core.selfadaptation;
 
 import es.bsc.vmm.core.cloudmiddleware.CloudMiddlewareException;
 import es.bsc.vmm.core.manager.VmManager;
-import es.bsc.vmm.ascetic.models.scheduling.*;
 import es.bsc.vmm.core.models.vms.Vm;
 import es.bsc.vmm.core.selfadaptation.options.AfterVmDeleteSelfAdaptationOps;
 import es.bsc.vmm.core.models.scheduling.*;

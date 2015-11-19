@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import es.bsc.vmm.core.cloudmiddleware.CloudMiddleware;
 import es.bsc.vmm.core.cloudmiddleware.fake.FakeCloudMiddleware;
 import es.bsc.vmm.core.cloudmiddleware.openstack.OpenStackJclouds;
+import es.bsc.vmm.core.drivers.Monitoring;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -58,7 +59,9 @@ public class HostFactory {
      * @param cloudMiddleware the cloud middleware connector
      * @return the host
      */
-    public static Host getHost(String hostname, HostType type, CloudMiddleware cloudMiddleware) {
+    public static Host getHost(String hostname, HostType type,
+							   CloudMiddleware cloudMiddleware,
+							   Monitoring monitoringManager) {
 
         // If host type is fake and fake hosts have not been generated, generate them
         if (type == HostType.FAKE && !fakeHostsGenerated) {
@@ -80,21 +83,7 @@ public class HostFactory {
         // If the host does not already exist, create and return it.
         // If the type is Fake, this switch will not be called, because all the fake hosts are created beforehand.
         // This is because we do not want to have to read the description file more than once.
-        Host newHost = null;
-        switch(type) {
-            case GANGLIA:
-                newHost = new HostGanglia(hostname);
-                break;
-            case ZABBIX:
-                newHost = new HostZabbix(hostname);
-                break;
-            case OPENSTACK:
-                assert(cloudMiddleware instanceof OpenStackJclouds);
-                newHost = new HostOpenStack(hostname, (OpenStackJclouds) cloudMiddleware);
-                break;
-            default:
-                break;
-        }
+        Host newHost = monitoringManager.createHost(hostname);
         hosts.put(hostname, newHost);
         return newHost;
     }

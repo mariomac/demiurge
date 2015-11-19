@@ -22,7 +22,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import es.bsc.vmm.core.manager.VmManager;
-import es.bsc.vmm.core.models.scheduling.SchedAlgorithmNameEnum;
 
 import javax.ws.rs.WebApplicationException;
 
@@ -52,9 +51,9 @@ public class SchedulingAlgorithmCallsManager {
      */
     public String getSchedulingAlgorithms() {
         JsonArray schedAlgsArrayJson = new JsonArray();
-        for (SchedAlgorithmNameEnum schedAlg: vmManager.getAvailableSchedulingAlgorithms()) {
+        for (String schedAlg: vmManager.getAvailableSchedulingAlgorithms()) {
             JsonObject schedAlgJson = new JsonObject();
-            schedAlgJson.addProperty("name", schedAlg.getName());
+            schedAlgJson.addProperty("name", schedAlg);
             schedAlgsArrayJson.add(schedAlgJson);
         }
         JsonObject result = new JsonObject();
@@ -69,7 +68,7 @@ public class SchedulingAlgorithmCallsManager {
      */
     public String getCurrentSchedulingAlgorithm() {
         JsonObject result = new JsonObject();
-        result.addProperty("name", vmManager.getCurrentSchedulingAlgorithm().getName());
+        result.addProperty("name", vmManager.getCurrentSchedulingAlgorithm());
         return result.toString();
     }
 
@@ -86,29 +85,7 @@ public class SchedulingAlgorithmCallsManager {
         }
         String algorithm = jsonObject.get("algorithm").getAsString();
 
-        SchedAlgorithmNameEnum schedulingAlg;
-        if (algorithm.equals(SchedAlgorithmNameEnum.CONSOLIDATION.getName())) {
-            schedulingAlg = SchedAlgorithmNameEnum.CONSOLIDATION;
-        }
-        else if (algorithm.equals(SchedAlgorithmNameEnum.COST_AWARE.getName())) {
-            schedulingAlg = SchedAlgorithmNameEnum.COST_AWARE;
-        }
-        else if (algorithm.equals(SchedAlgorithmNameEnum.DISTRIBUTION.getName())) {
-            schedulingAlg = SchedAlgorithmNameEnum.DISTRIBUTION;
-        }
-        else if (algorithm.equals(SchedAlgorithmNameEnum.ENERGY_AWARE.getName())) {
-            schedulingAlg = SchedAlgorithmNameEnum.ENERGY_AWARE;
-        }
-        else if (algorithm.equals(SchedAlgorithmNameEnum.GROUP_BY_APP.getName())) {
-            schedulingAlg = SchedAlgorithmNameEnum.GROUP_BY_APP;
-        }
-        else if (algorithm.equals(SchedAlgorithmNameEnum.RANDOM.getName())) {
-            schedulingAlg = SchedAlgorithmNameEnum.RANDOM;
-        }
-        else { // Invalid algorithm. Throw error.
-            throw new WebApplicationException(400);
-        }
-        vmManager.setSchedulingAlgorithm(schedulingAlg);
+        vmManager.setSchedulingAlgorithm(algorithm);
     }
 
 

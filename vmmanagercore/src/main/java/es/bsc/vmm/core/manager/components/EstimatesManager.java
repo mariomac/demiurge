@@ -36,7 +36,7 @@ import java.util.*;
 public class EstimatesManager implements Iterable<Estimator> {
 
     private final EstimatesGenerator estimatesGenerator = new EstimatesGenerator();
-    private final VmsManager vmsManager;
+    private final VmManager vmManager;
     private final HostsManager hostsManager;
     private final VmManagerDb db;
 	private SchedulingAlgorithmsRepository schedulingAlgorithmsRepository;
@@ -46,7 +46,7 @@ public class EstimatesManager implements Iterable<Estimator> {
 		for(Estimator e: estimators) {
 			this.estimators.put(e.getClass(),e);
 		}
-        this.vmsManager = vmm.getVmsManager();
+        this.vmManager = vmm;
         this.hostsManager = vmm.getHostsManager();
         this.db = vmm.getDB();
 		this.schedulingAlgorithmsRepository = schedulingAlgorithmsRepository;
@@ -55,15 +55,15 @@ public class EstimatesManager implements Iterable<Estimator> {
     public ListVmEstimates getVmEstimates(List<VmToBeEstimated> vmsToBeEstimated) {
         Scheduler scheduler = new Scheduler(
 				db.getCurrentSchedulingAlg(),
-				vmsManager.getAllVms(),
+				vmManager.getVmsManager().getAllVms(),
 				this,
 				schedulingAlgorithmsRepository
 				);
         return estimatesGenerator.getVmEstimates(
                 scheduler.chooseBestDeploymentPlan(
                         vmsToBeEstimatedToVms(vmsToBeEstimated), 
-                        hostsManager.getHosts()), 
-                        vmsManager.getAllVms(), 
+                        hostsManager.getHosts()),
+				vmManager.getVmsManager().getAllVms(),
                 		this);
     }
 

@@ -6,7 +6,6 @@ import es.bsc.vmm.core.manager.components.HostsManager;
 import es.bsc.vmm.core.manager.components.VmsManager;
 import es.bsc.vmm.core.models.estimates.VmToBeEstimated;
 import es.bsc.vmm.core.models.images.ImageUploaded;
-import es.bsc.vmm.ascetic.models.scheduling.*;
 import es.bsc.vmm.core.models.scheduling.*;
 import es.bsc.vmm.core.models.vms.Vm;
 import es.bsc.vmm.core.monitoring.hosts.Host;
@@ -148,21 +147,21 @@ public interface VmManager {
      *
      * @return the list of scheduling algorithms
      */
-    List<SchedAlgorithmNameEnum> getAvailableSchedulingAlgorithms();
+    List<String> getAvailableSchedulingAlgorithms();
 
     /**
      * Returns the scheduling algorithm that is being used now.
      *
      * @return the scheduling algorithm being used
      */
-    SchedAlgorithmNameEnum getCurrentSchedulingAlgorithm();
+	String getCurrentSchedulingAlgorithm();
 
     /**
      * Changes the scheduling algorithm.
      *
      * @param schedulingAlg the scheduling algorithm to be used
      */
-    void setSchedulingAlgorithm(SchedAlgorithmNameEnum schedulingAlg);
+    void setSchedulingAlgorithm(String schedulingAlg);
 
 
     //================================================================================

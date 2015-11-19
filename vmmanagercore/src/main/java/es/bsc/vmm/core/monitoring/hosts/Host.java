@@ -35,7 +35,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public abstract class Host {
 
-    protected final String hostname;
+    protected String hostname;
     protected int totalCpus;
     protected double totalMemoryMb;
     protected double totalDiskGb;
@@ -45,12 +45,11 @@ public abstract class Host {
     protected double currentPower;
     
     protected AtomicBoolean turnedOff = new AtomicBoolean(false); // Several threads might try to turn on/off
-    protected final int turnOnDelaySeconds;
-    protected final int turnOffDelaySeconds;
+    protected int turnOnDelaySeconds;
+    protected int turnOffDelaySeconds;
 
     /**
      * Class constructor
-     * @param hostname host name
      */
     public Host(String hostname) {
         this.hostname = hostname;

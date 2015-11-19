@@ -46,17 +46,15 @@ public class VmPlacementManager {
     private final VmsManager vmsManager;
     private final HostsManager hostsManager;
     private final SchedulingAlgorithmsManager schedulingAlgorithmsManager;
-    private final EnergyModeller energyModeller;
-    private final PricingModeller pricingModeller;
+    private final EstimatesManager estimatesManager;
     
     public VmPlacementManager(VmsManager vmsManager, HostsManager hostsManager, 
                               SchedulingAlgorithmsManager schedulingAlgorithmsManager,
-                              EnergyModeller energyModeller, PricingModeller pricingModeller) {
+                              EstimatesManager estimatesManager) {
         this.vmsManager = vmsManager;
         this.hostsManager = hostsManager;
         this.schedulingAlgorithmsManager = schedulingAlgorithmsManager;
-        this.energyModeller = energyModeller;
-        this.pricingModeller = pricingModeller;
+        this.estimatesManager = estimatesManager;
     }
     
     /**
@@ -116,8 +114,7 @@ public class VmPlacementManager {
                 CloplaConversor.getCloplaConfig(
                         schedulingAlgorithmsManager.getCurrentSchedulingAlgorithm(),
                         recommendedPlanRequest,
-                        energyModeller,
-                        pricingModeller));
+                        estimatesManager));
         return CloplaConversor.getRecommendedPlan(clusterStateRecommendedPlan);
     }
 

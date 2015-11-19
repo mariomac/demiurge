@@ -24,12 +24,10 @@ import es.bsc.vmm.core.cloudmiddleware.openstack.OpenStackCredentials;
 import es.bsc.vmm.core.configuration.VmManagerConfiguration;
 import es.bsc.vmm.core.db.VmManagerDbFactory;
 import es.bsc.vmm.core.drivers.Monitoring;
-import es.bsc.vmm.ascetic.manager.components.*;
 import es.bsc.vmm.core.models.estimates.ListVmEstimates;
 import es.bsc.vmm.core.models.estimates.VmToBeEstimated;
 import es.bsc.vmm.core.models.images.ImageToUpload;
 import es.bsc.vmm.core.models.images.ImageUploaded;
-import es.bsc.vmm.ascetic.models.scheduling.*;
 import es.bsc.vmm.core.models.vms.Vm;
 import es.bsc.vmm.core.models.vms.VmDeployed;
 import es.bsc.vmm.core.monitoring.hosts.Host;
@@ -41,13 +39,7 @@ import es.bsc.vmm.core.selfadaptation.options.SelfAdaptationOptions;
 import es.bsc.vmm.core.db.VmManagerDb;
 import es.bsc.vmm.core.manager.components.*;
 import es.bsc.vmm.core.models.scheduling.*;
-import es.bsc.vmmanagercore.estimator.EstimatorsManager;
-import es.bsc.vmmanagercore.modellers.energy.EnergyModeller;
-import es.bsc.vmmanagercore.modellers.energy.ascetic.AsceticEnergyModellerAdapter;
-import es.bsc.vmmanagercore.modellers.energy.dummy.DummyEnergyModeller;
-import es.bsc.vmmanagercore.modellers.price.PricingModeller;
-import es.bsc.vmmanagercore.modellers.price.ascetic.AsceticPricingModellerAdapter;
-import es.bsc.vmmanagercore.modellers.price.dummy.DummyPricingModeller;
+
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -95,24 +87,21 @@ public class GenericVmManager implements VmManager {
 
         this.cloudMiddleware = cfg.getCloudMiddleware();
 
-        initializeHosts(conf.monitoring, conf.hosts);
+        initializeHosts(conf.getMonitoring(), conf.hosts);
 
-        estimatorsManager = c.
-
-        selectModellers(conf.project);
-        selfAdaptationManager = new SelfAdaptationManager(this, dbName);
+        selfAdaptationManager = new SelfAdaptationManager(this, conf.dbName);
 
         // Initialize all the VMM components
         imageManager = new ImageManager(cloudMiddleware);
         schedulingAlgorithmsManager = new SchedulingAlgorithmsManager(db);
         hostsManager = new HostsManager(hosts);
-        vmsManager = new VmsManager(hostsManager, cloudMiddleware, db, selfAdaptationManager, 
-                energyModeller, pricingModeller);
+		estimatesManager = new EstimatesManager(this, cfg.getEstimators(), cfg.getSchedulingAlgorithmsRepository());
+
+        vmsManager = new VmsManager(hostsManager, cloudMiddleware, db, selfAdaptationManager, estimatesManager,
+				cfg.getSchedulingAlgorithmsRepository(), cfg.getVmmListeners());
         selfAdaptationOptsManager = new SelfAdaptationOptsManager(selfAdaptationManager);
-        vmPlacementManager = new VmPlacementManager(vmsManager, hostsManager, schedulingAlgorithmsManager,
-                energyModeller, pricingModeller);
-        estimatesManager = new EstimatesManager(vmsManager, hostsManager, db, energyModeller, pricingModeller);
-        
+        vmPlacementManager = new VmPlacementManager(vmsManager, hostsManager, schedulingAlgorithmsManager,estimatesManager);
+
         // Start periodic self-adaptation thread if it is not already running.
         // This check would not be needed if only one instance of this class was created.
         if (!periodicSelfAdaptationThreadRunning) {
