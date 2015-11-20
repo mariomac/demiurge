@@ -23,6 +23,7 @@ import es.bsc.vmm.core.drivers.Estimator;
 import es.bsc.vmm.core.drivers.VmmListener;
 import es.bsc.vmm.core.manager.DeploymentEngine;
 import es.bsc.vmm.core.drivers.Monitoring;
+import es.bsc.vmm.core.monitoring.hosts.HostFactory;
 import es.bsc.vmm.core.scheduler.SchedulingAlgorithmsRepository;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
@@ -90,6 +91,7 @@ public enum VmManagerConfiguration {
 	private SchedulingAlgorithmsRepository schedulingAlgorithmsRepository;
     private Configuration configuration;
 	private List<VmmListener> vmmListeners;
+	private HostFactory hostFactory;
 
 	VmManagerConfiguration() {
         configuration = getPropertiesObjectFromConfigFile();
@@ -159,6 +161,8 @@ public enum VmManagerConfiguration {
 
 		schedulingAlgorithmsRepository = springContext.getBean("schedulingAlgorithmsRepository",SchedulingAlgorithmsRepository.class);
 		vmmListeners = springContext.getBean("vmmListeners", List.class);
+
+		hostFactory = springContext.getBean("HostFactory", HostFactory.class);
     }
 
 	public SchedulingAlgorithmsRepository getSchedulingAlgorithmsRepository() {
@@ -200,5 +204,9 @@ public enum VmManagerConfiguration {
 				"\n\tzabbixDbPassword='" + zabbixDbPassword + '\'' +
                 "\n\tdeployVmWithVolume='" + deployVmWithVolume + '\'' +
 				"\n}";
+	}
+
+	public HostFactory getHostFactory() {
+		return hostFactory;
 	}
 }

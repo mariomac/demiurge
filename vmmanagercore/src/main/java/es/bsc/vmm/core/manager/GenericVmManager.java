@@ -24,6 +24,7 @@ import es.bsc.vmm.core.cloudmiddleware.openstack.OpenStackCredentials;
 import es.bsc.vmm.core.configuration.VmManagerConfiguration;
 import es.bsc.vmm.core.db.VmManagerDbFactory;
 import es.bsc.vmm.core.drivers.Monitoring;
+import es.bsc.vmm.core.drivers.VmAction;
 import es.bsc.vmm.core.models.estimates.ListVmEstimates;
 import es.bsc.vmm.core.models.estimates.VmToBeEstimated;
 import es.bsc.vmm.core.models.images.ImageToUpload;
@@ -66,7 +67,7 @@ public class GenericVmManager implements VmManager {
     
     private CloudMiddleware cloudMiddleware;
     private SelfAdaptationManager selfAdaptationManager;
-
+	private VmManagerDb db;
 
     private List<Host> hosts = new ArrayList<>();
 
@@ -76,14 +77,14 @@ public class GenericVmManager implements VmManager {
 
     private static final VmManagerConfiguration conf = VmManagerConfiguration.INSTANCE;
 	private Logger log = LogManager.getLogger(GenericVmManager.class);
-
+	private HostFactory hostFactory;
     /**
      * Constructs a VmManager with the name of the database to be used.
      *
      */
     public GenericVmManager() {
         VmManagerConfiguration cfg = VmManagerConfiguration.INSTANCE;
-        VmManagerDb db = VmManagerDbFactory.getDb(cfg.dbName);
+        db = VmManagerDbFactory.getDb(cfg.dbName);
 
         this.cloudMiddleware = cfg.getCloudMiddleware();
 
@@ -91,9 +92,11 @@ public class GenericVmManager implements VmManager {
 
         selfAdaptationManager = new SelfAdaptationManager(this, conf.dbName);
 
+		hostFactory = cfg.getHostFactory();
+
         // Initialize all the VMM components
         imageManager = new ImageManager(cloudMiddleware);
-        schedulingAlgorithmsManager = new SchedulingAlgorithmsManager(db);
+        schedulingAlgorithmsManager = new SchedulingAlgorithmsManager(db, cfg.getSchedulingAlgorithmsRepository());
         hostsManager = new HostsManager(hosts);
 		estimatesManager = new EstimatesManager(this, cfg.getEstimators(), cfg.getSchedulingAlgorithmsRepository());
 
@@ -187,7 +190,7 @@ public class GenericVmManager implements VmManager {
      */
     @Override
     public void performActionOnVm(String vmId, String action) throws CloudMiddlewareException {
-        vmsManager.performActionOnVm(vmId, action);
+        vmsManager.performActionOnVm(vmId, VmAction.fromCamelCase(action));
     }
 
     /**
@@ -280,7 +283,7 @@ public class GenericVmManager implements VmManager {
      * @return the list of scheduling algorithms
      */
     @Override
-    public List<SchedAlgorithmNameEnum> getAvailableSchedulingAlgorithms() {
+    public List<String> getAvailableSchedulingAlgorithms() {
         return schedulingAlgorithmsManager.getAvailableSchedulingAlgorithms();
     }
 
@@ -290,7 +293,7 @@ public class GenericVmManager implements VmManager {
      * @return the scheduling algorithm being used
      */
     @Override
-    public SchedAlgorithmNameEnum getCurrentSchedulingAlgorithm() {
+    public String getCurrentSchedulingAlgorithm() {
         return schedulingAlgorithmsManager.getCurrentSchedulingAlgorithm();
     }
 
@@ -300,7 +303,7 @@ public class GenericVmManager implements VmManager {
      * @param schedulingAlg the scheduling algorithm to be used
      */
     @Override
-    public void setSchedulingAlgorithm(SchedAlgorithmNameEnum schedulingAlg) {
+    public void setSchedulingAlgorithm(String schedulingAlg) {
         schedulingAlgorithmsManager.setSchedulingAlgorithm(schedulingAlg);
     }
 
@@ -469,6 +472,7 @@ public class GenericVmManager implements VmManager {
      * @param hostnames the names of the hosts in the infrastructure
      */
     private void initializeHosts(Monitoring monitoring, String[] hostnames) {
+		hosts.add(hostsFactory
         switch (monitoring) {
             case OPENSTACK:
                 generateOpenStackHosts(hostnames);
@@ -516,10 +520,6 @@ public class GenericVmManager implements VmManager {
         }
     }
 
-    private boolean usingZabbix() {
-        return VmManagerConfiguration.INSTANCE.monitoring.equals(VmManagerConfiguration.Monitoring.ZABBIX);
-    }
-
     private void startPeriodicSelfAdaptationThread() {
         Thread thread = new Thread(
                 new PeriodicSelfAdaptationRunnable(selfAdaptationManager),
@@ -536,6 +536,21 @@ public class GenericVmManager implements VmManager {
                 conf.glancePort,
                 conf.keyStoneTenantId);
     }
+
+	@Override
+	public HostsManager getHostsManager() {
+		return hostsManager;
+	}
+
+	@Override
+	public VmManagerDb getDB() {
+		return db;
+	}
+
+	@Override
+	public VmsManager getVmsManager() {
+		return vmsManager;
+	}
 
 	@Override
 	public void executeOnDemandSelfAdaptation() throws CloudMiddlewareException {

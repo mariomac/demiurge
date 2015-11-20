@@ -15,6 +15,10 @@
         <constructor-arg ref="energyModeller"/>
     </bean>
 
+	<bean id="hostFactory" class="es.bsc.vmm.ascetic.monitoring.hosts.ZabbixHostFactory">
+
+	</bean>
+
 	<util:set id="estimators" value-type="es.bsc.vmmanagercore.drivers.Estimator">
 		<ref bean="energyModeller"/>
 		<ref bean="pricingModeller"/>

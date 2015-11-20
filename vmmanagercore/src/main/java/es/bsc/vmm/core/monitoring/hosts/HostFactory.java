@@ -37,45 +37,48 @@ import java.util.Map;
  *
  * @author Mario Macias (github.com/mariomac), David Ortiz Lopez (david.ortiz@bsc.es)
  */
-public class HostFactory {
+public abstract class HostFactory<T extends Host> {
 
     // Suppress default constructor for non-instantiability
     private HostFactory() {
         throw new AssertionError();
     }
 
-    private static Map<String, Host> hosts = new HashMap<>(); // List of hosts already created
+    private Map<String, T> hosts = new HashMap<>(); // List of hosts already created
 
-    private static boolean fakeHostsGenerated = false;
     private static final Gson gson = new Gson();
 
     private static final String FAKE_HOSTS_DESCRIPTIONS_PATH = "/hostsFakeMonitoring.json";
 
-    /**
+	private CloudMiddleware cloudMiddleware;
+	private Monitoring<T> monitoring;
+
+	public HostFactory(CloudMiddleware cloudMiddleware, Monitoring<T> monitoring) {
+		this.cloudMiddleware = cloudMiddleware;
+		this.monitoring = monitoring;
+	}
+
+	/**
      * Returns a host given a hostname, a type of host, and the openStackJclouds connector
      *
      * @param hostname the hostname
-     * @param type the type of the host
-     * @param cloudMiddleware the cloud middleware connector
      * @return the host
      */
-    public static Host getHost(String hostname, HostType type,
-							   CloudMiddleware cloudMiddleware,
-							   Monitoring monitoringManager) {
+    public T getHost(String hostname) {
 
         // If host type is fake and fake hosts have not been generated, generate them
-        if (type == HostType.FAKE && !fakeHostsGenerated) {
-            generateFakeHosts((FakeCloudMiddleware) cloudMiddleware);
-            fakeHostsGenerated = true;
-        }
+//        if (type == HostType.FAKE && !fakeHostsGenerated) {
+//            generateFakeHosts((FakeCloudMiddleware) cloudMiddleware);
+//            fakeHostsGenerated = true;
+//        }
 
         // If the host already exists, return it
-        Host host = hosts.get(hostname);
+        T host = (T) hosts.get(hostname);
         if (host != null) {
-            if (host instanceof HostOpenStack) {
-                assert(cloudMiddleware instanceof OpenStackJclouds);
-                ((HostOpenStack) host).setOpenStackJclouds((OpenStackJclouds) cloudMiddleware);
-            }
+//            if (host instanceof HostOpenStack) {
+//                assert(cloudMiddleware instanceof OpenStackJclouds);
+//                ((HostOpenStack) host).setOpenStackJclouds((OpenStackJclouds) cloudMiddleware);
+//            }
             host.refreshMonitoringInfo();
             return host;
         }
@@ -83,7 +86,7 @@ public class HostFactory {
         // If the host does not already exist, create and return it.
         // If the type is Fake, this switch will not be called, because all the fake hosts are created beforehand.
         // This is because we do not want to have to read the description file more than once.
-        Host newHost = monitoringManager.createHost(hostname);
+        T newHost = monitoring.createHost(hostname);
         hosts.put(hostname, newHost);
         return newHost;
     }
@@ -94,7 +97,7 @@ public class HostFactory {
      *
      * @param fakeCloudMiddleware fake cloud middleware connector
      */
-    private static void generateFakeHosts(FakeCloudMiddleware fakeCloudMiddleware) {
+/*    private void generateFakeHosts(FakeCloudMiddleware fakeCloudMiddleware) {
         BufferedReader bReader = new BufferedReader(new InputStreamReader(
                 HostFactory.class.getResourceAsStream(FAKE_HOSTS_DESCRIPTIONS_PATH)));
         List<HostFake> hostsFromFile = Arrays.asList(gson.fromJson(bReader, HostFake[].class));
@@ -113,6 +116,6 @@ public class HostFactory {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
 }

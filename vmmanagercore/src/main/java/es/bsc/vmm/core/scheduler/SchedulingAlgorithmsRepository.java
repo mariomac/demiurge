@@ -56,4 +56,8 @@ public class SchedulingAlgorithmsRepository {
 		}
 	}
 
+	public Set<String> getAvailable() {
+		return schedulingAlgorithms.keySet();
+	}
+
 }

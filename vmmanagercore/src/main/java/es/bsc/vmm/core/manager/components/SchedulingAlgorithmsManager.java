@@ -19,10 +19,9 @@
 package es.bsc.vmm.core.manager.components;
 
 import es.bsc.vmm.core.db.VmManagerDb;
-import es.bsc.vmm.core.models.scheduling.SchedAlgorithmNameEnum;
+import es.bsc.vmm.core.scheduler.SchedulingAlgorithmsRepository;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -31,9 +30,11 @@ import java.util.List;
 public class SchedulingAlgorithmsManager {
 
     private final VmManagerDb db;
-    
-    public SchedulingAlgorithmsManager(VmManagerDb db) {
+    private SchedulingAlgorithmsRepository schedulingAlgorithmsRepository;
+
+    public SchedulingAlgorithmsManager(VmManagerDb db, SchedulingAlgorithmsRepository schedulingAlgorithmsRepository) {
         this.db = db;
+		this.schedulingAlgorithmsRepository = schedulingAlgorithmsRepository;
     }
     
     /**
@@ -41,10 +42,8 @@ public class SchedulingAlgorithmsManager {
      *
      * @return the list of scheduling algorithms
      */
-    public List<SchedAlgorithmNameEnum> getAvailableSchedulingAlgorithms() {
-        List<SchedAlgorithmNameEnum> result = new ArrayList<>();
-        result.addAll(Arrays.asList(SchedAlgorithmNameEnum.values()));
-        return result;
+    public List<String> getAvailableSchedulingAlgorithms() {
+        return new ArrayList<>(schedulingAlgorithmsRepository.getAvailable());
     }
 
     /**
@@ -52,7 +51,7 @@ public class SchedulingAlgorithmsManager {
      *
      * @return the scheduling algorithm being used
      */
-    public SchedAlgorithmNameEnum getCurrentSchedulingAlgorithm() {
+    public String getCurrentSchedulingAlgorithm() {
         return db.getCurrentSchedulingAlg();
     }
 
@@ -61,7 +60,7 @@ public class SchedulingAlgorithmsManager {
      *
      * @param schedulingAlg the scheduling algorithm to be used
      */
-    public void setSchedulingAlgorithm(SchedAlgorithmNameEnum schedulingAlg) {
+    public void setSchedulingAlgorithm(String schedulingAlg) {
         db.setCurrentSchedulingAlg(schedulingAlg);
     }
     
