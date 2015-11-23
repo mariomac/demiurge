@@ -29,6 +29,9 @@ import java.util.List;
  *
  * @author Mario Macias (github.com/mariomac), David Ortiz Lopez (david.ortiz@bsc.es)
  */
+
+
+Hacer un CloplaEstimateModeller que, según una label, devuelva cost o energy
 public class CloplaAsceticEnergyModeller implements EnergyModeller {
 
     private final es.bsc.vmmanagercore.modellers.energy.EnergyModeller energyModeller;

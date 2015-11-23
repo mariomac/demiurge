@@ -1,5 +1,8 @@
 package es.bsc.vmm.ascetic;
 
+import es.bsc.vmm.ascetic.scheduler.clopla.CloplaAsceticEnergyModeller;
+import es.bsc.vmm.ascetic.scheduler.clopla.CloplaAsceticPriceModeller;
+
 /**
  * Created by mmacias on 23/11/15.
  */

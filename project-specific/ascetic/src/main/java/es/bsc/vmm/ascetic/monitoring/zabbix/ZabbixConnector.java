@@ -19,8 +19,11 @@
 package es.bsc.vmm.ascetic.monitoring.zabbix;
 
 import com.google.common.collect.ImmutableMap;
-import es.bsc.vmmanagercore.configuration.VmManagerConfiguration;
-import es.bsc.vmmanagercore.drivers.Monitoring;
+
+import es.bsc.vmm.ascetic.monitoring.hosts.HostZabbix;
+import es.bsc.vmm.core.configuration.VmManagerConfiguration;
+import es.bsc.vmm.core.drivers.Monitoring;
+import es.bsc.vmm.core.monitoring.hosts.Host;
 import eu.ascetic.asceticarchitecture.iaas.zabbixApi.client.ZabbixClient;
 import org.apache.log4j.Logger;
 
@@ -203,4 +206,13 @@ public class ZabbixConnector implements Monitoring {
 		}, "migrateVmInZabbixThread").start();
 	}
 
+	@Override
+	public Host createHost(String hostName, int turnOnDelaySeconds, int turnOffDelaySeconds) {
+		return new HostZabbix(hostName, turnOnDelaySeconds, turnOffDelaySeconds);
+	}
+
+	@Override
+	public Host createHost(String hostName) {
+		return new HostZabbix(hostName);
+	}
 }

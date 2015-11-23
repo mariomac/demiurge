@@ -19,6 +19,7 @@
 package es.bsc.vmm.ascetic.monitoring.hosts;
 
 import es.bsc.vmm.ascetic.monitoring.zabbix.ZabbixConnector;
+import es.bsc.vmm.core.monitoring.hosts.Host;
 
 import java.util.Map;
 
@@ -54,7 +55,13 @@ public class HostZabbix extends Host {
         updateMetrics();
     }
 
-    /**
+	public HostZabbix(String hostname, int turnOnDelaySeconds, int turnOffDelaySeconds) {
+		super(hostname, turnOnDelaySeconds, turnOffDelaySeconds);
+		zabbixId = getZabbixId(hostname);
+		updateMetrics();
+	}
+
+	/**
      * Returns the Zabbix ID for a specific host given its hostname.
      *
      * @param hostname the hostname
