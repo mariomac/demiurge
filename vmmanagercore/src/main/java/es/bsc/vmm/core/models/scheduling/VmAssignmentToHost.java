@@ -59,7 +59,7 @@ public class VmAssignmentToHost {
     public VmEstimate getVmEstimate(List<VmDeployed> vmsDeployed, DeploymentPlan deploymentPlan, EstimatesManager em) {
         VmEstimate vme = new VmEstimate(vm.getName());
         for(Estimator e : em) {
-            vme.addEstimate(e.getName(),e.getValue(this,vmsDeployed,deploymentPlan));
+            vme.addEstimate(e.getLabel(),e.getDeploymentEstimation(this,vmsDeployed,deploymentPlan));
         }
         return vme;
     }

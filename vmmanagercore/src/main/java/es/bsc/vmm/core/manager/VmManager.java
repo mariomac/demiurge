@@ -264,7 +264,7 @@ public interface VmManager {
 	 * @param vmIds
 	 * @return a JSON with the next fields: 'vmId' as the id of the requested machine. 'cost' as the cost for the vm
 	 */
-	String getVmsCost(List<String> vmIds) throws Exception;
+	String getVmsEstimates(List<String> vmIds) throws Exception;
 
 	void executeOnDemandSelfAdaptation() throws CloudMiddlewareException ;
 

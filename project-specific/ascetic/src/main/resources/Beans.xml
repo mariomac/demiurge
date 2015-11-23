@@ -8,7 +8,7 @@
     <bean id="monitoring" class="es.bsc.vmm.ascetic.monitoring.zabbix.ZabbixConnector"/>
     <bean id="cloudMiddleware" class="es.bsc.vmmanagercore.cloudmiddleware.openstack.OpenStackJclouds"/>
 
-    <bean id="vmm" class="es.bsc.vmmanagercore.manager.GenericVmManager"/>
+    <bean id="vmManager" class="es.bsc.vmmanagercore.manager.GenericVmManager"/>
 
     <bean id="energyModeller" class="es.bsc.vmm.ascetic.modellers.energy.ascetic.AsceticEnergyModellerAdapter"/>
     <bean id="pricingModeller" class="es.bsc.vmm.ascetic.modellers.price.ascetic.AsceticPricingModellerAdapter">
@@ -18,6 +18,8 @@
 	<bean id="hostFactory" class="es.bsc.vmm.ascetic.monitoring.hosts.ZabbixHostFactory">
 
 	</bean>
+
+	<bean id="cloplaConversor" class="es.bsc.vmm.ascetic.AsceticCloplaConversor"/>
 
 	<util:set id="estimators" value-type="es.bsc.vmmanagercore.drivers.Estimator">
 		<ref bean="energyModeller"/>

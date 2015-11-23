@@ -48,7 +48,7 @@ at every request. This increases performance greatly.*/
 @Path("/vmmanager")
 public class VmManagerRest {
 
-    private VmManager vmManager = new GenericVmManager(VmManagerConfiguration.INSTANCE.dbName);
+    private VmManager vmManager = VmManagerConfiguration.INSTANCE.getVmManager();;
 
     private VmCallsManager vmCallsManager = new VmCallsManager(vmManager);
     private ImageCallsManager imageCallsManager = new ImageCallsManager(vmManager);
@@ -323,7 +323,7 @@ public class VmManagerRest {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getVmCost(List<String> vmIds) {
 		try {
-			return vmManager.getVmsCost(vmIds);
+			return vmManager.getVmsEstimates(vmIds);
 		} catch(Exception e) {
 			log.warn("Error getting vms cost: " + e.getMessage());
 			throw new ErrorHandler(e, Response.Status.NOT_FOUND);
@@ -350,7 +350,7 @@ public class VmManagerRest {
             }
         }
         sb.append("== Self-adaptation options ==\n");
-        sb.append("Current").append(db.getCurrentSchedulingAlg().getName());
+        sb.append("Current").append(db.getCurrentSchedulingAlg());
         sb.append("\nSelf-adaptation options:\n").append(db.getSelfAdaptationOptions());
         return sb.toString();
     }

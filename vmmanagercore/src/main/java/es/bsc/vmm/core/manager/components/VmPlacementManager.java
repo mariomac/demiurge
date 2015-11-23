@@ -24,11 +24,9 @@ import es.bsc.clopla.domain.LocalSearchHeuristicOption;
 import es.bsc.clopla.lib.Clopla;
 import es.bsc.clopla.lib.IClopla;
 import es.bsc.vmm.core.cloudmiddleware.CloudMiddlewareException;
-import es.bsc.vmm.ascetic.models.scheduling.*;
+import es.bsc.vmm.core.configuration.VmManagerConfiguration;
 import es.bsc.vmm.core.models.scheduling.*;
 import es.bsc.vmm.core.models.vms.Vm;
-import es.bsc.vmmanagercore.modellers.energy.EnergyModeller;
-import es.bsc.vmmanagercore.modellers.price.PricingModeller;
 import es.bsc.vmm.core.models.vms.VmDeployed;
 import es.bsc.vmm.core.monitoring.hosts.Host;
 import es.bsc.vmm.core.vmplacement.CloplaConversor;
@@ -103,19 +101,20 @@ public class VmPlacementManager {
     public RecommendedPlan getRecommendedPlan(RecommendedPlanRequest recommendedPlanRequest,
 											  boolean assignVmsToCurrentHosts,
 											  List<Vm> vmsToDeploy) throws CloudMiddlewareException {
+		CloplaConversor cc = VmManagerConfiguration.INSTANCE.getCloplaConversor();
         List<Host> hosts = hostsManager.getHosts();
         ClusterState clusterStateRecommendedPlan = clopla.getBestSolution(
-                CloplaConversor.getCloplaHosts(hosts),
-                CloplaConversor.getCloplaVms(
+                cc.getCloplaHosts(hosts),
+                cc.getCloplaVms(
                         getVmsDeployedAndScheduledNonDeployed(),
                         vmsToDeploy,
-                        CloplaConversor.getCloplaHosts(hosts),
+                        cc.getCloplaHosts(hosts),
                         assignVmsToCurrentHosts),
-                CloplaConversor.getCloplaConfig(
+                cc.getCloplaConfig(
                         schedulingAlgorithmsManager.getCurrentSchedulingAlgorithm(),
                         recommendedPlanRequest,
                         estimatesManager));
-        return CloplaConversor.getRecommendedPlan(clusterStateRecommendedPlan);
+        return cc.getRecommendedPlan(clusterStateRecommendedPlan);
     }
 
     /**

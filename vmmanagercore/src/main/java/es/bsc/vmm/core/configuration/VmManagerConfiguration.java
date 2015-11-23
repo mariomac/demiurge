@@ -23,8 +23,10 @@ import es.bsc.vmm.core.drivers.Estimator;
 import es.bsc.vmm.core.drivers.VmmListener;
 import es.bsc.vmm.core.manager.DeploymentEngine;
 import es.bsc.vmm.core.drivers.Monitoring;
+import es.bsc.vmm.core.manager.VmManager;
 import es.bsc.vmm.core.monitoring.hosts.HostFactory;
 import es.bsc.vmm.core.scheduler.SchedulingAlgorithmsRepository;
+import es.bsc.vmm.core.vmplacement.CloplaConversor;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -92,6 +94,8 @@ public enum VmManagerConfiguration {
     private Configuration configuration;
 	private List<VmmListener> vmmListeners;
 	private HostFactory hostFactory;
+	private CloplaConversor cloplaConversor;
+	private VmManager vmManager;
 
 	VmManagerConfiguration() {
         configuration = getPropertiesObjectFromConfigFile();
@@ -155,6 +159,9 @@ public enum VmManagerConfiguration {
 
     public void loadBeansConfig() {
         ApplicationContext springContext = new ClassPathXmlApplicationContext(DEFAULT_BEANS_LOCATION);
+		vmManager = springContext.getBean("vmManager",VmManager.class);
+
+
         cloudMiddleware = springContext.getBean("cloudMiddleware",CloudMiddleware.class);
         monitoring = springContext.getBean("monitoring",Monitoring.class);
         estimators = springContext.getBean("estimatorsManager", Set.class);
@@ -162,7 +169,8 @@ public enum VmManagerConfiguration {
 		schedulingAlgorithmsRepository = springContext.getBean("schedulingAlgorithmsRepository",SchedulingAlgorithmsRepository.class);
 		vmmListeners = springContext.getBean("vmmListeners", List.class);
 
-		hostFactory = springContext.getBean("HostFactory", HostFactory.class);
+		hostFactory = springContext.getBean("hostFactory", HostFactory.class);
+		cloplaConversor = springContext.getBean("cloplaConversor", CloplaConversor.class);
     }
 
 	public SchedulingAlgorithmsRepository getSchedulingAlgorithmsRepository() {
@@ -183,6 +191,10 @@ public enum VmManagerConfiguration {
 
 	public List<VmmListener> getVmmListeners() {
 		return vmmListeners;
+	}
+
+	public CloplaConversor getCloplaConversor() {
+		return cloplaConversor;
 	}
 
 	@Override
@@ -208,5 +220,9 @@ public enum VmManagerConfiguration {
 
 	public HostFactory getHostFactory() {
 		return hostFactory;
+	}
+
+	public VmManager getVmManager() {
+		return vmManager;
 	}
 }

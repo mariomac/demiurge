@@ -25,11 +25,8 @@ import es.bsc.clopla.placement.config.VmPlacementConfig;
 import es.bsc.clopla.placement.config.localsearch.*;
 import es.bsc.vmm.core.manager.components.EstimatesManager;
 import es.bsc.vmm.core.models.vms.Vm;
-import es.bsc.vmmanagercore.modellers.energy.EnergyModeller;
-import es.bsc.vmmanagercore.modellers.price.PricingModeller;
 import es.bsc.vmm.core.models.scheduling.RecommendedPlan;
 import es.bsc.vmm.core.models.scheduling.RecommendedPlanRequest;
-import es.bsc.vmm.core.models.scheduling.SchedAlgorithmNameEnum;
 import es.bsc.vmm.core.models.vms.VmDeployed;
 import es.bsc.vmm.core.monitoring.hosts.Host;
 
@@ -42,12 +39,7 @@ import java.util.List;
  *
  * @author Mario Macias (github.com/mariomac), David Ortiz Lopez (david.ortiz@bsc.es)
  */
-public class CloplaConversor {
-
-    // Suppress default constructor for non-instantiability
-    private CloplaConversor() {
-        throw new AssertionError();
-    }
+public abstract class CloplaConversor {
 
     /**
      * Converts a list of VMs as defined in the VMM core to a list of VMs as defined in the VM placement library.
@@ -58,7 +50,7 @@ public class CloplaConversor {
      * @param assignVmsToHosts indicates whether it is needed to set the hosts in the VMs
      * @return the list of VMs used by the VM placement library
      */
-    public static List<es.bsc.clopla.domain.Vm> getCloplaVms(List<VmDeployed> vms,
+    public List<es.bsc.clopla.domain.Vm> getCloplaVms(List<VmDeployed> vms,
                                                              List<Vm> vmsToDeploy,
                                                              List<es.bsc.clopla.domain.Host> hosts,
                                                              boolean assignVmsToHosts) {
@@ -83,7 +75,7 @@ public class CloplaConversor {
      * @param hosts the list of host used by the VMM core
      * @return the list of host used by the VM placement library
      */
-    public static List<es.bsc.clopla.domain.Host> getCloplaHosts(List<Host> hosts) {
+    public List<es.bsc.clopla.domain.Host> getCloplaHosts(List<Host> hosts) {
         List<es.bsc.clopla.domain.Host> result = new ArrayList<>();
         for (Host host: hosts) {
             result.add(CloplaHostFactory.getCloplaHost(host));
@@ -94,29 +86,13 @@ public class CloplaConversor {
     /**
      * Returns a configuration object for the VM Placement performed by the VM placement library.
      *
-     * @param schedAlgorithmNameEnum the scheduling algorithm
+     * @param schedAlgorithmName the scheduling algorithm
      * @param recommendedPlanRequest the recommended plan request
      * @return the placement configuration for the VM placement library
      */
-    public static VmPlacementConfig getCloplaConfig(String schedAlgorithmName,
+    public abstract VmPlacementConfig getCloplaConfig(String schedAlgorithmName,
 													RecommendedPlanRequest recommendedPlanRequest,
-													EstimatesManager estimatesManager) {
-        int timeLimitSec = recommendedPlanRequest.getTimeLimitSeconds();
-        if (getLocalSearch(recommendedPlanRequest) == null) {
-            timeLimitSec = 1; // It does not matter because the local search alg will not be run, but the
-                              // VM placement library complains if we send 0
-        }
-
-        return new VmPlacementConfig.Builder(
-                getPolicy(schedAlgorithmNameEnum),
-                timeLimitSec,
-                getConstructionHeuristic(recommendedPlanRequest.getConstructionHeuristicName()),
-                getLocalSearch(recommendedPlanRequest),
-                false)
-                .energyModeller(new CloplaAsceticEnergyModeller(energyModeller))
-                .priceModeller(new CloplaAsceticPriceModeller(pricingModeller, energyModeller))
-                .build();
-    }
+													EstimatesManager estimatesManager);
 
     /**
      * Returns a recommended plan from a cluster state defined by the VM placement library.
@@ -124,7 +100,7 @@ public class CloplaConversor {
      * @param clusterState the cluster state
      * @return the recommended plan
      */
-    public static RecommendedPlan getRecommendedPlan(ClusterState clusterState) {
+    public RecommendedPlan getRecommendedPlan(ClusterState clusterState) {
         RecommendedPlan result = new RecommendedPlan();
         for (es.bsc.clopla.domain.Vm vm: clusterState.getVms()) {
             result.addVmToHostAssignment(vm.getAlphaNumericId(), vm.getHost().getHostname());
@@ -138,7 +114,7 @@ public class CloplaConversor {
      * @param vms the list of VMs for the placement library
      * @return the list of VMs for the Energy Modeller
      */
-    public static List<Vm> cloplaVmsToVmmType(List<es.bsc.clopla.domain.Vm> vms) {
+    public List<Vm> cloplaVmsToVmmType(List<es.bsc.clopla.domain.Vm> vms) {
         List<Vm> result = new ArrayList<>();
         for (es.bsc.clopla.domain.Vm vm: vms) {
             result.add(new Vm(
@@ -163,7 +139,7 @@ public class CloplaConversor {
      * @param assignVmsToHosts indicates whether it is needed to set the hosts in the VMs
      * @return the VM used by the VM placement library
      */
-    private static es.bsc.clopla.domain.Vm getCloplaVm(Long id, VmDeployed vm,
+    private es.bsc.clopla.domain.Vm getCloplaVm(Long id, VmDeployed vm,
                                                        List<es.bsc.clopla.domain.Host> cloplaHosts,
                                                        boolean assignVmsToHosts) {
         es.bsc.clopla.domain.Vm result = new es.bsc.clopla.domain.Vm.Builder(
@@ -194,22 +170,22 @@ public class CloplaConversor {
     /**
      * Gets a Policy as defined in the VM placement library from a Scheduling Algorithm as defined in the VMM core.
      *
-     * @param schedAlgorithmNameEnum the scheduling algorithm
+     * @param schedAlgorithmName the scheduling algorithm
      * @return the policy
      */
-    private static Policy getPolicy(SchedAlgorithmNameEnum schedAlgorithmNameEnum) {
-        switch (schedAlgorithmNameEnum) {
-            case CONSOLIDATION:
+    private static Policy getPolicy(String schedAlgorithmName) {
+        switch (schedAlgorithmName) {
+            case "consolidation":
                 return Policy.CONSOLIDATION;
-            case COST_AWARE:
+            case "costAware":
                 return Policy.PRICE;
-            case DISTRIBUTION:
+            case "distribution":
                 return Policy.DISTRIBUTION;
-            case ENERGY_AWARE:
+            case "energyAware":
                 return Policy.ENERGY;
-            case GROUP_BY_APP:
+            case "groupByApp":
                 return Policy.GROUP_BY_APP;
-            case RANDOM:
+            case "random":
                 return Policy.RANDOM;
             default:
                 throw new IllegalArgumentException("Invalid policy");

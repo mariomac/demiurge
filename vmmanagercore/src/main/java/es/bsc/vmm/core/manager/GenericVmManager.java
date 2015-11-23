@@ -20,9 +20,9 @@ package es.bsc.vmm.core.manager;
 
 import es.bsc.vmm.core.cloudmiddleware.CloudMiddleware;
 import es.bsc.vmm.core.cloudmiddleware.CloudMiddlewareException;
-import es.bsc.vmm.core.cloudmiddleware.openstack.OpenStackCredentials;
 import es.bsc.vmm.core.configuration.VmManagerConfiguration;
 import es.bsc.vmm.core.db.VmManagerDbFactory;
+import es.bsc.vmm.core.drivers.Estimator;
 import es.bsc.vmm.core.drivers.Monitoring;
 import es.bsc.vmm.core.drivers.VmAction;
 import es.bsc.vmm.core.models.estimates.ListVmEstimates;
@@ -33,7 +33,6 @@ import es.bsc.vmm.core.models.vms.Vm;
 import es.bsc.vmm.core.models.vms.VmDeployed;
 import es.bsc.vmm.core.monitoring.hosts.Host;
 import es.bsc.vmm.core.monitoring.hosts.HostFactory;
-import es.bsc.vmm.core.monitoring.hosts.HostType;
 import es.bsc.vmm.core.selfadaptation.PeriodicSelfAdaptationRunnable;
 import es.bsc.vmm.core.selfadaptation.SelfAdaptationManager;
 import es.bsc.vmm.core.selfadaptation.options.SelfAdaptationOptions;
@@ -45,7 +44,9 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Generic VM Manager.
@@ -435,31 +436,7 @@ public class GenericVmManager implements VmManager {
         return estimatesManager.getVmEstimates(vmsToBeEstimated);
     }
 
-	@Override
-	public String getVmsCost(List<String> vmIds) throws Exception {
-		StringBuilder sb = new StringBuilder("[");
-		boolean first = true;
-		for(String vmid : vmIds) {
-			VmDeployed vm = vmsManager.getVm(vmid);
-			if(vm == null) {
-				throw new Exception("VM '"+vmid+"' does not exist");
-			}
-			if(first) {
-				first = false;
-			} else {
-				sb.append(',');
-			}
-			sb.append("{\"vmId\":\"").append(vmid)
-					.append("\",\"cost\":")
-					.append(pricingModeller.getVMFinalCharges(vmid,false))
-					.append('}');
-		}
-		String retJson = sb.append(']').toString();
 
-		log.debug("getVMscost returned: " + retJson);
-
-		return retJson;
-	}
 
     //================================================================================
     // Private Methods
@@ -472,25 +449,14 @@ public class GenericVmManager implements VmManager {
      * @param hostnames the names of the hosts in the infrastructure
      */
     private void initializeHosts(Monitoring monitoring, String[] hostnames) {
-		hosts.add(hostsFactory
-        switch (monitoring) {
-            case OPENSTACK:
-                generateOpenStackHosts(hostnames);
-                break;
-            case GANGLIA:
-                generateGangliaHosts(hostnames);
-                break;
-            case ZABBIX:
-                generateZabbixHosts(hostnames);
-                break;
-            case FAKE:
-                generateFakeHosts(hostnames);
-                break;
-            default:
-                break;
-        }
-    }
+		HostFactory hf = VmManagerConfiguration.INSTANCE.getHostFactory();
 
+		for(String hostname : hostnames) {
+			hosts.add(hf.getHost(hostname));
+		}
+
+    }
+/*
     private void generateOpenStackHosts(String[] hostnames) {
         for (String hostname: hostnames) {
             hosts.add(HostFactory.getHost(hostname, HostType.OPENSTACK, cloudMiddleware));
@@ -519,7 +485,7 @@ public class GenericVmManager implements VmManager {
             hosts.add(HostFactory.getHost(hostname, HostType.FAKE, cloudMiddleware));
         }
     }
-
+*/
     private void startPeriodicSelfAdaptationThread() {
         Thread thread = new Thread(
                 new PeriodicSelfAdaptationRunnable(selfAdaptationManager),
@@ -527,6 +493,7 @@ public class GenericVmManager implements VmManager {
         thread.start();
     }
 
+	/*
     private OpenStackCredentials getOpenStackCredentials() {
         return new OpenStackCredentials(conf.openStackIP,
                 conf.keyStonePort,
@@ -536,6 +503,7 @@ public class GenericVmManager implements VmManager {
                 conf.glancePort,
                 conf.keyStoneTenantId);
     }
+    */
 
 	@Override
 	public HostsManager getHostsManager() {
@@ -568,5 +536,37 @@ public class GenericVmManager implements VmManager {
 			}
 		},"onDemandSelfAdaptationThread").start();
 
+	}
+
+	@Override
+	public String getVmsEstimates(List<String> vmIds) throws Exception {
+		StringBuilder sb = new StringBuilder("[");
+		boolean first = true;
+		for(String vmid : vmIds) {
+			VmDeployed vm = vmsManager.getVm(vmid);
+			if(vm == null) {
+				throw new Exception("VM '"+vmid+"' does not exist");
+			}
+			if(first) {
+				first = false;
+			} else {
+				sb.append(',');
+			}
+			sb.append("{\"vmId\":\"").append(vmid);
+			for(Estimator estimator : estimatesManager) {
+				sb.append("\",\"");
+				sb.append(estimator.getLabel());
+				sb.append("\":");
+				Map<String,Object> options = new HashMap<>();
+				options.put("undeployed",false); // hack for ascetic pricing modeler
+				sb.append(estimator.getCurrentEstimation(vmid,options));
+			}
+			sb.append('}');
+		}
+		String retJson = sb.append(']').toString();
+
+		log.debug("getVMscost returned: " + retJson);
+
+		return retJson;
 	}
 }
