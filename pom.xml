@@ -8,7 +8,6 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>clopla</module>
 		<!--module>GangliaMonitoring</module-->
 		<module>vmmanagercore</module>
 		<!--module>power-button-presser</module-->

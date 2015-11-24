@@ -1,7 +1,10 @@
 package es.bsc.vmm.ascetic;
 
 import es.bsc.vmm.ascetic.scheduler.clopla.CloplaAsceticEnergyModeller;
-import es.bsc.vmm.ascetic.scheduler.clopla.CloplaAsceticPriceModeller;
+import es.bsc.vmm.core.clopla.placement.config.VmPlacementConfig;
+import es.bsc.vmm.core.manager.components.EstimatesManager;
+import es.bsc.vmm.core.models.scheduling.RecommendedPlanRequest;
+import es.bsc.vmm.core.vmplacement.CloplaConversor;
 
 /**
  * Created by mmacias on 23/11/15.
@@ -9,8 +12,8 @@ import es.bsc.vmm.ascetic.scheduler.clopla.CloplaAsceticPriceModeller;
 public class AsceticCloplaConversor extends CloplaConversor {
 
 	public VmPlacementConfig getCloplaConfig(String schedAlgorithmName,
-													  RecommendedPlanRequest recommendedPlanRequest,
-													  EstimatesManager estimatesManager)
+											 RecommendedPlanRequest recommendedPlanRequest,
+											 EstimatesManager estimatesManager)
 	{
 		int timeLimitSec = recommendedPlanRequest.getTimeLimitSeconds();
 		if (getLocalSearch(recommendedPlanRequest) == null) {
@@ -24,8 +27,7 @@ public class AsceticCloplaConversor extends CloplaConversor {
 				getConstructionHeuristic(recommendedPlanRequest.getConstructionHeuristicName()),
 				getLocalSearch(recommendedPlanRequest),
 				false)
-				.energyModeller(new CloplaAsceticEnergyModeller(energyModeller))
-				.priceModeller(new CloplaAsceticPriceModeller(pricingModeller, energyModeller))
+				.estimatesManager(estimatesManager)
 				.build();
 	}
 }

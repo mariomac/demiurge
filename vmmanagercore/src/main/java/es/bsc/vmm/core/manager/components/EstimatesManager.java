@@ -27,6 +27,7 @@ import es.bsc.vmm.core.models.vms.Vm;
 import es.bsc.vmm.core.scheduler.EstimatesGenerator;
 import es.bsc.vmm.core.scheduler.Scheduler;
 import es.bsc.vmm.core.scheduler.SchedulingAlgorithmsRepository;
+import freemarker.ext.beans.HashAdapter;
 
 import java.util.*;
 
@@ -45,6 +46,7 @@ public class EstimatesManager implements Iterable<Estimator> {
 
 		for(Estimator e: estimators) {
 			this.estimators.put(e.getClass(),e);
+			this.estimatorsByLabel.put(e.getLabel(),e);
 		}
         this.vmManager = vmm;
         this.hostsManager = vmm.getHostsManager();
@@ -85,7 +87,11 @@ public class EstimatesManager implements Iterable<Estimator> {
 
 
 	private Map<Class<? extends Estimator>, Estimator> estimators = new HashMap<>();
+	private Map<String, Estimator> estimatorsByLabel = new HashMap<>();
 
+	public Estimator getByLabel(String label) {
+		return estimatorsByLabel.get(label);
+	}
 
 	public Estimator get(Class<? extends Estimator> e) {
 		return estimators.get(e);
