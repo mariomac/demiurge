@@ -39,7 +39,8 @@ public class SchedAlgRandom implements SchedAlgorithm {
     public SchedAlgRandom() { }
 
     @Override
-    public DeploymentPlan chooseBestDeploymentPlan(List<DeploymentPlan> deploymentPlans, List<Host> hosts,
+    public DeploymentPlan chooseBestDeploymentPlan(List<VmDeployed> vmsDeployed, EstimatesManager estimatorsManager,
+                                                   List<DeploymentPlan> deploymentPlans, List<Host> hosts,
 												   String deploymentId) {
         DeploymentPlan bestDeploymentPlan = null;
         double bestDeploymentPlanScore = -1;
@@ -59,8 +60,4 @@ public class SchedAlgRandom implements SchedAlgorithm {
         return "random";
     }
 
-	@Override
-	public void initialize(List<VmDeployed> vmsDeployed, EstimatesManager estimatorsManager) {
-		// intentionally blank
-	}
 }

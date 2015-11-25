@@ -102,7 +102,7 @@ public class SchedAlgDistribution implements SchedAlgorithm {
     }
 
     @Override
-    public DeploymentPlan chooseBestDeploymentPlan(List<DeploymentPlan> deploymentPlans, List<Host> hosts,
+    public DeploymentPlan chooseBestDeploymentPlan(List<VmDeployed> vmsDeployed, EstimatesManager estimatorsManager, List<DeploymentPlan> deploymentPlans, List<Host> hosts,
             String deploymentId) {
         DeploymentPlan bestDeploymentPlan = null;
         for (DeploymentPlan deploymentPlan: deploymentPlans) {
@@ -123,8 +123,4 @@ public class SchedAlgDistribution implements SchedAlgorithm {
         return "distribution";
     }
 
-	@Override
-	public void initialize(List<VmDeployed> vmsDeployed, EstimatesManager estimatorsManager) {
-		// intentionally blank
-	}
 }

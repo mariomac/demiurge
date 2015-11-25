@@ -71,7 +71,6 @@ public class Scheduler {
     public synchronized void setSchedAlgorithm(String name) {
 
 		schedAlgorithm = schedulingAlgorithmsRepository.newInstance(name);
-		schedAlgorithm.initialize(vmsDeployed, estimatorsManager);
     }
 
     /**
@@ -298,7 +297,8 @@ public class Scheduler {
                 possibleDeploymentPlans, "asok10");
 
         // Find the best deployment plan
-        DeploymentPlan bestDeploymentPlan = schedAlgorithm.chooseBestDeploymentPlan(
+        DeploymentPlan bestDeploymentPlan = schedAlgorithm.chooseBestDeploymentPlan(vmsDeployed,
+                estimatorsManager,
                 possibleDeploymentPlans, hosts, deploymentId);
 
         if (bestDeploymentPlan != null) {

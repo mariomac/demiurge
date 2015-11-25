@@ -45,11 +45,6 @@ public class SchedAlgGroupByApp implements SchedAlgorithm {
 
     }
 
-	@Override
-	public void initialize(List<VmDeployed> vmsDeployed, EstimatesManager estimatorsManager) {
-		this.vmsDeployed = vmsDeployed;
-		// estimatorsmanager ignored intentionally
-	}
 
 	/**
      * Calculates the total number of "friends" in a deployment friend.
@@ -103,7 +98,7 @@ public class SchedAlgGroupByApp implements SchedAlgorithm {
     }
 
     @Override
-    public DeploymentPlan chooseBestDeploymentPlan(List<DeploymentPlan> deploymentPlans, List<Host> hosts,
+    public DeploymentPlan chooseBestDeploymentPlan(List<VmDeployed> vmsDeployed, EstimatesManager estimatorsManager, List<DeploymentPlan> deploymentPlans, List<Host> hosts,
             String deploymentId) {
         DeploymentPlan bestDeploymentPlan = null;
         int vmsFriendsForBestDeploymentPlan = -1;

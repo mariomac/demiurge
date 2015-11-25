@@ -40,6 +40,7 @@ import es.bsc.vmm.core.db.VmManagerDb;
 import es.bsc.vmm.core.manager.components.*;
 import es.bsc.vmm.core.models.scheduling.*;
 
+import es.bsc.vmm.core.vmplacement.CloplaConversor;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -69,6 +70,7 @@ public class GenericVmManager implements VmManager {
     private CloudMiddleware cloudMiddleware;
     private SelfAdaptationManager selfAdaptationManager;
 	private VmManagerDb db;
+    private CloplaConversor cloplaConversor;
 
     private List<Host> hosts = new ArrayList<>();
 
@@ -104,7 +106,8 @@ public class GenericVmManager implements VmManager {
         vmsManager = new VmsManager(hostsManager, cloudMiddleware, db, selfAdaptationManager, estimatesManager,
 				cfg.getSchedulingAlgorithmsRepository(), cfg.getVmmListeners());
         selfAdaptationOptsManager = new SelfAdaptationOptsManager(selfAdaptationManager);
-        vmPlacementManager = new VmPlacementManager(vmsManager, hostsManager, schedulingAlgorithmsManager,estimatesManager);
+        cloplaConversor = new CloplaConversor();
+        vmPlacementManager = new VmPlacementManager(vmsManager, hostsManager, schedulingAlgorithmsManager,estimatesManager,cloplaConversor);
 
         // Start periodic self-adaptation thread if it is not already running.
         // This check would not be needed if only one instance of this class was created.

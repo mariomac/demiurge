@@ -45,10 +45,6 @@ public class SchedAlgConsolidation implements SchedAlgorithm {
 
     public SchedAlgConsolidation() {}
 
-	@Override
-	public void initialize(List<VmDeployed> vmsDeployed, EstimatesManager estimatorsManager) {
-		// intentionally blank
-	}
 
 	private boolean hasLessUnusedCpu(Collection<ServerLoad> serversLoad1, Collection<ServerLoad> serversLoad2) {
         return Scheduler.getTotalUnusedCpuPerc(serversLoad1) < Scheduler.getTotalUnusedCpuPerc(serversLoad2);
@@ -107,7 +103,7 @@ public class SchedAlgConsolidation implements SchedAlgorithm {
     }
 
     @Override
-    public DeploymentPlan chooseBestDeploymentPlan(List<DeploymentPlan> deploymentPlans, List<Host> hosts,
+    public DeploymentPlan chooseBestDeploymentPlan(List<VmDeployed> vmsDeployed, EstimatesManager estimatorsManager, List<DeploymentPlan> deploymentPlans, List<Host> hosts,
             String deploymentId) {
         DeploymentPlan bestDeploymentPlan = null;
         for (DeploymentPlan deploymentPlan: deploymentPlans) {
