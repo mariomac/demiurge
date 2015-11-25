@@ -20,9 +20,23 @@ package es.bsc.vmm.ascetic.modellers.price.ascetic;
 
 import es.bsc.vmm.ascetic.modellers.price.PricingModeller;
 import es.bsc.vmm.ascetic.modellers.energy.ascetic.AsceticEnergyModellerAdapter;
+import es.bsc.vmm.core.clopla.domain.Host;
+import es.bsc.vmm.core.drivers.VmAction;
+import es.bsc.vmm.core.models.scheduling.DeploymentPlan;
+import es.bsc.vmm.core.models.scheduling.VmAssignmentToHost;
+import es.bsc.vmm.core.models.vms.Vm;
+import es.bsc.vmm.core.models.vms.VmDeployed;
+import eu.ascetic.asceticarchitecture.iaas.iaaspricingmodeller.IaaSPricingModeller;
+import eu.ascetic.asceticarchitecture.iaas.iaaspricingmodeller.billing.IaaSPricingModellerBilling;
+import eu.ascetic.asceticarchitecture.iaas.iaaspricingmodeller.energyprovider.EnergyProvider;
+import eu.ascetic.asceticarchitecture.iaas.iaaspricingmodeller.pricingschemesrepository.IaaSPricingModellerPricingScheme;
+import eu.ascetic.asceticarchitecture.iaas.iaaspricingmodeller.types.EnergyPrediction;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Connector for the pricing modeller developed in the Ascetic project by AUEB.
@@ -38,8 +52,12 @@ public class AsceticPricingModellerAdapter implements PricingModeller {
     with more available resources will take less time to complete its execution.
      */
 
+
+
     private static final long FIXED_DURATION_SEC = 3600;
     private static IaaSPricingModeller pricingModeller;
+
+	private Logger log = LogManager.getLogger(AsceticPricingModellerAdapter.class);
 
     public AsceticPricingModellerAdapter(AsceticEnergyModellerAdapter energyModeller) {
         pricingModeller = new IaaSPricingModeller(energyModeller.getEnergyModeller());
@@ -108,51 +126,73 @@ public class AsceticPricingModellerAdapter implements PricingModeller {
 	}
 
 	@Override
-	public String getName() {
-		return "priceEstimate";
+	public String getLabel() {
+		return "cost";
 	}
 
 	@Override
-	public double getValue(VmAssignmentToHost vma, List<VmDeployed> vmsDeployed, DeploymentPlan deploymentPlan) {
+	public double getDeploymentEstimation(VmAssignmentToHost vma, List<VmDeployed> vmsDeployed, DeploymentPlan deploymentPlan) {
 		return getVMChargesPrediction(vma.getVm().getCpus(), vma.getVm().getRamMb(), vma.getVm().getDiskGb(), vma.getHost().getHostname());
 	}
 
 	@Override
-	void onVmDeployment(VmDeployed vm) {
+	public double getCurrentEstimation(String vmId, Map options) {
+		Boolean deleteVM = options.get("deleteVM") != null && options.get("deleteVM").equals(Boolean.TRUE);
+		return this.getVMFinalCharges(vmId, deleteVM);
+	}
+
+	@Override
+	public double getCloplaEstimation(Host host, List<es.bsc.vmm.core.clopla.domain.Vm> vmsDeployedInHost) {
+		double result = 0.0;
+		for (es.bsc.vmm.core.clopla.domain.Vm vm: vmsDeployedInHost) {
+			result += pricingModeller.getVMChargesPrediction(
+					vm.getNcpus(), vm.getRamMb(), vm.getDiskGb(), getSchemeIdForVm(), FIXED_DURATION_SEC , host.getHostname());
+		}
+		return result;
+	}
+
+	@Override
+	public void onVmDeployment(final VmDeployed vm) {
 		Thread thread = new Thread() {
 			public void run(){
 				//
 				try {
-					log.debug("Waiting 10 seconds before initializing VM billing. VM ID = " + vmId + "; Hostname = " + hostname);
+					log.debug("Waiting 10 seconds before initializing VM billing. VM ID = " + vm.getId() + "; Hostname = " + vm.getHostName());
 					Thread.sleep(10000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				pricingModeller.initializeVM(vmId,  hostname, appId);
+				pricingModeller.initializeVM(vm.getId(), getSchemeIdForVm(),  vm.getHostName(), vm.getApplicationId());
 			}
 		};
 		thread.start();
 
 	}
 	@Override
-	void onVmDestruction(VmDeployed vm) {
+	public void onVmDestruction(final VmDeployed vm) {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				try {
 					// indicating vm has been stopped
-					pricingModeller.getVMFinalCharges(vmId,true);
+					pricingModeller.getVMFinalCharges(vm.getId(),true);
 				} catch (Exception e) {
-					log.warn("Error closing pricing Modeler for VM " + vmId + ": " + e.getMessage());
+					log.warn("Error closing pricing Modeler for VM " + vm.getId() + ": " + e.getMessage());
 				}
 			}
 		}).start();
 	}
 	@Override
-	void onVmMigration(VmDeployed vm) {}
+	public void onVmMigration(VmDeployed vm) {
+		// do nothing
+	}
 	@Override
-	void onVmAction(VmDeployed vm, VmAction action) {}
+	public void onVmAction(VmDeployed vm, VmAction action) {
+		// do nothing
+	}
 
 	@Override
-	void onPreVmDeployment(Vm vm) {}
+	public void onPreVmDeployment(Vm vm) {
+		// do nothing
+	}
 }

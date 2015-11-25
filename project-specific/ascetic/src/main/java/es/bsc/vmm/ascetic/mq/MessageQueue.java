@@ -19,6 +19,7 @@
 package es.bsc.vmm.ascetic.mq;
 
 import com.google.gson.Gson;
+import es.bsc.vmm.core.drivers.VmAction;
 import es.bsc.vmm.core.models.vms.VmDeployed;
 
 
@@ -42,8 +43,8 @@ public class MessageQueue {
         publishMessage("virtual-machine-manager.vm." + vm.getId() + ".destroyed", vm);
     }
 
-    public static void publishMessageVmChangedState(VmDeployed vm, String action) {
-        publishMessage("virtual-machine-manager.vm." + vm.getId() + "." + action, vm);
+    public static void publishMessageVmChangedState(VmDeployed vm, VmAction action) {
+        publishMessage("virtual-machine-manager.vm." + vm.getId() + "." + action.getCamelCase(), vm);
     }
 
     private static void publishMessage(String topic, Object messageObject) {

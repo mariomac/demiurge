@@ -18,7 +18,7 @@
 
 package es.bsc.vmm.ascetic.modellers.energy.ascetic;
 
-import es.bsc.vmmanagercore.models.vms.Vm;
+import es.bsc.vmm.core.models.vms.Vm;
 import eu.ascetic.asceticarchitecture.iaas.energymodeller.EnergyModeller;
 import eu.ascetic.asceticarchitecture.iaas.energymodeller.types.energyuser.VM;
 

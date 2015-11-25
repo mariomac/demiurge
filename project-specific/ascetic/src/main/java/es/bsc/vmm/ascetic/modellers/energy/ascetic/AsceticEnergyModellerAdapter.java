@@ -18,32 +18,36 @@
 
 package es.bsc.vmm.ascetic.modellers.energy.ascetic;
 
-import es.bsc.vmm.ascetic.modellers.energy.EnergyModeller;
-import es.bsc.vmmanagercore.models.scheduling.DeploymentPlan;
-import es.bsc.vmmanagercore.models.scheduling.VmAssignmentToHost;
-import es.bsc.vmmanagercore.models.vms.Vm;
-import es.bsc.vmmanagercore.models.vms.VmDeployed;
-import es.bsc.vmmanagercore.monitoring.hosts.Host;
+import es.bsc.vmm.core.configuration.VmManagerConfiguration;
+import es.bsc.vmm.core.drivers.VmAction;
+import es.bsc.vmm.core.models.scheduling.DeploymentPlan;
+import es.bsc.vmm.core.models.scheduling.VmAssignmentToHost;
+import es.bsc.vmm.core.models.vms.Vm;
+import es.bsc.vmm.core.models.vms.VmDeployed;
+import es.bsc.vmm.core.monitoring.hosts.Host;
+import es.bsc.vmm.core.vmplacement.CloplaConversor;
 import eu.ascetic.asceticarchitecture.iaas.energymodeller.EnergyModeller;
 import eu.ascetic.asceticarchitecture.iaas.energymodeller.types.energyuser.VM;
 import eu.ascetic.asceticarchitecture.iaas.energymodeller.types.usage.EnergyUsagePrediction;
+import org.apache.http.MethodNotSupportedException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Connector for the energy modeller developed in the Ascetic project by University of Leeds and AUEB.
  *
  * @author Mario Macias (github.com/mariomac), David Ortiz Lopez (david.ortiz@bsc.es)
  */
-public class AsceticEnergyModellerAdapter implements EnergyModeller {
+public class AsceticEnergyModellerAdapter implements es.bsc.vmm.ascetic.modellers.energy.EnergyModeller {
 
     private static eu.ascetic.asceticarchitecture.iaas.energymodeller.EnergyModeller energyModeller =
             eu.ascetic.asceticarchitecture.iaas.energymodeller.EnergyModeller.getInstance();
 
     @Override
     public double getPredictedAvgPowerVm(Vm vm, Host host, List<VmDeployed> vmsDeployed,
-            DeploymentPlan deploymentPlan) {
+										 DeploymentPlan deploymentPlan) {
         return getEnergyUsagePrediction(vm, host, vmsDeployed, deploymentPlan).getAvgPowerUsed();
     }
 
@@ -81,7 +85,7 @@ public class AsceticEnergyModellerAdapter implements EnergyModeller {
         }
     }
 
-    public static EnergyModeller getEnergyModeller() {
+    public static eu.ascetic.asceticarchitecture.iaas.energymodeller.EnergyModeller getEnergyModeller() {
         return energyModeller;
     }
 
@@ -128,18 +132,34 @@ public class AsceticEnergyModellerAdapter implements EnergyModeller {
         return vms;
     }
 
-    @Override
-    public String getName() {
-        return "powerEstimate";
-    }
-
-    @Override
-    public double getValue(VmAssignmentToHost vma, List<VmDeployed> vmsDeployed, DeploymentPlan deploymentPlan) {
-        return getPredictedAvgPowerVm(vma.getVm(), vma.getHost(), vmsDeployed, deploymentPlan);
-    }
 
 	@Override
-	void onVmDeployment(VmDeployed vm)  {
+	public String getLabel() {
+		return "power";
+	}
+
+	@Override
+	public double getDeploymentEstimation(VmAssignmentToHost vma, List<VmDeployed> vmsDeployed, DeploymentPlan deploymentPlan) {
+		return getPredictedAvgPowerVm(vma.getVm(), vma.getHost(), vmsDeployed, deploymentPlan);
+
+	}
+
+	@Override
+	public double getCurrentEstimation(String vmId, Map options) {
+		throw new AssertionError("this should never call. Configure VMM to use clopla");
+	}
+
+	@Override
+	public double getCloplaEstimation(es.bsc.vmm.core.clopla.domain.Host host, List<es.bsc.vmm.core.clopla.domain.Vm> vmsDeployedInHost) {
+		return getHostPredictedAvgPower(
+								host.getHostname(),
+								VmManagerConfiguration.INSTANCE.getCloplaConversor().cloplaVmsToVmmType(vmsDeployedInHost));
+
+	}
+
+
+	@Override
+	public void onVmDeployment(VmDeployed vm)  {
 		/**
 		 * The first call sets static host information. The second
 		 * writes extra profiling data for VMs. The second also
@@ -152,12 +172,12 @@ public class AsceticEnergyModellerAdapter implements EnergyModeller {
 				vm.getImage());
 	}
 	@Override
-	void onVmDestruction(VmDeployed vm)  {}
+	public void onVmDestruction(VmDeployed vm)  {}
 	@Override
-	void onVmMigration(VmDeployed vm)  {}
+	public void onVmMigration(VmDeployed vm)  {}
 	@Override
-	void onVmAction(VmDeployed vm, VmAction action)  {}
+	public void onVmAction(VmDeployed vm, VmAction action)  {}
 
 	@Override
-	void onPreVmDeployment(Vm vm) {}
+	public void onPreVmDeployment(Vm vm) {}
 }

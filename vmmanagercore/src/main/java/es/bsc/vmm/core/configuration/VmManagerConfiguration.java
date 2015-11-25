@@ -94,7 +94,6 @@ public enum VmManagerConfiguration {
     private Configuration configuration;
 	private List<VmmListener> vmmListeners;
 	private HostFactory hostFactory;
-	private CloplaConversor cloplaConversor;
 	private VmManager vmManager;
 
 	VmManagerConfiguration() {
@@ -170,7 +169,6 @@ public enum VmManagerConfiguration {
 		vmmListeners = springContext.getBean("vmmListeners", List.class);
 
 		hostFactory = springContext.getBean("hostFactory", HostFactory.class);
-		cloplaConversor = springContext.getBean("cloplaConversor", CloplaConversor.class);
     }
 
 	public SchedulingAlgorithmsRepository getSchedulingAlgorithmsRepository() {
@@ -191,10 +189,6 @@ public enum VmManagerConfiguration {
 
 	public List<VmmListener> getVmmListeners() {
 		return vmmListeners;
-	}
-
-	public CloplaConversor getCloplaConversor() {
-		return cloplaConversor;
 	}
 
 	@Override

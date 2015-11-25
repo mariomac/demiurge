@@ -19,6 +19,14 @@
 package es.bsc.vmm.ascetic.scheduler.legacy;
 
 import es.bsc.vmm.ascetic.modellers.energy.EnergyModeller;
+import es.bsc.vmm.ascetic.modellers.energy.ascetic.AsceticEnergyModellerAdapter;
+import es.bsc.vmm.core.logging.VMMLogger;
+import es.bsc.vmm.core.manager.components.EstimatesManager;
+import es.bsc.vmm.core.models.scheduling.DeploymentPlan;
+import es.bsc.vmm.core.models.scheduling.VmAssignmentToHost;
+import es.bsc.vmm.core.models.vms.VmDeployed;
+import es.bsc.vmm.core.monitoring.hosts.Host;
+import es.bsc.vmm.core.scheduler.schedulingalgorithms.SchedAlgorithm;
 
 
 import java.util.ArrayList;
@@ -35,15 +43,10 @@ import java.util.List;
 @Deprecated
 public class SchedAlgEnergyAware implements SchedAlgorithm {
 
-    List<VmDeployed> vmsDeployed = new ArrayList<>();
-    EnergyModeller energyModeller;
 
-    public SchedAlgEnergyAware(List<VmDeployed> vmsDeployed, EnergyModeller energyModeller) {
-        this.vmsDeployed = vmsDeployed;
-        this.energyModeller = energyModeller;
-    }
 
-    private double getPredictedAvgPowerDeploymentPlan(DeploymentPlan deploymentPlan) {
+    private double getPredictedAvgPowerDeploymentPlan(EnergyModeller energyModeller, List<VmDeployed> vmsDeployed, DeploymentPlan deploymentPlan) {
+
         double result = 0;
         for (VmAssignmentToHost vmAssignmentToHost: deploymentPlan.getVmsAssignationsToHosts()) {
             double predictedAvgPower = energyModeller.getPredictedAvgPowerVm(vmAssignmentToHost.getVm(),
@@ -54,12 +57,15 @@ public class SchedAlgEnergyAware implements SchedAlgorithm {
     }
 
     @Override
-    public DeploymentPlan chooseBestDeploymentPlan(List<DeploymentPlan> deploymentPlans, List<Host> hosts,
+    public DeploymentPlan chooseBestDeploymentPlan(List<VmDeployed> vmsDeployed, EstimatesManager estimatorsManager, List<DeploymentPlan> deploymentPlans, List<Host> hosts,
             String deploymentId) {
+
+		AsceticEnergyModellerAdapter energyModeller = ((AsceticEnergyModellerAdapter)estimatorsManager.get(AsceticEnergyModellerAdapter.class));
         DeploymentPlan bestDeploymentPlan = null;
+
         double avgPowerBestDeploymentPlan = Double.MAX_VALUE;
         for (DeploymentPlan deploymentPlan: deploymentPlans) {
-            double predictedAvgPower = getPredictedAvgPowerDeploymentPlan(deploymentPlan);
+            double predictedAvgPower = getPredictedAvgPowerDeploymentPlan(energyModeller, vmsDeployed, deploymentPlan);
             VMMLogger.logPredictedAvgPowerForDeploymentPlan(deploymentPlan, predictedAvgPower, deploymentId);
             if (predictedAvgPower < avgPowerBestDeploymentPlan) {
                 bestDeploymentPlan = deploymentPlan;
@@ -76,8 +82,8 @@ public class SchedAlgEnergyAware implements SchedAlgorithm {
     }
 
     @Override
-    public SchedAlgorithmNameEnum getName() {
-        return SchedAlgorithmNameEnum.ENERGY_AWARE;
+    public String getName() {
+        return "energyAware";
     }
 
 }

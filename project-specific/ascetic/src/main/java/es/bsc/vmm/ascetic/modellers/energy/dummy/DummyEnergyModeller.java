@@ -19,12 +19,15 @@
 package es.bsc.vmm.ascetic.modellers.energy.dummy;
 
 import es.bsc.vmm.ascetic.modellers.energy.EnergyModeller;
-import es.bsc.vmmanagercore.models.scheduling.DeploymentPlan;
-import es.bsc.vmmanagercore.models.vms.Vm;
-import es.bsc.vmmanagercore.models.vms.VmDeployed;
-import es.bsc.vmmanagercore.monitoring.hosts.Host;
+import es.bsc.vmm.core.drivers.VmAction;
+import es.bsc.vmm.core.models.scheduling.DeploymentPlan;
+import es.bsc.vmm.core.models.scheduling.VmAssignmentToHost;
+import es.bsc.vmm.core.models.vms.Vm;
+import es.bsc.vmm.core.models.vms.VmDeployed;
+import es.bsc.vmm.core.monitoring.hosts.Host;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * This is a dummy Energy Modeller. It always returns 0, but it can be helpful in cases where there is not any
@@ -38,7 +41,7 @@ public class DummyEnergyModeller implements EnergyModeller {
 
     @Override
     public double getPredictedAvgPowerVm(Vm vm, Host host, List<VmDeployed> vmsDeployed,
-                                         DeploymentPlan deploymentPlan) {
+										 DeploymentPlan deploymentPlan) {
         return 0;
     }
 
@@ -53,4 +56,48 @@ public class DummyEnergyModeller implements EnergyModeller {
         return 0;
     }
 
+	@Override
+	public String getLabel() {
+		return "dummy";
+	}
+
+	@Override
+	public double getDeploymentEstimation(VmAssignmentToHost vma, List<VmDeployed> vmsDeployed, DeploymentPlan deploymentPlan) {
+		return 0;
+	}
+
+	@Override
+	public double getCurrentEstimation(String vmId, Map options) {
+		return 0;
+	}
+
+	@Override
+	public double getCloplaEstimation(es.bsc.vmm.core.clopla.domain.Host host, List<es.bsc.vmm.core.clopla.domain.Vm> vmsDeployedInHost) {
+		return 0;
+	}
+
+	@Override
+	public void onVmDeployment(VmDeployed vm) {
+
+	}
+
+	@Override
+	public void onVmDestruction(VmDeployed vm) {
+
+	}
+
+	@Override
+	public void onVmMigration(VmDeployed vm) {
+
+	}
+
+	@Override
+	public void onVmAction(VmDeployed vm, VmAction action) {
+
+	}
+
+	@Override
+	public void onPreVmDeployment(Vm vm) {
+
+	}
 }

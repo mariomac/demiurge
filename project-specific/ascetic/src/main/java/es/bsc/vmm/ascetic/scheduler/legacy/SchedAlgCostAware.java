@@ -18,14 +18,15 @@
 
 package es.bsc.vmm.ascetic.scheduler.legacy;
 
-import es.bsc.vmmanagercore.logging.VMMLogger;
-import es.bsc.vmmanagercore.manager.components.EstimatesManager;
-import es.bsc.vmmanagercore.models.scheduling.DeploymentPlan;
-import es.bsc.vmmanagercore.models.scheduling.SchedAlgorithmNameEnum;
-import es.bsc.vmmanagercore.models.scheduling.VmAssignmentToHost;
-import es.bsc.vmmanagercore.models.vms.Vm;
-import es.bsc.vmmanagercore.models.vms.VmDeployed;
-import es.bsc.vmmanagercore.monitoring.hosts.Host;
+import es.bsc.vmm.ascetic.modellers.price.ascetic.AsceticPricingModellerAdapter;
+import es.bsc.vmm.core.logging.VMMLogger;
+import es.bsc.vmm.core.manager.components.EstimatesManager;
+import es.bsc.vmm.core.models.scheduling.DeploymentPlan;
+import es.bsc.vmm.core.models.scheduling.VmAssignmentToHost;
+import es.bsc.vmm.core.models.vms.Vm;
+import es.bsc.vmm.core.models.vms.VmDeployed;
+import es.bsc.vmm.core.monitoring.hosts.Host;
+import es.bsc.vmm.core.scheduler.schedulingalgorithms.SchedAlgorithm;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,15 +42,11 @@ import java.util.List;
 @Deprecated
 public class SchedAlgCostAware implements SchedAlgorithm {
 
-    private List<VmDeployed> vmsDeployed = new ArrayList<>();
-    private EstimatesManager estimatesManager;
 
-    public SchedAlgCostAware(List<VmDeployed> vmsDeployed, EstimatesManager estimatesManager) {
-        this.vmsDeployed = vmsDeployed;
-        this.estimatesManager = estimatesManager;
-    }
 
-    private double getPredictedCostDeploymentPlan(DeploymentPlan deploymentPlan) {
+    private double getPredictedCostDeploymentPlan(EstimatesManager estimatesManager, DeploymentPlan deploymentPlan) {
+		AsceticPricingModellerAdapter pricingModeller =
+				(AsceticPricingModellerAdapter) estimatesManager.get(AsceticPricingModellerAdapter.class);
         double result = 0.0;
         for (VmAssignmentToHost vmAssignmentToHost: deploymentPlan.getVmsAssignationsToHosts()) {
             Vm vm = vmAssignmentToHost.getVm();
@@ -62,12 +59,12 @@ public class SchedAlgCostAware implements SchedAlgorithm {
     }
 
     @Override
-    public DeploymentPlan chooseBestDeploymentPlan(List<DeploymentPlan> deploymentPlans, List<Host> hosts,
+    public DeploymentPlan chooseBestDeploymentPlan(List<VmDeployed> vmsDeployed, EstimatesManager estimatorsManager, List<DeploymentPlan> deploymentPlans, List<Host> hosts,
             String deploymentId) {
         DeploymentPlan bestDeploymentPlan = null;
         double costBestDeploymentPlan = Double.MAX_VALUE;
         for (DeploymentPlan deploymentPlan: deploymentPlans) {
-            double deploymentPlanCost = getPredictedCostDeploymentPlan(deploymentPlan);
+            double deploymentPlanCost = getPredictedCostDeploymentPlan(estimatorsManager, deploymentPlan);
             VMMLogger.logPredictedCostForDeploymentPlan(deploymentPlan, deploymentPlanCost, deploymentId);
             if (deploymentPlanCost < costBestDeploymentPlan) {
                 bestDeploymentPlan = deploymentPlan;
@@ -84,8 +81,10 @@ public class SchedAlgCostAware implements SchedAlgorithm {
     }
 
     @Override
-    public SchedAlgorithmNameEnum getName() {
-        return SchedAlgorithmNameEnum.COST_AWARE;
+    public String getName() {
+        return "costAware";
     }
+
+
 
 }

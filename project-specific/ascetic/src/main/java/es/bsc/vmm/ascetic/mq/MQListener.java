@@ -1,25 +1,30 @@
 package es.bsc.vmm.ascetic.mq;
 
+import es.bsc.vmm.core.drivers.VmAction;
+import es.bsc.vmm.core.drivers.VmmListener;
+import es.bsc.vmm.core.models.vms.Vm;
+import es.bsc.vmm.core.models.vms.VmDeployed;
+
 /**
  * Created by mmacias on 19/11/15.
  */
 public class MQListener implements VmmListener {
 	@Override
-	void onVmDeployment(VmDeployed vm) {
+	public void onVmDeployment(VmDeployed vm) {
 		MessageQueue.publishMessageVmDeployed(vm);
 	}
 	@Override
-	void onVmDestruction(VmDeployed vm) {
+	public void onVmDestruction(VmDeployed vm) {
 		MessageQueue.publishMessageVmDestroyed(vm);
 	}
 	@Override
-	void onVmMigration(VmDeployed vm) {}
+	public void onVmMigration(VmDeployed vm) {}
 	@Override
-	void onVmAction(VmDeployed vm, VmAction action) {
+	public void onVmAction(VmDeployed vm, VmAction action) {
 		MessageQueue.publishMessageVmChangedState(vm, action);
 
 	}
 
 	@Override
-	void onPreVmDeployment(Vm vm) {}
+	public void onPreVmDeployment(Vm vm) {}
 }

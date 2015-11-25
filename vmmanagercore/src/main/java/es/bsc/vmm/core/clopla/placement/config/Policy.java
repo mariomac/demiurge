@@ -24,20 +24,20 @@ package es.bsc.vmm.core.clopla.placement.config;
  *
  * @author Mario Macias (github.com/mariomac), David Ortiz (david.ortiz@bsc.es)
  */
-public enum Policy {
+public class Policy {
 
-    CONSOLIDATION("Consolidation"), 
-    DISTRIBUTION("Distribution"),
-    GROUP_BY_APP("Group by App"), 
-    RANDOM("Random"),
-	ESTIMATOR_BASED("EstimatorBased");
+    public static final Policy CONSOLIDATION = new Policy("Consolidation");
+	public static final Policy DISTRIBUTION = new Policy("Distribution");
+	public static final Policy GROUP_BY_APP = new Policy("Group by App");
+	public static final Policy RANDOM = new Policy("Random");
+	public static final Policy ESTIMATOR_BASED = new Policy("Estimator-Based");
 
     private final String name;
 
 	// default
 	private String estimatorLabel = "energy";
 
-    private Policy(String name) {
+    protected Policy(String name) {
         this.name = name;
     }
 
@@ -57,7 +57,11 @@ public enum Policy {
 
 	@Override
     public String toString() {
-        return name;
+		if(this == ESTIMATOR_BASED) {
+			return name + "-" + estimatorLabel;
+		} else {
+			return name;
+		}
     }
     
 }

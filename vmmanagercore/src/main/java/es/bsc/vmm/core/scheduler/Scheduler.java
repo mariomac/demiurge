@@ -71,6 +71,7 @@ public class Scheduler {
     public synchronized void setSchedAlgorithm(String name) {
 
 		schedAlgorithm = schedulingAlgorithmsRepository.newInstance(name);
+		schedAlgorithm.initialize(vmsDeployed, estimatorsManager);
     }
 
     /**

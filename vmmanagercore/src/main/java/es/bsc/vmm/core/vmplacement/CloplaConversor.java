@@ -39,7 +39,7 @@ import java.util.List;
  *
  * @author Mario Macias (github.com/mariomac), David Ortiz Lopez (david.ortiz@bsc.es)
  */
-public abstract class CloplaConversor {
+public class CloplaConversor {
 
     /**
      * Converts a list of VMs as defined in the VMM core to a list of VMs as defined in the VM placement library.
@@ -90,9 +90,25 @@ public abstract class CloplaConversor {
      * @param recommendedPlanRequest the recommended plan request
      * @return the placement configuration for the VM placement library
      */
-    public abstract VmPlacementConfig getCloplaConfig(String schedAlgorithmName,
-													RecommendedPlanRequest recommendedPlanRequest,
-													EstimatesManager estimatesManager);
+	public VmPlacementConfig getCloplaConfig(String schedAlgorithmName,
+											 RecommendedPlanRequest recommendedPlanRequest,
+											 EstimatesManager estimatesManager)
+	{
+		int timeLimitSec = recommendedPlanRequest.getTimeLimitSeconds();
+		if (getLocalSearch(recommendedPlanRequest) == null) {
+			timeLimitSec = 1; // It does not matter because the local search alg will not be run, but the
+			// VM placement library complains if we send 0
+		}
+
+		return new VmPlacementConfig.Builder(
+				getPolicy(schedAlgorithmName),
+				timeLimitSec,
+				getConstructionHeuristic(recommendedPlanRequest.getConstructionHeuristicName()),
+				getLocalSearch(recommendedPlanRequest),
+				false)
+				.estimatesManager(estimatesManager)
+				.build();
+	}
 
     /**
      * Returns a recommended plan from a cluster state defined by the VM placement library.
@@ -174,19 +190,22 @@ public abstract class CloplaConversor {
      * @return the policy
      */
 	protected static Policy getPolicy(String schedAlgorithmName) {
+		// TO DO: change this. Shoddy piece of work
+		if(schedAlgorithmName.startsWith("estimatorBased")) {
+			String label = schedAlgorithmName.substring(schedAlgorithmName.indexOf('-')+1);
+			Policy.ESTIMATOR_BASED.setEstimatorLabel(label);
+			return Policy.ESTIMATOR_BASED;
+		}
         switch (schedAlgorithmName) {
             case "consolidation":
                 return Policy.CONSOLIDATION;
-            case "costAware":
-                return Policy.PRICE;
             case "distribution":
                 return Policy.DISTRIBUTION;
-            case "energyAware":
-                return Policy.ENERGY;
             case "groupByApp":
                 return Policy.GROUP_BY_APP;
             case "random":
                 return Policy.RANDOM;
+
             default:
                 throw new IllegalArgumentException("Invalid policy");
         }

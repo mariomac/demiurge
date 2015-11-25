@@ -17,20 +17,6 @@ public class CloplaEstimationModeller {
 	}
 
 	public double getEstimation(String label, Host host, List<Vm> vmsDeployedInHost) {
-		// make sure that it calls, in the next subclasses
-		// pricingModeller:
-		//          double result = 0.0;
-		// 			for (Vm vm: vmsDeployedInHost) {
-		//				result += pricingModeller.getVMChargesPrediction(vm.getNcpus(), vm.getRamMb(), vm.getDiskGb(), host.getHostname());
-		// 			}
-		//
-		// energy Modeller:
-		//			energyModeller.getHostPredictedAvgPower(
-		//				host.getHostname(),
-		//				CloplaConversor.cloplaVmsToVmmType(vms));
-		//			}
-		//
-
 		return estimatesManager.getByLabel(label).getCloplaEstimation(host, vmsDeployedInHost);
 	}
 }

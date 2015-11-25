@@ -19,8 +19,6 @@
 
 	</bean>
 
-	<bean id="cloplaConversor" class="es.bsc.vmm.ascetic.AsceticCloplaConversor"/>
-
 	<util:set id="estimators" value-type="es.bsc.vmmanagercore.drivers.Estimator">
 		<ref bean="energyModeller"/>
 		<ref bean="pricingModeller"/>

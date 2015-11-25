@@ -42,7 +42,7 @@ public interface SchedAlgorithm {
      * @param deploymentId ID used to identify the deployment in the log messages
      * @return the best deployment plan
      */
-    DeploymentPlan chooseBestDeploymentPlan(List<DeploymentPlan> deploymentPlans, List<Host> hosts, 
+    DeploymentPlan chooseBestDeploymentPlan(List<VmDeployed> vmsDeployed, EstimatesManager estimatorsManager, List<DeploymentPlan> deploymentPlans, List<Host> hosts,
                                             String deploymentId);
 
     /**
@@ -51,11 +51,4 @@ public interface SchedAlgorithm {
      */
     String getName();
 
-	/**
-	 * Provides extra information for the scheduling algorithms.
-	 * Some implementations can just ignore this call
-	 * @param vmsDeployed
-	 * @param estimatorsManager
-	 */
-	void initialize(List<VmDeployed> vmsDeployed, EstimatesManager estimatorsManager);
 }
