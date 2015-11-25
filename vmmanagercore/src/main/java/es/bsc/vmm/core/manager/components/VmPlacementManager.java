@@ -24,6 +24,7 @@ import es.bsc.vmm.core.clopla.domain.LocalSearchHeuristicOption;
 import es.bsc.vmm.core.clopla.lib.Clopla;
 import es.bsc.vmm.core.clopla.lib.IClopla;
 import es.bsc.vmm.core.cloudmiddleware.CloudMiddlewareException;
+import es.bsc.vmm.core.configuration.VmManagerConfiguration;
 import es.bsc.vmm.core.models.scheduling.*;
 import es.bsc.vmm.core.models.scheduling.ConstructionHeuristic;
 import es.bsc.vmm.core.models.vms.Vm;
@@ -45,16 +46,14 @@ public class VmPlacementManager {
     private final HostsManager hostsManager;
     private final SchedulingAlgorithmsManager schedulingAlgorithmsManager;
     private final EstimatesManager estimatesManager;
-    private final CloplaConversor cloplaConversor;
-    
+
     public VmPlacementManager(VmsManager vmsManager, HostsManager hostsManager, 
                               SchedulingAlgorithmsManager schedulingAlgorithmsManager,
-                              EstimatesManager estimatesManager, CloplaConversor cloplaConversor) {
+                              EstimatesManager estimatesManager) {
         this.vmsManager = vmsManager;
         this.hostsManager = hostsManager;
         this.schedulingAlgorithmsManager = schedulingAlgorithmsManager;
         this.estimatesManager = estimatesManager;
-        this.cloplaConversor = cloplaConversor;
     }
     
     /**
@@ -103,19 +102,20 @@ public class VmPlacementManager {
     public RecommendedPlan getRecommendedPlan(RecommendedPlanRequest recommendedPlanRequest,
 											  boolean assignVmsToCurrentHosts,
 											  List<Vm> vmsToDeploy) throws CloudMiddlewareException {
+        CloplaConversor cc = VmManagerConfiguration.INSTANCE.getCloplaConversor();
         List<Host> hosts = hostsManager.getHosts();
         ClusterState clusterStateRecommendedPlan = clopla.getBestSolution(
-                cloplaConversor.getCloplaHosts(hosts),
-                cloplaConversor.getCloplaVms(
+                cc.getCloplaHosts(hosts),
+                cc.getCloplaVms(
                         getVmsDeployedAndScheduledNonDeployed(),
                         vmsToDeploy,
-                        cloplaConversor.getCloplaHosts(hosts),
+                        cc.getCloplaHosts(hosts),
                         assignVmsToCurrentHosts),
-                cloplaConversor.getCloplaConfig(
+                cc.getCloplaConfig(
                         schedulingAlgorithmsManager.getCurrentSchedulingAlgorithm(),
                         recommendedPlanRequest,
                         estimatesManager));
-        return cloplaConversor.getRecommendedPlan(clusterStateRecommendedPlan);
+        return cc.getRecommendedPlan(clusterStateRecommendedPlan);
     }
 
     /**

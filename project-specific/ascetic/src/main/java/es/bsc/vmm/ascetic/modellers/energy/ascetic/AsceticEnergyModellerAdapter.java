@@ -18,6 +18,7 @@
 
 package es.bsc.vmm.ascetic.modellers.energy.ascetic;
 
+import es.bsc.vmm.core.clopla.lib.Clopla;
 import es.bsc.vmm.core.configuration.VmManagerConfiguration;
 import es.bsc.vmm.core.drivers.VmAction;
 import es.bsc.vmm.core.models.scheduling.DeploymentPlan;

@@ -19,11 +19,20 @@
 package es.bsc.vmm.ascetic.modellers.price.dummy;
 
 import es.bsc.vmm.ascetic.modellers.price.PricingModeller;
+import es.bsc.vmm.core.clopla.domain.Host;
+import es.bsc.vmm.core.clopla.domain.Vm;
+import es.bsc.vmm.core.drivers.VmAction;
+import es.bsc.vmm.core.models.scheduling.DeploymentPlan;
+import es.bsc.vmm.core.models.scheduling.VmAssignmentToHost;
+import es.bsc.vmm.core.models.vms.VmDeployed;
 import eu.ascetic.asceticarchitecture.iaas.iaaspricingmodeller.IaaSPricingModeller;
 import eu.ascetic.asceticarchitecture.iaas.iaaspricingmodeller.billing.IaaSPricingModellerBilling;
 import eu.ascetic.asceticarchitecture.iaas.iaaspricingmodeller.energyprovider.EnergyProvider;
 import eu.ascetic.asceticarchitecture.iaas.iaaspricingmodeller.pricingschemesrepository.IaaSPricingModellerPricingScheme;
 import eu.ascetic.asceticarchitecture.iaas.iaaspricingmodeller.types.EnergyPrediction;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * This is a dummy Pricing Modeller. It always returns 0, but it can be helpful in cases where there is not any
@@ -82,5 +91,50 @@ public class DummyPricingModeller implements PricingModeller {
 	@Override
 	public IaaSPricingModellerBilling getBilling() {
 		return null;
+	}
+
+	@Override
+	public String getLabel() {
+		return "dummy";
+	}
+
+	@Override
+	public double getDeploymentEstimation(VmAssignmentToHost vma, List<VmDeployed> vmsDeployed, DeploymentPlan deploymentPlan) {
+		return 0;
+	}
+
+	@Override
+	public double getCurrentEstimation(String vmId, Map options) {
+		return 0;
+	}
+
+	@Override
+	public double getCloplaEstimation(Host host, List<Vm> vmsDeployedInHost) {
+		return 0;
+	}
+
+	@Override
+	public void onVmDeployment(VmDeployed vm) {
+
+	}
+
+	@Override
+	public void onVmDestruction(VmDeployed vm) {
+
+	}
+
+	@Override
+	public void onVmMigration(VmDeployed vm) {
+
+	}
+
+	@Override
+	public void onVmAction(VmDeployed vm, VmAction action) {
+
+	}
+
+	@Override
+	public void onPreVmDeployment(es.bsc.vmm.core.models.vms.Vm vm) {
+
 	}
 }
