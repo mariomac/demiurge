@@ -40,7 +40,6 @@ import es.bsc.vmm.core.db.VmManagerDb;
 import es.bsc.vmm.core.manager.components.*;
 import es.bsc.vmm.core.models.scheduling.*;
 
-import es.bsc.vmm.core.vmplacement.CloplaConversor;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -86,6 +85,7 @@ public class GenericVmManager implements VmManager {
      */
     public GenericVmManager() {
         VmManagerConfiguration cfg = VmManagerConfiguration.INSTANCE;
+		VmManagerConfiguration.INSTANCE.loadBeansConfig();
         db = VmManagerDbFactory.getDb(cfg.dbName);
 
         this.cloudMiddleware = cfg.getCloudMiddleware();

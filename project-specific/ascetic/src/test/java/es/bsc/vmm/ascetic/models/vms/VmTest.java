@@ -86,7 +86,7 @@ public class VmTest {
         vmDesc = new Vm("TestVm", "fakeImageId", 1, 1024, -2, null, "app1");
     }
 
-    // Not all VMs will have an init script associated, so we need
+    // Not all VMs will have an loadConfiguration script associated, so we need
     // to make sure that the attribute can be set to null
     @Test
     public void initScriptCanBeNull() {

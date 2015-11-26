@@ -95,8 +95,7 @@ public enum VmManagerConfiguration {
 
     VmManagerConfiguration() {
         configuration = getPropertiesObjectFromConfigFile();
-        initializeClassAttributes();
-        loadBeansConfig();
+		initializeClassAttributes();
     }
 
     public Configuration getConfiguration() {

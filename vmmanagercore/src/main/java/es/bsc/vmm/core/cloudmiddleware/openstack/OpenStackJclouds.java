@@ -447,7 +447,7 @@ public class OpenStackJclouds implements CloudMiddleware {
     /**
      * Specifies in the VM deployment options a script that will be executed when the VM is deployed.
      *
-     * @param vmDescription VM that will use the init script
+     * @param vmDescription VM that will use the loadConfiguration script
      * @param options VM deployment options
      */
     private void includeInitScriptInDeploymentOptions(Vm vmDescription, CreateServerOptions options) {

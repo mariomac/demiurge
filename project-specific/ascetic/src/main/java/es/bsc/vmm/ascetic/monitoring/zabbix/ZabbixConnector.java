@@ -26,6 +26,7 @@ import es.bsc.vmm.core.drivers.Monitoring;
 import es.bsc.vmm.core.monitoring.hosts.Host;
 import eu.ascetic.asceticarchitecture.iaas.zabbixApi.client.ZabbixClient;
 import org.apache.log4j.Logger;
+import org.jclouds.rackspace.clouddns.v1.domain.CreateDomain;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -58,7 +58,8 @@ public class Main {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
-        final HttpServer server = startServer();
+
+		final HttpServer server = startServer();
         server.start();
         System.out.println(STOP_MESSAGE);
         System.in.read();
