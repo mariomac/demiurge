@@ -39,7 +39,6 @@ import java.util.Map;
 @Deprecated()
 public class SchedAlgGroupByApp implements SchedAlgorithm {
 
-    private List<VmDeployed> vmsDeployed;
 
     public SchedAlgGroupByApp() {
 
@@ -56,7 +55,7 @@ public class SchedAlgGroupByApp implements SchedAlgorithm {
      * @param deploymentPlan the deployment plan
      * @return the total number of friends in the deployment plan
      */
-    private int countVmsFriendsForDeploymentPlan(DeploymentPlan deploymentPlan) {
+    private int countVmsFriendsForDeploymentPlan(List<VmDeployed> vmsDeployed, DeploymentPlan deploymentPlan) {
         HashMap<String, List<String>> appsInHosts = new HashMap<>(); // hostname -> list of app IDs
 
         // Classify VMs already deployed
@@ -103,7 +102,7 @@ public class SchedAlgGroupByApp implements SchedAlgorithm {
         DeploymentPlan bestDeploymentPlan = null;
         int vmsFriendsForBestDeploymentPlan = -1;
         for (DeploymentPlan deploymentPlan: deploymentPlans) {
-            int vmsFriendsForDeploymentPlan = countVmsFriendsForDeploymentPlan(deploymentPlan);
+            int vmsFriendsForDeploymentPlan = countVmsFriendsForDeploymentPlan(vmsDeployed, deploymentPlan);
             VMMLogger.logVmsSameAppInSameHost(deploymentPlan, vmsFriendsForDeploymentPlan, deploymentId);
             if (vmsFriendsForDeploymentPlan > vmsFriendsForBestDeploymentPlan) {
                 bestDeploymentPlan = deploymentPlan;

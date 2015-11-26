@@ -18,9 +18,10 @@
 
 package es.bsc.vmm.ascetic.monitoring;
 
-import es.bsc.vmmanagercore.models.hosts.ServerLoad;
-import es.bsc.vmmanagercore.models.vms.Vm;
-import es.bsc.vmmanagercore.monitoring.hosts.HostFake;
+
+import es.bsc.vmm.core.models.hosts.ServerLoad;
+import es.bsc.vmm.core.models.vms.Vm;
+import es.bsc.vmm.core.monitoring.hosts.HostFake;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;

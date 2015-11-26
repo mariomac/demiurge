@@ -18,12 +18,13 @@
 
 package es.bsc.vmm.ascetic.scheduler.schedulingalgorithms;
 
-import es.bsc.vmmanagercore.models.scheduling.DeploymentPlan;
-import es.bsc.vmmanagercore.models.scheduling.VmAssignmentToHost;
-import es.bsc.vmmanagercore.models.vms.Vm;
-import es.bsc.vmmanagercore.monitoring.hosts.Host;
-import es.bsc.vmmanagercore.monitoring.hosts.HostFake;
-import es.bsc.vmmanagercore.scheduler.schedulingalgorithms.SchedAlgConsolidation;
+import es.bsc.vmm.core.models.scheduling.DeploymentPlan;
+import es.bsc.vmm.core.models.scheduling.VmAssignmentToHost;
+import es.bsc.vmm.core.models.vms.Vm;
+import es.bsc.vmm.core.models.vms.VmDeployed;
+import es.bsc.vmm.core.monitoring.hosts.Host;
+import es.bsc.vmm.core.monitoring.hosts.HostFake;
+import es.bsc.vmm.core.scheduler.schedulingalgorithms.SchedAlgConsolidation;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -74,7 +75,7 @@ public class SchedAlgConsolidationTest {
         // deploymentPlan1: cpu loads = 0.375 and 0.5 (total unused = 1.125)
         // deploymentPlan2: cpu loads = 0.75 and 0.25 (total unused = 1)
         // deploymentPlan2 is better (more consolidated)
-        assertEquals(deploymentPlan2, scheduler.chooseBestDeploymentPlan(deploymentPlans, hosts, "testId"));
+        assertEquals(deploymentPlan2, scheduler.chooseBestDeploymentPlan(new ArrayList<VmDeployed>(),null,deploymentPlans, hosts, "testId"));
     }
 
     @Test
@@ -107,7 +108,7 @@ public class SchedAlgConsolidationTest {
         // deploymentPlan1: mem loads = 0.75 and 0.5 (total unused = 0.75)
         // deploymentPlan2: mem loads = 0.5 and 1 (total unused = 0.5)
         // deploymentPlan2 is better (more consolidated)
-        assertEquals(deploymentPlan2, scheduler.chooseBestDeploymentPlan(deploymentPlans, hosts, "testId"));
+        assertEquals(deploymentPlan2, scheduler.chooseBestDeploymentPlan(new ArrayList<VmDeployed>(),null,deploymentPlans, hosts, "testId"));
     }
 
     @Test
@@ -140,7 +141,7 @@ public class SchedAlgConsolidationTest {
         // deploymentPlan1: disk loads = 0.75 and 0.5 (total unused = 0.75)
         // deploymentPlan2: disk loads = 0.5 and 1 (total unused = 0.5)
         // deploymentPlan2 is better (more consolidated)
-        assertEquals(deploymentPlan2, scheduler.chooseBestDeploymentPlan(deploymentPlans, hosts, "testId"));
+        assertEquals(deploymentPlan2, scheduler.chooseBestDeploymentPlan(new ArrayList<VmDeployed>(),null,deploymentPlans, hosts, "testId"));
     }
 
     @Test
@@ -169,7 +170,7 @@ public class SchedAlgConsolidationTest {
 
         // deploymentPlan1 is better because it does not wake up a new server, when the existing ones have
         // enough resources available
-        assertEquals(deploymentPlan1, scheduler.chooseBestDeploymentPlan(deploymentPlans, hosts, "testId"));
+        assertEquals(deploymentPlan1, scheduler.chooseBestDeploymentPlan(new ArrayList<VmDeployed>(),null,deploymentPlans, hosts, "testId"));
     }
 
 }

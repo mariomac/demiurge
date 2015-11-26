@@ -45,23 +45,15 @@ public abstract class Host {
     protected double currentPower;
     
     protected AtomicBoolean turnedOff = new AtomicBoolean(false); // Several threads might try to turn on/off
-    protected int turnOnDelaySeconds;
-    protected int turnOffDelaySeconds;
+
 
     /**
      * Class constructor
      */
     public Host(String hostname) {
         this.hostname = hostname;
-        this.turnOnDelaySeconds = VmManagerConfiguration.INSTANCE.defaultServerTurnOnDelaySeconds;
-        this.turnOffDelaySeconds = VmManagerConfiguration.INSTANCE.defaultServerTurnOffDelaySeconds;
     }
-    
-    public Host(String hostname, int turnOnDelaySeconds, int turnOffDelaySeconds) {
-        this.hostname = hostname;
-        this.turnOnDelaySeconds = turnOnDelaySeconds;
-        this.turnOffDelaySeconds = turnOffDelaySeconds;
-    }
+
 
     /**
      * Checks whether a host has enough available resources to host a VM.
@@ -162,13 +154,6 @@ public abstract class Host {
         return totalDiskGb - assignedDiskGb;
     }
 
-    public int getTurnOnDelaySeconds() {
-        return turnOnDelaySeconds;
-    }
-    
-    public int getTurnOffDelaySeconds() {
-        return turnOffDelaySeconds;
-    }
     
     /**
      * Returns the load that a host would have if a VM was deployed in it.
@@ -228,6 +213,7 @@ public abstract class Host {
      * Turns on the host.
      */
     public void turnOn() {
+		// This functionality is faked until a physical way to do this is available
         turnedOff.getAndSet(false);
         VMMLogger.logServerTurnedOn(hostname);
     }
@@ -236,6 +222,7 @@ public abstract class Host {
      * Turns off the host.
      */
     public void turnOff() {
+		// This functionality is faked until a physical way to do this is available
         turnedOff.getAndSet(true);
         VMMLogger.logServerTurnedOff(hostname);
     }
@@ -261,8 +248,6 @@ public abstract class Host {
 				", assignedDiskGb=" + assignedDiskGb +
 				", currentPower=" + currentPower +
 				", turnedOff=" + turnedOff +
-				", turnOnDelaySeconds=" + turnOnDelaySeconds +
-				", turnOffDelaySeconds=" + turnOffDelaySeconds +
 				'}';
 	}
 }

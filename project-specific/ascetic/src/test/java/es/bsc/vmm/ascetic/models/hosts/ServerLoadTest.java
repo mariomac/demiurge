@@ -18,7 +18,7 @@
 
 package es.bsc.vmm.ascetic.models.hosts;
 
-import es.bsc.vmmanagercore.models.hosts.ServerLoad;
+import es.bsc.vmm.core.models.hosts.ServerLoad;
 import org.junit.Assert;
 import org.junit.Test;
 

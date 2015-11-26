@@ -18,18 +18,16 @@
 
 package es.bsc.vmm.ascetic.cloudmiddleware.openstack;
 
-import es.bsc.vmmanagercore.configuration.VmManagerConfiguration;
-import es.bsc.vmmanagercore.db.VmManagerDb;
-import es.bsc.vmmanagercore.db.VmManagerDbFactory;
-import es.bsc.vmmanagercore.models.vms.Vm;
+import es.bsc.vmm.core.cloudmiddleware.openstack.OpenStackJclouds;
+import es.bsc.vmm.core.configuration.VmManagerConfiguration;
+import es.bsc.vmm.core.db.VmManagerDb;
+import es.bsc.vmm.core.db.VmManagerDbFactory;
+import es.bsc.vmm.core.models.vms.Vm;
 import org.jclouds.openstack.nova.v2_0.domain.Flavor;
 import org.jclouds.openstack.nova.v2_0.domain.Server;
 import org.jclouds.openstack.nova.v2_0.features.FlavorApi;
 import org.jclouds.openstack.nova.v2_0.features.ServerApi;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.rules.ExpectedException;
 
 import java.util.ArrayList;
@@ -42,6 +40,7 @@ import static org.junit.Assert.*;
  *
  * @author Mario Macias (github.com/mariomac), David Ortiz Lopez (david.ortiz@bsc.es)
  */
+@Ignore
 public class OpenStackJcloudsTest {
 	
 	@Rule

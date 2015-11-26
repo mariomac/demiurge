@@ -18,12 +18,13 @@
 
 package es.bsc.vmm.ascetic.scheduler.schedulingalgorithms;
 
-import es.bsc.vmmanagercore.models.scheduling.DeploymentPlan;
-import es.bsc.vmmanagercore.models.scheduling.VmAssignmentToHost;
-import es.bsc.vmmanagercore.models.vms.Vm;
-import es.bsc.vmmanagercore.monitoring.hosts.Host;
-import es.bsc.vmmanagercore.monitoring.hosts.HostFake;
-import es.bsc.vmmanagercore.scheduler.schedulingalgorithms.SchedAlgRandom;
+import es.bsc.vmm.core.models.scheduling.DeploymentPlan;
+import es.bsc.vmm.core.models.scheduling.VmAssignmentToHost;
+import es.bsc.vmm.core.models.vms.Vm;
+import es.bsc.vmm.core.models.vms.VmDeployed;
+import es.bsc.vmm.core.monitoring.hosts.Host;
+import es.bsc.vmm.core.monitoring.hosts.HostFake;
+import es.bsc.vmm.core.scheduler.schedulingalgorithms.SchedAlgRandom;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -66,7 +67,7 @@ public class SchedAlgRandomTest {
         // The result is random, so the only thing that we can check is that the function does not throw
         // an exception
         //scheduler.isBetterDeploymentPlan(deploymentPlan2, deploymentPlan1, hosts);
-        scheduler.chooseBestDeploymentPlan(deploymentPlans, hosts, "testId");
+        scheduler.chooseBestDeploymentPlan(new ArrayList<VmDeployed>(),null,deploymentPlans, hosts, "testId");
     }
 
 }

@@ -18,13 +18,13 @@
 
 package es.bsc.vmm.ascetic.scheduler.schedulingalgorithms;
 
-import es.bsc.vmmanagercore.models.scheduling.DeploymentPlan;
-import es.bsc.vmmanagercore.models.scheduling.VmAssignmentToHost;
-import es.bsc.vmmanagercore.models.vms.Vm;
-import es.bsc.vmmanagercore.models.vms.VmDeployed;
-import es.bsc.vmmanagercore.monitoring.hosts.Host;
-import es.bsc.vmmanagercore.monitoring.hosts.HostFake;
-import es.bsc.vmmanagercore.scheduler.schedulingalgorithms.SchedAlgGroupByApp;
+import es.bsc.vmm.core.models.scheduling.DeploymentPlan;
+import es.bsc.vmm.core.models.scheduling.VmAssignmentToHost;
+import es.bsc.vmm.core.models.vms.Vm;
+import es.bsc.vmm.core.models.vms.VmDeployed;
+import es.bsc.vmm.core.monitoring.hosts.Host;
+import es.bsc.vmm.core.monitoring.hosts.HostFake;
+import es.bsc.vmm.core.scheduler.schedulingalgorithms.SchedAlgGroupByApp;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -67,7 +67,7 @@ public class SchedAlgGroupByAppTest {
     public static void setUp() {
         setUpHosts();
         setUpVmsDeployed();
-        scheduler = new SchedAlgGroupByApp(vmsDeployed);
+        scheduler = new SchedAlgGroupByApp();
     }
 
     @Test
@@ -94,7 +94,7 @@ public class SchedAlgGroupByAppTest {
         deploymentPlans.add(deploymentPlan1);
         deploymentPlans.add(deploymentPlan2);
 
-        assertEquals(deploymentPlan1, scheduler.chooseBestDeploymentPlan(deploymentPlans, hosts, "testId"));
+        assertEquals(deploymentPlan1, scheduler.chooseBestDeploymentPlan(vmsDeployed,null,deploymentPlans, hosts, "testId"));
     }
 
 }

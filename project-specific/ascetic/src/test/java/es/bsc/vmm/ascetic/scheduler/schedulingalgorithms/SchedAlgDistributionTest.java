@@ -18,12 +18,14 @@
 
 package es.bsc.vmm.ascetic.scheduler.schedulingalgorithms;
 
-import es.bsc.vmmanagercore.models.scheduling.DeploymentPlan;
-import es.bsc.vmmanagercore.models.scheduling.VmAssignmentToHost;
-import es.bsc.vmmanagercore.models.vms.Vm;
-import es.bsc.vmmanagercore.monitoring.hosts.Host;
-import es.bsc.vmmanagercore.monitoring.hosts.HostFake;
-import es.bsc.vmmanagercore.scheduler.schedulingalgorithms.SchedAlgDistribution;
+import es.bsc.vmm.core.manager.components.EstimatesManager;
+import es.bsc.vmm.core.models.scheduling.DeploymentPlan;
+import es.bsc.vmm.core.models.scheduling.VmAssignmentToHost;
+import es.bsc.vmm.core.models.vms.Vm;
+import es.bsc.vmm.core.models.vms.VmDeployed;
+import es.bsc.vmm.core.monitoring.hosts.Host;
+import es.bsc.vmm.core.monitoring.hosts.HostFake;
+import es.bsc.vmm.core.scheduler.schedulingalgorithms.SchedAlgDistribution;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -76,7 +78,7 @@ public class SchedAlgDistributionTest {
 
         // DeploymentPlan1 uses 2 servers and DeploymentPlan2 uses 3 servers.
         // Therefore, DeploymentPlan2 is more distributed
-        assertEquals(deploymentPlan2, scheduler.chooseBestDeploymentPlan(deploymentPlans, hosts, "testId"));
+        assertEquals(deploymentPlan2, scheduler.chooseBestDeploymentPlan(new ArrayList<VmDeployed>(),null,deploymentPlans, hosts, "testId"));
     }
 
     @Test
@@ -106,7 +108,7 @@ public class SchedAlgDistributionTest {
         // deploymentPlan1: cpu loads = 0.375 and 0.5
         // deploymentPlan2: cpu loads = 0.75 and 0.25
         // deploymentPlan1 is better (more distributed)
-        assertEquals(deploymentPlan1, scheduler.chooseBestDeploymentPlan(deploymentPlans, hosts, "testId"));
+        assertEquals(deploymentPlan1, scheduler.chooseBestDeploymentPlan(new ArrayList<VmDeployed>(),null,deploymentPlans, hosts, "testId"));
     }
 
     @Test
@@ -136,7 +138,7 @@ public class SchedAlgDistributionTest {
         // deploymentPlan1: mem loads = 1 and 0.5
         // deploymentPlan2: mem loads = 0.75 and 0.75
         // deploymentPlan2 is better (more distributed)
-        assertEquals(deploymentPlan2, scheduler.chooseBestDeploymentPlan(deploymentPlans, hosts, "testId"));
+        assertEquals(deploymentPlan2, scheduler.chooseBestDeploymentPlan(new ArrayList<VmDeployed>(),null,deploymentPlans, hosts, "testId"));
     }
 
     @Test
@@ -163,10 +165,11 @@ public class SchedAlgDistributionTest {
         deploymentPlans.add(deploymentPlan1);
         deploymentPlans.add(deploymentPlan2);
 
+
         // deploymentPlan1: disk loads = 1 and 0.5
         // deploymentPlan2: disk loads = 0.75 and 0.75
         // deploymentPlan2 is better (more distributed)
-        assertEquals(deploymentPlan2, scheduler.chooseBestDeploymentPlan(deploymentPlans, hosts, "testId"));
+        assertEquals(deploymentPlan2, scheduler.chooseBestDeploymentPlan(new ArrayList<VmDeployed>(),null, deploymentPlans, hosts, "testId"));
     }
 
 }

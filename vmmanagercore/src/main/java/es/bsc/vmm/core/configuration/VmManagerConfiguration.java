@@ -81,10 +81,6 @@ public enum VmManagerConfiguration {
     private CloudMiddleware cloudMiddleware;
     private Set<Estimator> estimators;
 
-    // Turn on/off servers
-    public int defaultServerTurnOnDelaySeconds;
-    public int defaultServerTurnOffDelaySeconds;
-
     // Zabbix config
     public String zabbixDbIp;
     public String zabbixDbUser;
@@ -147,8 +143,6 @@ public enum VmManagerConfiguration {
             logger.error("Deployment Engine null or unknown. Assuming LEGACY: " + e.getMessage());
             deploymentEngine = DeploymentEngine.LEGACY;
         }
-        defaultServerTurnOnDelaySeconds = configuration.getInt("defaultServerTurnOnDelaySeconds");
-        defaultServerTurnOffDelaySeconds = configuration.getInt("defaultServerTurnOffDelaySeconds");
         zabbixDbIp = configuration.getString("zabbixDbIp");
         zabbixDbUser = configuration.getString("zabbixDbUser");
         zabbixDbPassword = configuration.getString("zabbixDbPassword");
@@ -211,8 +205,6 @@ public enum VmManagerConfiguration {
 				"\n\tdeployBaseUrl='" + deployBaseUrl + '\'' +
 				"\n\tdeployPackage='" + deployPackage + '\'' +
 				"\n\tdeploymentEngine='" + deploymentEngine + '\'' +
-				"\n\tdefaultServerTurnOnDelaySeconds=" + defaultServerTurnOnDelaySeconds +
-				"\n\tdefaultServerTurnOffDelaySeconds=" + defaultServerTurnOffDelaySeconds +
 				"\n\tzabbixDbIp='" + zabbixDbIp + '\'' +
 				"\n\tzabbixDbUser='" + zabbixDbUser + '\'' +
 				"\n\tzabbixDbPassword='" + zabbixDbPassword + '\'' +

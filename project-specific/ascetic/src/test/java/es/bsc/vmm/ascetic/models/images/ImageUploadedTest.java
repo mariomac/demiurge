@@ -18,7 +18,7 @@
 
 package es.bsc.vmm.ascetic.models.images;
 
-import es.bsc.vmmanagercore.models.images.ImageUploaded;
+import es.bsc.vmm.core.models.images.ImageUploaded;
 import org.junit.Before;
 import org.junit.Test;
 

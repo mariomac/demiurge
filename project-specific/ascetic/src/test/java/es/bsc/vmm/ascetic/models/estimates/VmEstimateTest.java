@@ -1,6 +1,8 @@
 package es.bsc.vmm.ascetic.models.estimates;
 
-import es.bsc.vmmanagercore.models.estimates.VmEstimate;
+import es.bsc.vmm.core.models.estimates.VmEstimate;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -12,13 +14,20 @@ import static org.junit.Assert.assertEquals;
  */
 public class VmEstimateTest {
     
-    private final VmEstimate vmEstimate = new VmEstimate("testId", 100, 200);
+    private VmEstimate vmEstimate;
+
+	@Before
+	public void setUp() {
+		vmEstimate	= new VmEstimate("testId");
+		vmEstimate.addEstimate("power",100);
+		vmEstimate.addEstimate("price",200);
+	}
     
     @Test
     public void testGetters() {
         assertEquals("testId", vmEstimate.getId());
-        assertEquals(100, vmEstimate.getPowerEstimate(), 0.1);
-        assertEquals(200, vmEstimate.getPriceEstimate(), 0.1);
+        assertEquals(100, vmEstimate.getEstimate("power"), 0.1);
+        assertEquals(200, vmEstimate.getEstimate("price"), 0.1);
     }
     
 }

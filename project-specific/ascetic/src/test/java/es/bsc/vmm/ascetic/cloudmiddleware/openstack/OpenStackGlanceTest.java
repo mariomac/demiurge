@@ -18,11 +18,17 @@
 
 package es.bsc.vmm.ascetic.cloudmiddleware.openstack;
 
-import es.bsc.vmmanagercore.configuration.VmManagerConfiguration;
-import es.bsc.vmmanagercore.models.images.ImageToUpload;
+import es.bsc.vmm.core.cloudmiddleware.openstack.OpenStackCredentials;
+import es.bsc.vmm.core.cloudmiddleware.openstack.OpenStackGlance;
+
+import es.bsc.vmm.core.cloudmiddleware.openstack.OpenStackJclouds;
+import es.bsc.vmm.core.configuration.VmManagerConfiguration;
+import es.bsc.vmm.core.models.images.ImageToUpload;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
+@Ignore
 public class OpenStackGlanceTest {
 
     private static OpenStackGlance glance;
@@ -30,9 +36,15 @@ public class OpenStackGlanceTest {
     @BeforeClass
     public static void setUpClass() {
         VmManagerConfiguration conf = VmManagerConfiguration.INSTANCE;
-        glance = new OpenStackGlance(new OpenStackCredentials(conf.openStackIP, conf.keyStonePort, conf.keyStoneTenant,
-                conf.keyStoneUser, conf.keyStonePassword, conf.glancePort, conf.keyStoneTenantId));
-    }
+        glance = new OpenStackGlance(new OpenStackCredentials(
+				conf.getConfiguration().getString(OpenStackJclouds.CONFIG_IP),
+				conf.getConfiguration().getInt(OpenStackJclouds.CONFIG_KEYSTONE_PORT),
+				conf.getConfiguration().getString(OpenStackJclouds.CONFIG_KEYSTONE_TENANT),
+				conf.getConfiguration().getString(OpenStackJclouds.CONFIG_KEYSTONE_USER),
+				conf.getConfiguration().getString(OpenStackJclouds.CONFIG_KEYSTONE_PASSWORD),
+				conf.getConfiguration().getInt(OpenStackJclouds.CONFIG_GLANCE_PORT),
+				conf.getConfiguration().getString(OpenStackJclouds.CONFIG_KEYSTONE_TENANT_ID)));
+	}
 
     //This test only checks that the create and delete operations do not raise exceptions.
     @Test

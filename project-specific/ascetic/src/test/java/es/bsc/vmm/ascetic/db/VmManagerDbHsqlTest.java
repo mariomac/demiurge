@@ -18,8 +18,8 @@
 
 package es.bsc.vmm.ascetic.db;
 
-import es.bsc.vmmanagercore.db.VmManagerDb;
-import es.bsc.vmmanagercore.db.VmManagerDbFactory;
+import es.bsc.vmm.core.db.VmManagerDb;
+import es.bsc.vmm.core.db.VmManagerDbFactory;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;

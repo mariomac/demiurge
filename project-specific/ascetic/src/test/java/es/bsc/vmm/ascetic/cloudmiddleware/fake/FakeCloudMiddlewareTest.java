@@ -18,12 +18,13 @@
 
 package es.bsc.vmm.ascetic.cloudmiddleware.fake;
 
-import es.bsc.vmmanagercore.cloudmiddleware.fake.FakeCloudMiddleware;
-import es.bsc.vmmanagercore.models.images.ImageToUpload;
-import es.bsc.vmmanagercore.models.images.ImageUploaded;
-import es.bsc.vmmanagercore.models.vms.Vm;
-import es.bsc.vmmanagercore.models.vms.VmDeployed;
-import es.bsc.vmmanagercore.monitoring.hosts.HostFake;
+import es.bsc.vmm.core.cloudmiddleware.fake.FakeCloudMiddleware;
+
+import es.bsc.vmm.core.models.images.ImageToUpload;
+import es.bsc.vmm.core.models.images.ImageUploaded;
+import es.bsc.vmm.core.models.vms.Vm;
+import es.bsc.vmm.core.models.vms.VmDeployed;
+import es.bsc.vmm.core.monitoring.hosts.HostFake;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;

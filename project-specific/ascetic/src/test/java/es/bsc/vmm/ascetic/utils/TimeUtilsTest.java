@@ -18,7 +18,7 @@
 
 package es.bsc.vmm.ascetic.utils;
 
-import es.bsc.vmmanagercore.utils.TimeUtils;
+import es.bsc.vmm.core.utils.TimeUtils;
 import org.junit.Assert;
 import org.junit.Test;
 

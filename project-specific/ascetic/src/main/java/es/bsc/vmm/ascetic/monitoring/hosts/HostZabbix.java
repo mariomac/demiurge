@@ -55,11 +55,6 @@ public class HostZabbix extends Host {
         updateMetrics();
     }
 
-	public HostZabbix(String hostname, int turnOnDelaySeconds, int turnOffDelaySeconds) {
-		super(hostname, turnOnDelaySeconds, turnOffDelaySeconds);
-		zabbixId = getZabbixId(hostname);
-		updateMetrics();
-	}
 
 	/**
      * Returns the Zabbix ID for a specific host given its hostname.

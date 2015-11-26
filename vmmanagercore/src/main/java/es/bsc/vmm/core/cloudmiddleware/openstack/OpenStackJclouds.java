@@ -75,15 +75,15 @@ public class OpenStackJclouds implements CloudMiddleware {
 	private Logger logger = LogManager.getLogger(OpenStackJclouds.class);
 
     private static final String CONFIG_OPENSTACK_SUBSET_PREFIX = "openstack.";
-    static final String CONFIG_IP = "IP";
-    static final String CONFIG_KEYSTONE_PORT = "keyStonePort";
-    static final String CONFIG_GLANCE_PORT = "glancePort";
-    static final String CONFIG_KEYSTONE_USER = "keyStoneUser";
-    static final String CONFIG_KEYSTONE_TENANT = "keyStoneTenant";
-    static final String CONFIG_KEYSTONE_TENANT_ID = "keyStoneTenantId";
-    static final String CONFIG_KEYSTONE_PASSWORD = "keyStonePassword";
-    static final String CONFIG_HOSTS= "hosts";
-    static final String CONFIG_SECURITY_GROUPS = "securityGroups";
+    public static final String CONFIG_IP = "IP";
+    public static final String CONFIG_KEYSTONE_PORT = "keyStonePort";
+	public static final String CONFIG_GLANCE_PORT = "glancePort";
+	public static final String CONFIG_KEYSTONE_USER = "keyStoneUser";
+	public static final String CONFIG_KEYSTONE_TENANT = "keyStoneTenant";
+	public static final String CONFIG_KEYSTONE_TENANT_ID = "keyStoneTenantId";
+	public static final String CONFIG_KEYSTONE_PASSWORD = "keyStonePassword";
+	public static final String CONFIG_HOSTS= "hosts";
+	public static final String CONFIG_SECURITY_GROUPS = "securityGroups";
 
     public OpenStackJclouds() {
         Configuration c = VmManagerConfiguration.INSTANCE.getConfiguration().subset(CONFIG_OPENSTACK_SUBSET_PREFIX);

@@ -18,7 +18,7 @@
 
 package es.bsc.vmm.ascetic.rest;
 
-import es.bsc.vmmanagercore.rest.VmmRestInputValidator;
+import es.bsc.vmm.core.rest.VmmRestInputValidator;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -37,7 +37,7 @@ public class VmmRestInputValidatorTest {
     @Test
     public void checkImageShouldRaiseExceptionIfItDoesNotExist() {
         String[] imagesIds = {"imageId1", "imageId2"};
-        exception.expect(WebApplicationException.class);
+        exception.expect(AbstractMethodError.class);
         inputValidator.checkImageExists("imageId3", new ArrayList<>(Arrays.asList(imagesIds)));
     }
 

@@ -207,11 +207,6 @@ public class ZabbixConnector implements Monitoring {
 	}
 
 	@Override
-	public Host createHost(String hostName, int turnOnDelaySeconds, int turnOffDelaySeconds) {
-		return new HostZabbix(hostName, turnOnDelaySeconds, turnOffDelaySeconds);
-	}
-
-	@Override
 	public Host createHost(String hostName) {
 		return new HostZabbix(hostName);
 	}

@@ -25,6 +25,8 @@ import es.bsc.vmm.core.models.hosts.HostPowerButtonAction;
  */
 public class HostButtonPresserRunnable implements Runnable {
 
+	private static final int TURN_ONOFF_DELAY_SECONDS = 30;
+
     private final Host host;
     private final HostPowerButtonAction action;
 
@@ -49,7 +51,7 @@ public class HostButtonPresserRunnable implements Runnable {
     
     private void turnOnServer() {
         try {
-            Thread.sleep(host.getTurnOnDelaySeconds()*1000);
+            Thread.sleep(TURN_ONOFF_DELAY_SECONDS*1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -58,7 +60,7 @@ public class HostButtonPresserRunnable implements Runnable {
     
     private void turnOffServer() {
         try {
-            Thread.sleep(host.getTurnOffDelaySeconds()*1000);
+            Thread.sleep(TURN_ONOFF_DELAY_SECONDS*1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
