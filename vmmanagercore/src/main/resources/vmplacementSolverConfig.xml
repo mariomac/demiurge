@@ -25,7 +25,7 @@
 
     <scoreDirectorFactory>
         <scoreDefinitionType>HARD_SOFT</scoreDefinitionType>
-        <simpleScoreCalculatorClass>clopla.placement.scorecalculators.ScoreCalculatorConsolidation</simpleScoreCalculatorClass>
+        <simpleScoreCalculatorClass>es.bsc.vmm.core.clopla.placement.scorecalculators.ScoreCalculatorConsolidation</simpleScoreCalculatorClass>
     </scoreDirectorFactory>
 
     <termination>

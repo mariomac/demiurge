@@ -37,23 +37,16 @@ import java.util.Map;
  *
  * @author Mario Macias (github.com/mariomac), David Ortiz Lopez (david.ortiz@bsc.es)
  */
-public abstract class HostFactory<T extends Host> {
+public class HostFactory {
 
-    // Suppress default constructor for non-instantiability
-    private HostFactory() {
-        throw new AssertionError();
-    }
-
-    private Map<String, T> hosts = new HashMap<>(); // List of hosts already created
+    private Map<String, Host> hosts = new HashMap<>(); // List of hosts already created
 
     private static final Gson gson = new Gson();
 
-    private static final String FAKE_HOSTS_DESCRIPTIONS_PATH = "/hostsFakeMonitoring.json";
-
 	private CloudMiddleware cloudMiddleware;
-	private Monitoring<T> monitoring;
+	private Monitoring<Host> monitoring;
 
-	public HostFactory(CloudMiddleware cloudMiddleware, Monitoring<T> monitoring) {
+	public HostFactory(CloudMiddleware cloudMiddleware, Monitoring monitoring) {
 		this.cloudMiddleware = cloudMiddleware;
 		this.monitoring = monitoring;
 	}
@@ -64,7 +57,7 @@ public abstract class HostFactory<T extends Host> {
      * @param hostname the hostname
      * @return the host
      */
-    public T getHost(String hostname) {
+    public Host getHost(String hostname) {
 
         // If host type is fake and fake hosts have not been generated, generate them
 //        if (type == HostType.FAKE && !fakeHostsGenerated) {
@@ -73,7 +66,7 @@ public abstract class HostFactory<T extends Host> {
 //        }
 
         // If the host already exists, return it
-        T host = (T) hosts.get(hostname);
+		Host host = (Host) hosts.get(hostname);
         if (host != null) {
 //            if (host instanceof HostOpenStack) {
 //                assert(cloudMiddleware instanceof OpenStackJclouds);
@@ -86,7 +79,7 @@ public abstract class HostFactory<T extends Host> {
         // If the host does not already exist, create and return it.
         // If the type is Fake, this switch will not be called, because all the fake hosts are created beforehand.
         // This is because we do not want to have to read the description file more than once.
-        T newHost = monitoring.createHost(hostname);
+		Host newHost = monitoring.createHost(hostname);
         hosts.put(hostname, newHost);
         return newHost;
     }

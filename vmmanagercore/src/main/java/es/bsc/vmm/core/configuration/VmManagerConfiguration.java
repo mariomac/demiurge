@@ -163,9 +163,9 @@ public enum VmManagerConfiguration {
 		schedulingAlgorithmsRepository = springContext.getBean("schedulingAlgorithmsRepository",SchedulingAlgorithmsRepository.class);
 		vmmListeners = springContext.getBean("vmmListeners", List.class);
 
-		hostFactory = springContext.getBean("hostFactory", HostFactory.class);
 
-        // by the moment, don't need to put into beans (to simplify)
+        // by the moment, don't need to put these two into beans (to simplify)
+		hostFactory = new HostFactory(cloudMiddleware, monitoring);
         cloplaConversor = new CloplaConversor();
     }
 

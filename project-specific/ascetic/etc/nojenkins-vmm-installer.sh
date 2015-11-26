@@ -34,16 +34,18 @@ fi
 cd $home/vmmanager
 
 echo
-echo "Downloading from Jenkins..."
-curl -k 'https://ascetic-jenkins.cit.tu-berlin.de/job/ASCETiC%20Reference%20Architecture/ws/trunk/iaas/virtual-machine-manager/project-specific/ascetic/target/uber-vmm-ascetic-0.0.1-SNAPSHOT.jar' > uber-vmm-ascetic-0.0.1-SNAPSHOT.jar || exit 1
+echo
+echo "Copying from $home/ to $home/vmmanager/..."
+cp $home/uber-vmm-ascetic-0.0.1-SNAPSHOT.jar $home/vmmanager/
 
 cat > start.sh << EOF
 #! /bin/sh
 cd $home/vmmanager
 echo "Running java with debug options: $DEBUG"
-exec java $DEBUG $KYNERIX_OPTS -cp uber-vmm-ascetic-0.0.1-SNAPSHOT.jar$KYNERIX_PATH es.bsc.vmm.core.rest.Main
+nohup java $DEBUG $KYNERIX_OPTS -cp uber-vmm-ascetic-0.0.1-SNAPSHOT.jar$KYNERIX_PATH es.bsc.vmm.core.rest.Main &
 EOF
 chmod 755 start.sh
 
 # Start it
-screen -dmS vmmanager $home/vmmanager/start.sh
+cd $home/vmmanager
+./start.sh

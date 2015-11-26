@@ -38,7 +38,7 @@ import java.util.Map;
  *
  * @author Mario Macias (github.com/mariomac), David Ortiz Lopez (david.ortiz@bsc.es)
  */
-public class ZabbixConnector implements Monitoring {
+public class ZabbixConnector implements Monitoring<HostZabbix> {
 
     private final static ZabbixClient zabbixClient = new ZabbixClient();
 
@@ -207,7 +207,7 @@ public class ZabbixConnector implements Monitoring {
 	}
 
 	@Override
-	public Host createHost(String hostName) {
+	public HostZabbix createHost(String hostName) {
 		return new HostZabbix(hostName);
 	}
 }
