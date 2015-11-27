@@ -34,12 +34,12 @@
 	<bean id="schedulingAlgorithmsRepository" class="es.bsc.vmm.core.scheduler.SchedulingAlgorithmsRepository">
 		<constructor-arg>
 			<util:set value-type="java.lang.Class">
-				<bean class="es.bsc.vmm.core.scheduler.schedulingalgorithms.SchedAlgConsolidation"/>
-				<bean class="es.bsc.vmm.core.scheduler.schedulingalgorithms.SchedAlgDistribution"/>
-				<bean class="es.bsc.vmm.core.scheduler.schedulingalgorithms.SchedAlgGroupByApp"/>
-				<bean class="es.bsc.vmm.core.scheduler.schedulingalgorithms.SchedAlgRandom"/>
-				<bean class="es.bsc.vmm.ascetic.scheduler.legacy.SchedAlgCostAware"/>
-				<bean class="es.bsc.vmm.ascetic.scheduler.legacy.SchedAlgEnergyAware"/>
+				<value type="java.lang.Class">es.bsc.vmm.core.scheduler.schedulingalgorithms.SchedAlgConsolidation</value>
+				<value type="java.lang.Class">es.bsc.vmm.core.scheduler.schedulingalgorithms.SchedAlgDistribution</value>
+				<value type="java.lang.Class">es.bsc.vmm.core.scheduler.schedulingalgorithms.SchedAlgGroupByApp</value>
+				<value type="java.lang.Class">es.bsc.vmm.core.scheduler.schedulingalgorithms.SchedAlgRandom</value>
+				<value type="java.lang.Class">es.bsc.vmm.ascetic.scheduler.legacy.SchedAlgCostAware</value>
+				<value type="java.lang.Class">es.bsc.vmm.ascetic.scheduler.legacy.SchedAlgEnergyAware</value>
 			</util:set>
 		</constructor-arg>
 	</bean>
