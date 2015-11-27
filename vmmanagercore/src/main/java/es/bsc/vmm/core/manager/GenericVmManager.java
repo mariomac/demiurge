@@ -89,8 +89,6 @@ public class GenericVmManager implements VmManager {
 
         this.cloudMiddleware = cfg.getCloudMiddleware();
 
-        initializeHosts(conf.getMonitoring(), conf.hosts);
-
         selfAdaptationManager = new SelfAdaptationManager(this, conf.dbName);
 
 		hostFactory = cfg.getHostFactory();
@@ -445,13 +443,12 @@ public class GenericVmManager implements VmManager {
     /**
      * Instantiates the hosts according to the monitoring software selected.
      *
-     * @param monitoring the monitoring software (Ganglia, Zabbix, etc.)
-     * @param hostnames the names of the hosts in the infrastructure
      */
-    private void initializeHosts(Monitoring monitoring, String[] hostnames) {
+    @Override
+    public void doInitActions() {
 		HostFactory hf = VmManagerConfiguration.INSTANCE.getHostFactory();
 
-		for(String hostname : hostnames) {
+		for(String hostname : VmManagerConfiguration.INSTANCE.hosts) {
 			hosts.add(hf.getHost(hostname));
 		}
 

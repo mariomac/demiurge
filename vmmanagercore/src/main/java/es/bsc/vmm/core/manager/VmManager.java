@@ -2,6 +2,7 @@ package es.bsc.vmm.core.manager;
 
 import es.bsc.vmm.core.cloudmiddleware.CloudMiddlewareException;
 import es.bsc.vmm.core.db.VmManagerDb;
+import es.bsc.vmm.core.drivers.Monitoring;
 import es.bsc.vmm.core.manager.components.HostsManager;
 import es.bsc.vmm.core.manager.components.VmsManager;
 import es.bsc.vmm.core.models.estimates.VmToBeEstimated;
@@ -271,4 +272,6 @@ public interface VmManager {
 	HostsManager getHostsManager();
 	VmManagerDb getDB();
 	VmsManager getVmsManager();
+
+    void doInitActions();
 }

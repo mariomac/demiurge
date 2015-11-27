@@ -166,6 +166,11 @@ public enum VmManagerConfiguration {
         // by the moment, don't need to put these two into beans (to simplify)
 		hostFactory = new HostFactory(cloudMiddleware, monitoring);
         cloplaConversor = new CloplaConversor();
+
+        /*
+         * Extra initialization actions for managers
+         */
+        vmManager.doInitActions();
     }
 
 	public SchedulingAlgorithmsRepository getSchedulingAlgorithmsRepository() {
