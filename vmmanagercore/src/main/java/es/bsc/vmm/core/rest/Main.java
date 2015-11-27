@@ -41,7 +41,7 @@ public class Main {
     @SuppressWarnings("unchecked")
     public static HttpServer startServer() {
         final ResourceConfig rc = new PackagesResourceConfig(DEPLOY_PACKAGE);
-        rc.getContainerResponseFilters().add(CorsSupportFilter.class);
+//        rc.getContainerResponseFilters().add(CorsSupportFilter.class);
 
         try {
             return GrizzlyServerFactory.createHttpServer(BASE_URI, rc);
