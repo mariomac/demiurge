@@ -157,7 +157,10 @@ public enum VmManagerConfiguration {
 
         cloudMiddleware = springContext.getBean("cloudMiddleware",CloudMiddleware.class);
         monitoring = springContext.getBean("monitoring",Monitoring.class);
-        estimators = springContext.getBean("estimatorsManager", Set.class);
+
+        estimators = springContext.getBean("estimators", Set.class);
+
+
 
 		schedulingAlgorithmsRepository = springContext.getBean("schedulingAlgorithmsRepository",SchedulingAlgorithmsRepository.class);
 		vmmListeners = springContext.getBean("vmmListeners", List.class);
