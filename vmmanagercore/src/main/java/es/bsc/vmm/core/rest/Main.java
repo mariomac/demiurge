@@ -18,13 +18,13 @@
 
 package es.bsc.vmm.core.rest;
 
-import com.sun.jersey.api.container.grizzly2.GrizzlyServerFactory;
-import com.sun.jersey.api.core.PackagesResourceConfig;
-import com.sun.jersey.api.core.ResourceConfig;
 import es.bsc.vmm.core.configuration.VmManagerConfiguration;
 import org.glassfish.grizzly.http.server.HttpServer;
+import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
+import org.glassfish.jersey.server.ResourceConfig;
 
 import java.io.IOException;
+import java.net.URI;
 
 /**
  * 
@@ -39,12 +39,14 @@ public class Main {
     public static final String STOP_MESSAGE = "Press any key to stop the server...";
 
     @SuppressWarnings("unchecked")
-    public static HttpServer startServer() {
-        final ResourceConfig rc = new PackagesResourceConfig(DEPLOY_PACKAGE);
-//        rc.getContainerResponseFilters().add(CorsSupportFilter.class);
+    public static HttpServer createServer() {
+        final ResourceConfig rc = new ResourceConfig();
+        rc.packages(DEPLOY_PACKAGE);
+        rc.register(CorsSupportFilter.class);
 
         try {
-            return GrizzlyServerFactory.createHttpServer(BASE_URI, rc);
+            URI baseUri = URI.create(BASE_URI);
+            return GrizzlyHttpServerFactory.createHttpServer(baseUri, rc);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -60,7 +62,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         VmManagerConfiguration.INSTANCE.loadBeansConfig();
 
-		final HttpServer server = startServer();
+		final HttpServer server = createServer();
         server.start();
         System.out.println(STOP_MESSAGE);
         System.in.read();

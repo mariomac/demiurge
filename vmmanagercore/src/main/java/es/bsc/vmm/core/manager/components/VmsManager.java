@@ -39,9 +39,6 @@ import es.bsc.vmm.core.selfadaptation.SelfAdaptationManager;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.*;
 
 /**

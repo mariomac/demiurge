@@ -18,14 +18,13 @@
 
 package es.bsc.vmm.core.rest;
 
-import com.sun.jersey.spi.resource.Singleton;
 import es.bsc.vmm.core.cloudmiddleware.CloudMiddlewareException;
 import es.bsc.vmm.core.configuration.VmManagerConfiguration;
 import es.bsc.vmm.core.db.VmManagerDb;
 import es.bsc.vmm.core.db.VmManagerDbFactory;
-import es.bsc.vmm.core.manager.GenericVmManager;
 import es.bsc.vmm.core.manager.VmManager;
 
+import javax.inject.Singleton;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;

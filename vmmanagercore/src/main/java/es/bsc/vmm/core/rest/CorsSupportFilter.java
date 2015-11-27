@@ -18,12 +18,15 @@
 
 package es.bsc.vmm.core.rest;
 
-import com.sun.jersey.spi.container.ContainerRequest;
-import com.sun.jersey.spi.container.ContainerResponse;
-import com.sun.jersey.spi.container.ContainerResponseFilter;
+import org.glassfish.jersey.server.ContainerRequest;
+import org.glassfish.jersey.server.ContainerResponse;
 
+import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.container.ContainerResponseContext;
+import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
+import java.io.IOException;
 
 /**
  * CORS (cross-origin resource sharing) support filter. I could not connect to the REST service from an
@@ -36,17 +39,14 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 public class CorsSupportFilter implements ContainerResponseFilter {
 
     @Override
-    public ContainerResponse filter(ContainerRequest req, ContainerResponse contResp) {
-        ResponseBuilder resp = Response.fromResponse(contResp.getResponse());
-        resp.header("Access-Control-Allow-Origin", "*")
-            .header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    public void filter(ContainerRequestContext req, ContainerResponseContext resp) throws IOException {
+        resp.getHeaders().add("Access-Control-Allow-Origin", "*");
 
-        if (null != req.getHeaderValue("Access-Control-Request-Headers")) {
-            resp.header("Access-Control-Allow-Headers", req.getHeaderValue("Access-Control-Request-Headers"));
+        resp.getHeaders().add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+
+        if (null != req.getHeaderString("Access-Control-Request-Headers")) {
+            resp.getHeaders().add("Access-Control-Allow-Headers", req.getHeaderString("Access-Control-Request-Headers"));
         }
-
-        contResp.setResponse(resp.build());
-        return contResp;
     }
 
 }
