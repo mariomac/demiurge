@@ -48,20 +48,34 @@ at every request. This increases performance greatly.*/
 @Path("/vmmanager")
 public class VmManagerRest {
 
-    private VmManager vmManager = VmManagerConfiguration.INSTANCE.getVmManager();;
+    private VmManager vmManager;
 
-    private VmCallsManager vmCallsManager = new VmCallsManager(vmManager);
-    private ImageCallsManager imageCallsManager = new ImageCallsManager(vmManager);
-    private SchedulingAlgorithmCallsManager schedAlgCallsManager = new SchedulingAlgorithmCallsManager(vmManager);
-    private NodeCallsManager nodeCallsManager = new NodeCallsManager(vmManager);
-    private LogCallsManager logCallsManager = new LogCallsManager();
-    private EstimatesCallsManager estimatesCallsManager = new EstimatesCallsManager(vmManager);
-    private VmPlacementCallsManager vmPlacementCallsManager = new VmPlacementCallsManager(vmManager);
-    private SelfAdaptationCallsManager selfAdaptationCallsManager = new SelfAdaptationCallsManager(vmManager);
+    private VmCallsManager vmCallsManager;
+    private ImageCallsManager imageCallsManager;
+    private SchedulingAlgorithmCallsManager schedAlgCallsManager;
+    private NodeCallsManager nodeCallsManager;
+    private LogCallsManager logCallsManager;
+    private EstimatesCallsManager estimatesCallsManager;
+    private VmPlacementCallsManager vmPlacementCallsManager;
+    private SelfAdaptationCallsManager selfAdaptationCallsManager;
 
     private Logger log = LogManager.getLogger(VmManagerRest.class);
 
-//================================================================================
+    public VmManagerRest() {
+        vmManager = VmManagerConfiguration.INSTANCE.getVmManager();
+        if(vmManager == null) throw new AssertionError("VM Manager must not be null");
+
+        vmCallsManager = new VmCallsManager(vmManager);
+        imageCallsManager = new ImageCallsManager(vmManager);
+        schedAlgCallsManager = new SchedulingAlgorithmCallsManager(vmManager);
+        nodeCallsManager = new NodeCallsManager(vmManager);
+        logCallsManager = new LogCallsManager();
+        estimatesCallsManager = new EstimatesCallsManager(vmManager);
+        vmPlacementCallsManager = new VmPlacementCallsManager(vmManager);
+        selfAdaptationCallsManager = new SelfAdaptationCallsManager(vmManager);
+    }
+
+    //================================================================================
     // VM Methods
     //================================================================================
 

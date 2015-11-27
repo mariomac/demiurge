@@ -85,7 +85,6 @@ public class GenericVmManager implements VmManager {
      */
     public GenericVmManager() {
         VmManagerConfiguration cfg = VmManagerConfiguration.INSTANCE;
-		VmManagerConfiguration.INSTANCE.loadBeansConfig();
         db = VmManagerDbFactory.getDb(cfg.dbName);
 
         this.cloudMiddleware = cfg.getCloudMiddleware();

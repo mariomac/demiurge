@@ -110,10 +110,6 @@ public class ZabbixConnector implements Monitoring<HostZabbix> {
             + "WHERE hosts.hostid = it.hostid AND "
             + "hosts.hostid = ?);";
 
-    // Suppress default constructor for non-instantiability
-    private ZabbixConnector() {
-        throw new AssertionError();
-    }
 
     public static ZabbixClient getZabbixClient() {
         return zabbixClient;
