@@ -58,13 +58,13 @@ import java.util.Map;
 public class GenericVmManager implements VmManager {
 
     // VMM components. The VMM delegates all the work to this subcomponents
-    private final ImageManager imageManager;
-    private final SchedulingAlgorithmsManager schedulingAlgorithmsManager;
-    private final HostsManager hostsManager;
-    private final VmsManager vmsManager;
-    private final SelfAdaptationOptsManager selfAdaptationOptsManager;
-    private final VmPlacementManager vmPlacementManager;
-    private final EstimatesManager estimatesManager;
+    private ImageManager imageManager;
+    private SchedulingAlgorithmsManager schedulingAlgorithmsManager;
+    private HostsManager hostsManager;
+    private VmsManager vmsManager;
+    private SelfAdaptationOptsManager selfAdaptationOptsManager;
+    private VmPlacementManager vmPlacementManager;
+    private EstimatesManager estimatesManager;
     
     private CloudMiddleware cloudMiddleware;
     private SelfAdaptationManager selfAdaptationManager;
@@ -84,33 +84,18 @@ public class GenericVmManager implements VmManager {
      *
      */
     public GenericVmManager() {
-        VmManagerConfiguration cfg = VmManagerConfiguration.INSTANCE;
-        db = VmManagerDbFactory.getDb(cfg.dbName);
+        db = VmManagerDbFactory.getDb(conf.dbName);
 
-        this.cloudMiddleware = cfg.getCloudMiddleware();
+        this.cloudMiddleware = conf.getCloudMiddleware();
 
-        selfAdaptationManager = new SelfAdaptationManager(this, conf.dbName);
+        selfAdaptationManager = new SelfAdaptationManager(this, GenericVmManager.conf.dbName);
 
-		hostFactory = cfg.getHostFactory();
+		hostFactory = conf.getHostFactory();
 
         // Initialize all the VMM components
         imageManager = new ImageManager(cloudMiddleware);
-        schedulingAlgorithmsManager = new SchedulingAlgorithmsManager(db, cfg.getSchedulingAlgorithmsRepository());
+        schedulingAlgorithmsManager = new SchedulingAlgorithmsManager(db, conf.getSchedulingAlgorithmsRepository());
         hostsManager = new HostsManager(hosts);
-		estimatesManager = new EstimatesManager(this, cfg.getEstimators(), cfg.getSchedulingAlgorithmsRepository());
-
-        vmsManager = new VmsManager(hostsManager, cloudMiddleware, db, selfAdaptationManager, estimatesManager,
-				cfg.getSchedulingAlgorithmsRepository(), cfg.getVmmListeners());
-        selfAdaptationOptsManager = new SelfAdaptationOptsManager(selfAdaptationManager);
-        vmPlacementManager = new VmPlacementManager(vmsManager, hostsManager, schedulingAlgorithmsManager,estimatesManager);
-
-        // Start periodic self-adaptation thread if it is not already running.
-        // This check would not be needed if only one instance of this class was created.
-        if (!periodicSelfAdaptationThreadRunning) {
-            periodicSelfAdaptationThreadRunning = true;
-            startPeriodicSelfAdaptationThread();
-        }
-
     }
 
 
@@ -440,17 +425,32 @@ public class GenericVmManager implements VmManager {
     // Private Methods
     //================================================================================
     
-    /**
-     * Instantiates the hosts according to the monitoring software selected.
-     *
-     */
+
     @Override
     public void doInitActions() {
+        // Instantiates the hosts according to the monitoring software selected.
 		HostFactory hf = VmManagerConfiguration.INSTANCE.getHostFactory();
 
 		for(String hostname : VmManagerConfiguration.INSTANCE.hosts) {
 			hosts.add(hf.getHost(hostname));
 		}
+
+        // initializes other subcomponents
+
+        estimatesManager = new EstimatesManager(this, conf.getEstimators(), conf.getSchedulingAlgorithmsRepository());
+
+        vmsManager = new VmsManager(hostsManager, cloudMiddleware, db, selfAdaptationManager, estimatesManager,
+                conf.getSchedulingAlgorithmsRepository(), conf.getVmmListeners());
+        selfAdaptationOptsManager = new SelfAdaptationOptsManager(selfAdaptationManager);
+        vmPlacementManager = new VmPlacementManager(vmsManager, hostsManager, schedulingAlgorithmsManager,estimatesManager);
+
+        // Start periodic self-adaptation thread if it is not already running.
+        // This check would not be needed if only one instance of this class was created.
+        if (!periodicSelfAdaptationThreadRunning) {
+            periodicSelfAdaptationThreadRunning = true;
+            startPeriodicSelfAdaptationThread();
+        }
+
 
     }
 /*
