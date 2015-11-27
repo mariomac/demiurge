@@ -86,16 +86,6 @@ public class GenericVmManager implements VmManager {
     public GenericVmManager() {
         db = VmManagerDbFactory.getDb(conf.dbName);
 
-        this.cloudMiddleware = conf.getCloudMiddleware();
-
-        selfAdaptationManager = new SelfAdaptationManager(this, GenericVmManager.conf.dbName);
-
-		hostFactory = conf.getHostFactory();
-
-        // Initialize all the VMM components
-        imageManager = new ImageManager(cloudMiddleware);
-        schedulingAlgorithmsManager = new SchedulingAlgorithmsManager(db, conf.getSchedulingAlgorithmsRepository());
-        hostsManager = new HostsManager(hosts);
     }
 
 
@@ -428,6 +418,18 @@ public class GenericVmManager implements VmManager {
 
     @Override
     public void doInitActions() {
+        this.cloudMiddleware = conf.getCloudMiddleware();
+
+        selfAdaptationManager = new SelfAdaptationManager(this, GenericVmManager.conf.dbName);
+
+        hostFactory = conf.getHostFactory();
+
+        // Initialize all the VMM components
+        imageManager = new ImageManager(cloudMiddleware);
+        schedulingAlgorithmsManager = new SchedulingAlgorithmsManager(db, conf.getSchedulingAlgorithmsRepository());
+        hostsManager = new HostsManager(hosts);
+
+
         // Instantiates the hosts according to the monitoring software selected.
 		HostFactory hf = VmManagerConfiguration.INSTANCE.getHostFactory();
 
@@ -441,6 +443,7 @@ public class GenericVmManager implements VmManager {
 
         vmsManager = new VmsManager(hostsManager, cloudMiddleware, db, selfAdaptationManager, estimatesManager,
                 conf.getSchedulingAlgorithmsRepository(), conf.getVmmListeners());
+
         selfAdaptationOptsManager = new SelfAdaptationOptsManager(selfAdaptationManager);
         vmPlacementManager = new VmPlacementManager(vmsManager, hostsManager, schedulingAlgorithmsManager,estimatesManager);
 
