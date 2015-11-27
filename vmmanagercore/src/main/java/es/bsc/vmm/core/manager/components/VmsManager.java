@@ -54,9 +54,10 @@ public class VmsManager {
     private final CloudMiddleware cloudMiddleware;
     private final VmManagerDb db;
     private final SelfAdaptationManager selfAdaptationManager;
-    private final Scheduler scheduler;
+    private Scheduler scheduler;
     private final EstimatesManager estimatorsManager;
 	private final List<VmmListener> listeners;
+    private final SchedulingAlgorithmsRepository schedulingAlgorithmsRepository;
 
 //    private static final String ASCETIC_ZABBIX_SCRIPT_PATH = "/DFS/ascetic/vm-scripts/zabbix_agents.sh";
 
@@ -70,12 +71,12 @@ public class VmsManager {
 
         this.hostsManager = hostsManager;
         this.cloudMiddleware = cloudMiddleware;
+        this.schedulingAlgorithmsRepository = schedulingAlgorithmsRepository;
         this.db = db;
         this.selfAdaptationManager = selfAdaptationManager;
         this.estimatorsManager = estimatorsManager;
-        scheduler = new Scheduler(db.getCurrentSchedulingAlg(), getAllVms(), estimatorsManager, schedulingAlgorithmsRepository);
     }
-    
+
     /**
      * Returns a list of the VMs deployed.
      *
@@ -367,8 +368,8 @@ public class VmsManager {
                 // scheduling algorithm when using the legacy deployment engine. This does not occur when using
                 // the optaplanner deployment engine.
                 String currentSchedulingAlg = db.getCurrentSchedulingAlg();
-                scheduler.setSchedAlgorithm(currentSchedulingAlg);
-                return scheduler.chooseBestDeploymentPlan(vms, hostsManager.getHosts());
+                getScheduler().setSchedAlgorithm(currentSchedulingAlg);
+                return getScheduler().chooseBestDeploymentPlan(vms, hostsManager.getHosts());
             case OPTAPLANNER:
                 if (repeatedNameInVmList(vms)) {
                     throw new IllegalArgumentException("There was an error while choosing a deployment plan.");
@@ -432,6 +433,13 @@ public class VmsManager {
         return null;
     }
 
+
+    private Scheduler getScheduler() {
+        if(scheduler == null) {
+            scheduler = new Scheduler(db.getCurrentSchedulingAlg(), getAllVms(), estimatorsManager, schedulingAlgorithmsRepository);
+        }
+        return scheduler;
+    }
 
 
     
