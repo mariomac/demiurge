@@ -74,7 +74,7 @@ public class OpenStackJclouds implements CloudMiddleware {
 
 	private Logger logger = LogManager.getLogger(OpenStackJclouds.class);
 
-    private static final String CONFIG_OPENSTACK_SUBSET_PREFIX = "openstack.";
+    private static final String CONFIG_OPENSTACK_SUBSET_PREFIX = "openstack";
     public static final String CONFIG_IP = "IP";
     public static final String CONFIG_KEYSTONE_PORT = "keyStonePort";
 	public static final String CONFIG_GLANCE_PORT = "glancePort";
