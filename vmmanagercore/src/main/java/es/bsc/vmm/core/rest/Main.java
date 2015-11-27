@@ -18,10 +18,11 @@
 
 package es.bsc.vmm.core.rest;
 
+import com.sun.jersey.api.container.grizzly2.GrizzlyServerFactory;
+import com.sun.jersey.api.core.PackagesResourceConfig;
+import com.sun.jersey.api.core.ResourceConfig;
 import es.bsc.vmm.core.configuration.VmManagerConfiguration;
 import org.glassfish.grizzly.http.server.HttpServer;
-import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
-import org.glassfish.jersey.server.ResourceConfig;
 
 import java.io.IOException;
 import java.net.URI;
@@ -40,13 +41,12 @@ public class Main {
 
     @SuppressWarnings("unchecked")
     public static HttpServer createServer() {
-        final ResourceConfig rc = new ResourceConfig();
-        rc.packages(DEPLOY_PACKAGE);
-        rc.register(CorsSupportFilter.class);
+        final ResourceConfig rc = new PackagesResourceConfig(DEPLOY_PACKAGE);
+        rc.getContainerResponseFilters().add(CorsSupportFilter.class);
 
         try {
             URI baseUri = URI.create(BASE_URI);
-            return GrizzlyHttpServerFactory.createHttpServer(baseUri, rc);
+            return GrizzlyServerFactory.createHttpServer(baseUri, rc);
         } catch (Exception e) {
             e.printStackTrace();
         }

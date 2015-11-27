@@ -18,14 +18,10 @@
 
 package es.bsc.vmm.core.rest;
 
-import org.glassfish.jersey.server.ContainerRequest;
-import org.glassfish.jersey.server.ContainerResponse;
+import com.sun.jersey.spi.container.ContainerRequest;
+import com.sun.jersey.spi.container.ContainerResponse;
+import com.sun.jersey.spi.container.ContainerResponseFilter;
 
-import javax.ws.rs.container.ContainerRequestContext;
-import javax.ws.rs.container.ContainerResponseContext;
-import javax.ws.rs.container.ContainerResponseFilter;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
 import java.io.IOException;
 
 /**
@@ -39,14 +35,15 @@ import java.io.IOException;
 public class CorsSupportFilter implements ContainerResponseFilter {
 
     @Override
-    public void filter(ContainerRequestContext req, ContainerResponseContext resp) throws IOException {
-        resp.getHeaders().add("Access-Control-Allow-Origin", "*");
+    public ContainerResponse filter(ContainerRequest req, ContainerResponse resp) {
+        resp.getHttpHeaders().putSingle("Access-Control-Allow-Origin", "*");
 
-        resp.getHeaders().add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        resp.getHttpHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
 
-        if (null != req.getHeaderString("Access-Control-Request-Headers")) {
-            resp.getHeaders().add("Access-Control-Allow-Headers", req.getHeaderString("Access-Control-Request-Headers"));
+        if (null != req.getHeaderValue("Access-Control-Request-Headers")) {
+            resp.getHttpHeaders().putSingle("Access-Control-Allow-Headers", req.getHeaderValue("Access-Control-Request-Headers"));
         }
+        return resp;
     }
 
 }
