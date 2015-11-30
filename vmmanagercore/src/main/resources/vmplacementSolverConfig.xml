@@ -20,8 +20,8 @@
 
 <solver>
     <!--<environmentMode>FAST_ASSERT</environmentMode>-->
-    <solutionClass>clopla.domain.ClusterState</solutionClass>
-    <planningEntityClass>clopla.domain.Vm</planningEntityClass>
+    <solutionClass>es.bsc.vmm.core.clopla.domain.ClusterState</solutionClass>
+    <planningEntityClass>es.bsc.vmm.core.clopla.domain.Vm</planningEntityClass>
 
     <scoreDirectorFactory>
         <scoreDefinitionType>HARD_SOFT</scoreDefinitionType>

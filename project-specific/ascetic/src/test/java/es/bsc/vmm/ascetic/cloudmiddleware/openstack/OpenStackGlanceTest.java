@@ -41,7 +41,7 @@ public class OpenStackGlanceTest {
 				conf.getConfiguration().getInt(OpenStackJclouds.CONFIG_KEYSTONE_PORT),
 				conf.getConfiguration().getString(OpenStackJclouds.CONFIG_KEYSTONE_TENANT),
 				conf.getConfiguration().getString(OpenStackJclouds.CONFIG_KEYSTONE_USER),
-				conf.getConfiguration().getString(OpenStackJclouds.CONFIG_KEYSTONE_PASSWORD),
+				conf.getConfiguration().getString(OpenStackJclouds.OS_CONFIG_KEYSTONE_PASSWORD),
 				conf.getConfiguration().getInt(OpenStackJclouds.CONFIG_GLANCE_PORT),
 				conf.getConfiguration().getString(OpenStackJclouds.CONFIG_KEYSTONE_TENANT_ID)));
 	}

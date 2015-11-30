@@ -372,6 +372,6 @@ public class VmManagerRest {
     @Path("/hello")
     @Produces(MediaType.TEXT_PLAIN)
     public String helloº() {
-        return "hello";
+        return "hello!\n";
     }
 }

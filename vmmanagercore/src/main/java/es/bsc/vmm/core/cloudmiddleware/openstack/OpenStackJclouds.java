@@ -75,34 +75,40 @@ public class OpenStackJclouds implements CloudMiddleware {
 	private Logger logger = LogManager.getLogger(OpenStackJclouds.class);
 
     private static final String CONFIG_OPENSTACK_SUBSET_PREFIX = "openstack";
-    public static final String CONFIG_IP = "IP";
-    public static final String CONFIG_KEYSTONE_PORT = "keyStonePort";
-	public static final String CONFIG_GLANCE_PORT = "glancePort";
-	public static final String CONFIG_KEYSTONE_USER = "keyStoneUser";
-	public static final String CONFIG_KEYSTONE_TENANT = "keyStoneTenant";
-	public static final String CONFIG_KEYSTONE_TENANT_ID = "keyStoneTenantId";
-	public static final String CONFIG_KEYSTONE_PASSWORD = "keyStonePassword";
-	public static final String CONFIG_HOSTS= "hosts";
-	public static final String CONFIG_SECURITY_GROUPS = "securityGroups";
+    public static final String OS_CONFIG_IP = "IP";
+    public static final String OS_CONFIG_KEYSTONE_PORT = "keyStonePort";
+	public static final String OS_CONFIG_GLANCE_PORT = "glancePort";
+	public static final String OS_CONFIG_KEYSTONE_USER = "keyStoneUser";
+	public static final String OS_CONFIG_KEYSTONE_TENANT = "keyStoneTenant";
+	public static final String OS_CONFIG_KEYSTONE_TENANT_ID = "keyStoneTenantId";
+	public static final String OS_CONFIG_KEYSTONE_PASSWORD = "keyStonePassword";
+	public static final String OS_CONFIG_SECURITY_GROUPS = "securityGroups";
 
-    public OpenStackJclouds() {
+	public static final String CONFIG_HOSTS= "hosts";
+
+	public OpenStackJclouds() {
         Configuration c = VmManagerConfiguration.INSTANCE.getConfiguration().subset(CONFIG_OPENSTACK_SUBSET_PREFIX);
 
         OpenStackCredentials credentials = new OpenStackCredentials(
-                c.getString(CONFIG_IP),
-                c.getInt(CONFIG_KEYSTONE_PORT),
-                c.getString(CONFIG_KEYSTONE_TENANT),
-                c.getString(CONFIG_KEYSTONE_USER),
-                c.getString(CONFIG_KEYSTONE_PASSWORD),
-                c.getInt(CONFIG_GLANCE_PORT),
-                c.getString(CONFIG_KEYSTONE_TENANT_ID)
+                c.getString(OS_CONFIG_IP),
+                c.getInt(OS_CONFIG_KEYSTONE_PORT),
+                c.getString(OS_CONFIG_KEYSTONE_TENANT),
+                c.getString(OS_CONFIG_KEYSTONE_USER),
+                c.getString(OS_CONFIG_KEYSTONE_PASSWORD),
+                c.getInt(OS_CONFIG_GLANCE_PORT),
+                c.getString(OS_CONFIG_KEYSTONE_TENANT_ID)
         );
         openStackJcloudsApis = new OpenStackJcloudsApis(credentials);
 
         zone = openStackJcloudsApis.getNovaApi().getConfiguredZones().toArray()[0].toString();
-        this.securityGroups = c.getStringArray(CONFIG_SECURITY_GROUPS);
+        this.securityGroups = c.getStringArray(OS_CONFIG_SECURITY_GROUPS);
         glanceConnector = new OpenStackGlance(credentials);
-        this.hostNames.addAll(Arrays.asList(c.getStringArray(CONFIG_HOSTS)));
+        this.hostNames.addAll(Arrays.asList(VmManagerConfiguration.INSTANCE.getConfiguration().getStringArray(CONFIG_HOSTS)));
+		StringBuilder sb = new StringBuilder("Registering hostNames: ");
+		for(String hn : hostNames) {
+			sb.append('[').append(hn).append("], ");
+		}
+		logger.info(sb.toString());
     }
 
     public OpenStackJclouds(String[] hosts, String[] securityGroups) {

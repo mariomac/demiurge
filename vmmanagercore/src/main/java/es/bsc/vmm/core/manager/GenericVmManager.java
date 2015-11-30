@@ -70,16 +70,14 @@ public class GenericVmManager implements VmManager {
     private SelfAdaptationManager selfAdaptationManager;
 	private VmManagerDb db;
 
-    private List<Host> hosts = new ArrayList<>();
-
     // Specific for the Ascetic project
 
     private static boolean periodicSelfAdaptationThreadRunning = false;
 
     private static final VmManagerConfiguration conf = VmManagerConfiguration.INSTANCE;
 	private Logger log = LogManager.getLogger(GenericVmManager.class);
-	private HostFactory hostFactory;
-    /**
+
+	/**
      * Constructs a VmManager with the name of the database to be used.
      *
      */
@@ -422,23 +420,22 @@ public class GenericVmManager implements VmManager {
 
         selfAdaptationManager = new SelfAdaptationManager(this, GenericVmManager.conf.dbName);
 
-        hostFactory = conf.getHostFactory();
-
         // Initialize all the VMM components
         imageManager = new ImageManager(cloudMiddleware);
         schedulingAlgorithmsManager = new SchedulingAlgorithmsManager(db, conf.getSchedulingAlgorithmsRepository());
-        hostsManager = new HostsManager(hosts);
-
 
         // Instantiates the hosts according to the monitoring software selected.
 		HostFactory hf = VmManagerConfiguration.INSTANCE.getHostFactory();
+
+		List<Host> hosts = new ArrayList<>();
 
 		for(String hostname : VmManagerConfiguration.INSTANCE.hosts) {
 			hosts.add(hf.getHost(hostname));
 		}
 
-        // initializes other subcomponents
+		hostsManager = new HostsManager(hosts);
 
+		// initializes other subcomponents
         estimatesManager = new EstimatesManager(this, conf.getEstimators(), conf.getSchedulingAlgorithmsRepository());
 
         vmsManager = new VmsManager(hostsManager, cloudMiddleware, db, selfAdaptationManager, estimatesManager,
