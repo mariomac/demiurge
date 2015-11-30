@@ -21,21 +21,22 @@ package es.bsc.vmm.core.manager.components;
 import es.bsc.vmm.core.cloudmiddleware.CloudMiddleware;
 import es.bsc.vmm.core.cloudmiddleware.CloudMiddlewareException;
 import es.bsc.vmm.core.configuration.VmManagerConfiguration;
+import es.bsc.vmm.core.db.VmManagerDb;
 import es.bsc.vmm.core.drivers.VmAction;
 import es.bsc.vmm.core.drivers.VmmListener;
 import es.bsc.vmm.core.logging.VMMLogger;
-import es.bsc.vmm.core.manager.DeploymentEngine;
-import es.bsc.vmm.core.models.scheduling.*;
+import es.bsc.vmm.core.models.scheduling.DeploymentPlan;
+import es.bsc.vmm.core.models.scheduling.RecommendedPlan;
+import es.bsc.vmm.core.models.scheduling.VmAssignmentToHost;
+import es.bsc.vmm.core.models.scheduling.VmPlacement;
 import es.bsc.vmm.core.models.vms.Vm;
+import es.bsc.vmm.core.models.vms.VmDeployed;
 import es.bsc.vmm.core.monitoring.hosts.Host;
 import es.bsc.vmm.core.scheduler.Scheduler;
-import es.bsc.vmm.core.scheduler.SchedulingAlgorithmsRepository;
-import es.bsc.vmm.core.utils.TimeUtils;
-import es.bsc.vmm.core.db.VmManagerDb;
-import es.bsc.vmm.core.models.vms.VmDeployed;
 import es.bsc.vmm.core.selfadaptation.AfterVmDeleteSelfAdaptationRunnable;
 import es.bsc.vmm.core.selfadaptation.AfterVmsDeploymentSelfAdaptationRunnable;
 import es.bsc.vmm.core.selfadaptation.SelfAdaptationManager;
+import es.bsc.vmm.core.utils.TimeUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -54,21 +55,18 @@ public class VmsManager {
     private Scheduler scheduler;
     private final EstimatesManager estimatorsManager;
 	private final List<VmmListener> listeners;
-    private final SchedulingAlgorithmsRepository schedulingAlgorithmsRepository;
 
 //    private static final String ASCETIC_ZABBIX_SCRIPT_PATH = "/DFS/ascetic/vm-scripts/zabbix_agents.sh";
 
     public VmsManager(HostsManager hostsManager, CloudMiddleware cloudMiddleware, VmManagerDb db, 
                       SelfAdaptationManager selfAdaptationManager,
 					  EstimatesManager estimatorsManager,
-					  SchedulingAlgorithmsRepository schedulingAlgorithmsRepository,
 					  List<VmmListener> listeners
 					  ) {
 		this.listeners = listeners;
 
         this.hostsManager = hostsManager;
         this.cloudMiddleware = cloudMiddleware;
-        this.schedulingAlgorithmsRepository = schedulingAlgorithmsRepository;
         this.db = db;
         this.selfAdaptationManager = selfAdaptationManager;
         this.estimatorsManager = estimatorsManager;
@@ -197,8 +195,7 @@ public class VmsManager {
         // HashMap (VmDescription,ID after deployment). Used to return the IDs in the same order that they are received
         Map<Vm, String> ids = new HashMap<>();
 
-        DeploymentPlan deploymentPlan = chooseBestDeploymentPlan(
-                vms, VmManagerConfiguration.INSTANCE.deploymentEngine);
+        DeploymentPlan deploymentPlan = chooseBestDeploymentPlan(vms);
 
         // Loop through the VM assignments to hosts defined in the best deployment plan
         for (VmAssignmentToHost vmAssignmentToHost: deploymentPlan.getVmsAssignationsToHosts()) {
@@ -357,43 +354,31 @@ public class VmsManager {
         thread.start();
     }
 
-    private DeploymentPlan chooseBestDeploymentPlan(List<Vm> vms, DeploymentEngine deploymentEngine) throws CloudMiddlewareException {
-        switch (deploymentEngine) {
-            case LEGACY:
-                // The scheduling algorithm could have been changed. Therefore, we need to set it again.
-                // This is a quick fix. I need to find a way of telling the system to update properly the
-                // scheduling algorithm when using the legacy deployment engine. This does not occur when using
-                // the optaplanner deployment engine.
-                String currentSchedulingAlg = db.getCurrentSchedulingAlg();
-                getScheduler().setSchedAlgorithm(currentSchedulingAlg);
-                return getScheduler().chooseBestDeploymentPlan(vms, hostsManager.getHosts());
-            case OPTAPLANNER:
-                if (repeatedNameInVmList(vms)) {
-                    throw new IllegalArgumentException("There was an error while choosing a deployment plan.");
-                }
+    public DeploymentPlan chooseBestDeploymentPlan(List<Vm> vms) throws CloudMiddlewareException {
+		if (repeatedNameInVmList(vms)) {
+			throw new IllegalArgumentException("There was an error while choosing a deployment plan.");
+		}
 
-                RecommendedPlan recommendedPlan = selfAdaptationManager.getRecommendedPlanForDeployment(vms);
+		RecommendedPlan recommendedPlan = selfAdaptationManager.getRecommendedPlanForDeployment(vms);
 
-                // Construct deployment plan from recommended plan with only the VMs that we want to deploy,
-                // we do not need here the ones that are already deployed even though they appear in the plan
-                List<VmAssignmentToHost> vmAssignmentToHosts = new ArrayList<>();
-                for (Vm vm: vms) {
-                    // TODO: analyze if this works when some VMs have a preferred host and others do not
-                    if (vm.getPreferredHost() != null && !vm.getPreferredHost().equals("")) {
-                        vmAssignmentToHosts.add(new VmAssignmentToHost(
-                                vm, hostsManager.getHost(vm.getPreferredHost())));
-                    }
-                    else {
-                        VmPlacement vmPlacement = findVmPlacementByVmId(
-                                recommendedPlan.getVMPlacements(), vm.getName());
-                        Host host = hostsManager.getHost(vmPlacement.getHostname());
-                        vmAssignmentToHosts.add(new VmAssignmentToHost(vm, host));
-                    }
-                }
-                return new DeploymentPlan(vmAssignmentToHosts);
-            default:
-                throw new IllegalArgumentException("The deployment engine selected is not supported.");
-        }
+		// Construct deployment plan from recommended plan with only the VMs that we want to deploy,
+		// we do not need here the ones that are already deployed even though they appear in the plan
+		List<VmAssignmentToHost> vmAssignmentToHosts = new ArrayList<>();
+		for (Vm vm: vms) {
+			// TODO: analyze if this works when some VMs have a preferred host and others do not
+			if (vm.getPreferredHost() != null && !vm.getPreferredHost().equals("")) {
+				vmAssignmentToHosts.add(new VmAssignmentToHost(
+						vm, hostsManager.getHost(vm.getPreferredHost())));
+			}
+			else {
+				VmPlacement vmPlacement = findVmPlacementByVmId(
+						recommendedPlan.getVMPlacements(), vm.getName());
+				Host host = hostsManager.getHost(vmPlacement.getHostname());
+				vmAssignmentToHosts.add(new VmAssignmentToHost(vm, host));
+			}
+		}
+		return new DeploymentPlan(vmAssignmentToHosts);
+
     }
 
 //		AFAIK this is not needed for ascetic y2
@@ -429,15 +414,6 @@ public class VmsManager {
         }
         return null;
     }
-
-
-    private Scheduler getScheduler() {
-        if(scheduler == null) {
-            scheduler = new Scheduler(db.getCurrentSchedulingAlg(), getAllVms(), estimatorsManager, schedulingAlgorithmsRepository);
-        }
-        return scheduler;
-    }
-
 
     
 }

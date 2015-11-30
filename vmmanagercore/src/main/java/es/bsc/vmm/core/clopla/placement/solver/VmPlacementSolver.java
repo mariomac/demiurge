@@ -20,6 +20,7 @@
 package es.bsc.vmm.core.clopla.placement.solver;
 
 import es.bsc.vmm.core.clopla.placement.config.VmPlacementConfig;
+import es.bsc.vmm.core.configuration.VmManagerConfiguration;
 import org.optaplanner.core.api.solver.Solver;
 
 /**
@@ -32,7 +33,8 @@ public class VmPlacementSolver {
     private final VmPlacementSolverFactory vmPlacementSolverFactory;
 
     public VmPlacementSolver(VmPlacementConfig vmPlacementConfig) {
-        this.vmPlacementSolverFactory = new VmPlacementSolverFactory(vmPlacementConfig);
+        this.vmPlacementSolverFactory = new VmPlacementSolverFactory(vmPlacementConfig,
+				VmManagerConfiguration.INSTANCE.getPlacementPolicies());
     }
 
     /**

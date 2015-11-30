@@ -30,19 +30,15 @@
 		<ref bean="pricingModeller"/>
 	</util:set>
 
-	<!-- deprecated: to substitute by clopla -->
-	<bean id="schedulingAlgorithmsRepository" class="es.bsc.vmm.core.scheduler.SchedulingAlgorithmsRepository">
-		<constructor-arg>
-			<util:set value-type="java.lang.Class">
-				<value type="java.lang.Class">es.bsc.vmm.core.scheduler.schedulingalgorithms.SchedAlgConsolidation</value>
-				<value type="java.lang.Class">es.bsc.vmm.core.scheduler.schedulingalgorithms.SchedAlgDistribution</value>
-				<value type="java.lang.Class">es.bsc.vmm.core.scheduler.schedulingalgorithms.SchedAlgGroupByApp</value>
-				<value type="java.lang.Class">es.bsc.vmm.core.scheduler.schedulingalgorithms.SchedAlgRandom</value>
-				<value type="java.lang.Class">es.bsc.vmm.ascetic.scheduler.legacy.SchedAlgCostAware</value>
-				<value type="java.lang.Class">es.bsc.vmm.ascetic.scheduler.legacy.SchedAlgEnergyAware</value>
-			</util:set>
-		</constructor-arg>
-	</bean>
+	<!-- Values must be subclasses of optaplanners' SimpleScoreCalculator -->
+	<util:map id="placementPolicies" key-type="java.lang.String" value-type="java.lang.Class">
+		<entry key="consolidation" value-type="java.lang.Class" value="es.bsc.vmm.core.clopla.placement.scorecalculators.ScoreCalculatorConsolidation"/>
+		<entry key="distribution" value-type="java.lang.Class" value="es.bsc.vmm.core.clopla.placement.scorecalculators.ScoreCalculatorDistribution"/>
+		<entry key="groupByApp" value-type="java.lang.Class" value="es.bsc.vmm.core.clopla.placement.scorecalculators.ScoreCalculatorGroupByApp"/>
+		<entry key="random" value-type="java.lang.Class" value="es.bsc.vmm.core.clopla.placement.scorecalculators.ScoreCalculatorRandom"/>
+		<entry key="energyAware" value-type="java.lang.Class" value="es.bsc.vmm.ascetic.scheduler.clopla.ScoreCalculatorAsceticEnergyAware"/>
+		<entry key="costAware" value-type="java.lang.Class" value="es.bsc.vmm.ascetic.scheduler.clopla.ScoreCalculatorAsceticEnergyAware"/>
+	</util:map>
 
 	<util:list id="vmmListeners" value-type="es.bsc.vmm.core.drivers.VmmListener">
 		<ref bean="energyModeller"/>

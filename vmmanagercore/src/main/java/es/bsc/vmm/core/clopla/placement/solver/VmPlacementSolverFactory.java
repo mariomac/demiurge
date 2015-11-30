@@ -19,11 +19,9 @@
 
 package es.bsc.vmm.core.clopla.placement.solver;
 
-import es.bsc.vmm.core.clopla.placement.config.Policy;
 import com.google.common.collect.ImmutableMap;
 import es.bsc.vmm.core.clopla.domain.ConstructionHeuristic;
 import es.bsc.vmm.core.clopla.placement.config.VmPlacementConfig;
-import es.bsc.vmm.core.clopla.placement.scorecalculators.*;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.config.constructionheuristic.ConstructionHeuristicSolverPhaseConfig;
 import org.optaplanner.core.config.localsearch.LocalSearchSolverPhaseConfig;
@@ -42,15 +40,9 @@ public class VmPlacementSolverFactory {
 
     private static final String BASE_SOLVER_XML_PATH = "/vmplacementSolverConfig.xml";
 
-    private static final Map<Policy, Class<? extends SimpleScoreCalculator>> policyScoreCalculatorImplementations =
-            ImmutableMap.<Policy, Class<? extends SimpleScoreCalculator>>builder()
-                    .put(Policy.CONSOLIDATION, ScoreCalculatorConsolidation.class)
-                    .put(Policy.DISTRIBUTION, ScoreCalculatorDistribution.class)
-                    .put(Policy.ESTIMATOR_BASED, ScoreCalculatorEstimators.class)
-                    .put(Policy.GROUP_BY_APP, ScoreCalculatorGroupByApp.class)
-                    .put(Policy.RANDOM, ScoreCalculatorRandom.class).build();
-    
-    private static final Map<ConstructionHeuristic, ConstructionHeuristicSolverPhaseConfig.ConstructionHeuristicType>
+    private Map<String, Class<? extends SimpleScoreCalculator>> policyScoreCalculatorImplementations;
+
+	private static final Map<ConstructionHeuristic, ConstructionHeuristicSolverPhaseConfig.ConstructionHeuristicType>
             optaPlannerConstructionHeuristics =
             ImmutableMap.<ConstructionHeuristic, ConstructionHeuristicSolverPhaseConfig.ConstructionHeuristicType>
                     builder()
@@ -66,11 +58,12 @@ public class VmPlacementSolverFactory {
     
     private final VmPlacementConfig vmPlacementConfig;
 
-    public VmPlacementSolverFactory(VmPlacementConfig vmPlacementConfig) {
-        this.vmPlacementConfig = vmPlacementConfig;
-    }
+	public VmPlacementSolverFactory(VmPlacementConfig vmPlacementConfig, Map<String, Class<? extends SimpleScoreCalculator>> policyScoreCalculatorImplementations) {
+		this.vmPlacementConfig = vmPlacementConfig;
+		this.policyScoreCalculatorImplementations = policyScoreCalculatorImplementations;
+	}
 
-    public SolverFactory getSolverFactory() {
+	public SolverFactory getSolverFactory() {
         // The solver is built from an XML that contains a basic configuration.
         // This should be a bit simpler than building the solver from scratch.
         SolverFactory solverFactory = new XmlSolverFactory(BASE_SOLVER_XML_PATH);

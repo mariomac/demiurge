@@ -21,7 +21,6 @@ package es.bsc.vmm.core.clopla.placement.config;
 
 import es.bsc.vmm.core.clopla.domain.ClusterState;
 import es.bsc.vmm.core.clopla.domain.ConstructionHeuristic;
-import es.bsc.vmm.core.clopla.modellers.CloplaEstimationModeller;
 import es.bsc.vmm.core.clopla.placement.config.localsearch.LocalSearch;
 import es.bsc.vmm.core.manager.components.EstimatesManager;
 
@@ -32,7 +31,7 @@ import es.bsc.vmm.core.manager.components.EstimatesManager;
  */
 public class VmPlacementConfig {
 
-    private final Policy policy;
+    private final String policy;
     private final int timeLimitSeconds;
     private final ConstructionHeuristic constructionHeuristic;
     private final LocalSearch localSearch;
@@ -42,12 +41,11 @@ public class VmPlacementConfig {
     // energyModeller, priceModeller, and initialClusterState are static variables because they are needed in 
     // the score calculators and I cannot call their constructors directly. 
     // I made them ThreadLocal to make the library thread-safe. Is there a cleaner solution?
-    public static ThreadLocal<CloplaEstimationModeller> estimationModeller = new ThreadLocal<>();
     public static ThreadLocal<ClusterState> initialClusterState = new ThreadLocal<>();
 
     public static class Builder {
         // Required parameters
-        private final Policy policy;
+        private final String policy;
         private final int timeLimitSeconds;
         private final ConstructionHeuristic constructionHeuristic;
         private final LocalSearch localSearch;
@@ -55,7 +53,7 @@ public class VmPlacementConfig {
 
 		private EstimatesManager estimatesManager;
 
-        public Builder(Policy policy, int timeLimitSeconds, ConstructionHeuristic constructionHeuristic,
+        public Builder(String policy, int timeLimitSeconds, ConstructionHeuristic constructionHeuristic,
                 LocalSearch localSearch, boolean vmsAreFixed) {
             this.policy = policy;
             this.timeLimitSeconds = timeLimitSeconds;
@@ -81,10 +79,9 @@ public class VmPlacementConfig {
         constructionHeuristic = builder.constructionHeuristic;
         localSearch = builder.localSearch;
         vmsAreFixed = builder.vmsAreFixed;
-		estimationModeller.set(new CloplaEstimationModeller(builder.estimatesManager));
     }
 
-    public Policy getPolicy() {
+    public String getPolicy() {
         return policy;
     }
 

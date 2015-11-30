@@ -160,7 +160,6 @@ public class VmPlacementProblem {
     }
     
     private void cleanThreadLocals() {
-        VmPlacementConfig.estimationModeller.set(null);
         VmPlacementConfig.initialClusterState.set(null);
     }
 

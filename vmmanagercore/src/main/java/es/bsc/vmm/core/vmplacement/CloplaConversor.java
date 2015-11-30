@@ -20,13 +20,12 @@ package es.bsc.vmm.core.vmplacement;
 
 import es.bsc.vmm.core.clopla.domain.ClusterState;
 import es.bsc.vmm.core.clopla.domain.ConstructionHeuristic;
-import es.bsc.vmm.core.clopla.placement.config.Policy;
 import es.bsc.vmm.core.clopla.placement.config.VmPlacementConfig;
 import es.bsc.vmm.core.clopla.placement.config.localsearch.*;
 import es.bsc.vmm.core.manager.components.EstimatesManager;
-import es.bsc.vmm.core.models.vms.Vm;
 import es.bsc.vmm.core.models.scheduling.RecommendedPlan;
 import es.bsc.vmm.core.models.scheduling.RecommendedPlanRequest;
+import es.bsc.vmm.core.models.vms.Vm;
 import es.bsc.vmm.core.models.vms.VmDeployed;
 import es.bsc.vmm.core.monitoring.hosts.Host;
 
@@ -101,7 +100,7 @@ public class CloplaConversor {
 		}
 
 		return new VmPlacementConfig.Builder(
-				getPolicy(schedAlgorithmName),
+				schedAlgorithmName,
 				timeLimitSec,
 				getConstructionHeuristic(recommendedPlanRequest.getConstructionHeuristicName()),
 				getLocalSearch(recommendedPlanRequest),
@@ -181,34 +180,6 @@ public class CloplaConversor {
                 .appId(vm.getApplicationId())
                 .alphaNumericId(vm.getName())
                 .build();
-    }
-
-    /**
-     * Gets a Policy as defined in the VM placement library from a Scheduling Algorithm as defined in the VMM core.
-     *
-     * @param schedAlgorithmName the scheduling algorithm
-     * @return the policy
-     */
-	protected static Policy getPolicy(String schedAlgorithmName) {
-		// TO DO: change this. Shoddy piece of work
-		if(schedAlgorithmName.startsWith("estimatorBased")) {
-			String label = schedAlgorithmName.substring(schedAlgorithmName.indexOf('-')+1);
-			Policy.ESTIMATOR_BASED.setEstimatorLabel(label);
-			return Policy.ESTIMATOR_BASED;
-		}
-        switch (schedAlgorithmName) {
-            case "consolidation":
-                return Policy.CONSOLIDATION;
-            case "distribution":
-                return Policy.DISTRIBUTION;
-            case "groupByApp":
-                return Policy.GROUP_BY_APP;
-            case "random":
-                return Policy.RANDOM;
-
-            default:
-                throw new IllegalArgumentException("Invalid policy");
-        }
     }
 
     /**

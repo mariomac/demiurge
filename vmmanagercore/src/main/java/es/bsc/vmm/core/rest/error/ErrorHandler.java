@@ -25,6 +25,7 @@ import javax.ws.rs.core.Response;
 /**
  * Created by mmacias on 15/10/15.
  */
+// todo: parece que en las ultimas versiones aquí hay algun problema con java reflections
 public class ErrorHandler extends WebApplicationException {
 	private Response.Status status;
 	public ErrorHandler(Throwable cause, Response.Status status) {

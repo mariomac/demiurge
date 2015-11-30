@@ -69,7 +69,7 @@ public class VmManagerRest {
         schedAlgCallsManager = new SchedulingAlgorithmCallsManager(vmManager);
         nodeCallsManager = new NodeCallsManager(vmManager);
         logCallsManager = new LogCallsManager();
-        estimatesCallsManager = new EstimatesCallsManager(vmManager);
+        estimatesCallsManager = new EstimatesCallsManager();
         vmPlacementCallsManager = new VmPlacementCallsManager(vmManager);
         selfAdaptationCallsManager = new SelfAdaptationCallsManager(vmManager);
     }
@@ -325,9 +325,14 @@ public class VmManagerRest {
 
     @POST
     @Path("/estimates")
+	@Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     public String getEstimates(String vms) {
-        return estimatesCallsManager.getEstimates(vms);
+		try {
+        	return estimatesCallsManager.getEstimates(vms);
+		} catch(Exception e) {
+			throw new ErrorHandler(e, Response.Status.INTERNAL_SERVER_ERROR);
+		}
     }
 
 	@POST

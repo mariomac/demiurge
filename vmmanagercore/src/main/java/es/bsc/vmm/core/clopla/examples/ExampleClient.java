@@ -21,7 +21,6 @@ package es.bsc.vmm.core.clopla.examples;
 
 import es.bsc.vmm.core.clopla.domain.Host;
 import es.bsc.vmm.core.clopla.lib.Clopla;
-import es.bsc.vmm.core.clopla.placement.config.Policy;
 import es.bsc.vmm.core.clopla.domain.ConstructionHeuristic;
 import es.bsc.vmm.core.clopla.domain.Vm;
 import es.bsc.vmm.core.clopla.lib.IClopla;
@@ -121,7 +120,7 @@ public class ExampleClient {
         IClopla clopla = new Clopla();
         VmPlacementConfig vmPlacementConfig =
                 new VmPlacementConfig.Builder(
-                        Policy.CONSOLIDATION,
+                        "consolidation",
                         30,
                         ConstructionHeuristic.FIRST_FIT_DECREASING,
                         new LateAcceptance(400),

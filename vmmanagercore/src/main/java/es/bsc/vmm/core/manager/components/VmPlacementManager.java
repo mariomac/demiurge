@@ -26,7 +26,6 @@ import es.bsc.vmm.core.clopla.lib.IClopla;
 import es.bsc.vmm.core.cloudmiddleware.CloudMiddlewareException;
 import es.bsc.vmm.core.configuration.VmManagerConfiguration;
 import es.bsc.vmm.core.models.scheduling.*;
-import es.bsc.vmm.core.models.scheduling.ConstructionHeuristic;
 import es.bsc.vmm.core.models.vms.Vm;
 import es.bsc.vmm.core.models.vms.VmDeployed;
 import es.bsc.vmm.core.monitoring.hosts.Host;
@@ -44,15 +43,12 @@ public class VmPlacementManager {
     private final IClopla clopla = new Clopla(); // Library used for the VM Placement
     private final VmsManager vmsManager;
     private final HostsManager hostsManager;
-    private final SchedulingAlgorithmsManager schedulingAlgorithmsManager;
     private final EstimatesManager estimatesManager;
 
     public VmPlacementManager(VmsManager vmsManager, HostsManager hostsManager, 
-                              SchedulingAlgorithmsManager schedulingAlgorithmsManager,
                               EstimatesManager estimatesManager) {
         this.vmsManager = vmsManager;
         this.hostsManager = hostsManager;
-        this.schedulingAlgorithmsManager = schedulingAlgorithmsManager;
         this.estimatesManager = estimatesManager;
     }
     
@@ -99,7 +95,8 @@ public class VmPlacementManager {
      * @param vmsToDeploy list of VMs that need to be deployed
      * @return the recommended plan
      */
-    public RecommendedPlan getRecommendedPlan(RecommendedPlanRequest recommendedPlanRequest,
+    public RecommendedPlan getRecommendedPlan(String schedulingAlgorithm,
+											  RecommendedPlanRequest recommendedPlanRequest,
 											  boolean assignVmsToCurrentHosts,
 											  List<Vm> vmsToDeploy) throws CloudMiddlewareException {
         CloplaConversor cc = VmManagerConfiguration.INSTANCE.getCloplaConversor();
@@ -112,7 +109,7 @@ public class VmPlacementManager {
                         cc.getCloplaHosts(hosts),
                         assignVmsToCurrentHosts),
                 cc.getCloplaConfig(
-                        schedulingAlgorithmsManager.getCurrentSchedulingAlgorithm(),
+						schedulingAlgorithm,
                         recommendedPlanRequest,
                         estimatesManager));
         return cc.getRecommendedPlan(clusterStateRecommendedPlan);

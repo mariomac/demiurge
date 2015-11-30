@@ -35,20 +35,6 @@ import java.util.List;
  */
 public class EstimatesGenerator {
 
-    /**
-     * Returns price and energy estimates for each VM in a deployment plan.
-     *
-     * @param deploymentPlan the deployment plan
-     * @param vmsDeployed VMs deployed in the infrastructure
-     * @return the price and energy estimates for each VM
-     */
-    public ListVmEstimates getVmEstimates(DeploymentPlan deploymentPlan, List<VmDeployed> vmsDeployed, EstimatesManager em) {
 
-        List<VmEstimate> vmEstimates = new ArrayList<>();
-        for (VmAssignmentToHost vmAssignmentToHost: deploymentPlan.getVmsAssignationsToHosts()) {
-            vmEstimates.add(vmAssignmentToHost.getVmEstimate(vmsDeployed, deploymentPlan, em));
-        }
-        return new ListVmEstimates(vmEstimates);
-    }
 
 }

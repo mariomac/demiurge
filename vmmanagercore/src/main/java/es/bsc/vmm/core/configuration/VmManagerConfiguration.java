@@ -21,22 +21,22 @@ package es.bsc.vmm.core.configuration;
 import es.bsc.vmm.core.cloudmiddleware.CloudMiddleware;
 import es.bsc.vmm.core.drivers.Estimator;
 import es.bsc.vmm.core.drivers.VmmListener;
-import es.bsc.vmm.core.manager.DeploymentEngine;
 import es.bsc.vmm.core.drivers.Monitoring;
 import es.bsc.vmm.core.manager.VmManager;
 import es.bsc.vmm.core.monitoring.hosts.HostFactory;
-import es.bsc.vmm.core.scheduler.SchedulingAlgorithmsRepository;
 import es.bsc.vmm.core.vmplacement.CloplaConversor;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.optaplanner.core.impl.score.director.simple.SimpleScoreCalculator;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -74,9 +74,6 @@ public enum VmManagerConfiguration {
     public String deployBaseUrl;
     public String deployPackage;
 
-    // VM deployments
-    public DeploymentEngine deploymentEngine;
-
     private Monitoring monitoring;
     private CloudMiddleware cloudMiddleware;
     private Set<Estimator> estimators;
@@ -86,7 +83,7 @@ public enum VmManagerConfiguration {
     public String zabbixDbUser;
     public String zabbixDbPassword;
 
-	private SchedulingAlgorithmsRepository schedulingAlgorithmsRepository;
+	private Map<String,Class<? extends SimpleScoreCalculator>> placementPolicies;
     private Configuration configuration;
 	private List<VmmListener> vmmListeners;
 	private HostFactory hostFactory;
@@ -136,12 +133,6 @@ public enum VmManagerConfiguration {
         deployBaseUrl = configuration.getString("deployBaseUrl");
         deployPackage = configuration.getString("deployPackage");
         hosts = configuration.getStringArray("hosts");
-        try {
-            deploymentEngine = DeploymentEngine.fromName(configuration.getString("deploymentEngine"));
-        } catch(Exception e) {
-            logger.error("Deployment Engine null or unknown. Assuming LEGACY: " + e.getMessage());
-            deploymentEngine = DeploymentEngine.LEGACY;
-        }
         zabbixDbIp = configuration.getString("zabbixDbIp");
         zabbixDbUser = configuration.getString("zabbixDbUser");
         zabbixDbPassword = configuration.getString("zabbixDbPassword");
@@ -152,6 +143,8 @@ public enum VmManagerConfiguration {
 
     public void loadBeansConfig() {
         ApplicationContext springContext = new ClassPathXmlApplicationContext(DEFAULT_BEANS_LOCATION);
+		placementPolicies = springContext.getBean("placementPolicies",Map.class);
+
 		vmManager = springContext.getBean("vmManager",VmManager.class);
 
 
@@ -160,9 +153,6 @@ public enum VmManagerConfiguration {
 
         estimators = springContext.getBean("estimators", Set.class);
 
-
-
-		schedulingAlgorithmsRepository = springContext.getBean("schedulingAlgorithmsRepository",SchedulingAlgorithmsRepository.class);
 		vmmListeners = springContext.getBean("vmmListeners", List.class);
 
 
@@ -176,8 +166,8 @@ public enum VmManagerConfiguration {
         vmManager.doInitActions();
     }
 
-	public SchedulingAlgorithmsRepository getSchedulingAlgorithmsRepository() {
-		return schedulingAlgorithmsRepository;
+	public Map<String,Class<? extends SimpleScoreCalculator>> getPlacementPolicies() {
+		return placementPolicies;
 	}
 
 	public Monitoring getMonitoring() {
@@ -211,7 +201,6 @@ public enum VmManagerConfiguration {
 				"\n\thosts=" + Arrays.toString(hosts) +
 				"\n\tdeployBaseUrl='" + deployBaseUrl + '\'' +
 				"\n\tdeployPackage='" + deployPackage + '\'' +
-				"\n\tdeploymentEngine='" + deploymentEngine + '\'' +
 				"\n\tzabbixDbIp='" + zabbixDbIp + '\'' +
 				"\n\tzabbixDbUser='" + zabbixDbUser + '\'' +
 				"\n\tzabbixDbPassword='" + zabbixDbPassword + '\'' +

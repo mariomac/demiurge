@@ -37,13 +37,13 @@ public class OpenStackGlanceTest {
     public static void setUpClass() {
         VmManagerConfiguration conf = VmManagerConfiguration.INSTANCE;
         glance = new OpenStackGlance(new OpenStackCredentials(
-				conf.getConfiguration().getString(OpenStackJclouds.CONFIG_IP),
-				conf.getConfiguration().getInt(OpenStackJclouds.CONFIG_KEYSTONE_PORT),
-				conf.getConfiguration().getString(OpenStackJclouds.CONFIG_KEYSTONE_TENANT),
-				conf.getConfiguration().getString(OpenStackJclouds.CONFIG_KEYSTONE_USER),
+				conf.getConfiguration().getString(OpenStackJclouds.OS_CONFIG_IP),
+				conf.getConfiguration().getInt(OpenStackJclouds.OS_CONFIG_KEYSTONE_PORT),
+				conf.getConfiguration().getString(OpenStackJclouds.OS_CONFIG_KEYSTONE_TENANT),
+				conf.getConfiguration().getString(OpenStackJclouds.OS_CONFIG_KEYSTONE_USER),
 				conf.getConfiguration().getString(OpenStackJclouds.OS_CONFIG_KEYSTONE_PASSWORD),
-				conf.getConfiguration().getInt(OpenStackJclouds.CONFIG_GLANCE_PORT),
-				conf.getConfiguration().getString(OpenStackJclouds.CONFIG_KEYSTONE_TENANT_ID)));
+				conf.getConfiguration().getInt(OpenStackJclouds.OS_CONFIG_GLANCE_PORT),
+				conf.getConfiguration().getString(OpenStackJclouds.OS_CONFIG_KEYSTONE_TENANT_ID)));
 	}
 
     //This test only checks that the create and delete operations do not raise exceptions.

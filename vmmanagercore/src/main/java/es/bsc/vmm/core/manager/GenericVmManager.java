@@ -23,7 +23,6 @@ import es.bsc.vmm.core.cloudmiddleware.CloudMiddlewareException;
 import es.bsc.vmm.core.configuration.VmManagerConfiguration;
 import es.bsc.vmm.core.db.VmManagerDbFactory;
 import es.bsc.vmm.core.drivers.Estimator;
-import es.bsc.vmm.core.drivers.Monitoring;
 import es.bsc.vmm.core.drivers.VmAction;
 import es.bsc.vmm.core.models.estimates.ListVmEstimates;
 import es.bsc.vmm.core.models.estimates.VmToBeEstimated;
@@ -59,7 +58,6 @@ public class GenericVmManager implements VmManager {
 
     // VMM components. The VMM delegates all the work to this subcomponents
     private ImageManager imageManager;
-    private SchedulingAlgorithmsManager schedulingAlgorithmsManager;
     private HostsManager hostsManager;
     private VmsManager vmsManager;
     private SelfAdaptationOptsManager selfAdaptationOptsManager;
@@ -256,7 +254,7 @@ public class GenericVmManager implements VmManager {
      */
     @Override
     public List<String> getAvailableSchedulingAlgorithms() {
-        return schedulingAlgorithmsManager.getAvailableSchedulingAlgorithms();
+		return new ArrayList<>(VmManagerConfiguration.INSTANCE.getPlacementPolicies().keySet());
     }
 
     /**
@@ -266,7 +264,7 @@ public class GenericVmManager implements VmManager {
      */
     @Override
     public String getCurrentSchedulingAlgorithm() {
-        return schedulingAlgorithmsManager.getCurrentSchedulingAlgorithm();
+        return db.getCurrentSchedulingAlg();
     }
 
     /**
@@ -276,7 +274,7 @@ public class GenericVmManager implements VmManager {
      */
     @Override
     public void setSchedulingAlgorithm(String schedulingAlg) {
-        schedulingAlgorithmsManager.setSchedulingAlgorithm(schedulingAlg);
+		db.setCurrentSchedulingAlg(schedulingAlg);
     }
 
 
@@ -317,7 +315,7 @@ public class GenericVmManager implements VmManager {
 											  boolean assignVmsToCurrentHosts,
 											  List<Vm> vmsToDeploy) throws CloudMiddlewareException {
 
-        return vmPlacementManager.getRecommendedPlan(recommendedPlanRequest, assignVmsToCurrentHosts, vmsToDeploy);
+        return vmPlacementManager.getRecommendedPlan(db.getCurrentSchedulingAlg(),recommendedPlanRequest, assignVmsToCurrentHosts, vmsToDeploy);
     }
 
     /**
@@ -403,7 +401,7 @@ public class GenericVmManager implements VmManager {
      * @return a list with price and energy estimates for each VM
      */
     @Override
-    public ListVmEstimates getVmEstimates(List<VmToBeEstimated> vmsToBeEstimated) {
+    public ListVmEstimates getVmEstimates(List<VmToBeEstimated> vmsToBeEstimated) throws CloudMiddlewareException {
         return estimatesManager.getVmEstimates(vmsToBeEstimated);
     }
 
@@ -422,7 +420,6 @@ public class GenericVmManager implements VmManager {
 
         // Initialize all the VMM components
         imageManager = new ImageManager(cloudMiddleware);
-        schedulingAlgorithmsManager = new SchedulingAlgorithmsManager(db, conf.getSchedulingAlgorithmsRepository());
 
         // Instantiates the hosts according to the monitoring software selected.
 		HostFactory hf = VmManagerConfiguration.INSTANCE.getHostFactory();
@@ -436,13 +433,12 @@ public class GenericVmManager implements VmManager {
 		hostsManager = new HostsManager(hosts);
 
 		// initializes other subcomponents
-        estimatesManager = new EstimatesManager(this, conf.getEstimators(), conf.getSchedulingAlgorithmsRepository());
+        estimatesManager = new EstimatesManager(this, conf.getEstimators());
 
-        vmsManager = new VmsManager(hostsManager, cloudMiddleware, db, selfAdaptationManager, estimatesManager,
-                conf.getSchedulingAlgorithmsRepository(), conf.getVmmListeners());
+        vmsManager = new VmsManager(hostsManager, cloudMiddleware, db, selfAdaptationManager, estimatesManager, conf.getVmmListeners());
 
         selfAdaptationOptsManager = new SelfAdaptationOptsManager(selfAdaptationManager);
-        vmPlacementManager = new VmPlacementManager(vmsManager, hostsManager, schedulingAlgorithmsManager,estimatesManager);
+        vmPlacementManager = new VmPlacementManager(vmsManager, hostsManager,estimatesManager);
 
         // Start periodic self-adaptation thread if it is not already running.
         // This check would not be needed if only one instance of this class was created.
@@ -450,39 +446,43 @@ public class GenericVmManager implements VmManager {
             periodicSelfAdaptationThreadRunning = true;
             startPeriodicSelfAdaptationThread();
         }
-
-
-    }
-/*
-    private void generateOpenStackHosts(String[] hostnames) {
-        for (String hostname: hostnames) {
-            hosts.add(HostFactory.getHost(hostname, HostType.OPENSTACK, cloudMiddleware));
-        }
     }
 
-    private void generateGangliaHosts(String[] hostnames) {
-        for (String hostname: hostnames) {
-            hosts.add(HostFactory.getHost(hostname, HostType.GANGLIA, null));
-        }
-    }
+	@Override
+	public EstimatesManager getEstimatesManager() {
+		return estimatesManager;
+	}
 
-    private void generateZabbixHosts(String[] hostnames) {
-        for (String hostname: hostnames) {
-			log.debug("Generating zabbix host for host: " + hostname);
-			try {
-            	hosts.add(HostFactory.getHost(hostname, HostType.ZABBIX, null));
-			} catch(Exception e) {
-				log.error("Ignoring host due to the next error: " + e.getMessage(), e);
+	/*
+		private void generateOpenStackHosts(String[] hostnames) {
+			for (String hostname: hostnames) {
+				hosts.add(HostFactory.getHost(hostname, HostType.OPENSTACK, cloudMiddleware));
 			}
-        }
-    }
+		}
 
-    private void generateFakeHosts(String[] hostnames) {
-        for (String hostname: hostnames) {
-            hosts.add(HostFactory.getHost(hostname, HostType.FAKE, cloudMiddleware));
-        }
-    }
-*/
+		private void generateGangliaHosts(String[] hostnames) {
+			for (String hostname: hostnames) {
+				hosts.add(HostFactory.getHost(hostname, HostType.GANGLIA, null));
+			}
+		}
+
+		private void generateZabbixHosts(String[] hostnames) {
+			for (String hostname: hostnames) {
+				log.debug("Generating zabbix host for host: " + hostname);
+				try {
+					hosts.add(HostFactory.getHost(hostname, HostType.ZABBIX, null));
+				} catch(Exception e) {
+					log.error("Ignoring host due to the next error: " + e.getMessage(), e);
+				}
+			}
+		}
+
+		private void generateFakeHosts(String[] hostnames) {
+			for (String hostname: hostnames) {
+				hosts.add(HostFactory.getHost(hostname, HostType.FAKE, cloudMiddleware));
+			}
+		}
+	*/
     private void startPeriodicSelfAdaptationThread() {
         Thread thread = new Thread(
                 new PeriodicSelfAdaptationRunnable(selfAdaptationManager),

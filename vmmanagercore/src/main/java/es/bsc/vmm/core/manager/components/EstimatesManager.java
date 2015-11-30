@@ -18,12 +18,17 @@
 
 package es.bsc.vmm.core.manager.components;
 
+import es.bsc.vmm.core.cloudmiddleware.CloudMiddlewareException;
 import es.bsc.vmm.core.manager.VmManager;
+import es.bsc.vmm.core.models.estimates.VmEstimate;
 import es.bsc.vmm.core.models.estimates.VmToBeEstimated;
 import es.bsc.vmm.core.db.VmManagerDb;
 import es.bsc.vmm.core.drivers.Estimator;
 import es.bsc.vmm.core.models.estimates.ListVmEstimates;
+import es.bsc.vmm.core.models.scheduling.DeploymentPlan;
+import es.bsc.vmm.core.models.scheduling.VmAssignmentToHost;
 import es.bsc.vmm.core.models.vms.Vm;
+import es.bsc.vmm.core.models.vms.VmDeployed;
 import es.bsc.vmm.core.scheduler.EstimatesGenerator;
 import es.bsc.vmm.core.scheduler.Scheduler;
 import es.bsc.vmm.core.scheduler.SchedulingAlgorithmsRepository;
@@ -40,9 +45,8 @@ public class EstimatesManager implements Iterable<Estimator> {
     private final VmManager vmManager;
     private final HostsManager hostsManager;
     private final VmManagerDb db;
-	private SchedulingAlgorithmsRepository schedulingAlgorithmsRepository;
-    
-    public EstimatesManager(VmManager vmm, Set<Estimator> estimators, SchedulingAlgorithmsRepository schedulingAlgorithmsRepository) {
+
+    public EstimatesManager(VmManager vmm, Set<Estimator> estimators) {
 
 		for(Estimator e: estimators) {
 			this.estimators.put(e.getClass(),e);
@@ -51,22 +55,24 @@ public class EstimatesManager implements Iterable<Estimator> {
         this.vmManager = vmm;
         this.hostsManager = vmm.getHostsManager();
         this.db = vmm.getDB();
-		this.schedulingAlgorithmsRepository = schedulingAlgorithmsRepository;
     }
-    
-    public ListVmEstimates getVmEstimates(List<VmToBeEstimated> vmsToBeEstimated) {
-        Scheduler scheduler = new Scheduler(
-				db.getCurrentSchedulingAlg(),
-				vmManager.getVmsManager().getAllVms(),
-				this,
-				schedulingAlgorithmsRepository
-				);
-        return estimatesGenerator.getVmEstimates(
-                scheduler.chooseBestDeploymentPlan(
-                        vmsToBeEstimatedToVms(vmsToBeEstimated), 
-                        hostsManager.getHosts()),
-				vmManager.getVmsManager().getAllVms(),
-                		this);
+
+	/**
+	 * Returns price and energy estimates for each VM in a deployment plan.
+	 *
+	 * @param vmsToBeEstimated The VMs to be estimated
+	 * @return the price and energy estimates for each VM
+	 */
+    public ListVmEstimates getVmEstimates(List<VmToBeEstimated> vmsToBeEstimated) throws CloudMiddlewareException {
+		DeploymentPlan deploymentPlan = vmManager.getVmsManager().chooseBestDeploymentPlan(
+				vmsToBeEstimatedToVms(vmsToBeEstimated));
+
+		List<VmEstimate> vmEstimates = new ArrayList<>();
+		for (VmAssignmentToHost vmAssignmentToHost: deploymentPlan.getVmsAssignationsToHosts()) {
+			vmEstimates.add(vmAssignmentToHost.getVmEstimate(vmManager.getAllVms(), deploymentPlan, this));
+		}
+
+		return new ListVmEstimates(vmEstimates);
     }
 
     /**
@@ -84,7 +90,6 @@ public class EstimatesManager implements Iterable<Estimator> {
         }
         return result;
     }
-
 
 	private Map<Class<? extends Estimator>, Estimator> estimators = new HashMap<>();
 	private Map<String, Estimator> estimatorsByLabel = new HashMap<>();

@@ -19,6 +19,8 @@
 package es.bsc.vmm.core.rest;
 
 import com.google.gson.Gson;
+import es.bsc.vmm.core.cloudmiddleware.CloudMiddlewareException;
+import es.bsc.vmm.core.configuration.VmManagerConfiguration;
 import es.bsc.vmm.core.manager.VmManager;
 import es.bsc.vmm.core.models.vms.ListVmsToBeEstimated;
 
@@ -30,16 +32,6 @@ import es.bsc.vmm.core.models.vms.ListVmsToBeEstimated;
 public class EstimatesCallsManager {
 
     private Gson gson = new Gson();
-    private VmManager vmManager;
-
-    /**
-     * Class constructor.
-     *
-     * @param vmManager the VM manager
-     */
-    public EstimatesCallsManager(VmManager vmManager) {
-        this.vmManager = vmManager;
-    }
 
     /**
      * Returns the price and energy estimates for a set of VMs.
@@ -47,9 +39,9 @@ public class EstimatesCallsManager {
      * @param vms the JSON document that contains the descriptions of the VMs
      * @return the JSON document that contains the price and energy estimates
      */
-    public String getEstimates(String vms) {
+    public String getEstimates(String vms) throws CloudMiddlewareException {
         ListVmsToBeEstimated listVmsToBeEstimated = gson.fromJson(vms, ListVmsToBeEstimated.class);
-        return vmManager.getVmEstimates(listVmsToBeEstimated.getVms()).toJSON();
+        return VmManagerConfiguration.INSTANCE.getVmManager().getVmEstimates(listVmsToBeEstimated.getVms()).toJSON();
     }
 
 }
