@@ -134,6 +134,7 @@ public class SelfAdaptationManager {
         AfterVmDeleteSelfAdaptationOps options = getSelfAdaptationOptions().getAfterVmDeleteSelfAdaptationOps();
 
         if (options.getLocalSearchAlgorithm() != null && options.getMaxExecTimeSeconds() > 0) {
+			logger.info(options.toString());
             RecommendedPlanRequest recommendedPlanRequest = new RecommendedPlanRequest(
                     options.getMaxExecTimeSeconds(), null, options.getLocalSearchAlgorithm());
 

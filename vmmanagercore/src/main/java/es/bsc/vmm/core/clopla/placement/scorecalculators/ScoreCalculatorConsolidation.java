@@ -20,7 +20,9 @@
 package es.bsc.vmm.core.clopla.placement.scorecalculators;
 
 import es.bsc.vmm.core.clopla.domain.ClusterState;
+import es.bsc.vmm.core.clopla.placement.config.VmPlacementConfig;
 import org.optaplanner.core.api.score.buildin.hardmediumsoft.HardMediumSoftScore;
+import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 import org.optaplanner.core.impl.score.director.simple.SimpleScoreCalculator;
 
 /**
@@ -38,29 +40,14 @@ import org.optaplanner.core.impl.score.director.simple.SimpleScoreCalculator;
 public class ScoreCalculatorConsolidation implements SimpleScoreCalculator<ClusterState> {
 
     @Override
-    public HardMediumSoftScore calculateScore(ClusterState solution) {
+    public HardSoftScore calculateScore(ClusterState solution) {
+
         int hardScore = calculateHardScore(solution);
 
-		//temporary solution: limit softscore to 0,-1 (migrations, no migrations) and
-		// multiply by 100 to allow that penalize 2 migrations when there is only few hosts
-		// e.g. 2 migrations in a testbed with 2 hosts look "too much" migrations
+		int softScore = 10 * (solution.countOffHosts() + solution.countIdleHosts())
+				- VmPlacementConfig.initialClusterState.get().countVmMigrationsNeeded(solution);
 
-		int mediumScore = 100 * (solution.countOffHosts() + solution.countIdleHosts());
-
-////////////////////////////////////////////////////////////////////
-		int softScore = 0;
-////////////////////////////////////////////////////////////////////
-//		int migrations = VmPlacementConfig.initialClusterState.get().countVmMigrationsNeeded(solution);
-//		int stdevCpuPerc = (int)(100 * solution.calculateStdDevCpuPercUsedPerHost());
-//      int softScore = stdevCpuPerc - migrations;
-////////////////////////////////////////////////////////////////////
-//		int softScore = VmPlacementConfig.initialClusterState.get().countVmMigrationsNeeded(solution) == 0 ? 0 : -1;
-////////////////////////////////////////////////////////////////////
-		if("1".equals(System.getenv("CLOPLA_DEBUG")) && hardScore < 0 ) {
-			System.out.println("with " + (-softScore) + " migrations. Hard, medium, soft: " + hardScore + ", " + mediumScore + ", " + softScore);
-		}
-
-		return HardMediumSoftScore.valueOf(hardScore,mediumScore,softScore);
+		return HardSoftScore.valueOf(hardScore,softScore);
     }
 
     private int calculateHardScore(ClusterState solution) {

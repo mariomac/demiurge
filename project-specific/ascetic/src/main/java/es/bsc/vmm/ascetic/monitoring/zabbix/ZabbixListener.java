@@ -14,12 +14,15 @@ public class ZabbixListener implements VmmListener {
 	private Logger log = LogManager.getLogger(ZabbixListener.class);
 	@Override
 	public void onVmDeployment(VmDeployed vm) {
+		log.debug("Registering VM " + vm.getId() + " in zabbix");
 		ZabbixConnector.registerVmInZabbix(vm.getId(), vm.getHostName(), vm.getIpAddress());
 
 	}
 	@Override
 	public void onVmDestruction(VmDeployed vm) {
 		try {
+			log.debug("Deleting VM " + vm.getId() + " from zabbix");
+
 			ZabbixConnector.deleteVmFromZabbix(vm.getId(), vm.getHostName());
 		} catch(Exception e) {
 			log.error(e.getMessage(),e);

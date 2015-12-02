@@ -34,7 +34,7 @@ public abstract class ScoreCalculatorCommon {
     public static double getClusterOverCapacityScore(ClusterState clusterState) {
         double result = 0;
         for (Host host: clusterState.getHosts()) {
-            result += host.getOverCapacityScore(clusterState.getVms());
+            result -= host.getOverCapacityScore(clusterState.getVms());
         }
         return result;
     }

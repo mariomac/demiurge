@@ -31,7 +31,7 @@ public class LocalSearchAlgorithmOptionsSet extends LocalSearchAlgorithm {
 
     public LocalSearchAlgorithmOptionsSet(String name, Map<String, Integer> options) {
         super(name);
-        this.options = new HashMap<>(options);
+        this.options = options == null ? new HashMap<String,Integer>() : new HashMap<String,Integer>(options);
     }
 
     public Map<String, Integer> getOptions() {
@@ -41,9 +41,11 @@ public class LocalSearchAlgorithmOptionsSet extends LocalSearchAlgorithm {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("{");
+		sb.append("name = ").append(name).append(", options= {");
         for(Map.Entry<String,Integer> m : options.entrySet()) {
             sb.append(m.getKey()).append("->").append(m.getValue()).append(",");
         }
+		sb.append("}");
         return sb.toString();
     }
 }
