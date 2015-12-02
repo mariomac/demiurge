@@ -8,7 +8,7 @@ import es.bsc.vmm.core.models.vms.VmDeployed;
 /**
  * Created by mmacias on 19/11/15.
  */
-public class MQListener implements VmmListener {
+public class MQEventNotificator implements VmmListener {
 	@Override
 	public void onVmDeployment(VmDeployed vm) {
 		MessageQueue.publishMessageVmDeployed(vm);

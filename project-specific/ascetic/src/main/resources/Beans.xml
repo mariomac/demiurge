@@ -44,6 +44,6 @@
 		<ref bean="energyModeller"/>
 		<ref bean="pricingModeller"/>
 		<bean class="es.bsc.vmm.ascetic.monitoring.zabbix.ZabbixListener"/>
-		<bean class="es.bsc.vmm.ascetic.mq.MQListener"/>
+		<bean class="es.bsc.vmm.ascetic.mq.MQEventNotificator"/>
 	</util:list>
 </beans>

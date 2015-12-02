@@ -21,6 +21,7 @@ package es.bsc.vmm.ascetic.mq;
 import com.google.gson.Gson;
 import es.bsc.vmm.core.drivers.VmAction;
 import es.bsc.vmm.core.models.vms.VmDeployed;
+import org.apache.log4j.LogManager;
 
 
 public class MessageQueue {
@@ -48,7 +49,9 @@ public class MessageQueue {
     }
 
     private static void publishMessage(String topic, Object messageObject) {
-        activeMqAdapter.publishMessage(topic, gson.toJson(messageObject));
+        String json = gson.toJson(messageObject);
+        LogManager.getLogger(MessageQueue.class).debug(topic+"\n"+json);
+        activeMqAdapter.publishMessage(topic, json);
     }
 
 }
