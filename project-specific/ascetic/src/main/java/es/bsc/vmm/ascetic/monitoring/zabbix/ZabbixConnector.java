@@ -21,12 +21,10 @@ package es.bsc.vmm.ascetic.monitoring.zabbix;
 import com.google.common.collect.ImmutableMap;
 
 import es.bsc.vmm.ascetic.monitoring.hosts.HostZabbix;
-import es.bsc.vmm.core.configuration.VmManagerConfiguration;
+import es.bsc.vmm.core.configuration.VmmConfig;
 import es.bsc.vmm.core.drivers.Monitoring;
-import es.bsc.vmm.core.monitoring.hosts.Host;
 import eu.ascetic.asceticarchitecture.iaas.zabbixApi.client.ZabbixClient;
 import org.apache.log4j.Logger;
-import org.jclouds.rackspace.clouddns.v1.domain.CreateDomain;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -43,10 +41,10 @@ public class ZabbixConnector implements Monitoring<HostZabbix> {
 
     private final static ZabbixClient zabbixClient = new ZabbixClient();
 
-    private static final String DB_URL = "jdbc:mysql://" + VmManagerConfiguration.INSTANCE.zabbixDbIp + "/zabbix";
+    private static final String DB_URL = "jdbc:mysql://" + VmmConfig.INSTANCE.zabbixDbIp + "/zabbix";
     private static final String DB_DRIVER = "com.mysql.jdbc.Driver";
-    private static final String DB_USER = VmManagerConfiguration.INSTANCE.zabbixDbUser;
-    private static final String DB_PASSWORD = VmManagerConfiguration.INSTANCE.zabbixDbPassword;
+    private static final String DB_USER = VmmConfig.INSTANCE.zabbixDbUser;
+    private static final String DB_PASSWORD = VmmConfig.INSTANCE.zabbixDbPassword;
     private static final String[] ZABBIX_TABLES = {"history", "history_uint"}; /* Zabbix stores values in several
                                                                                   tables */
 

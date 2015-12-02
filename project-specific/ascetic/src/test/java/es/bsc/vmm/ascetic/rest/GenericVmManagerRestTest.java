@@ -21,13 +21,14 @@ package es.bsc.vmm.ascetic.rest;
 import com.google.gson.*;
 import com.jayway.restassured.RestAssured;
 
-import es.bsc.vmm.core.configuration.VmManagerConfiguration;
+import es.bsc.vmm.core.configuration.VmmConfig;
 import es.bsc.vmm.core.models.images.ImageToUpload;
 import es.bsc.vmm.core.models.images.ImageUploaded;
 import es.bsc.vmm.core.models.images.ListImagesUploaded;
 import es.bsc.vmm.core.models.vms.ListVmsDeployed;
 import es.bsc.vmm.core.models.vms.Vm;
 import es.bsc.vmm.core.models.vms.VmDeployed;
+import org.apache.commons.configuration.Configuration;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -436,11 +437,11 @@ public class GenericVmManagerRestTest {
     //================================================================================
 
     private static void initializeAttributesFromConfigFile() {
-        VmManagerConfiguration conf = VmManagerConfiguration.INSTANCE;
-        testImageUrl = conf.testingImageUrl;
-        testImageId = conf.testingImageId;
-        testImageName = conf.testingImageName;
-        testDeploymentBaseUrl = conf.testingDeploymentBaseUrl;
+        Configuration conf = VmmConfig.INSTANCE.getConfiguration();
+        testImageUrl = conf.getString("testingImageUrl");
+        testImageId = conf.getString("testingImageId");
+        testImageName = conf.getString("testingImageName");
+        testDeploymentBaseUrl = conf.getString("testingDeploymentBaseUrl");
     }
 
     private static void createVmDescriptionsToUseInTests() {

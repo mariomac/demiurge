@@ -20,7 +20,7 @@ package es.bsc.vmm.core.manager.components;
 
 import es.bsc.vmm.core.cloudmiddleware.CloudMiddleware;
 import es.bsc.vmm.core.cloudmiddleware.CloudMiddlewareException;
-import es.bsc.vmm.core.configuration.VmManagerConfiguration;
+import es.bsc.vmm.core.configuration.VmmConfig;
 import es.bsc.vmm.core.db.VmManagerDb;
 import es.bsc.vmm.core.drivers.VmAction;
 import es.bsc.vmm.core.drivers.VmmListener;
@@ -34,7 +34,6 @@ import es.bsc.vmm.core.models.vms.VmDeployed;
 import es.bsc.vmm.core.monitoring.hosts.Host;
 import es.bsc.vmm.core.scheduler.Scheduler;
 import es.bsc.vmm.core.selfadaptation.AfterVmDeleteSelfAdaptationRunnable;
-import es.bsc.vmm.core.selfadaptation.AfterVmsDeploymentSelfAdaptationRunnable;
 import es.bsc.vmm.core.selfadaptation.SelfAdaptationManager;
 import es.bsc.vmm.core.utils.TimeUtils;
 import org.apache.log4j.LogManager;
@@ -211,7 +210,7 @@ public class VmsManager {
 
 
             String vmId;
-            if (VmManagerConfiguration.INSTANCE.deployVmWithVolume) {
+            if (VmmConfig.INSTANCE.deployVmWithVolume) {
                 vmId = deployVmWithVolume(vmToDeploy, hostForDeployment, originalVmInitScript);
             }
             else {
@@ -348,10 +347,10 @@ public class VmsManager {
 
     private void performAfterVmsDeploymentSelfAdaptation() {
         Logger.getLogger(VmsManager.class).warn("**** AFTER VMs DEPLOYMENT SELF-ADAPTATION IS DISABLED ***");
-        Thread thread = new Thread(
-                new AfterVmsDeploymentSelfAdaptationRunnable(selfAdaptationManager),
-                "afterVmsDeploymentSelfAdaptationThread");
-        thread.start();
+//        Thread thread = new Thread(
+//                new AfterVmsDeploymentSelfAdaptationRunnable(selfAdaptationManager),
+//                "afterVmsDeploymentSelfAdaptationThread");
+//        thread.start();
     }
 
     public DeploymentPlan chooseBestDeploymentPlan(List<Vm> vms) throws CloudMiddlewareException {

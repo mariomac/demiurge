@@ -20,7 +20,7 @@ package es.bsc.vmm.core.manager;
 
 import es.bsc.vmm.core.cloudmiddleware.CloudMiddleware;
 import es.bsc.vmm.core.cloudmiddleware.CloudMiddlewareException;
-import es.bsc.vmm.core.configuration.VmManagerConfiguration;
+import es.bsc.vmm.core.configuration.VmmConfig;
 import es.bsc.vmm.core.db.VmManagerDbFactory;
 import es.bsc.vmm.core.drivers.Estimator;
 import es.bsc.vmm.core.drivers.VmAction;
@@ -72,7 +72,7 @@ public class GenericVmManager implements VmManager {
 
     private static boolean periodicSelfAdaptationThreadRunning = false;
 
-    private static final VmManagerConfiguration conf = VmManagerConfiguration.INSTANCE;
+    private static final VmmConfig conf = VmmConfig.INSTANCE;
 	private Logger log = LogManager.getLogger(GenericVmManager.class);
 
 	/**
@@ -254,7 +254,7 @@ public class GenericVmManager implements VmManager {
      */
     @Override
     public List<String> getAvailableSchedulingAlgorithms() {
-		return new ArrayList<>(VmManagerConfiguration.INSTANCE.getPlacementPolicies().keySet());
+		return new ArrayList<>(VmmConfig.INSTANCE.getPlacementPolicies().keySet());
     }
 
     /**
@@ -422,11 +422,11 @@ public class GenericVmManager implements VmManager {
         imageManager = new ImageManager(cloudMiddleware);
 
         // Instantiates the hosts according to the monitoring software selected.
-		HostFactory hf = VmManagerConfiguration.INSTANCE.getHostFactory();
+		HostFactory hf = VmmConfig.INSTANCE.getHostFactory();
 
 		List<Host> hosts = new ArrayList<>();
 
-		for(String hostname : VmManagerConfiguration.INSTANCE.hosts) {
+		for(String hostname : VmmConfig.INSTANCE.hosts) {
 			hosts.add(hf.getHost(hostname));
 		}
 

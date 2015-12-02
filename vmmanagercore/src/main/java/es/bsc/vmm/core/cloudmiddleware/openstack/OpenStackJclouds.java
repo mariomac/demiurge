@@ -20,7 +20,7 @@ package es.bsc.vmm.core.cloudmiddleware.openstack;
 
 import es.bsc.vmm.core.cloudmiddleware.CloudMiddleware;
 import es.bsc.vmm.core.cloudmiddleware.CloudMiddlewareException;
-import es.bsc.vmm.core.configuration.VmManagerConfiguration;
+import es.bsc.vmm.core.configuration.VmmConfig;
 import es.bsc.vmm.core.models.images.ImageToUpload;
 import es.bsc.vmm.core.models.images.ImageUploaded;
 import es.bsc.vmm.core.models.vms.Vm;
@@ -87,7 +87,7 @@ public class OpenStackJclouds implements CloudMiddleware {
 	public static final String CONFIG_HOSTS= "hosts";
 
 	public OpenStackJclouds() {
-        Configuration c = VmManagerConfiguration.INSTANCE.getConfiguration().subset(CONFIG_OPENSTACK_SUBSET_PREFIX);
+        Configuration c = VmmConfig.INSTANCE.getConfiguration().subset(CONFIG_OPENSTACK_SUBSET_PREFIX);
 
         OpenStackCredentials credentials = new OpenStackCredentials(
                 c.getString(OS_CONFIG_IP),
@@ -103,7 +103,7 @@ public class OpenStackJclouds implements CloudMiddleware {
         zone = openStackJcloudsApis.getNovaApi().getConfiguredZones().toArray()[0].toString();
         this.securityGroups = c.getStringArray(OS_CONFIG_SECURITY_GROUPS);
         glanceConnector = new OpenStackGlance(credentials);
-        this.hostNames.addAll(Arrays.asList(VmManagerConfiguration.INSTANCE.getConfiguration().getStringArray(CONFIG_HOSTS)));
+        this.hostNames.addAll(Arrays.asList(VmmConfig.INSTANCE.getConfiguration().getStringArray(CONFIG_HOSTS)));
 		StringBuilder sb = new StringBuilder("Registering hostNames: ");
 		for(String hn : hostNames) {
 			sb.append('[').append(hn).append("], ");

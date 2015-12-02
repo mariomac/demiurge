@@ -45,7 +45,7 @@ import java.util.Set;
  * @author Mario Macias (github.com/mariomac), David Ortiz Lopez (david.ortiz@bsc.es), Mario Macias (http://github.com/mariomac)
  *
  */
-public enum VmManagerConfiguration {
+public enum VmmConfig {
     INSTANCE;
 
 	// Configuration file
@@ -55,17 +55,12 @@ public enum VmManagerConfiguration {
     private static final String DEFAULT_DB_NAME = "VmManagerDb";
     private static final String DEFAULT_BEANS_LOCATION = "/Beans.xml";
 
-    // TODO: remove ATTRIBUTES and access only through apache configuration
+    // TODO: remove public ATTRIBUTES and access only through apache configuration
     public String dbName;
 
     // OpenStack configuration
     public boolean deployVmWithVolume;
 
-    // Testing configuration
-    public String testingImageId;
-    public String testingImageUrl;
-    public String testingImageName;
-    public String testingDeploymentBaseUrl;
 
     // Servers host names
     public String[] hosts;
@@ -90,7 +85,7 @@ public enum VmManagerConfiguration {
 	private VmManager vmManager;
     private CloplaConversor cloplaConversor;
 
-    VmManagerConfiguration() {
+    VmmConfig() {
         configuration = getPropertiesObjectFromConfigFile();
 		initializeClassAttributes();
     }
@@ -105,7 +100,7 @@ public enum VmManagerConfiguration {
      * @return the properties file
      */
     private Configuration getPropertiesObjectFromConfigFile() {
-		Logger log = LogManager.getLogger(VmManagerConfiguration.class);
+		Logger log = LogManager.getLogger(VmmConfig.class);
         try {
 			String customFileLocation = System.getProperty(PROPNAME_CONF_FILE,DEFAULT_CONF_FILE_LOCATION);
 
@@ -123,13 +118,9 @@ public enum VmManagerConfiguration {
      *
      */
     private void initializeClassAttributes() {
-        Logger logger = LogManager.getLogger(VmManagerConfiguration.class);
+        Logger logger = LogManager.getLogger(VmmConfig.class);
         dbName = configuration.getString("dbName", DEFAULT_DB_NAME);
 
-        testingImageId = configuration.getString("testingImageId");
-        testingImageUrl = configuration.getString("testingImageUrl");
-        testingImageName = configuration.getString("testingImageName");
-        testingDeploymentBaseUrl = configuration.getString("testingDeploymentBaseUrl");
         deployBaseUrl = configuration.getString("deployBaseUrl");
         deployPackage = configuration.getString("deployPackage");
         hosts = configuration.getStringArray("hosts");
@@ -164,6 +155,8 @@ public enum VmManagerConfiguration {
          * Extra initialization actions for managers
          */
         vmManager.doInitActions();
+
+
     }
 
 	public Map<String,Class<? extends SimpleScoreCalculator>> getPlacementPolicies() {
@@ -192,12 +185,8 @@ public enum VmManagerConfiguration {
 
     @Override
 	public String toString() {
-		return "VmManagerConfiguration{" +
+		return "VmmConfig{" +
                 "\n\tdbName='" + dbName + '\'' +
-				"\n\ttestingImageId='" + testingImageId + '\'' +
-				"\n\ttestingImageUrl='" + testingImageUrl + '\'' +
-				"\n\ttestingImageName='" + testingImageName + '\'' +
-				"\n\ttestingDeploymentBaseUrl='" + testingDeploymentBaseUrl + '\'' +
 				"\n\thosts=" + Arrays.toString(hosts) +
 				"\n\tdeployBaseUrl='" + deployBaseUrl + '\'' +
 				"\n\tdeployPackage='" + deployPackage + '\'' +

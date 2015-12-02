@@ -34,7 +34,7 @@ public class MessageQueue {
     }
 
     private static final Gson gson = new Gson();
-    private static final ActiveMqAdapter activeMqAdapter = new ActiveMqAdapter();
+    public static final ActiveMqAdapter MQ_ADAPTER = new ActiveMqAdapter();
 
     public static void publishMessageVmDeployed(VmDeployed vm) {
         publishMessage("virtual-machine-manager.vm." + vm.getId() + ".deployed", vm);
@@ -51,7 +51,7 @@ public class MessageQueue {
     private static void publishMessage(String topic, Object messageObject) {
         String json = gson.toJson(messageObject);
         LogManager.getLogger(MessageQueue.class).debug(topic+"\n"+json);
-        activeMqAdapter.publishMessage(topic, json);
+        MQ_ADAPTER.publishMessage(topic, json);
     }
 
 }

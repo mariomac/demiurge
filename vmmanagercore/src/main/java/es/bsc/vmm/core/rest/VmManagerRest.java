@@ -19,7 +19,7 @@
 package es.bsc.vmm.core.rest;
 
 import es.bsc.vmm.core.cloudmiddleware.CloudMiddlewareException;
-import es.bsc.vmm.core.configuration.VmManagerConfiguration;
+import es.bsc.vmm.core.configuration.VmmConfig;
 import es.bsc.vmm.core.db.VmManagerDb;
 import es.bsc.vmm.core.db.VmManagerDbFactory;
 import es.bsc.vmm.core.manager.VmManager;
@@ -61,7 +61,7 @@ public class VmManagerRest {
     private Logger log = LogManager.getLogger(VmManagerRest.class);
 
     public VmManagerRest() {
-        vmManager = VmManagerConfiguration.INSTANCE.getVmManager();
+        vmManager = VmmConfig.INSTANCE.getVmManager();
         if(vmManager == null) throw new AssertionError("VM Manager must not be null");
 
         vmCallsManager = new VmCallsManager(vmManager);
@@ -356,7 +356,7 @@ public class VmManagerRest {
     @Produces(MediaType.TEXT_PLAIN)
     public String getDbInfo() {
         StringBuilder sb = new StringBuilder("**********\nDB contents\n********\n");
-        VmManagerDb db = VmManagerDbFactory.getDb(VmManagerConfiguration.INSTANCE.dbName);
+        VmManagerDb db = VmManagerDbFactory.getDb(VmmConfig.INSTANCE.dbName);
         List<String> vmIds = db.getAllVmIds();
         if(vmIds != null && vmIds.size() > 0) {
             sb.append("== Virtual Machines ==\n");

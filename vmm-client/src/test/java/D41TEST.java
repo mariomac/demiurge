@@ -15,7 +15,7 @@ public class D41TEST extends TestCase {
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		vmm = new VmManagerClient(URL_D41);
+		vmm = new VmManagerClient(URL_TESTING);
 	}
 
 	@Ignore
