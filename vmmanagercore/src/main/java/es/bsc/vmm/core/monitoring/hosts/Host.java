@@ -19,7 +19,6 @@
 package es.bsc.vmm.core.monitoring.hosts;
 
 import es.bsc.vmm.core.models.hosts.HostPowerButtonAction;
-import es.bsc.vmm.core.configuration.VmManagerConfiguration;
 import es.bsc.vmm.core.logging.VMMLogger;
 import es.bsc.vmm.core.models.hosts.ServerLoad;
 import es.bsc.vmm.core.models.vms.Vm;

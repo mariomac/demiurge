@@ -46,4 +46,8 @@
 		<bean class="es.bsc.vmm.ascetic.monitoring.zabbix.ZabbixListener"/>
 		<bean class="es.bsc.vmm.ascetic.mq.MQEventNotificator"/>
 	</util:list>
+
+	<util:list id="vmmGlobalListeners" value-type="es.bsc.vmm.core.VmmGlobalListener">
+
+	</util:list>
 </beans>

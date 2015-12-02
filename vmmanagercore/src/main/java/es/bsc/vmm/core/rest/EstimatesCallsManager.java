@@ -20,8 +20,7 @@ package es.bsc.vmm.core.rest;
 
 import com.google.gson.Gson;
 import es.bsc.vmm.core.cloudmiddleware.CloudMiddlewareException;
-import es.bsc.vmm.core.configuration.VmManagerConfiguration;
-import es.bsc.vmm.core.manager.VmManager;
+import es.bsc.vmm.core.configuration.VmmConfig;
 import es.bsc.vmm.core.models.vms.ListVmsToBeEstimated;
 
 /**
@@ -41,7 +40,7 @@ public class EstimatesCallsManager {
      */
     public String getEstimates(String vms) throws CloudMiddlewareException {
         ListVmsToBeEstimated listVmsToBeEstimated = gson.fromJson(vms, ListVmsToBeEstimated.class);
-        return VmManagerConfiguration.INSTANCE.getVmManager().getVmEstimates(listVmsToBeEstimated.getVms()).toJSON();
+        return VmmConfig.INSTANCE.getVmManager().getVmEstimates(listVmsToBeEstimated.getVms()).toJSON();
     }
 
 }

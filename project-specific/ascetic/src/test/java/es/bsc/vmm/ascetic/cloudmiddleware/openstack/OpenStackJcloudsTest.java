@@ -19,7 +19,7 @@
 package es.bsc.vmm.ascetic.cloudmiddleware.openstack;
 
 import es.bsc.vmm.core.cloudmiddleware.openstack.OpenStackJclouds;
-import es.bsc.vmm.core.configuration.VmManagerConfiguration;
+import es.bsc.vmm.core.configuration.VmmConfig;
 import es.bsc.vmm.core.db.VmManagerDb;
 import es.bsc.vmm.core.db.VmManagerDbFactory;
 import es.bsc.vmm.core.models.vms.Vm;
@@ -76,8 +76,8 @@ public class OpenStackJcloudsTest {
 	
 	@BeforeClass
 	public static void setUpBeforeClass() {
-        VmManagerConfiguration conf = VmManagerConfiguration.INSTANCE;
-		testingImageId = conf.testingImageId;
+        VmmConfig conf = VmmConfig.INSTANCE;
+		testingImageId = conf.getConfiguration().getString("testingImageId");
 		VmManagerDb db = VmManagerDbFactory.getDb("testDb");
 		db.deleteAllVms();
 

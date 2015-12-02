@@ -21,7 +21,7 @@ package es.bsc.vmm.core.rest;
 import com.sun.jersey.api.container.grizzly2.GrizzlyServerFactory;
 import com.sun.jersey.api.core.PackagesResourceConfig;
 import com.sun.jersey.api.core.ResourceConfig;
-import es.bsc.vmm.core.configuration.VmManagerConfiguration;
+import es.bsc.vmm.core.configuration.VmmConfig;
 import org.glassfish.grizzly.http.server.HttpServer;
 
 import java.io.IOException;
@@ -35,8 +35,8 @@ import java.net.URI;
  */
 public class Main {
 
-    public static final String BASE_URI = VmManagerConfiguration.INSTANCE.deployBaseUrl;
-    public static final String DEPLOY_PACKAGE = VmManagerConfiguration.INSTANCE.deployPackage;
+    public static final String BASE_URI = VmmConfig.INSTANCE.deployBaseUrl;
+    public static final String DEPLOY_PACKAGE = VmmConfig.INSTANCE.deployPackage;
     public static final String STOP_MESSAGE = "Press any key to stop the server...";
 
     @SuppressWarnings("unchecked")
@@ -60,7 +60,7 @@ public class Main {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
-        VmManagerConfiguration.INSTANCE.loadBeansConfig();
+        VmmConfig.INSTANCE.loadBeansConfig();
 
 		final HttpServer server = createServer();
         server.start();

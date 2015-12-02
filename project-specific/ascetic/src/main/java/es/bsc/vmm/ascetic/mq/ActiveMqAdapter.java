@@ -18,15 +18,23 @@
 
 package es.bsc.vmm.ascetic.mq;
 
+import es.bsc.vmm.core.configuration.VmmConfig;
 import es.bsc.vmm.core.logging.VMMLogger;
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import javax.jms.*;
 
 public class ActiveMqAdapter {
 
-    private static final String ACTIVEMQ_URL = "tcp://localhost:61616";
-    private final ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(ACTIVEMQ_URL);
+    private final ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(
+            VmmConfig.INSTANCE.getConfiguration().getString("activeMqUrl","tcp://localhost:61616")
+    );
+
+    private final Logger log = LogManager.getLogger(ActiveMqAdapter.class);
+    private Connection connection;
+    private Session session;
 
     /**
      * Publishes a message in the queue with the topic and the message specified
@@ -35,13 +43,15 @@ public class ActiveMqAdapter {
      * @param message the message
      */
     public void publishMessage(String topic, String message) {
+        Connection connection = null;
+        Session session = null;
         try {
             // Create a Connection
-            Connection connection = connectionFactory.createConnection();
+            connection = connectionFactory.createConnection();
             connection.start();
 
             // Create a Session
-            Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+            session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
             // Create the destination
             Destination destination = session.createTopic(topic);
@@ -56,7 +66,25 @@ public class ActiveMqAdapter {
             connection.close();
         } catch (Exception e) {
             VMMLogger.logCouldNotSendToMessageQueue(topic);
+        } finally {
+            try {
+                session.close();
+                connection.close();
+            } catch(Exception e) {
+                log.warn("Can't close connection: " + e.getMessage());
+            }
         }
     }
+
+    // Hi Mario, the queue is iaas-slam.monitoring.<slaId>.<vmId>.violationNotified
+
+//    public void subscribeToTopic
+//
+//    public void something() throws Exception {
+//        TopicConnection topicConnection = connectionFactory.createTopicConnection();
+//        TopicSession topicSession = topicConnection.createTopicSession(false, Session.AUTO_ACKNOWLEDGE);
+////        topicSession.
+//
+//    }
 
 }

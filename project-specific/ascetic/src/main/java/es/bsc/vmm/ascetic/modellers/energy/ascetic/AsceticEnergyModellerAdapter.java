@@ -18,19 +18,16 @@
 
 package es.bsc.vmm.ascetic.modellers.energy.ascetic;
 
-import es.bsc.vmm.core.clopla.lib.Clopla;
-import es.bsc.vmm.core.configuration.VmManagerConfiguration;
+import es.bsc.vmm.core.configuration.VmmConfig;
 import es.bsc.vmm.core.drivers.VmAction;
 import es.bsc.vmm.core.models.scheduling.DeploymentPlan;
 import es.bsc.vmm.core.models.scheduling.VmAssignmentToHost;
 import es.bsc.vmm.core.models.vms.Vm;
 import es.bsc.vmm.core.models.vms.VmDeployed;
 import es.bsc.vmm.core.monitoring.hosts.Host;
-import es.bsc.vmm.core.vmplacement.CloplaConversor;
 import eu.ascetic.asceticarchitecture.iaas.energymodeller.EnergyModeller;
 import eu.ascetic.asceticarchitecture.iaas.energymodeller.types.energyuser.VM;
 import eu.ascetic.asceticarchitecture.iaas.energymodeller.types.usage.EnergyUsagePrediction;
-import org.apache.http.MethodNotSupportedException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -154,7 +151,7 @@ public class AsceticEnergyModellerAdapter implements es.bsc.vmm.ascetic.modeller
 	public double getCloplaEstimation(es.bsc.vmm.core.clopla.domain.Host host, List<es.bsc.vmm.core.clopla.domain.Vm> vmsDeployedInHost) {
 		return getHostPredictedAvgPower(
 								host.getHostname(),
-								VmManagerConfiguration.INSTANCE.getCloplaConversor().cloplaVmsToVmmType(vmsDeployedInHost));
+								VmmConfig.INSTANCE.getCloplaConversor().cloplaVmsToVmmType(vmsDeployedInHost));
 
 	}
 

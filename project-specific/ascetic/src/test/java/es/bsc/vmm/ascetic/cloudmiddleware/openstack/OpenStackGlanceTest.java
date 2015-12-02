@@ -22,7 +22,7 @@ import es.bsc.vmm.core.cloudmiddleware.openstack.OpenStackCredentials;
 import es.bsc.vmm.core.cloudmiddleware.openstack.OpenStackGlance;
 
 import es.bsc.vmm.core.cloudmiddleware.openstack.OpenStackJclouds;
-import es.bsc.vmm.core.configuration.VmManagerConfiguration;
+import es.bsc.vmm.core.configuration.VmmConfig;
 import es.bsc.vmm.core.models.images.ImageToUpload;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -35,7 +35,7 @@ public class OpenStackGlanceTest {
 
     @BeforeClass
     public static void setUpClass() {
-        VmManagerConfiguration conf = VmManagerConfiguration.INSTANCE;
+        VmmConfig conf = VmmConfig.INSTANCE;
         glance = new OpenStackGlance(new OpenStackCredentials(
 				conf.getConfiguration().getString(OpenStackJclouds.OS_CONFIG_IP),
 				conf.getConfiguration().getInt(OpenStackJclouds.OS_CONFIG_KEYSTONE_PORT),
@@ -50,7 +50,7 @@ public class OpenStackGlanceTest {
     @Test
     public void canCreateAndDelete() throws Exception {
         ImageToUpload imageToUpload = new ImageToUpload("testImage",
-                VmManagerConfiguration.INSTANCE.testingImageUrl);
+                VmmConfig.INSTANCE.getConfiguration().getString("testingImageUrl"));
         String imageId = glance.createImageFromUrl(imageToUpload);
         glance.deleteImage(imageId);
     }
