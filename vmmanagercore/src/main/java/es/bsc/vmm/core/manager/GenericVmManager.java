@@ -18,6 +18,7 @@
 
 package es.bsc.vmm.core.manager;
 
+import es.bsc.vmm.core.VmmGlobalListener;
 import es.bsc.vmm.core.cloudmiddleware.CloudMiddleware;
 import es.bsc.vmm.core.cloudmiddleware.CloudMiddlewareException;
 import es.bsc.vmm.core.configuration.VmmConfig;
@@ -446,61 +447,33 @@ public class GenericVmManager implements VmManager {
             periodicSelfAdaptationThreadRunning = true;
             startPeriodicSelfAdaptationThread();
         }
-    }
+
+		for(VmmGlobalListener l : conf.getVmmGlobalListeners()) {
+			l.onVmmStart();
+		}
+
+		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+			@Override
+			public void run() {
+				log.debug("Notifying vmm global listeners on shutdown hook");
+				for(VmmGlobalListener l : conf.getVmmGlobalListeners()) {
+					l.onVmmStop();
+				}
+			}
+		}));
+	}
 
 	@Override
 	public EstimatesManager getEstimatesManager() {
 		return estimatesManager;
 	}
 
-	/*
-		private void generateOpenStackHosts(String[] hostnames) {
-			for (String hostname: hostnames) {
-				hosts.add(HostFactory.getHost(hostname, HostType.OPENSTACK, cloudMiddleware));
-			}
-		}
-
-		private void generateGangliaHosts(String[] hostnames) {
-			for (String hostname: hostnames) {
-				hosts.add(HostFactory.getHost(hostname, HostType.GANGLIA, null));
-			}
-		}
-
-		private void generateZabbixHosts(String[] hostnames) {
-			for (String hostname: hostnames) {
-				log.debug("Generating zabbix host for host: " + hostname);
-				try {
-					hosts.add(HostFactory.getHost(hostname, HostType.ZABBIX, null));
-				} catch(Exception e) {
-					log.error("Ignoring host due to the next error: " + e.getMessage(), e);
-				}
-			}
-		}
-
-		private void generateFakeHosts(String[] hostnames) {
-			for (String hostname: hostnames) {
-				hosts.add(HostFactory.getHost(hostname, HostType.FAKE, cloudMiddleware));
-			}
-		}
-	*/
     private void startPeriodicSelfAdaptationThread() {
         Thread thread = new Thread(
                 new PeriodicSelfAdaptationRunnable(selfAdaptationManager),
                 "periodicSelfAdaptationThread");
         thread.start();
     }
-
-	/*
-    private OpenStackCredentials getOpenStackCredentials() {
-        return new OpenStackCredentials(conf.openStackIP,
-                conf.keyStonePort,
-                conf.keyStoneTenant,
-                conf.keyStoneUser,
-                conf.keyStonePassword,
-                conf.glancePort,
-                conf.keyStoneTenantId);
-    }
-    */
 
 	@Override
 	public HostsManager getHostsManager() {

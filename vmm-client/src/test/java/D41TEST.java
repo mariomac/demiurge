@@ -11,21 +11,31 @@ public class D41TEST extends TestCase {
 	private static final String URL_TESTING = "http://192.168.3.17:34372/vmmanager/";
 	private static final String URL_STABLE = "http://iaas-stable:34372/vmmanager";
 
+	private static final int NUMBER_OF_VMS = 12;
+	//	private static final String CIRROS_IMAGE_ID = "0c29c65b-2ff8-46fc-acd7-fdb039316905"; //iaas testing
+	private static final String CIRROS_IMAGE_ID = "d967c216-cbc5-4dc7-b197-cc2a4e0752f8"; //iaas stable
+
+
 	VmManagerClient vmm;
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		vmm = new VmManagerClient(URL_TESTING);
+		vmm = new VmManagerClient(URL_D41);
 	}
 
 	@Ignore
 	public void testAll() {
 		testShowUploadedImages();
 		testShowNodesAndVms();
-		testDeleteVMs();
 		testDeployVms();
+		try {
+			Thread.sleep(1*60*1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		testConsolidationScenario();
+		//testDeleteVMs();
 	}
-
 
 	@Ignore
 	public void testShowUploadedImages() {
@@ -51,7 +61,9 @@ public class D41TEST extends TestCase {
 		System.out.println("* deleting all vms");
 		for (VmDeployed vm : getVMsFromThisTest()) {
 			System.out.println("deleting " + vm.getName() + "... ");
-			vmm.destroyVm(vm.getId());
+			if(vm.getName().startsWith("d41vm")) {
+				vmm.destroyVm(vm.getId());
+			}
 		}
 	}
 
@@ -59,11 +71,11 @@ public class D41TEST extends TestCase {
 	public void testDeployVms() {
 
 		System.out.println("* deploying new vms");
-			// deploy vms
+		// deploy vms
 		List<Vm> toDeploy = new ArrayList<>();
-		for(int i = 1 ; i <= 12 ; i++) {
+		for(int i = 1 ; i <= NUMBER_OF_VMS ; i++) {
 			Vm vm = new Vm("d41vm"+i,
-					"d967c216-cbc5-4dc7-b197-cc2a4e0752f8",
+					CIRROS_IMAGE_ID,
 					2,1024,1,6*512,
 					"#!/bin/sh\n" +
 							"\n" +
@@ -93,20 +105,31 @@ public class D41TEST extends TestCase {
 					"test-id",null,null,false);
 
 			toDeploy.add(vm);
+
 		}
 
-		List<String> vmIds = vmm.deployVms(toDeploy);
-		for(String id : vmIds) {
-			VmDeployed vmDeployed = vmm.getVm(id);
+		for(Vm vm : toDeploy) {
+			VmDeployed vmDeployed = vmm.getVm(vmm.deployVms(Arrays.asList(vm)).get(0));
 			System.out.println("\t" + vmDeployed.getIpAddress() +" : " + vmDeployed.toString());
+			try {
+				Thread.sleep(1*60*1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
+
+//		List<String> vmIds = vmm.deployVms(toDeploy);
+//		for(String id : vmIds) {
+//			VmDeployed vmDeployed = vmm.getVm(id);
+//			System.out.println("\t" + vmDeployed.getIpAddress() +" : " + vmDeployed.toString());
+//		}
 
 	}
 
 	@Ignore
 	public void testConsolidationScenario() {
 
-		long WAIT_MS = 5 * 60 * 1000; // every 5 minutes
+		long WAIT_MS = 4 * 60 * 1000; // every 5 minutes
 
 		List<String> hosts = new ArrayList<>(Arrays.asList("wally159","wally162","wally163"));
 		int hostIndex = 2;
