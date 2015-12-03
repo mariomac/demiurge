@@ -18,6 +18,7 @@
 
 package es.bsc.vmm.core.configuration;
 
+import es.bsc.vmm.core.VmmGlobalListener;
 import es.bsc.vmm.core.cloudmiddleware.CloudMiddleware;
 import es.bsc.vmm.core.drivers.Estimator;
 import es.bsc.vmm.core.drivers.VmmListener;
@@ -84,8 +85,9 @@ public enum VmmConfig {
 	private HostFactory hostFactory;
 	private VmManager vmManager;
     private CloplaConversor cloplaConversor;
+	private List<VmmGlobalListener> vmmGlobalListeners;
 
-    VmmConfig() {
+	VmmConfig() {
         configuration = getPropertiesObjectFromConfigFile();
 		initializeClassAttributes();
     }
@@ -145,7 +147,7 @@ public enum VmmConfig {
         estimators = springContext.getBean("estimators", Set.class);
 
 		vmmListeners = springContext.getBean("vmmListeners", List.class);
-
+		vmmGlobalListeners = springContext.getBean("vmmGlobalListeners", List.class);
 
         // by the moment, don't need to put these two into beans (to simplify)
 		hostFactory = new HostFactory(cloudMiddleware, monitoring);
@@ -182,6 +184,8 @@ public enum VmmConfig {
     public CloplaConversor getCloplaConversor() {
         return cloplaConversor;
     }
+
+	public List<VmmGlobalListener> getVmmGlobalListeners() { return vmmGlobalListeners; }
 
     @Override
 	public String toString() {

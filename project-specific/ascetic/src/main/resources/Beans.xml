@@ -40,14 +40,16 @@
 		<entry key="costAware" value-type="java.lang.Class" value="es.bsc.vmm.ascetic.scheduler.clopla.ScoreCalculatorAsceticEnergyAware"/>
 	</util:map>
 
+	<bean id="mqEventNotificator" class="es.bsc.vmm.ascetic.mq.MqEventsManager"/>
+
 	<util:list id="vmmListeners" value-type="es.bsc.vmm.core.drivers.VmmListener">
 		<ref bean="energyModeller"/>
 		<ref bean="pricingModeller"/>
 		<bean class="es.bsc.vmm.ascetic.monitoring.zabbix.ZabbixListener"/>
-		<bean class="es.bsc.vmm.ascetic.mq.MQEventNotificator"/>
+		<ref bean="mqEventNotificator"/>
 	</util:list>
 
 	<util:list id="vmmGlobalListeners" value-type="es.bsc.vmm.core.VmmGlobalListener">
-
+		<ref bean="mqEventNotificator"/>
 	</util:list>
 </beans>

@@ -25,6 +25,10 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import javax.jms.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class ActiveMqAdapter {
 
@@ -33,8 +37,6 @@ public class ActiveMqAdapter {
     );
 
     private final Logger log = LogManager.getLogger(ActiveMqAdapter.class);
-    private Connection connection;
-    private Session session;
 
     /**
      * Publishes a message in the queue with the topic and the message specified
@@ -76,15 +78,40 @@ public class ActiveMqAdapter {
         }
     }
 
-    // Hi Mario, the queue is iaas-slam.monitoring.<slaId>.<vmId>.violationNotified
+	private Map<String, Connection> openConnections = new HashMap<>();
+	private Map<String, Session> openSessions = new HashMap<>();
 
-//    public void subscribeToTopic
-//
-//    public void something() throws Exception {
-//        TopicConnection topicConnection = connectionFactory.createTopicConnection();
-//        TopicSession topicSession = topicConnection.createTopicSession(false, Session.AUTO_ACKNOWLEDGE);
-////        topicSession.
-//
-//    }
+	public void listenToQueue(String queueName, MessageListener listener) throws JMSException {
+		log.debug("Listening for messages to queue: " + queueName);
+		QueueConnection connection = null;
+		QueueSession session = null;
+			connection = connectionFactory.createQueueConnection();
+			session = connection.createQueueSession(true, Session.AUTO_ACKNOWLEDGE);
+			Queue q = session.createQueue(queueName);
+			MessageConsumer consumer = session.createConsumer(q);
+			consumer.setMessageListener(listener);
+			connection.start();
+			openConnections.put(queueName, connection);
+			openSessions.put(queueName,session);
+	}
 
+	public void closeQueue(String queueName) {
+		try {
+			log.debug("Closing queue " + queueName);
+			Connection connection = openConnections.remove(queueName);
+			Session session = openSessions.remove(queueName);
+			connection.stop();
+			connection.close();
+			session.close();
+		} catch(Exception e) {
+			log.warn("Can't close connection: " + e.getMessage());
+		}
+	}
+
+	public void closeAllQueues() {
+		Set<String> cn = new HashSet<>(openConnections.keySet());
+		for(String queue : cn) {
+			closeQueue(queue);
+		}
+	}
 }
