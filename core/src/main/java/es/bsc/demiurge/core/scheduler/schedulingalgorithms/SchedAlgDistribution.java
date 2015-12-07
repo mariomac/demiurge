@@ -21,10 +21,10 @@ package es.bsc.demiurge.core.scheduler.schedulingalgorithms;
 import es.bsc.demiurge.core.manager.components.EstimatesManager;
 import es.bsc.demiurge.core.models.scheduling.DeploymentPlan;
 import es.bsc.demiurge.core.models.vms.VmDeployed;
-import es.bsc.demiurge.core.logging.VMMLogger;
 import es.bsc.demiurge.core.models.hosts.ServerLoad;
 import es.bsc.demiurge.core.monitoring.hosts.Host;
 import es.bsc.demiurge.core.scheduler.Scheduler;
+import org.apache.log4j.LogManager;
 
 import java.util.Collection;
 import java.util.List;
@@ -108,9 +108,9 @@ public class SchedAlgDistribution implements SchedAlgorithm {
         for (DeploymentPlan deploymentPlan: deploymentPlans) {
             Collection<ServerLoad> serversLoad =
                     Scheduler.getServersLoadsAfterDeploymentPlanExecuted(deploymentPlan, hosts).values();
-            VMMLogger.logServersLoadsAfterDeploymentPlan(deploymentPlan, countIdleServers(serversLoad),
-                    Scheduler.calculateStDevCpuLoad(serversLoad), Scheduler.calculateStDevMemLoad(serversLoad),
-                    Scheduler.calculateStDevDiskLoad(serversLoad), deploymentId);
+            LogManager.getLogger(SchedAlgDistribution.class).debug("[VMM] Server loads for deployment plan [ " + deploymentPlan.toString() + "]: idle servers:"
+                    + countIdleServers(serversLoad) + ", stdDevCpu:" + Scheduler.calculateStDevCpuLoad(serversLoad) + ", stdDevRam: " + Scheduler.calculateStDevMemLoad(serversLoad) + ", stdDevDisk: "
+                    + Scheduler.calculateStDevDiskLoad(serversLoad) + " --id:" + deploymentId);
             if (bestDeploymentPlan == null || isBetterDeploymentPlan(deploymentPlan, bestDeploymentPlan, hosts)) {
                 bestDeploymentPlan = deploymentPlan;
             }

@@ -28,7 +28,6 @@ import es.bsc.demiurge.core.models.vms.VmDeployed;
 import es.bsc.demiurge.core.monitoring.hosts.Host;
 import es.bsc.demiurge.core.scheduler.schedulingalgorithms.SchedAlgorithm;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -65,7 +64,8 @@ public class SchedAlgCostAware implements SchedAlgorithm {
         double costBestDeploymentPlan = Double.MAX_VALUE;
         for (DeploymentPlan deploymentPlan: deploymentPlans) {
             double deploymentPlanCost = getPredictedCostDeploymentPlan(estimatorsManager, deploymentPlan);
-            VMMLogger.logPredictedCostForDeploymentPlan(deploymentPlan, deploymentPlanCost, deploymentId);
+            VMMLogger.logger.debug("[VMM] predicted cost for deployment plan [ " + deploymentPlan.toString()
+                    + "]: " + deploymentPlanCost + " euros --id:" + deploymentId);
             if (deploymentPlanCost < costBestDeploymentPlan) {
                 bestDeploymentPlan = deploymentPlan;
                 costBestDeploymentPlan = deploymentPlanCost;

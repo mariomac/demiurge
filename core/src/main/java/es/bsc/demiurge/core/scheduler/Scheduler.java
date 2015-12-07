@@ -26,8 +26,8 @@ import es.bsc.demiurge.core.scheduler.schedulingalgorithms.SchedAlgorithm;
 import es.bsc.demiurge.core.models.hosts.ServerLoad;
 import es.bsc.demiurge.core.models.scheduling.VmAssignmentToHost;
 import es.bsc.demiurge.core.monitoring.hosts.Host;
-import es.bsc.demiurge.core.logging.VMMLogger;
-import es.bsc.demiurge.core.scheduler.schedulingalgorithms.*;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -39,7 +39,7 @@ import java.util.*;
  *  This scheduler can be configured to use different scheduling algorithms (consolidation, distribution, etc.)
  * 
  *  @author Mario Macias (github.com/mariomac), David Ortiz Lopez (david.ortiz@bsc.es)
- * @deprecated Scheduler and SchedAlgorithm classes must be replaced by Clopla
+ * @deprecated Scheduler and SchedAlgorithm classes have been replaced by Clopla
  */
 @Deprecated()
 public class Scheduler {
@@ -50,6 +50,7 @@ public class Scheduler {
 	private SchedulingAlgorithmsRepository schedulingAlgorithmsRepository;
     private static final DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd-HH:mm:ss.SSS"); // Useful for logs
 
+    private Logger logger = LogManager.getLogger(Scheduler.class);
     /**
      * Class constructor.
      *
@@ -287,7 +288,8 @@ public class Scheduler {
      */
     public DeploymentPlan chooseBestDeploymentPlan(List<Vm> vms, List<Host> hosts) {
         String deploymentId = getDeploymentIdForLogMessages();
-        VMMLogger.logStartOfDeploymentPlansEvaluation(schedAlgorithm.getName(), deploymentId);
+        LogManager.getLogger(Scheduler.class).debug("[VMM] ***EVALUATION OF DEPLOYMENT PLANS STARTS: " + schedAlgorithm.getName() + " ***"
+                + " --id:" + deploymentId);
 
         // Get all the possible plans that do not use overbooking
         List<DeploymentPlan> possibleDeploymentPlans =
@@ -303,7 +305,7 @@ public class Scheduler {
                 possibleDeploymentPlans, hosts, deploymentId);
 
         if (bestDeploymentPlan != null) {
-            VMMLogger.logChosenDeploymentPlan(bestDeploymentPlan.toString(), deploymentId);
+            logger.debug("[VMM] chosen deployment plan: [ " + bestDeploymentPlan.toString() + "] --id:" + deploymentId);
         }
         else { // No plans could be chosen, so apply overbooking
 
@@ -313,10 +315,11 @@ public class Scheduler {
                             new DeploymentPlanGenerator().getDeploymentPlansWithoutRestrictions(vms, hosts),
                             "asok10"),
                     hosts);
-            VMMLogger.logOverbookingNeeded(deploymentId);
+            logger.debug("[VMM] no plans could be applied without overbooking. --id:" + deploymentId);
         }
 
-        VMMLogger.logEndOfDeploymentPlansEvaluation(schedAlgorithm.getName(), deploymentId);
+        logger.debug("[VMM] ***EVALUATION OF DEPLOYMENT PLANS ENDS: " + schedAlgorithm.getName() + " ***"
+                + " --id:" + deploymentId);
 
         return bestDeploymentPlan;
     }

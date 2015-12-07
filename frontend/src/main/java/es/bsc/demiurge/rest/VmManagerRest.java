@@ -16,7 +16,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package es.bsc.demiurge.core.rest;
+package es.bsc.demiurge.rest;
 
 import es.bsc.demiurge.core.db.VmManagerDb;
 import es.bsc.demiurge.core.cloudmiddleware.CloudMiddlewareException;
@@ -29,7 +29,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import es.bsc.demiurge.core.rest.error.ErrorHandler;
+import es.bsc.demiurge.rest.error.ErrorHandler;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
