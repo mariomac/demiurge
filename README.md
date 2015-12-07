@@ -1,16 +1,16 @@
 ![Demiurge image](demiurge.png)
 
-# Demiurge
+# :smiling_imp:Demiurge:smiling_imp:
 
 Bringing order to the (IaaS) Cloud
 
 ## About
 
 Demiurge is an Infrastructure-as-a-Service (IaaS) computing resources manager. It enables the optimization of the
-management of virtual resources in order to maximise business-level objectives
+management of virtual resources in order to maximise business-level objectives. Namely performance maximisation, price
+minimization and, this is where we focus in, maximization of the energy and ecological efficiency.
 
-
-Its main features are:
+Demiurge's main features are:
 
 * Support for different Infrastructure managers. Currently Openstack. Planned: [Kubernetes](http://kubernetes.io/)
 * 
