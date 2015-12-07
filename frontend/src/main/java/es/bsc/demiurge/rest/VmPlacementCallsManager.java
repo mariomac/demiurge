@@ -16,7 +16,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package es.bsc.demiurge.core.rest;
+package es.bsc.demiurge.rest;
 
 import com.google.gson.Gson;
 import es.bsc.demiurge.core.models.scheduling.RecommendedPlanRequest;

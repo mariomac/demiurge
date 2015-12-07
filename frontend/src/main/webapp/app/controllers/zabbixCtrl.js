@@ -16,6 +16,9 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+// TODO: remove this. To rely in zabbix gui
+// or, otherwise, to rely in an intermediate layer that connects between different
+// monitoring solutinos
 (function () {
 
     angular

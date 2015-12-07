@@ -18,13 +18,13 @@
 
 package es.bsc.demiurge.core.scheduler.schedulingalgorithms;
 
-import es.bsc.demiurge.core.logging.VMMLogger;
 import es.bsc.demiurge.core.manager.components.EstimatesManager;
 import es.bsc.demiurge.core.models.scheduling.DeploymentPlan;
 import es.bsc.demiurge.core.models.vms.VmDeployed;
 import es.bsc.demiurge.core.monitoring.hosts.Host;
 import es.bsc.demiurge.core.scheduler.Scheduler;
 import es.bsc.demiurge.core.models.hosts.ServerLoad;
+import org.apache.log4j.LogManager;
 
 import java.util.Collection;
 import java.util.List;
@@ -109,9 +109,9 @@ public class SchedAlgConsolidation implements SchedAlgorithm {
         for (DeploymentPlan deploymentPlan: deploymentPlans) {
             Collection<ServerLoad> serversLoad =
                     Scheduler.getServersLoadsAfterDeploymentPlanExecuted(deploymentPlan, hosts).values();
-            VMMLogger.logUnusedServerLoadsAfterDeploymentPlan(deploymentPlan, countIdleServers(serversLoad),
-                    Scheduler.getTotalUnusedCpuPerc(serversLoad), Scheduler.getTotalUnusedMemPerc(serversLoad),
-                    Scheduler.getTotalUnusedDiskPerc(serversLoad), deploymentId);
+            LogManager.getLogger(SchedAlgConsolidation.class).debug("[VMM] Total unused loads for deployment plan [ " + deploymentPlan.toString()
+                    + "]: idle servers:" + countIdleServers(serversLoad) + ", unusedCpu:" + Scheduler.getTotalUnusedCpuPerc(serversLoad) + ", unusedRam: "
+                    + Scheduler.getTotalUnusedMemPerc(serversLoad) + ", unusedDisk: " + Scheduler.getTotalUnusedDiskPerc(serversLoad) + " --id:" + deploymentId);
             if (bestDeploymentPlan == null || isBetterDeploymentPlan(deploymentPlan, bestDeploymentPlan, hosts)) {
                 bestDeploymentPlan = deploymentPlan;
             }

@@ -16,12 +16,15 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package es.bsc.demiurge.core.rest;
+package es.bsc.demiurge.rest;
 
-import com.sun.jersey.spi.container.ContainerRequest;
-import com.sun.jersey.spi.container.ContainerResponse;
-import com.sun.jersey.spi.container.ContainerResponseFilter;
 
+import org.glassfish.jersey.server.ContainerRequest;
+import org.glassfish.jersey.server.ContainerResponse;
+
+import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.container.ContainerResponseContext;
+import javax.ws.rs.container.ContainerResponseFilter;
 import java.io.IOException;
 
 /**
@@ -35,7 +38,10 @@ import java.io.IOException;
 public class CorsSupportFilter implements ContainerResponseFilter {
 
     @Override
-    public ContainerResponse filter(ContainerRequest req, ContainerResponse resp) {
+    public void filter(ContainerRequestContext containerRequestContext, ContainerResponseContext containerResponseContext) throws IOException {
+    /*
+
+
         resp.getHttpHeaders().putSingle("Access-Control-Allow-Origin", "*");
 
         resp.getHttpHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
@@ -44,6 +50,8 @@ public class CorsSupportFilter implements ContainerResponseFilter {
             resp.getHttpHeaders().putSingle("Access-Control-Allow-Headers", req.getHeaderValue("Access-Control-Request-Headers"));
         }
         return resp;
+        */
     }
+
 
 }

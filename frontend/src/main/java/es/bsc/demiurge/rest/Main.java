@@ -16,13 +16,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package es.bsc.demiurge.core.rest;
-
-import com.sun.jersey.api.container.grizzly2.GrizzlyServerFactory;
-import com.sun.jersey.api.core.PackagesResourceConfig;
-import com.sun.jersey.api.core.ResourceConfig;
-import es.bsc.demiurge.core.configuration.VmmConfig;
-import org.glassfish.grizzly.http.server.HttpServer;
+package es.bsc.demiurge.rest;
 
 import java.io.IOException;
 import java.net.URI;
@@ -35,6 +29,7 @@ import java.net.URI;
  */
 public class Main {
 
+    /*
     public static final String BASE_URI = VmmConfig.INSTANCE.deployBaseUrl;
     public static final String DEPLOY_PACKAGE = VmmConfig.INSTANCE.deployPackage;
     public static final String STOP_MESSAGE = "Press any key to stop the server...";
@@ -53,12 +48,7 @@ public class Main {
         return null;
     }
 
-    /**
-     * Main function.
-     *
-     * @param args arguments
-     * @throws IOException
-     */
+
     public static void main(String[] args) throws IOException {
         VmmConfig.INSTANCE.loadBeansConfig();
 
@@ -67,5 +57,5 @@ public class Main {
         System.out.println(STOP_MESSAGE);
         System.in.read();
     }
-    
+    */
 }

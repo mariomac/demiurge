@@ -22,7 +22,6 @@ import es.bsc.demiurge.core.cloudmiddleware.CloudMiddlewareException;
 import es.bsc.demiurge.core.db.VmManagerDb;
 import es.bsc.demiurge.core.drivers.VmAction;
 import es.bsc.demiurge.core.drivers.VmmListener;
-import es.bsc.demiurge.core.logging.VMMLogger;
 import es.bsc.demiurge.core.models.scheduling.DeploymentPlan;
 import es.bsc.demiurge.core.models.scheduling.RecommendedPlan;
 import es.bsc.demiurge.core.models.scheduling.VmPlacement;
@@ -220,10 +219,9 @@ public class VmsManager {
             db.insertVm(vmId, vmToDeploy.getApplicationId(), vmToDeploy.getOvfId(), vmToDeploy.getSlaId());
             ids.put(vmToDeploy, vmId);
 
-            VMMLogger.logVmDeploymentWaitingTime(vmId,
-                    TimeUtils.getDifferenceInSeconds(calendarDeployRequestReceived, Calendar.getInstance()));
+            log.debug("[VMM] The Deployment of the VM with ID=" + vmId + " took " + TimeUtils.getDifferenceInSeconds(calendarDeployRequestReceived, Calendar.getInstance()) + " seconds");
 
-			VmDeployed vmDeployed = getVm(vmId);
+            VmDeployed vmDeployed = getVm(vmId);
 			for(VmmListener vml : listeners) {
 				vml.onVmDeployment(vmDeployed);
 			}
@@ -286,7 +284,7 @@ public class VmsManager {
      * @param destinationHostName the host where the VM will be migrated to
      */
     public void migrateVm(String vmId, String destinationHostName) throws CloudMiddlewareException {
-        VMMLogger.logMigration(vmId, destinationHostName);
+        log.debug("[VMM] Requested to migrate VM with ID=" + vmId + " to host " + destinationHostName);
         cloudMiddleware.migrate(vmId, destinationHostName);
 		VmDeployed vm = getVm(vmId);
 		for(VmmListener l : listeners) {

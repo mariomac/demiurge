@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         version="2.5">
+    <servlet>
+        <servlet-name>JerseyServlet</servlet-name>
+        <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+        <init-param>
+            <param-name>com.sun.jersey.config.property.packages</param-name>
+            <param-value>es.bsc.demiurge.rest</param-value>
+        </init-param>
+    </servlet>
+
+    <!-- This mapping is kept for retro-compatibility when deploying
+         Demiurge in an old ASCETiC Deployment-->
+    <servlet-mapping>
+        <servlet-name>JerseyServlet</servlet-name>
+        <url-pattern>/vmmanager</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>JerseyServlet</servlet-name>
+        <url-pattern>/api/v1</url-pattern>
+    </servlet-mapping>
+
+    <!-- IF PROBLEMS WITH THE GUI (NOW SHOULD NOT)
+         UNCOMMENT THIS AND FIX CorsSupportFilter CLASS
+    <filter>
+        <filter-name>CorsSupportFilter</filter-name>
+        <filter-class>es.bsc.demiurge.rest.CorsSupportFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CorsSupportFilter</filter-name>
+        <servlet-name>JerseyServlet</servlet-name>
+    </filter-mapping>
+    -->
+
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+
+</web-app>
