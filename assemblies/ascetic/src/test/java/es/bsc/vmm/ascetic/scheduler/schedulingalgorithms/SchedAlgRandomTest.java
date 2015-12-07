@@ -18,13 +18,13 @@
 
 package es.bsc.vmm.ascetic.scheduler.schedulingalgorithms;
 
-import es.bsc.vmm.core.models.scheduling.DeploymentPlan;
-import es.bsc.vmm.core.models.scheduling.VmAssignmentToHost;
-import es.bsc.vmm.core.models.vms.Vm;
-import es.bsc.vmm.core.models.vms.VmDeployed;
-import es.bsc.vmm.core.monitoring.hosts.Host;
-import es.bsc.vmm.core.monitoring.hosts.HostFake;
-import es.bsc.vmm.core.scheduler.schedulingalgorithms.SchedAlgRandom;
+import es.bsc.demiurge.core.models.scheduling.DeploymentPlan;
+import es.bsc.demiurge.core.models.scheduling.VmAssignmentToHost;
+import es.bsc.demiurge.core.models.vms.Vm;
+import es.bsc.demiurge.core.models.vms.VmDeployed;
+import es.bsc.demiurge.core.monitoring.hosts.Host;
+import es.bsc.demiurge.fake.HostFake;
+import es.bsc.demiurge.core.scheduler.schedulingalgorithms.SchedAlgRandom;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

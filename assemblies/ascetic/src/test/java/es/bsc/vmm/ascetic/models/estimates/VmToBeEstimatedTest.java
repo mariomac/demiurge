@@ -1,7 +1,7 @@
 package es.bsc.vmm.ascetic.models.estimates;
 
-import es.bsc.vmm.core.models.estimates.VmToBeEstimated;
-import es.bsc.vmm.core.models.vms.Vm;
+import es.bsc.demiurge.core.models.estimates.VmToBeEstimated;
+import es.bsc.demiurge.core.models.vms.Vm;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

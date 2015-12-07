@@ -17,10 +17,10 @@
  * under the License.
  */
 
-package es.bsc.vmm.core.clopla.lib;
+package es.bsc.demiurge.core.clopla.lib;
 
-import es.bsc.vmm.core.clopla.placement.config.Policy;
-import es.bsc.vmm.core.clopla.placement.config.VmPlacementConfig;
+import es.bsc.demiurge.core.clopla.placement.config.Policy;
+import es.bsc.demiurge.core.clopla.placement.config.VmPlacementConfig;
 import org.junit.Test;
 
 import java.util.*;

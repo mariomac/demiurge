@@ -18,7 +18,7 @@
 
 package es.bsc.vmm.ascetic.models.vms;
 
-import es.bsc.vmm.core.models.vms.Vm;
+import es.bsc.demiurge.core.models.vms.Vm;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

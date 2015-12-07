@@ -19,12 +19,12 @@
 package es.bsc.vmm.ascetic.modellers.energy.dummy;
 
 import es.bsc.vmm.ascetic.modellers.energy.EnergyModeller;
-import es.bsc.vmm.core.drivers.VmAction;
-import es.bsc.vmm.core.models.scheduling.DeploymentPlan;
-import es.bsc.vmm.core.models.scheduling.VmAssignmentToHost;
-import es.bsc.vmm.core.models.vms.Vm;
-import es.bsc.vmm.core.models.vms.VmDeployed;
-import es.bsc.vmm.core.monitoring.hosts.Host;
+import es.bsc.demiurge.core.drivers.VmAction;
+import es.bsc.demiurge.core.models.scheduling.DeploymentPlan;
+import es.bsc.demiurge.core.models.scheduling.VmAssignmentToHost;
+import es.bsc.demiurge.core.models.vms.Vm;
+import es.bsc.demiurge.core.models.vms.VmDeployed;
+import es.bsc.demiurge.core.monitoring.hosts.Host;
 
 import java.util.List;
 import java.util.Map;
@@ -72,7 +72,7 @@ public class DummyEnergyModeller implements EnergyModeller {
 	}
 
 	@Override
-	public double getCloplaEstimation(es.bsc.vmm.core.clopla.domain.Host host, List<es.bsc.vmm.core.clopla.domain.Vm> vmsDeployedInHost) {
+	public double getCloplaEstimation(es.bsc.demiurge.core.clopla.domain.Host host, List<es.bsc.demiurge.core.clopla.domain.Vm> vmsDeployedInHost) {
 		return 0;
 	}
 

@@ -18,12 +18,12 @@
 
 package es.bsc.vmm.ascetic.modellers.energy;
 
-import es.bsc.vmm.core.drivers.Estimator;
-import es.bsc.vmm.core.drivers.VmmListener;
-import es.bsc.vmm.core.models.scheduling.DeploymentPlan;
-import es.bsc.vmm.core.models.vms.Vm;
-import es.bsc.vmm.core.models.vms.VmDeployed;
-import es.bsc.vmm.core.monitoring.hosts.Host;
+import es.bsc.demiurge.core.drivers.Estimator;
+import es.bsc.demiurge.core.drivers.VmmListener;
+import es.bsc.demiurge.core.models.scheduling.DeploymentPlan;
+import es.bsc.demiurge.core.models.vms.Vm;
+import es.bsc.demiurge.core.models.vms.VmDeployed;
+import es.bsc.demiurge.core.monitoring.hosts.Host;
 
 import java.util.List;
 

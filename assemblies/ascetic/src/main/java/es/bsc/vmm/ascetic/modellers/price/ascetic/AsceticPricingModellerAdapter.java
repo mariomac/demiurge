@@ -20,12 +20,12 @@ package es.bsc.vmm.ascetic.modellers.price.ascetic;
 
 import es.bsc.vmm.ascetic.modellers.price.PricingModeller;
 import es.bsc.vmm.ascetic.modellers.energy.ascetic.AsceticEnergyModellerAdapter;
-import es.bsc.vmm.core.clopla.domain.Host;
-import es.bsc.vmm.core.drivers.VmAction;
-import es.bsc.vmm.core.models.scheduling.DeploymentPlan;
-import es.bsc.vmm.core.models.scheduling.VmAssignmentToHost;
-import es.bsc.vmm.core.models.vms.Vm;
-import es.bsc.vmm.core.models.vms.VmDeployed;
+import es.bsc.demiurge.core.clopla.domain.Host;
+import es.bsc.demiurge.core.drivers.VmAction;
+import es.bsc.demiurge.core.models.scheduling.DeploymentPlan;
+import es.bsc.demiurge.core.models.scheduling.VmAssignmentToHost;
+import es.bsc.demiurge.core.models.vms.Vm;
+import es.bsc.demiurge.core.models.vms.VmDeployed;
 import eu.ascetic.asceticarchitecture.iaas.iaaspricingmodeller.IaaSPricingModeller;
 import eu.ascetic.asceticarchitecture.iaas.iaaspricingmodeller.billing.IaaSPricingModellerBilling;
 import eu.ascetic.asceticarchitecture.iaas.iaaspricingmodeller.energyprovider.EnergyProvider;
@@ -142,9 +142,9 @@ public class AsceticPricingModellerAdapter implements PricingModeller {
 	}
 
 	@Override
-	public double getCloplaEstimation(Host host, List<es.bsc.vmm.core.clopla.domain.Vm> vmsDeployedInHost) {
+	public double getCloplaEstimation(Host host, List<es.bsc.demiurge.core.clopla.domain.Vm> vmsDeployedInHost) {
 		double result = 0.0;
-		for (es.bsc.vmm.core.clopla.domain.Vm vm: vmsDeployedInHost) {
+		for (es.bsc.demiurge.core.clopla.domain.Vm vm: vmsDeployedInHost) {
 			result += pricingModeller.getVMChargesPrediction(
 					vm.getNcpus(), vm.getRamMb(), vm.getDiskGb(), getSchemeIdForVm(), FIXED_DURATION_SEC , host.getHostname());
 		}

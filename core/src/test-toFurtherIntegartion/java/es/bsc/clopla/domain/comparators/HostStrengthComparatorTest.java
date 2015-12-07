@@ -17,9 +17,9 @@
  * under the License.
  */
 
-package es.bsc.vmm.core.clopla.domain.comparators;
+package es.bsc.demiurge.core.clopla.domain.comparators;
 
-import es.bsc.vmm.core.clopla.domain.Host;
+import es.bsc.demiurge.core.clopla.domain.Host;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertTrue;

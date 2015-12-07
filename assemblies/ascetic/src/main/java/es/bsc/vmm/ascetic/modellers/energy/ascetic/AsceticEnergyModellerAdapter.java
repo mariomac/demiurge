@@ -18,13 +18,13 @@
 
 package es.bsc.vmm.ascetic.modellers.energy.ascetic;
 
-import es.bsc.vmm.core.configuration.VmmConfig;
-import es.bsc.vmm.core.drivers.VmAction;
-import es.bsc.vmm.core.models.scheduling.DeploymentPlan;
-import es.bsc.vmm.core.models.scheduling.VmAssignmentToHost;
-import es.bsc.vmm.core.models.vms.Vm;
-import es.bsc.vmm.core.models.vms.VmDeployed;
-import es.bsc.vmm.core.monitoring.hosts.Host;
+import es.bsc.demiurge.core.configuration.VmmConfig;
+import es.bsc.demiurge.core.drivers.VmAction;
+import es.bsc.demiurge.core.models.scheduling.DeploymentPlan;
+import es.bsc.demiurge.core.models.scheduling.VmAssignmentToHost;
+import es.bsc.demiurge.core.models.vms.Vm;
+import es.bsc.demiurge.core.models.vms.VmDeployed;
+import es.bsc.demiurge.core.monitoring.hosts.Host;
 import eu.ascetic.asceticarchitecture.iaas.energymodeller.EnergyModeller;
 import eu.ascetic.asceticarchitecture.iaas.energymodeller.types.energyuser.VM;
 import eu.ascetic.asceticarchitecture.iaas.energymodeller.types.usage.EnergyUsagePrediction;
@@ -148,7 +148,7 @@ public class AsceticEnergyModellerAdapter implements es.bsc.vmm.ascetic.modeller
 	}
 
 	@Override
-	public double getCloplaEstimation(es.bsc.vmm.core.clopla.domain.Host host, List<es.bsc.vmm.core.clopla.domain.Vm> vmsDeployedInHost) {
+	public double getCloplaEstimation(es.bsc.demiurge.core.clopla.domain.Host host, List<es.bsc.demiurge.core.clopla.domain.Vm> vmsDeployedInHost) {
 		return getHostPredictedAvgPower(
 								host.getHostname(),
 								VmmConfig.INSTANCE.getCloplaConversor().cloplaVmsToVmmType(vmsDeployedInHost));

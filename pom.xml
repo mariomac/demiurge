@@ -10,7 +10,7 @@
 	<modules>
 		<!--<module>rest-client</module>-->
 		<module>core</module>
-		<module>plugins</module>
+		<module>drivers</module>
 		<!--module>power-button-presser</module-->
 		<!--module>vmm-client</module-->
 		<module>assemblies</module>
