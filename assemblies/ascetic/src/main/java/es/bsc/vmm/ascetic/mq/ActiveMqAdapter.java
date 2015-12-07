@@ -18,8 +18,8 @@
 
 package es.bsc.vmm.ascetic.mq;
 
-import es.bsc.vmm.core.configuration.VmmConfig;
-import es.bsc.vmm.core.logging.VMMLogger;
+import es.bsc.demiurge.core.configuration.VmmConfig;
+import es.bsc.demiurge.core.logging.VMMLogger;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;

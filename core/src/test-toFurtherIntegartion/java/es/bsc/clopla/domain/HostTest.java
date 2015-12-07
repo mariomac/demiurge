@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package es.bsc.vmm.core.clopla.domain;
+package es.bsc.demiurge.core.clopla.domain;
 
 import org.junit.Test;
 

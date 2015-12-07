@@ -1,11 +1,11 @@
 package es.bsc.vmm.ascetic.scheduler.clopla;
 
 import es.bsc.vmm.ascetic.modellers.price.ascetic.AsceticPricingModellerAdapter;
-import es.bsc.vmm.core.clopla.domain.ClusterState;
-import es.bsc.vmm.core.clopla.domain.Host;
-import es.bsc.vmm.core.clopla.placement.config.VmPlacementConfig;
-import es.bsc.vmm.core.clopla.placement.scorecalculators.ScoreCalculatorCommon;
-import es.bsc.vmm.core.configuration.VmmConfig;
+import es.bsc.demiurge.core.clopla.domain.ClusterState;
+import es.bsc.demiurge.core.clopla.domain.Host;
+import es.bsc.demiurge.core.clopla.placement.config.VmPlacementConfig;
+import es.bsc.demiurge.core.clopla.placement.scorecalculators.ScoreCalculatorCommon;
+import es.bsc.demiurge.core.configuration.VmmConfig;
 import org.optaplanner.core.api.score.buildin.hardmediumsoft.HardMediumSoftScore;
 import org.optaplanner.core.impl.score.director.simple.SimpleScoreCalculator;
 

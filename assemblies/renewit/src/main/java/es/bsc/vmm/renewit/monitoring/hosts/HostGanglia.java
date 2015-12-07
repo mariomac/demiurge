@@ -20,7 +20,7 @@ package es.bsc.vmm.renewit.monitoring.hosts;
 
 import es.bsc.monitoring.ganglia.Ganglia;
 import es.bsc.monitoring.ganglia.infrastructure.Cluster;
-import es.bsc.vmm.core.monitoring.hosts.Host;
+import es.bsc.demiurge.core.monitoring.hosts.Host;
 
 import java.util.List;
 

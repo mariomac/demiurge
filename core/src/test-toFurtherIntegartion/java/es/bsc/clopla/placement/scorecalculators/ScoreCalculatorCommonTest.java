@@ -17,11 +17,11 @@
  * under the License.
  */
 
-package es.bsc.vmm.core.clopla.placement.scorecalculators;
+package es.bsc.demiurge.core.clopla.placement.scorecalculators;
 
-import es.bsc.vmm.core.clopla.domain.ClusterState;
-import es.bsc.vmm.core.clopla.domain.Host;
-import es.bsc.vmm.core.clopla.domain.Vm;
+import es.bsc.demiurge.core.clopla.domain.ClusterState;
+import es.bsc.demiurge.core.clopla.domain.Host;
+import es.bsc.demiurge.core.clopla.domain.Vm;
 import org.junit.Test;
 
 import java.util.ArrayList;

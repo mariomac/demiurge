@@ -41,7 +41,7 @@ cat > start.sh << EOF
 #! /bin/sh
 cd $home/vmmanager
 echo "Running java with debug options: $DEBUG"
-exec java $DEBUG $KYNERIX_OPTS -cp uber-vmm-ascetic-0.0.1-SNAPSHOT.jar$KYNERIX_PATH es.bsc.vmm.core.rest.Main
+exec java $DEBUG $KYNERIX_OPTS -cp uber-vmm-ascetic-0.0.1-SNAPSHOT.jar$KYNERIX_PATH es.bsc.demiurge.core.rest.Main
 EOF
 chmod 755 start.sh
 

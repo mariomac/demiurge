@@ -1,6 +1,6 @@
 package es.bsc.vmm.ascetic.models.estimates;
 
-import es.bsc.vmm.core.models.estimates.VmEstimate;
+import es.bsc.demiurge.core.models.estimates.VmEstimate;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;

@@ -18,12 +18,12 @@
 
 package es.bsc.vmm.ascetic.vmplacement;
 
-import es.bsc.vmm.core.clopla.domain.Vm;
+import es.bsc.demiurge.core.clopla.domain.Vm;
 
-import es.bsc.vmm.core.models.vms.VmDeployed;
-import es.bsc.vmm.core.monitoring.hosts.Host;
-import es.bsc.vmm.core.monitoring.hosts.HostFake;
-import es.bsc.vmm.core.vmplacement.CloplaConversor;
+import es.bsc.demiurge.core.models.vms.VmDeployed;
+import es.bsc.demiurge.core.monitoring.hosts.Host;
+import es.bsc.demiurge.fake.HostFake;
+import es.bsc.demiurge.core.vmplacement.CloplaConversor;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -48,8 +48,8 @@ public class CloplaConversorTest {
         vmsDeployed.add(new VmDeployed("vm", "fakeImage", 1, 1024, 1, 0, "", "appId", "vmId", "172.16.8.1", "ACTIVE",
                 new Date(), "host1"));
 
-        Vm cloplaVm = cc.getCloplaVms(vmsDeployed, new ArrayList<es.bsc.vmm.core.models.vms.Vm>(),
-                new ArrayList<es.bsc.vmm.core.clopla.domain.Host>(), false).get(0);
+        Vm cloplaVm = cc.getCloplaVms(vmsDeployed, new ArrayList<es.bsc.demiurge.core.models.vms.Vm>(),
+                new ArrayList<es.bsc.demiurge.core.clopla.domain.Host>(), false).get(0);
         assertEquals(1, cloplaVm.getNcpus());
         assertEquals(1024, cloplaVm.getRamMb());
         assertEquals(1, cloplaVm.getDiskGb());
@@ -62,7 +62,7 @@ public class CloplaConversorTest {
     public void getCloplaHosts() {
         List<Host> hosts = new ArrayList<>();
         hosts.add(new HostFake("host1", 1, 1024, 1, 0, 0, 0));
-        es.bsc.vmm.core.clopla.domain.Host cloplaHost = cc.getCloplaHosts(hosts).get(0);
+        es.bsc.demiurge.core.clopla.domain.Host cloplaHost = cc.getCloplaHosts(hosts).get(0);
         assertEquals("host1", cloplaHost.getHostname());
         assertEquals(1, cloplaHost.getNcpus());
         assertEquals(1024.0, cloplaHost.getRamMb());

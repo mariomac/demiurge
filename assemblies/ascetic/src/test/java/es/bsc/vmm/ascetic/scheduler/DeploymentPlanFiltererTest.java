@@ -18,12 +18,12 @@
 
 package es.bsc.vmm.ascetic.scheduler;
 
-import es.bsc.vmm.core.models.scheduling.DeploymentPlan;
-import es.bsc.vmm.core.models.scheduling.VmAssignmentToHost;
-import es.bsc.vmm.core.models.vms.Vm;
-import es.bsc.vmm.core.monitoring.hosts.Host;
-import es.bsc.vmm.core.monitoring.hosts.HostFake;
-import es.bsc.vmm.core.scheduler.DeploymentPlanFilterer;
+import es.bsc.demiurge.core.models.scheduling.DeploymentPlan;
+import es.bsc.demiurge.core.models.scheduling.VmAssignmentToHost;
+import es.bsc.demiurge.core.models.vms.Vm;
+import es.bsc.demiurge.core.monitoring.hosts.Host;
+import es.bsc.demiurge.fake.HostFake;
+import es.bsc.demiurge.core.scheduler.DeploymentPlanFilterer;
 import org.junit.Test;
 
 import java.util.ArrayList;

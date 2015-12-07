@@ -25,7 +25,7 @@ _Demiurge_'s main features are:
 ## Repository structure
 
 * `core` defines the core functionalities, models and interfaces of _Demiurge_.
-* `plugins` implements the drivers for different infrastructure and monitoring managers.
+* `drivers` implements the drivers for different infrastructure and monitoring managers.
 * `assemblies` contains subprojects that with different configurations of _Demiurge_, plus some extra code to adapt
   it to different environments.
 * `client` implements a simple REST client to facilitate the integration of _Demiurge_.

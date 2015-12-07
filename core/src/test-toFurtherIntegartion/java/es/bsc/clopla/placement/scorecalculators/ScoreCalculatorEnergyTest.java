@@ -17,13 +17,13 @@
  * under the License.
  */
 
-package es.bsc.vmm.core.clopla.placement.scorecalculators;
+package es.bsc.demiurge.core.clopla.placement.scorecalculators;
 
-import es.bsc.vmm.core.clopla.domain.ClusterState;
-import es.bsc.vmm.core.clopla.domain.Host;
-import es.bsc.vmm.core.clopla.domain.Vm;
-import es.bsc.vmm.core.clopla.modellers.EnergyModeller;
-import es.bsc.vmm.core.clopla.placement.config.VmPlacementConfig;
+import es.bsc.demiurge.core.clopla.domain.ClusterState;
+import es.bsc.demiurge.core.clopla.domain.Host;
+import es.bsc.demiurge.core.clopla.domain.Vm;
+import es.bsc.demiurge.core.clopla.modellers.EnergyModeller;
+import es.bsc.demiurge.core.clopla.placement.config.VmPlacementConfig;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;

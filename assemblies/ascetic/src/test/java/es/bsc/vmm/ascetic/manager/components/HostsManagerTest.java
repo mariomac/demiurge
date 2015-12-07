@@ -18,9 +18,9 @@
 
 package es.bsc.vmm.ascetic.manager.components;
 
-import es.bsc.vmm.core.manager.components.HostsManager;
-import es.bsc.vmm.core.monitoring.hosts.Host;
-import es.bsc.vmm.core.monitoring.hosts.HostFake;
+import es.bsc.demiurge.core.manager.components.HostsManager;
+import es.bsc.demiurge.core.monitoring.hosts.Host;
+import es.bsc.demiurge.fake.HostFake;
 import org.junit.Test;
 
 import java.util.ArrayList;

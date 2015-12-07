@@ -19,8 +19,8 @@
 package es.bsc.vmm.ascetic.modellers.price;
 
 
-import es.bsc.vmm.core.drivers.Estimator;
-import es.bsc.vmm.core.drivers.VmmListener;
+import es.bsc.demiurge.core.drivers.Estimator;
+import es.bsc.demiurge.core.drivers.VmmListener;
 import eu.ascetic.asceticarchitecture.iaas.iaaspricingmodeller.IaaSPricingModeller;
 import eu.ascetic.asceticarchitecture.iaas.iaaspricingmodeller.billing.IaaSPricingModellerBilling;
 import eu.ascetic.asceticarchitecture.iaas.iaaspricingmodeller.energyprovider.EnergyProvider;
