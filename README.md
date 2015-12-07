@@ -6,14 +6,15 @@ Bringing order to the (IaaS) Cloud
 
 ## About
 
-Demiurge is an Infrastructure-as-a-Service (IaaS) computing resources manager. It enables the optimization of the
+:smiling_imp:Demiurge:smiling_imp: is an Infrastructure-as-a-Service (IaaS) computing resources manager. It enables the optimization of the
 management of virtual resources in order to maximise business-level objectives. Namely performance maximisation, price
 minimization and, this is where we focus in, maximization of the energy and ecological efficiency.
 
-Demiurge's main features are:
+:smiling_imp:Demiurge:smiling_imp:'s main features are:
 
-* Support for different Infrastructure managers. Currently Openstack. Planned: [Kubernetes](http://kubernetes.io/)
-* 
+* Support for different Infrastructure managers. Currently [OpenStack](https://github.com/openstack/openstack).
+  Planned: [Kubernetes](http://kubernetes.io/)
+* asdfasd
 
 
 
@@ -24,7 +25,7 @@ Core contributors:
 * [Mario Macias](http://github.com/mariomac)
 * [David Ortiz](http://github.com/davidor)
 
-Demiurge is possible thanks to the next open source projects:
+:smiling_imp:Demiurge:smiling_imp: is possible thanks to the next open source projects:
 
 * [Spring framework](https://github.com/spring-projects/spring-framework)
 * [OptaPlanner](https://github.com/droolsjbpm/optaplanner)
