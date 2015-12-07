@@ -9,6 +9,7 @@ import javax.jms.*;
 /**
  * Created by mmacias on 3/12/15.
  */
+@Ignore
 public class TestMQQueueSendMsg extends TestCase {
 	@Ignore
 	public void testSendSLAViolation() throws Exception {

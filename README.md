@@ -1,22 +1,57 @@
-![Demiurge image](demiurge.png)
-
-# :smiling_imp:Demiurge:smiling_imp:
+# Demiurge
 
 Bringing order to the (IaaS) Cloud
 
+![Demiurge image](etc/demiurge.png)
+
 ## About
 
-:smiling_imp:Demiurge:smiling_imp: is an Infrastructure-as-a-Service (IaaS) computing resources manager. It enables the optimization of the
+_Demiurge_ is an Infrastructure-as-a-Service (IaaS) computing resources manager. It enables the optimization of the
 management of virtual resources in order to maximise business-level objectives. Namely performance maximisation, price
 minimization and, this is where we focus in, maximization of the energy and ecological efficiency.
 
-:smiling_imp:Demiurge:smiling_imp:'s main features are:
+_Demiurge_'s main features are:
 
+* Support for user-defined scheduling policies as implementations of
+  [OptaPlanner](https://github.com/droolsjbpm/optaplanner)'s scoring functions.
+* Modularity: the _Demiurge_'s core can be connected with different infrastructures and services, to be adapted for
+  different environments.
 * Support for different Infrastructure managers. Currently [OpenStack](https://github.com/openstack/openstack).
-  Planned: [Kubernetes](http://kubernetes.io/)
-* asdfasd
+  Planned: [Kubernetes](http://kubernetes.io/).
+* Support for different Infrastructure Monitoring backanes. Currently [Zabbix](https://github.com/zabbix/zabbix)
+  and [Ganglia](https://github.com/ganglia).
+* Easy management through a clean graphical user interface (see _Screenshots_ section)
 
+## Repository structure
 
+* `core` defines the core functionalities, models and interfaces of _Demiurge_.
+* `plugins` implements the drivers for different infrastructure and monitoring managers.
+* `assemblies` contains subprojects that with different configurations of _Demiurge_, plus some extra code to adapt
+  it to different environments.
+* `client` implements a simple REST client to facilitate the integration of _Demiurge_.
+* `frontend` contains subprojects for GUI and REST services (WIP).
+
+## Some screenshots
+
+Dashboard:
+
+![Dashboard](etc/sshot/dashboard.png)
+
+Listing virtual images:
+
+![Images list](etc/sshot/imageslist.png)
+
+Listing Virtual Machines instances:
+
+![VMs list](etc/sshot/vmslist.png)
+
+## To complete:
+
+* Add documentation about:
+	- Creating an own assembly (beans.xml)
+	- Configuring demiurge's properties file
+	- _Demiurge_'s core architecture
+	- Appending new OptaPlanner policies
 
 ## Credits
 
@@ -25,7 +60,7 @@ Core contributors:
 * [Mario Macias](http://github.com/mariomac)
 * [David Ortiz](http://github.com/davidor)
 
-:smiling_imp:Demiurge:smiling_imp: is possible thanks to the next open source projects:
+_Demiurge_ is possible thanks to the next open source projects:
 
 * [Spring framework](https://github.com/spring-projects/spring-framework)
 * [OptaPlanner](https://github.com/droolsjbpm/optaplanner)
