@@ -2,10 +2,10 @@
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>vmmanagercore</artifactId>
+	<artifactId>core</artifactId>
 	<packaging>jar</packaging>
 
-	<name>vmmanagercore</name>
+	<name>>demiurge-core</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
@@ -189,8 +189,8 @@
 	</build>
 
 	<parent>
-		<groupId>es.bsc</groupId>
-		<artifactId>virtual-machine-manager</artifactId>
+		<groupId>es.bsc.demiurge</groupId>
+		<artifactId>parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 </project>
