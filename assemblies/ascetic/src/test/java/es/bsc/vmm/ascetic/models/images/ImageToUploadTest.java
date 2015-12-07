@@ -18,7 +18,7 @@
 
 package es.bsc.vmm.ascetic.models.images;
 
-import es.bsc.vmm.core.models.images.ImageToUpload;
+import es.bsc.demiurge.core.models.images.ImageToUpload;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

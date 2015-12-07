@@ -1,7 +1,7 @@
 package es.bsc.vmm.ascetic.selfadaptation.options;
 
-import es.bsc.vmm.core.models.scheduling.LocalSearchAlgorithmOptionsSet;
-import es.bsc.vmm.core.selfadaptation.options.AfterVmDeleteSelfAdaptationOps;
+import es.bsc.demiurge.core.models.scheduling.LocalSearchAlgorithmOptionsSet;
+import es.bsc.demiurge.core.selfadaptation.options.AfterVmDeleteSelfAdaptationOps;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

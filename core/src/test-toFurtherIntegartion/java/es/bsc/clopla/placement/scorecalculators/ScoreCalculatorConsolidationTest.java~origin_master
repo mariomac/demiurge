@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package es.bsc.vmm.core.clopla.placement.scorecalculators;
+package es.bsc.demiurge.core.clopla.placement.scorecalculators;
 
 import ClusterState;
 import Host;

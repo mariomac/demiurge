@@ -17,13 +17,13 @@
  * under the License.
  */
 
-package es.bsc.vmm.core.clopla.placement.solver;
+package es.bsc.demiurge.core.clopla.placement.solver;
 
-import es.bsc.vmm.core.clopla.domain.ConstructionHeuristic;
-import es.bsc.vmm.core.clopla.placement.config.Policy;
-import es.bsc.vmm.core.clopla.placement.config.VmPlacementConfig;
-import es.bsc.vmm.core.clopla.placement.config.localsearch.SimulatedAnnealing;
-import es.bsc.vmm.core.clopla.placement.scorecalculators.ScoreCalculatorDistribution;
+import es.bsc.demiurge.core.clopla.domain.ConstructionHeuristic;
+import es.bsc.demiurge.core.clopla.placement.config.Policy;
+import es.bsc.demiurge.core.clopla.placement.config.VmPlacementConfig;
+import es.bsc.demiurge.core.clopla.placement.config.localsearch.SimulatedAnnealing;
+import es.bsc.demiurge.core.clopla.placement.scorecalculators.ScoreCalculatorDistribution;
 import org.junit.Test;
 import org.optaplanner.core.config.constructionheuristic.ConstructionHeuristicSolverPhaseConfig;
 import org.optaplanner.core.config.localsearch.LocalSearchSolverPhaseConfig;

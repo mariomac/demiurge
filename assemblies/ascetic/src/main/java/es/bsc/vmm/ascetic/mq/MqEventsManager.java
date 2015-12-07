@@ -1,13 +1,13 @@
 package es.bsc.vmm.ascetic.mq;
 
 import com.google.gson.Gson;
-import es.bsc.vmm.core.VmmGlobalListener;
-import es.bsc.vmm.core.configuration.VmmConfig;
-import es.bsc.vmm.core.drivers.VmAction;
-import es.bsc.vmm.core.drivers.VmmListener;
-import es.bsc.vmm.core.manager.VmManager;
-import es.bsc.vmm.core.models.vms.Vm;
-import es.bsc.vmm.core.models.vms.VmDeployed;
+import es.bsc.demiurge.core.VmmGlobalListener;
+import es.bsc.demiurge.core.configuration.VmmConfig;
+import es.bsc.demiurge.core.drivers.VmAction;
+import es.bsc.demiurge.core.drivers.VmmListener;
+import es.bsc.demiurge.core.manager.VmManager;
+import es.bsc.demiurge.core.models.vms.Vm;
+import es.bsc.demiurge.core.models.vms.VmDeployed;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 

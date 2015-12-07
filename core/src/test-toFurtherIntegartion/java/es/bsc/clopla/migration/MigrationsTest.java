@@ -1,7 +1,7 @@
-package es.bsc.vmm.core.clopla.migration;
+package es.bsc.demiurge.core.clopla.migration;
 
-import es.bsc.vmm.core.clopla.domain.Host;
-import es.bsc.vmm.core.clopla.domain.Vm;
+import es.bsc.demiurge.core.clopla.domain.Host;
+import es.bsc.demiurge.core.clopla.domain.Vm;
 import org.junit.Before;
 import org.junit.Ignore;
 

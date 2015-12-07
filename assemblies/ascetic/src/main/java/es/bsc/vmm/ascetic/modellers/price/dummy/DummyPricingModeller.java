@@ -19,12 +19,12 @@
 package es.bsc.vmm.ascetic.modellers.price.dummy;
 
 import es.bsc.vmm.ascetic.modellers.price.PricingModeller;
-import es.bsc.vmm.core.clopla.domain.Host;
-import es.bsc.vmm.core.clopla.domain.Vm;
-import es.bsc.vmm.core.drivers.VmAction;
-import es.bsc.vmm.core.models.scheduling.DeploymentPlan;
-import es.bsc.vmm.core.models.scheduling.VmAssignmentToHost;
-import es.bsc.vmm.core.models.vms.VmDeployed;
+import es.bsc.demiurge.core.clopla.domain.Host;
+import es.bsc.demiurge.core.clopla.domain.Vm;
+import es.bsc.demiurge.core.drivers.VmAction;
+import es.bsc.demiurge.core.models.scheduling.DeploymentPlan;
+import es.bsc.demiurge.core.models.scheduling.VmAssignmentToHost;
+import es.bsc.demiurge.core.models.vms.VmDeployed;
 import eu.ascetic.asceticarchitecture.iaas.iaaspricingmodeller.IaaSPricingModeller;
 import eu.ascetic.asceticarchitecture.iaas.iaaspricingmodeller.billing.IaaSPricingModellerBilling;
 import eu.ascetic.asceticarchitecture.iaas.iaaspricingmodeller.energyprovider.EnergyProvider;
@@ -134,7 +134,7 @@ public class DummyPricingModeller implements PricingModeller {
 	}
 
 	@Override
-	public void onPreVmDeployment(es.bsc.vmm.core.models.vms.Vm vm) {
+	public void onPreVmDeployment(es.bsc.demiurge.core.models.vms.Vm vm) {
 
 	}
 }

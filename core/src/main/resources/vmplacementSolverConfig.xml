@@ -20,12 +20,12 @@
 
 <solver>
     <!--<environmentMode>FAST_ASSERT</environmentMode>-->
-    <solutionClass>es.bsc.vmm.core.clopla.domain.ClusterState</solutionClass>
-    <planningEntityClass>es.bsc.vmm.core.clopla.domain.Vm</planningEntityClass>
+    <solutionClass>es.bsc.demiurge.core.clopla.domain.ClusterState</solutionClass>
+    <planningEntityClass>es.bsc.demiurge.core.clopla.domain.Vm</planningEntityClass>
 
     <scoreDirectorFactory>
         <scoreDefinitionType>HARD_SOFT</scoreDefinitionType>
-        <simpleScoreCalculatorClass>es.bsc.vmm.core.clopla.placement.scorecalculators.ScoreCalculatorConsolidation</simpleScoreCalculatorClass>
+        <simpleScoreCalculatorClass>es.bsc.demiurge.core.clopla.placement.scorecalculators.ScoreCalculatorConsolidation</simpleScoreCalculatorClass>
     </scoreDirectorFactory>
 
     <termination>

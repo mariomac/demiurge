@@ -18,10 +18,10 @@
 
 package es.bsc.vmm.ascetic.manager.components;
 
-import es.bsc.vmm.core.cloudmiddleware.CloudMiddleware;
-import es.bsc.vmm.core.manager.components.ImageManager;
-import es.bsc.vmm.core.models.images.ImageToUpload;
-import es.bsc.vmm.core.models.images.ImageUploaded;
+import es.bsc.demiurge.core.cloudmiddleware.CloudMiddleware;
+import es.bsc.demiurge.core.manager.components.ImageManager;
+import es.bsc.demiurge.core.models.images.ImageToUpload;
+import es.bsc.demiurge.core.models.images.ImageUploaded;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;

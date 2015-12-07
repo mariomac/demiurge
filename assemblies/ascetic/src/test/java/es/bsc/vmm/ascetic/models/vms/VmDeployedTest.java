@@ -18,7 +18,7 @@
 
 package es.bsc.vmm.ascetic.models.vms;
 
-import es.bsc.vmm.core.models.vms.VmDeployed;
+import es.bsc.demiurge.core.models.vms.VmDeployed;
 import org.junit.Test;
 
 import java.util.Date;

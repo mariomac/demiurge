@@ -44,10 +44,16 @@
 
     <dependencies>
         <dependency>
-            <groupId>eu.ascetic.utils</groupId>
-            <artifactId>zabbix-api</artifactId>
-            <version>0.1-SNAPSHOT</version>
+            <groupId>es.bsc.demiurge</groupId>
+            <artifactId>zabbix-monitoring</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>es.bsc.demiurge</groupId>
+            <artifactId>core</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
         <dependency>
             <groupId>eu.ascetic.iaas</groupId>
             <artifactId>energy-modeller</artifactId>
@@ -97,11 +103,12 @@
             <version>1.6.0</version>
             <scope>test</scope>
         </dependency>
-		<dependency>
-			<groupId>es.bsc</groupId>
-			<artifactId>vmmanagercore</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+        <dependency>
+            <groupId>es.bsc.demiurge</groupId>
+            <artifactId>fake-plugins</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
 	</dependencies>
 
     <build>

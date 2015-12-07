@@ -19,14 +19,14 @@
 package es.bsc.vmm.ascetic.scheduler.legacy;
 
 import es.bsc.vmm.ascetic.modellers.price.ascetic.AsceticPricingModellerAdapter;
-import es.bsc.vmm.core.logging.VMMLogger;
-import es.bsc.vmm.core.manager.components.EstimatesManager;
-import es.bsc.vmm.core.models.scheduling.DeploymentPlan;
-import es.bsc.vmm.core.models.scheduling.VmAssignmentToHost;
-import es.bsc.vmm.core.models.vms.Vm;
-import es.bsc.vmm.core.models.vms.VmDeployed;
-import es.bsc.vmm.core.monitoring.hosts.Host;
-import es.bsc.vmm.core.scheduler.schedulingalgorithms.SchedAlgorithm;
+import es.bsc.demiurge.core.logging.VMMLogger;
+import es.bsc.demiurge.core.manager.components.EstimatesManager;
+import es.bsc.demiurge.core.models.scheduling.DeploymentPlan;
+import es.bsc.demiurge.core.models.scheduling.VmAssignmentToHost;
+import es.bsc.demiurge.core.models.vms.Vm;
+import es.bsc.demiurge.core.models.vms.VmDeployed;
+import es.bsc.demiurge.core.monitoring.hosts.Host;
+import es.bsc.demiurge.core.scheduler.schedulingalgorithms.SchedAlgorithm;
 
 import java.util.ArrayList;
 import java.util.List;
