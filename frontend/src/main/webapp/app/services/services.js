@@ -20,6 +20,6 @@
 
     angular
         .module('vmmanager.services', [])
-        .constant('BASE_URL', 'http://10.4.0.15:34372/vmmanager/');
+        .constant('BASE_URL', '/api/v1');
 
 })();

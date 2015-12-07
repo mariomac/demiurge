@@ -18,10 +18,11 @@
 
 package es.bsc.demiurge.core.monitoring.hosts;
 
-import es.bsc.demiurge.core.logging.VMMLogger;
 import es.bsc.demiurge.core.models.hosts.HostPowerButtonAction;
 import es.bsc.demiurge.core.models.vms.Vm;
 import es.bsc.demiurge.core.models.hosts.ServerLoad;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -45,6 +46,7 @@ public abstract class Host {
     
     protected AtomicBoolean turnedOff = new AtomicBoolean(false); // Several threads might try to turn on/off
 
+    private Logger logger = LogManager.getLogger(Host.class);
 
     /**
      * Class constructor
@@ -198,11 +200,11 @@ public abstract class Host {
         // In order to avoid blocking the main thread of execution, this is executed in a different thread.
         Thread thread;
         if (turnedOff.get()) {
-            VMMLogger.logServerTurnOnRequest(hostname);
+            logger.debug("[VMM] Received request to turn on server " + hostname);
             thread = new Thread(new HostButtonPresserRunnable(this, HostPowerButtonAction.TURN_ON));
         }
         else {
-            VMMLogger.logServerTurnOffRequest(hostname);
+            logger.debug("[VMM] Received request to turn off server " + hostname);
             thread = new Thread(new HostButtonPresserRunnable(this, HostPowerButtonAction.TURN_OFF));
         }
         thread.start();
@@ -214,7 +216,7 @@ public abstract class Host {
     public void turnOn() {
 		// This functionality is faked until a physical way to do this is available
         turnedOff.getAndSet(false);
-        VMMLogger.logServerTurnedOn(hostname);
+        logger.debug("[VMM] Server " + hostname + " has been turned on");
     }
 
     /**
@@ -223,7 +225,7 @@ public abstract class Host {
     public void turnOff() {
 		// This functionality is faked until a physical way to do this is available
         turnedOff.getAndSet(true);
-        VMMLogger.logServerTurnedOff(hostname);
+        logger.debug("[VMM] Server " + hostname + " has been turned off");
     }
 
     /**

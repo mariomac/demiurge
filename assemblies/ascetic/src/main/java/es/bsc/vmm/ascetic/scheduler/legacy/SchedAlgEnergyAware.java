@@ -29,7 +29,6 @@ import es.bsc.demiurge.core.monitoring.hosts.Host;
 import es.bsc.demiurge.core.scheduler.schedulingalgorithms.SchedAlgorithm;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -66,7 +65,8 @@ public class SchedAlgEnergyAware implements SchedAlgorithm {
         double avgPowerBestDeploymentPlan = Double.MAX_VALUE;
         for (DeploymentPlan deploymentPlan: deploymentPlans) {
             double predictedAvgPower = getPredictedAvgPowerDeploymentPlan(energyModeller, vmsDeployed, deploymentPlan);
-            VMMLogger.logPredictedAvgPowerForDeploymentPlan(deploymentPlan, predictedAvgPower, deploymentId);
+            VMMLogger.logger.debug("[VMM] predicted avg power deployment plan [ " + deploymentPlan.toString()
+                    + "]: " + predictedAvgPower + "W --id:" + deploymentId);
             if (predictedAvgPower < avgPowerBestDeploymentPlan) {
                 bestDeploymentPlan = deploymentPlan;
                 avgPowerBestDeploymentPlan = predictedAvgPower;

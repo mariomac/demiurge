@@ -23,7 +23,7 @@ import es.bsc.demiurge.core.models.scheduling.DeploymentPlan;
 import es.bsc.demiurge.core.models.vms.VmDeployed;
 import es.bsc.demiurge.core.models.scheduling.VmAssignmentToHost;
 import es.bsc.demiurge.core.monitoring.hosts.Host;
-import es.bsc.demiurge.core.logging.VMMLogger;
+import org.apache.log4j.LogManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -103,7 +103,8 @@ public class SchedAlgGroupByApp implements SchedAlgorithm {
         int vmsFriendsForBestDeploymentPlan = -1;
         for (DeploymentPlan deploymentPlan: deploymentPlans) {
             int vmsFriendsForDeploymentPlan = countVmsFriendsForDeploymentPlan(vmsDeployed, deploymentPlan);
-            VMMLogger.logVmsSameAppInSameHost(deploymentPlan, vmsFriendsForDeploymentPlan, deploymentId);
+            LogManager.getLogger(getClass()).debug("[VMM] number of VMs of same application in the same host for deployment plan [ " +
+                    deploymentPlan.toString() + "]: " + vmsFriendsForDeploymentPlan + " --id:" + deploymentId);
             if (vmsFriendsForDeploymentPlan > vmsFriendsForBestDeploymentPlan) {
                 bestDeploymentPlan = deploymentPlan;
                 vmsFriendsForBestDeploymentPlan = vmsFriendsForDeploymentPlan;

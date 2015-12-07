@@ -13,6 +13,7 @@
 		<module>drivers</module>
 		<!--module>power-button-presser</module-->
 		<!--module>vmm-client</module-->
+		<module>frontend</module>
 		<module>assemblies</module>
 	</modules>
 </project>

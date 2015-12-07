@@ -18,11 +18,11 @@
 
 package es.bsc.demiurge.core.scheduler.schedulingalgorithms;
 
-import es.bsc.demiurge.core.logging.VMMLogger;
 import es.bsc.demiurge.core.manager.components.EstimatesManager;
 import es.bsc.demiurge.core.models.scheduling.DeploymentPlan;
 import es.bsc.demiurge.core.models.vms.VmDeployed;
 import es.bsc.demiurge.core.monitoring.hosts.Host;
+import org.apache.log4j.LogManager;
 
 import java.util.List;
 
@@ -46,7 +46,8 @@ public class SchedAlgRandom implements SchedAlgorithm {
         double bestDeploymentPlanScore = -1;
         for (DeploymentPlan deploymentPlan: deploymentPlans) {
             double deploymentPlanScore = Math.random();
-            VMMLogger.logDeploymentPlanRandomScore(deploymentPlan, deploymentPlanScore, deploymentId);
+            LogManager.getLogger(getClass()).debug("[VMM] random score for deployment plan [ " + deploymentPlan.toString() + "]: " + deploymentPlanScore
+                    + " --id:" + deploymentId);
             if (deploymentPlanScore > bestDeploymentPlanScore) {
                 bestDeploymentPlan = deploymentPlan;
                 bestDeploymentPlanScore = deploymentPlanScore;

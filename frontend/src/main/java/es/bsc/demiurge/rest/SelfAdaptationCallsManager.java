@@ -16,50 +16,47 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package es.bsc.demiurge.core.rest;
+package es.bsc.demiurge.rest;
 
 import com.google.gson.Gson;
-import es.bsc.demiurge.core.monitoring.hosts.Host;
 import es.bsc.demiurge.core.manager.VmManager;
-
-import java.util.List;
+import es.bsc.demiurge.core.selfadaptation.options.SelfAdaptationOptions;
 
 /**
- * This class implements the REST calls that are related with the nodes of the infrastructure.
+ * This class implements the REST calls that are related with self adaptation.
  *
  * @author Mario Macias (github.com/mariomac), David Ortiz Lopez (david.ortiz@bsc.es)
  */
-public class NodeCallsManager {
+public class SelfAdaptationCallsManager {
 
-    private Gson gson = new Gson();
-    private VmManager vmManager;
+    private final Gson gson = new Gson();
+    private final VmManager vmManager;
 
     /**
      * Class constructor.
+     *
+     * @param vmManager the VM manager
      */
-    public NodeCallsManager(VmManager vmManager) {
+    public SelfAdaptationCallsManager(VmManager vmManager) {
         this.vmManager = vmManager;
     }
 
-    public String getNodes() {
-        // TODO Refactor this ugly hack
-        List<Host> hosts = vmManager.getHosts();
-        String result = "{\"nodes\":[";
-        for (int i = 0; i < hosts.size(); ++i) {
-            result = result.concat(gson.toJson(hosts.get(i), Host.class));
-            if (i != hosts.size() -1) {
-                result = result.concat(",");
-            }
-        }
-        return result.concat("]}");
+    /**
+     * Returns the self-adaptation options for the self-adaptation capabilities of the VMM.
+     *
+     * @return JSON with the options
+     */
+    public String getSelfAdaptationOptions() {
+        return gson.toJson(vmManager.getSelfAdaptationOptions(), SelfAdaptationOptions.class);
     }
 
-    public String getVMsDeployedInNode(String hostname) {
-        return gson.toJson(vmManager.getHost(hostname), Host.class);
-    }
-    
-    public void pressHostPowerButton(String hostname) {
-        vmManager.pressHostPowerButton(hostname);
+    /**
+     * This function updates the configuration options for the self-adaptation capabilities of the VMM.
+     *
+     * @param options JSON with the options
+     */
+    public void saveSelfAdaptationOptions(String options) {
+        vmManager.saveSelfAdaptationOptions(gson.fromJson(options, SelfAdaptationOptions.class));
     }
 
 }
