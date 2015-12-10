@@ -20,13 +20,13 @@ package es.bsc.vmm.ascetic.scheduler.legacy;
 
 import es.bsc.vmm.ascetic.modellers.energy.EnergyModeller;
 import es.bsc.vmm.ascetic.modellers.energy.ascetic.AsceticEnergyModellerAdapter;
-import es.bsc.demiurge.core.logging.VMMLogger;
 import es.bsc.demiurge.core.manager.components.EstimatesManager;
 import es.bsc.demiurge.core.models.scheduling.DeploymentPlan;
 import es.bsc.demiurge.core.models.scheduling.VmAssignmentToHost;
 import es.bsc.demiurge.core.models.vms.VmDeployed;
 import es.bsc.demiurge.core.monitoring.hosts.Host;
 import es.bsc.demiurge.core.scheduler.schedulingalgorithms.SchedAlgorithm;
+import org.apache.log4j.LogManager;
 
 
 import java.util.List;
@@ -65,7 +65,7 @@ public class SchedAlgEnergyAware implements SchedAlgorithm {
         double avgPowerBestDeploymentPlan = Double.MAX_VALUE;
         for (DeploymentPlan deploymentPlan: deploymentPlans) {
             double predictedAvgPower = getPredictedAvgPowerDeploymentPlan(energyModeller, vmsDeployed, deploymentPlan);
-            VMMLogger.logger.debug("[VMM] predicted avg power deployment plan [ " + deploymentPlan.toString()
+			LogManager.getLogger(SchedAlgEnergyAware.class).debug("[VMM] predicted avg power deployment plan [ " + deploymentPlan.toString()
                     + "]: " + predictedAvgPower + "W --id:" + deploymentId);
             if (predictedAvgPower < avgPowerBestDeploymentPlan) {
                 bestDeploymentPlan = deploymentPlan;

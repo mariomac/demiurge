@@ -35,6 +35,7 @@ import org.optaplanner.core.impl.score.director.simple.SimpleScoreCalculator;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -52,7 +53,8 @@ public enum VmmConfig {
 	// Configuration file
 	private static final String PROPNAME_CONF_FILE = "config";
 
-    private static final String DEFAULT_CONF_FILE_LOCATION = "/etc/ascetic/vmm/vmmconfig.properties";
+	private static final String DEFAULT_CONF_FILE_LOCATION = "/etc/vmm/config.properties";
+	private static final String OLD_ASCETIC_DEFAULT_CONF_FILE_LOCATION = "/etc/ascetic/vmm/vmmconfig.properties";
     private static final String DEFAULT_DB_NAME = "VmManagerDb";
     private static final String DEFAULT_BEANS_LOCATION = "/Beans.xml";
 
@@ -104,7 +106,14 @@ public enum VmmConfig {
     private Configuration getPropertiesObjectFromConfigFile() {
 		Logger log = LogManager.getLogger(VmmConfig.class);
         try {
-			String customFileLocation = System.getProperty(PROPNAME_CONF_FILE,DEFAULT_CONF_FILE_LOCATION);
+			// TO ALLOW COMPATIBILITY WITH OLDER VERSIONS OF VMM (Ascetic_exclusive)
+			// If there is a config file in the newest default location, looks for it
+			// if not, it looks in the old Ascetic default location
+			String defaultFileName = OLD_ASCETIC_DEFAULT_CONF_FILE_LOCATION;
+			if(new File(DEFAULT_CONF_FILE_LOCATION).exists()) {
+				defaultFileName = DEFAULT_CONF_FILE_LOCATION;
+			}
+			String customFileLocation = System.getProperty(PROPNAME_CONF_FILE, defaultFileName);
 
             log.debug("Loading configuration file: " + customFileLocation);
             return new PropertiesConfiguration(customFileLocation);
