@@ -52,6 +52,12 @@ Listing Virtual Machines instances:
 	- Configuring demiurge's properties file
 	- _Demiurge_'s core architecture
 	- Appending new OptaPlanner policies
+	
+* Allow frontend configuration according to given project assembly
+	- Allow per-project branding
+	
+
+
 
 ## Credits
 

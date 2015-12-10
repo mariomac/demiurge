@@ -19,13 +19,16 @@
 package es.bsc.demiurge.rest;
 
 import es.bsc.demiurge.core.configuration.VmmConfig;
+import org.eclipse.jetty.rewrite.handler.RedirectPatternRule;
+import org.eclipse.jetty.rewrite.handler.RewriteHandler;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.ContextHandler;
+import org.eclipse.jetty.server.handler.HandlerCollection;
 import org.eclipse.jetty.server.handler.ResourceHandler;
-import org.eclipse.jetty.webapp.WebAppContext;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.util.resource.Resource;
 
-
-import java.io.IOException;
-import java.net.URI;
 import java.net.URL;
 
 /**
@@ -37,27 +40,66 @@ import java.net.URL;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        VmmConfig.INSTANCE.loadBeansConfig();
+        //VmmConfig.INSTANCE.loadBeansConfig();
 
 		int port = 80;
 		if(VmmConfig.INSTANCE.deployBaseUrl == null) {
 			URL url = new URL(VmmConfig.INSTANCE.deployBaseUrl);
 			if(url.getPort() > 0) port = url.getPort();
 		}
-		Server server = new Server(port);
 
-		ResourceHandler rh = new ResourceHandler();
-		rh.setResourceBase(Main.class.getResource("/").toString());
-		rh.setWelcomeFiles(new String[] { "index.html" });
+		// Configure jersey servlet for rest services
+//		ServletContextHandler servletHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
+//		servletHandler.setContextPath("/vmmanager");
+//		ServletHolder jerseyServlet = servletHandler.addServlet(
+//				org.glassfish.jersey.servlet.ServletContainer.class, "/*");
+//		jerseyServlet.setInitOrder(0);
+//		// Tells the Jersey Servlet which REST service/class to load.
+//		jerseyServlet.setInitParameter(
+//				"jersey.config.server.provider.classnames",
+//				VmManagerRest.class.getCanonicalName());
 
-		WebAppContext ctx = new WebAppContext();
-		ctx.setContextPath("/");
-		ctx.setWar();
-		ctx.setWelcomeFiles();
+		// Configure static assets
+		ResourceHandler resourceHandler = new ResourceHandler();
+		resourceHandler.setWelcomeFiles(new String[] {"index.html"});
+		resourceHandler.setResourceBase(Main.class.getClassLoader().getResource("webapp").toExternalForm());
+		resourceHandler.setDirectoriesListed(true);
 
-		server.setHandler(ctx);
-		server.start();
-		server.join();
-    }
+		ContextHandler resourceCtxHandler = new ContextHandler("/gui");
+		resourceCtxHandler.setHandler(resourceHandler);
+
+		HandlerCollection handlers = new HandlerCollection();
+//		handlers.addHandler(servletHandler);
+		handlers.addHandler(resourceCtxHandler);
+
+		// Redirect from /gui to /gui/
+		RewriteHandler rewriteHandler = new RewriteHandler();
+		RedirectPatternRule rpr = new RedirectPatternRule();
+		rpr.setPattern("/gui");
+		rpr.setLocation("/gui/");
+		rewriteHandler.addRule(rpr);
+
+		handlers.addHandler(rewriteHandler);
+
+
+		final Server jettyServer = new Server(port);
+		jettyServer.setHandler(handlers);
+
+		jettyServer.start();
+		jettyServer.join();
+
+		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+			@Override
+			public void run() {
+				System.out.println("Stopping jetty");
+				try {
+					jettyServer.stop();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				jettyServer.destroy();
+			}
+		}));
+	}
 
 }
