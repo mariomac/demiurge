@@ -13,7 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>ascetic</module>
-        <!--module>renewit</module-->
+        <module>renewit</module>
 		<!--module>test-local</module-->
 	</modules>
 

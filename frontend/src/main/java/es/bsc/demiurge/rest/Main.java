@@ -18,8 +18,15 @@
 
 package es.bsc.demiurge.rest;
 
+import es.bsc.demiurge.core.configuration.VmmConfig;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.ResourceHandler;
+import org.eclipse.jetty.webapp.WebAppContext;
+
+
 import java.io.IOException;
 import java.net.URI;
+import java.net.URL;
 
 /**
  * 
@@ -29,33 +36,28 @@ import java.net.URI;
  */
 public class Main {
 
-    /*
-    public static final String BASE_URI = VmmConfig.INSTANCE.deployBaseUrl;
-    public static final String DEPLOY_PACKAGE = VmmConfig.INSTANCE.deployPackage;
-    public static final String STOP_MESSAGE = "Press any key to stop the server...";
-
-    @SuppressWarnings("unchecked")
-    public static HttpServer createServer() {
-        final ResourceConfig rc = new PackagesResourceConfig(DEPLOY_PACKAGE);
-        rc.getContainerResponseFilters().add(CorsSupportFilter.class);
-
-        try {
-            URI baseUri = URI.create(BASE_URI);
-            return GrizzlyServerFactory.createHttpServer(baseUri, rc);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         VmmConfig.INSTANCE.loadBeansConfig();
 
-		final HttpServer server = createServer();
-        server.start();
-        System.out.println(STOP_MESSAGE);
-        System.in.read();
+		int port = 80;
+		if(VmmConfig.INSTANCE.deployBaseUrl == null) {
+			URL url = new URL(VmmConfig.INSTANCE.deployBaseUrl);
+			if(url.getPort() > 0) port = url.getPort();
+		}
+		Server server = new Server(port);
+
+		ResourceHandler rh = new ResourceHandler();
+		rh.setResourceBase(Main.class.getResource("/").toString());
+		rh.setWelcomeFiles(new String[] { "index.html" });
+
+		WebAppContext ctx = new WebAppContext();
+		ctx.setContextPath("/");
+		ctx.setWar();
+		ctx.setWelcomeFiles();
+
+		server.setHandler(ctx);
+		server.start();
+		server.join();
     }
-    */
+
 }

@@ -19,7 +19,6 @@
 package es.bsc.vmm.ascetic.mq;
 
 import es.bsc.demiurge.core.configuration.VmmConfig;
-import es.bsc.demiurge.core.logging.VMMLogger;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -67,7 +66,7 @@ public class ActiveMqAdapter {
             session.close();
             connection.close();
         } catch (Exception e) {
-			VMMLogger.logger.warn("[VMM] Could not send topic " + topic + " to the message queue");
+			LogManager.getLogger(ActiveMqAdapter.class).warn("[VMM] Could not send topic " + topic + " to the message queue");
 		} finally {
             try {
                 session.close();
