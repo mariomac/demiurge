@@ -16,9 +16,9 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package es.bsc.vmm.ascetic.rest;
+package es.bsc.vmm.ascetic.rest.rest;
 
-import es.bsc.demiurge.core.rest.VmmRestInputValidator;
+import es.bsc.demiurge.rest.VmmRestInputValidator;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
