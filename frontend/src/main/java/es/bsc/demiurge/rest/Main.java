@@ -27,9 +27,6 @@ import org.eclipse.jetty.server.handler.HandlerCollection;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import org.eclipse.jetty.util.resource.Resource;
-
-import java.net.URL;
 
 /**
  * 
@@ -40,24 +37,22 @@ import java.net.URL;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        //VmmConfig.INSTANCE.loadBeansConfig();
-
-		int port = 80;
-		if(VmmConfig.INSTANCE.deployBaseUrl == null) {
-			URL url = new URL(VmmConfig.INSTANCE.deployBaseUrl);
-			if(url.getPort() > 0) port = url.getPort();
-		}
+        VmmConfig.INSTANCE.loadBeansConfig();
 
 		// Configure jersey servlet for rest services
-//		ServletContextHandler servletHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
-//		servletHandler.setContextPath("/vmmanager");
-//		ServletHolder jerseyServlet = servletHandler.addServlet(
-//				org.glassfish.jersey.servlet.ServletContainer.class, "/*");
-//		jerseyServlet.setInitOrder(0);
-//		// Tells the Jersey Servlet which REST service/class to load.
-//		jerseyServlet.setInitParameter(
-//				"jersey.config.server.provider.classnames",
-//				VmManagerRest.class.getCanonicalName());
+		ServletContextHandler restContexthandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
+		restContexthandler.setContextPath("/api");
+
+		ServletHolder jerseyServlet = restContexthandler.addServlet(
+				org.glassfish.jersey.servlet.ServletContainer.class, "/*");
+		jerseyServlet.setInitOrder(0);
+
+		// Tells the Jersey Servlet which REST service/class to load.
+//		jerseyServlet.setInitParameter("jersey.config.server.provider.resourceConfigClass", "com.sun.jersey.api.core.PackagesResourceConfig");
+		jerseyServlet.setInitParameter(
+				"jersey.config.server.provider.classnames",VmManagerRestV1.class.getCanonicalName());
+
+		// Tells the Jersey Servlet which REST service/class to load.
 
 		// Configure static assets
 		ResourceHandler resourceHandler = new ResourceHandler();
@@ -68,9 +63,9 @@ public class Main {
 		ContextHandler resourceCtxHandler = new ContextHandler("/gui");
 		resourceCtxHandler.setHandler(resourceHandler);
 
-		HandlerCollection handlers = new HandlerCollection();
-//		handlers.addHandler(servletHandler);
-		handlers.addHandler(resourceCtxHandler);
+		HandlerCollection handlerCollection = new HandlerCollection();
+		handlerCollection.addHandler(restContexthandler);
+		handlerCollection.addHandler(resourceCtxHandler);
 
 		// Redirect from /gui to /gui/
 		RewriteHandler rewriteHandler = new RewriteHandler();
@@ -79,11 +74,11 @@ public class Main {
 		rpr.setLocation("/gui/");
 		rewriteHandler.addRule(rpr);
 
-		handlers.addHandler(rewriteHandler);
+		handlerCollection.addHandler(rewriteHandler);
 
 
-		final Server jettyServer = new Server(port);
-		jettyServer.setHandler(handlers);
+		final Server jettyServer = new Server(VmmConfig.INSTANCE.connectionPort);
+		jettyServer.setHandler(handlerCollection);
 
 		jettyServer.start();
 		jettyServer.join();

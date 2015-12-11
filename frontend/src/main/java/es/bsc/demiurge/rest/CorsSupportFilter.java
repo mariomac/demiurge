@@ -19,39 +19,32 @@
 package es.bsc.demiurge.rest;
 
 
-import org.glassfish.jersey.server.ContainerRequest;
-import org.glassfish.jersey.server.ContainerResponse;
-
-import javax.ws.rs.container.ContainerRequestContext;
-import javax.ws.rs.container.ContainerResponseContext;
-import javax.ws.rs.container.ContainerResponseFilter;
-import java.io.IOException;
-
 /**
  * CORS (cross-origin resource sharing) support filter. I could not connect to the REST service from an
  * external application without applying this CORS filter. For more information about CORS check
  * http://enable-cors.org/
  *
  * @author Mario Macias (github.com/mariomac), David Ortiz Lopez (david.ortiz@bsc.es)
- *
+ * @deprecated
  */
-public class CorsSupportFilter implements ContainerResponseFilter {
+@Deprecated
+public class CorsSupportFilter { //implements ContainerResponseFilter {
 
-    @Override
-    public void filter(ContainerRequestContext containerRequestContext, ContainerResponseContext containerResponseContext) throws IOException {
-    /*
-
-
-        resp.getHttpHeaders().putSingle("Access-Control-Allow-Origin", "*");
-
-        resp.getHttpHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-
-        if (null != req.getHeaderValue("Access-Control-Request-Headers")) {
-            resp.getHttpHeaders().putSingle("Access-Control-Allow-Headers", req.getHeaderValue("Access-Control-Request-Headers"));
-        }
-        return resp;
-        */
-    }
+//    @Override
+//    public void filter(ContainerRequestContext containerRequestContext, ContainerResponseContext containerResponseContext) throws IOException {
+//    /*
+//
+//
+//        resp.getHttpHeaders().putSingle("Access-Control-Allow-Origin", "*");
+//
+//        resp.getHttpHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+//
+//        if (null != req.getHeaderValue("Access-Control-Request-Headers")) {
+//            resp.getHttpHeaders().putSingle("Access-Control-Allow-Headers", req.getHeaderValue("Access-Control-Request-Headers"));
+//        }
+//        return resp;
+//        */
+//    }
 
 
 }

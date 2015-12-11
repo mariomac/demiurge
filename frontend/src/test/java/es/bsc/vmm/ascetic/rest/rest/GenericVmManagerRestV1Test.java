@@ -16,7 +16,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package es.bsc.vmm.ascetic.rest;
+package es.bsc.vmm.ascetic.rest.rest;
 
 import com.google.gson.*;
 import com.jayway.restassured.RestAssured;
@@ -40,7 +40,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 @Ignore
-public class GenericVmManagerRestTest {
+public class GenericVmManagerRestV1Test {
 
     // Testing configuration variables
     private static String testImageUrl;
