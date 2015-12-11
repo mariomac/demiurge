@@ -16,12 +16,12 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package es.bsc.monitoring;
+package es.bsc.demiurge.monitoring.ganglia;
 
-import es.bsc.monitoring.ganglia.Ganglia;
-import es.bsc.monitoring.ganglia.infrastructure.Cluster;
-import es.bsc.monitoring.ganglia.infrastructure.ClusterSummary;
-import es.bsc.monitoring.ganglia.infrastructure.Host;
+import es.bsc.demiurge.monitoring.ganglia.Ganglia;
+import es.bsc.demiurge.monitoring.ganglia.Cluster;
+import es.bsc.demiurge.monitoring.ganglia.ClusterSummary;
+import es.bsc.demiurge.monitoring.ganglia.Host;
 import junit.framework.Assert;
 import org.junit.Test;
 

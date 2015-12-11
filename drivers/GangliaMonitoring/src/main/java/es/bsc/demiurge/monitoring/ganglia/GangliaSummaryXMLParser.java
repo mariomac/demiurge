@@ -16,15 +16,9 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package es.bsc.monitoring.ganglia.configuration;
+package es.bsc.demiurge.monitoring.ganglia;
 
-/**
- *
- * @author mcanuto
- */
-import es.bsc.monitoring.ganglia.infrastructure.Cluster;
-import es.bsc.monitoring.ganglia.infrastructure.Host;
-import es.bsc.monitoring.ganglia.infrastructure.Metric;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -34,18 +28,18 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- *
+ * 
  * SAX parser to create a grid configuration from a XML stream.
  * XML schema corresponds to a GMetad XML output.
  * 
  * @author Mauro Canuto <mauro.canuto@bsc.es>
  */
-public class GangliaXMLParser extends DefaultHandler implements GangliaMetKeys {
+class GangliaSummaryXMLParser extends DefaultHandler implements GangliaMetKeys {
 
-    private List<Cluster> grid;
-    private Cluster currentCluster;
-    private List<Host> currentClusterHosts;
-    private Host currentHost;
+    private List<ClusterSummary> grid;
+    private ClusterSummary currentCluster;
+    private List<HostsSummary> currentClusterHosts;
+    private HostsSummary currentHost;
     private List<Metric> currentHostMetrics;
     private Metric currentMetric;
     private HashMap<String, String> extraData;
@@ -57,16 +51,13 @@ public class GangliaXMLParser extends DefaultHandler implements GangliaMetKeys {
      */
     @Override
     public void endElement(String uri, String localName, String name) throws SAXException {
-        if (name.equals(METRIC)) {
+        if (name.equals(METRICS)) {
             this.currentMetric.setExtraData(extraData);
             this.currentHostMetrics.add(currentMetric);
 
-        } else if (name.equals(HOST)) {
-            this.currentHost.setMetrics(currentHostMetrics);
-            this.currentClusterHosts.add(currentHost);
-
-        } else if (name.equals(CLUSTER)) {
-            this.currentCluster.setHosts(currentClusterHosts);
+        }  else if (name.equals(CLUSTER)) {
+            this.currentCluster.setHosts(currentHost);
+            this.currentCluster.setMetrics(currentHostMetrics);
             this.grid.add(currentCluster);
         }
     }
@@ -75,9 +66,10 @@ public class GangliaXMLParser extends DefaultHandler implements GangliaMetKeys {
      * {@inheritDoc}
      * @throws org.xml.sax.SAXException
      */
+    
     @Override
     public void startDocument() throws SAXException {
-        this.grid = new ArrayList<Cluster>();
+        this.grid = new ArrayList<ClusterSummary>();
     }
 
     /**
@@ -88,7 +80,7 @@ public class GangliaXMLParser extends DefaultHandler implements GangliaMetKeys {
      */
     @Override
     public void startElement(String uri, String localName, String name, Attributes atts) throws SAXException {
-        if (name.equals(METRIC)) {
+        if (name.equals(METRICS)) {
             this.currentMetric = new Metric(atts.getValue(NAME), atts.getValue(VAL), atts.getValue(TYPE),
                     atts.getValue(UNITS), atts.getValue(TN), atts.getValue(TMAX), atts.getValue(DMAX),
                     atts.getValue(SLOPE), atts.getValue(SOURCE));
@@ -97,16 +89,16 @@ public class GangliaXMLParser extends DefaultHandler implements GangliaMetKeys {
         } else if (name.equals(EXTRA_ELEMENT)) {
             this.extraData.put(atts.getValue(NAME), atts.getValue(VAL));
 
-        } else if (name.equals(HOST)) {
-            this.currentHost = new Host(atts.getValue(NAME), atts.getValue(IP), atts.getValue(REPORTED),
-                    atts.getValue(TN), atts.getValue(TMAX), atts.getValue(DMAX), atts.getValue(LOCATION),
-                    atts.getValue(GMOND_STARTED));
-            this.currentHostMetrics = new ArrayList<Metric>();
+        } else if (name.equals(HOSTS)) {
+            this.currentHost = new HostsSummary(atts.getValue(UP), atts.getValue(DOWN), atts.getValue(SOURCE_HOST));
+            
 
         } else if (name.equals(CLUSTER)) {
-            this.currentCluster = new Cluster(atts.getValue(NAME), atts.getValue(LOCALTIME), atts.getValue(OWNER),
+            
+            this.currentCluster = new ClusterSummary(atts.getValue(NAME), atts.getValue(LOCALTIME), atts.getValue(OWNER),
                     atts.getValue(LATLONG), atts.getValue(URL));
-            this.currentClusterHosts = new ArrayList<Host>();
+            this.currentHostMetrics = new ArrayList<Metric>();
+            
         }       
     }
 
@@ -115,7 +107,7 @@ public class GangliaXMLParser extends DefaultHandler implements GangliaMetKeys {
      *
      * @return a grid configuration
      */
-    public List<Cluster> getGridConfiguration() {
+    public List<ClusterSummary> getGridConfiguration() {
         return this.grid;
     }
 }

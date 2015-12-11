@@ -1,5 +1,5 @@
 
-package es.bsc.monitoring.exceptions;
+package es.bsc.demiurge.core.monitoring.exceptions;
 
 /**
  * @author Mauro Canuto <mauro.canuto@bsc.es>
