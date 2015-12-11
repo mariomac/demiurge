@@ -18,7 +18,7 @@ _Demiurge_'s main features are:
   different environments.
 * Support for different Infrastructure managers. Currently [OpenStack](https://github.com/openstack/openstack).
   Planned: [Kubernetes](http://kubernetes.io/).
-* Support for different Infrastructure Monitoring backanes. Currently [Zabbix](https://github.com/zabbix/zabbix)
+* Support for different Infrastructure Monitoring backends. Currently [Zabbix](https://github.com/zabbix/zabbix)
   and [Ganglia](https://github.com/ganglia).
 * Easy management through a clean graphical user interface (see _Screenshots_ section)
 
@@ -26,7 +26,7 @@ _Demiurge_'s main features are:
 
 * `core` defines the core functionalities, models and interfaces of _Demiurge_.
 * `drivers` implements the drivers for different infrastructure and monitoring managers.
-* `assemblies` contains subprojects that with different configurations of _Demiurge_, plus some extra code to adapt
+* `assemblies` contains subprojects with different configurations of _Demiurge_, plus some extra code to adapt
   it to different environments.
 * `client` implements a simple REST client to facilitate the integration of _Demiurge_.
 * `frontend` contains subprojects for GUI and REST services (WIP).
@@ -65,6 +65,7 @@ Core contributors:
 
 * [Mario Macias](http://github.com/mariomac)
 * [David Ortiz](http://github.com/davidor)
+* [Mauro Canuto](https://github.com/maurocanuto)
 
 _Demiurge_ is possible thanks to the next open source projects:
 
