@@ -16,13 +16,9 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package es.bsc.monitoring.ganglia.parsing;
+package es.bsc.demiurge.monitoring.ganglia;
 
-import es.bsc.monitoring.exceptions.MonitoringException;
-import es.bsc.monitoring.ganglia.configuration.GangliaSummaryXMLParser;
-import es.bsc.monitoring.ganglia.configuration.GangliaXMLParser;
-import es.bsc.monitoring.ganglia.infrastructure.Cluster;
-import es.bsc.monitoring.ganglia.infrastructure.ClusterSummary;
+import es.bsc.demiurge.core.monitoring.exceptions.MonitoringException;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -37,7 +33,7 @@ import java.util.List;
  * @author Mauro Canuto <mauro.canuto@bsc.es>
  *
  */
-public class ParseGanglia {
+class ParseGanglia {
 
     private String gangliaCollectorIP;
     private Integer gangliaPort;

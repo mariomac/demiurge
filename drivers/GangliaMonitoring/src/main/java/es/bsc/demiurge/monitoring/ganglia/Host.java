@@ -16,11 +16,9 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package es.bsc.monitoring.ganglia.infrastructure;
+package es.bsc.demiurge.monitoring.ganglia;
 
 import java.util.List;
-
-import static es.bsc.monitoring.ganglia.configuration.GangliaMetKeys.*;
 
 /**
  *
@@ -35,7 +33,7 @@ import static es.bsc.monitoring.ganglia.configuration.GangliaMetKeys.*;
  * 
  * @author Mauro Canuto <mauro.canuto@bsc.es>
  */
-public class Host {
+class Host {
 
     private String name;
     private String ip;
@@ -102,7 +100,7 @@ public class Host {
     public int getCpuNum() {
         int val = 0;
         for (Metric m : this.metrics) {
-            if (m.getName().equals(CPU_NUM)) {
+            if (m.getName().equals(GangliaMetKeys.CPU_NUM)) {
                 val = Integer.parseInt(m.getValue());
             }
         }
@@ -112,7 +110,7 @@ public class Host {
     public Float getLoadOne() {
         Float val = null;
         for (Metric m : this.metrics) {
-            if (m.getName().equals(LOAD_ONE)) {
+            if (m.getName().equals(GangliaMetKeys.LOAD_ONE)) {
                 val = Float.parseFloat(m.getValue());
             }
         }
@@ -122,7 +120,7 @@ public class Host {
     public Float getLoadFive() {
         Float val = null;
         for (Metric m : this.metrics) {
-            if (m.getName().equals(LOAD_FIVE)) {
+            if (m.getName().equals(GangliaMetKeys.LOAD_FIVE)) {
                 val = Float.parseFloat(m.getValue());
             }
         }
@@ -132,7 +130,7 @@ public class Host {
     public Float getLoadFifteen() {
         Float val = null;
         for (Metric m : this.metrics) {
-            if (m.getName().equals(LOAD_FIFTEEN)) {
+            if (m.getName().equals(GangliaMetKeys.LOAD_FIFTEEN)) {
                 val = Float.parseFloat(m.getValue());
             }
         }
@@ -142,7 +140,7 @@ public class Host {
     public Float getMemTotal() {
         Float val = null;
         for (Metric m : this.metrics) {
-            if (m.getName().equals(MEM_TOTAL)) {
+            if (m.getName().equals(GangliaMetKeys.MEM_TOTAL)) {
                 val = Float.parseFloat(m.getValue());
             }
         }
@@ -152,7 +150,7 @@ public class Host {
     public Float getMemFree() {
         Float val = null;
         for (Metric m : this.metrics) {
-            if (m.getName().equals(MEM_FREE)) {
+            if (m.getName().equals(GangliaMetKeys.MEM_FREE)) {
                 val = Float.parseFloat(m.getValue());
             }
         }
@@ -162,7 +160,7 @@ public class Host {
     public Float getMemBuffers() {
         Float val = null;
         for (Metric m : this.metrics) {
-            if (m.getName().equals(MEM_BUFFERS)) {
+            if (m.getName().equals(GangliaMetKeys.MEM_BUFFERS)) {
                 val = Float.parseFloat(m.getValue());
             }
         }
@@ -172,7 +170,7 @@ public class Host {
     public Float getMemCached() {
         Float val = null;
         for (Metric m : this.metrics) {
-            if (m.getName().equals(MEM_CACHED)) {
+            if (m.getName().equals(GangliaMetKeys.MEM_CACHED)) {
                 val = Float.parseFloat(m.getValue());
             }
         }
@@ -186,7 +184,7 @@ public class Host {
     public Float getCPUUser() {
         Float val = null;
         for (Metric m : this.metrics) {
-            if (m.getName().equals(CPU_USER)) {
+            if (m.getName().equals(GangliaMetKeys.CPU_USER)) {
                 val = Float.parseFloat(m.getValue());
             }
         }
@@ -196,7 +194,7 @@ public class Host {
     public Float getCPUNice() {
         Float val = null;
         for (Metric m : this.metrics) {
-            if (m.getName().equals(CPU_NICE)) {
+            if (m.getName().equals(GangliaMetKeys.CPU_NICE)) {
                 val = Float.parseFloat(m.getValue());
             }
         }
@@ -206,7 +204,7 @@ public class Host {
     public Float getCPUSystem() {
         Float val = null;
         for (Metric m : this.metrics) {
-            if (m.getName().equals(CPU_SYSTEM)) {
+            if (m.getName().equals(GangliaMetKeys.CPU_SYSTEM)) {
                 val = Float.parseFloat(m.getValue());
             }
         }
@@ -216,7 +214,7 @@ public class Host {
     public Float getCPUIdle() {
         Float val = null;
         for (Metric m : this.metrics) {
-            if (m.getName().equals(CPU_IDLE)) {
+            if (m.getName().equals(GangliaMetKeys.CPU_IDLE)) {
                 val = Float.parseFloat(m.getValue());
             }
         }
@@ -226,7 +224,7 @@ public class Host {
     public Float getCPUWio() {
         Float val = null;
         for (Metric m : this.metrics) {
-            if (m.getName().equals(CPU_WIO)) {
+            if (m.getName().equals(GangliaMetKeys.CPU_WIO)) {
                 val = Float.parseFloat(m.getValue());
             }
         }
@@ -236,7 +234,7 @@ public class Host {
     public Double getDiskTotal() {
         Double val = null;
         for (Metric m : this.metrics) {
-            if (m.getName().equals(DISK_TOTAL)) {
+            if (m.getName().equals(GangliaMetKeys.DISK_TOTAL)) {
                 val = Double.parseDouble(m.getValue());
             }
         }
@@ -246,7 +244,7 @@ public class Host {
     public Double getDiskFree() {
         Double val = null;
         for (Metric m : this.metrics) {
-            if (m.getName().equals(DISK_FREE)) {
+            if (m.getName().equals(GangliaMetKeys.DISK_FREE)) {
                 val = Double.parseDouble(m.getValue());
             }
         }
@@ -260,7 +258,7 @@ public class Host {
     public Double getPowerWatts() {
         Double val = null;
         for (Metric m : this.metrics) {
-            if (m.getName().equals(POWER_WATTS)) {
+            if (m.getName().equals(GangliaMetKeys.POWER_WATTS)) {
                 val = Double.parseDouble(m.getValue());
             }
         }

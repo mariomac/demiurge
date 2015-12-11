@@ -16,14 +16,14 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package es.bsc.monitoring.ganglia.configuration;
+package es.bsc.demiurge.monitoring.ganglia;
 
 /**
  * Definitions of Ganglia keys
  *
  * @author Mauro Canuto <mauro.canuto@bsc.es>
  */
-public interface GangliaMetKeys {
+interface GangliaMetKeys {
 
     public static final String QUERY_SUMMARY = "?filter=summary";
     

@@ -42,6 +42,8 @@ public abstract class Host {
     protected double assignedCpus;
     protected double assignedMemoryMb;
     protected double assignedDiskGb;
+
+	// todo: quit this as a property. Use abstract getter
     protected double currentPower;
     
     protected AtomicBoolean turnedOff = new AtomicBoolean(false); // Several threads might try to turn on/off

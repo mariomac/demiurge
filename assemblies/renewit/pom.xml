@@ -3,13 +3,14 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>project-specific</artifactId>
-        <groupId>es.bsc</groupId>
+        <artifactId>assemblies</artifactId>
+        <groupId>es.bsc.demiurge</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>vmm-renewit</artifactId>
+	<groupId>es.bsc.demiurge.assemblies</groupId>
+    <artifactId>renewit</artifactId>
 
     <dependencies>
 		<dependency>
@@ -20,6 +21,11 @@
 		<dependency>
 			<groupId>es.bsc.demiurge.drivers</groupId>
 			<artifactId>GangliaMonitoring</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>es.bsc.demiurge.drivers</groupId>
+			<artifactId>openstack-jclouds</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>

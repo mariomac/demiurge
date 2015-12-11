@@ -16,13 +16,12 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package es.bsc.monitoring.ganglia;
+package es.bsc.demiurge.monitoring.ganglia;
 
-import es.bsc.monitoring.exceptions.MonitoringException;
-import es.bsc.monitoring.ganglia.infrastructure.Cluster;
-import es.bsc.monitoring.ganglia.infrastructure.ClusterSummary;
-import es.bsc.monitoring.ganglia.infrastructure.Host;
-import es.bsc.monitoring.ganglia.parsing.ParseGanglia;
+import es.bsc.demiurge.core.configuration.VmmConfig;
+import es.bsc.demiurge.core.monitoring.exceptions.MonitoringException;
+import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration.ConfigurationException;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -31,40 +30,43 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static es.bsc.monitoring.ganglia.configuration.GangliaMetKeys.QUERY_SUMMARY;
-
 /**
  * Class that returns metrics from Ganglia
  *
- * @author Mauro Canuto <mauro.canuto@bsc.es>
+ * @author Mario Macías (http://github.com/mariomac), Mauro Canuto <mauro.canuto@bsc.es>
  */
-public class Ganglia {
+class Ganglia {
+
 
     private String gangliaCollectorIP;
     private int gangliaPort;
     private int gangliaPortQuery;
     private String gangliaFrontEndPath;
-    
+
+	private static final String GANGLIA_COLLECTOR_IP = "ganglia.collectorIP";
+	private static final String GANGLIA_PORT = "ganglia.port";
+	private static final String GANGLIA_PORT_QUERY = "ganglia.portQuery";
+	private static final String GANGLIA_FRONT_END_PATH = "ganglia.frontEndPath";
+
     // Class constructor
     public Ganglia() {
         //read the configuration variables to create the testing VM from the config.properties file
-        Properties prop = new Properties();
 
-        try {
-            prop.load(ParseGanglia.class.getClassLoader().getResourceAsStream("ganglia_connection.properties"));
-        } catch (IOException e) {
-            try {
-                throw new MonitoringException("Unable to read the configuration properties for ganglia connection"
-                        + e.getMessage());
-            } catch (MonitoringException ex) {
-                Logger.getLogger(Ganglia.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        
-        this.gangliaCollectorIP = prop.getProperty("collectorIP");
-        this.gangliaPort = Integer.parseInt(prop.getProperty("gangliaPort"));
-        this.gangliaPortQuery = Integer.parseInt(prop.getProperty("gangliaPortQuery"));
-        this.gangliaFrontEndPath = prop.getProperty("gangliaFrontEndPath");
+		Configuration config = VmmConfig.INSTANCE.getConfiguration();
+
+		if(!config.containsKey(GANGLIA_COLLECTOR_IP)
+				&& !config.containsKey(GANGLIA_FRONT_END_PATH)
+				&& !config.containsKey(GANGLIA_PORT)
+				&& !config.containsKey(GANGLIA_PORT_QUERY)) {
+			throw new RuntimeException("The configuration file " + VmmConfig.INSTANCE.getConfigurationFileName()
+					+ " must contain the next properties: " + GANGLIA_COLLECTOR_IP + ", " + GANGLIA_FRONT_END_PATH
+					+ ", " + GANGLIA_PORT+ ", " + GANGLIA_PORT_QUERY);
+		}
+        this.gangliaCollectorIP = config.getString(GANGLIA_COLLECTOR_IP);
+        this.gangliaPort = config.getInt(GANGLIA_PORT);
+        this.gangliaPortQuery = config.getInt(GANGLIA_PORT_QUERY);
+        this.gangliaFrontEndPath = config.getString(GANGLIA_FRONT_END_PATH);
+
     }
 
     /*
@@ -77,7 +79,7 @@ public class Ganglia {
         String gangliaXml = null;
         ArrayList<Cluster> grid = new ArrayList<Cluster>();
         try {
-            // 
+            //
             ParseGanglia p = new ParseGanglia(gangliaCollectorIP, gangliaPort, gangliaPortQuery);
             gangliaXml = p.getGangliaXml();
 
@@ -100,7 +102,7 @@ public class Ganglia {
 
         Cluster ret_cluster = null;
         try {
-            // 
+            //
             ParseGanglia p = new ParseGanglia(gangliaCollectorIP, gangliaPort, gangliaPortQuery);
             gangliaXml = p.queryGanglia("/" + clusterName);
             cluster_list = (ArrayList<Cluster>) p.parseGangliaXml(gangliaXml);
@@ -163,7 +165,7 @@ public class Ganglia {
         ClusterSummary grid = null;
         try {
             ParseGanglia p = new ParseGanglia(gangliaCollectorIP, gangliaPort, gangliaPortQuery);
-            String xml = p.queryGanglia("/" + clusterName + QUERY_SUMMARY);
+            String xml = p.queryGanglia("/" + clusterName + GangliaMetKeys.QUERY_SUMMARY);
             grid = p.parseGangliaSummaryXml(xml);
 
         } catch (MonitoringException ex) {
@@ -175,13 +177,6 @@ public class Ganglia {
 
 
     public void fetchData(String clusterName, String hostName, String metric, Integer startTime) throws MalformedURLException, IOException{
-        
-        
-        
-        
-        
-    }
-    
-    
 
+    }
 }

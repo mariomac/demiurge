@@ -16,36 +16,34 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package es.bsc.monitoring.ganglia.infrastructure;
+package es.bsc.demiurge.monitoring.ganglia;
 
 import java.util.List;
 
 /**
-
  *
- * Configuration element for the Ganglia cluster mapping when the query "/cluster_name?filter=summary" is performed. Contains status information
+ * Configuration element for the Ganglia cluster mapping. Contains hosts' status information
  * of a particular cluster.
  *
  *  <CLUSTER NAME="" LOCALTIME="" OWNER="" LATLONG="" URL="">
- *   <HOSTS UP="" DOWN="" SOURCE=""/>
- *      <METRIC NAME="" VAL="" TYPE="" UNITS="" TN="" TMAX="" DMAX="" SLOPE="" SOURCE="">
- *      ............
- *      <METRIC NAME=....
+ *      <HOST NAME=....
+ *      ...
+ *      <HOST NAME=..
  *  </CLUSTER>
  * 
  * @author Mauro Canuto <mauro.canuto@bsc.es>
+ * 
  */
-public class ClusterSummary {
+class Cluster {
 
     private String name;
     private String localtime;
     private String owner;
     private String latLong;
     private String url;
-    private List<Metric> metrics;
-    private HostsSummary hosts;
+    private List<Host> hosts;
 
-    public ClusterSummary(String name, String localtime, String owner, String latLong, String url) {
+    public Cluster(String name, String localtime, String owner, String latLong, String url) {
         this.name = name;
         this.localtime = localtime;
         this.owner = owner;
@@ -73,21 +71,11 @@ public class ClusterSummary {
         return url;
     }
 
-    public List<Metric> getMetrics() {
-        return metrics;
-    }
-
-    public void setMetrics(List<Metric> metrics) {
-        this.metrics = metrics;
-    }
-
-    public HostsSummary getHosts() {
+    public List<Host> getHosts() {
         return hosts;
     }
 
-    public void setHosts(HostsSummary hosts) {
+    public void setHosts(List<Host> hosts) {
         this.hosts = hosts;
     }
-
-
 }
