@@ -69,7 +69,7 @@ public enum VmmConfig {
     public String[] hosts;
 
     // Deploy
-    public String deployBaseUrl;
+    public int connectionPort;
     public String deployPackage;
 
     private Monitoring monitoring;
@@ -132,7 +132,7 @@ public enum VmmConfig {
         Logger logger = LogManager.getLogger(VmmConfig.class);
         dbName = configuration.getString("dbName", DEFAULT_DB_NAME);
 
-        deployBaseUrl = configuration.getString("deployBaseUrl");
+        connectionPort = configuration.getInt("connectionPort",80);
         deployPackage = configuration.getString("deployPackage");
         hosts = configuration.getStringArray("hosts");
         zabbixDbIp = configuration.getString("zabbixDbIp");
@@ -201,7 +201,7 @@ public enum VmmConfig {
 		return "VmmConfig{" +
                 "\n\tdbName='" + dbName + '\'' +
 				"\n\thosts=" + Arrays.toString(hosts) +
-				"\n\tdeployBaseUrl='" + deployBaseUrl + '\'' +
+				"\n\tconnectionPort='" + connectionPort + '\'' +
 				"\n\tdeployPackage='" + deployPackage + '\'' +
 				"\n\tzabbixDbIp='" + zabbixDbIp + '\'' +
 				"\n\tzabbixDbUser='" + zabbixDbUser + '\'' +
