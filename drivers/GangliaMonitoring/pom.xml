@@ -5,6 +5,11 @@
 	<artifactId>GangliaMonitoring</artifactId>
 	<dependencies>
 		<dependency>
+			<groupId>es.bsc.demiurge</groupId>
+			<artifactId>core</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.10</version>

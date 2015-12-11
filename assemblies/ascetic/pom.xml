@@ -9,38 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+	<groupId>es.bsc.demiurge.assemblies</groupId>
     <artifactId>ascetic</artifactId>
-
-	<repositories>
-		<!-- ASCETiC's private repo -->
-		<repository>
-			<id>ascetic-repository</id>
-			<snapshots>
-				<enabled>true</enabled>
-				<updatePolicy>daily</updatePolicy>
-			</snapshots>
-			<releases>
-				<enabled>true</enabled>
-				<updatePolicy>never</updatePolicy>
-			</releases>
-			<name>repo</name>
-			<url>https://ascetic-artifactory.cit.tu-berlin.de/artifactory/repo</url>
-		</repository>
-	</repositories>
-
-	<distributionManagement>
-		<repository>
-			<id>artifactory.ascetic-dev.cit.tu-berlin.de</id>
-			<name>artifactory.ascetic-dev.cit.tu-berlin.de-releases</name>
-			<url>http://ascetic-artifactory.cit.tu-berlin.de/artifactory/libs-release-local</url>
-		</repository>
-		<snapshotRepository>
-			<id>artifactory.ascetic-dev.cit.tu-berlin.de</id>
-			<name>artifactory.ascetic-dev.cit.tu-berlin.de-snapshots</name>
-			<url>http://ascetic-artifactory.cit.tu-berlin.de/artifactory/libs-snapshot-local</url>
-			<uniqueVersion>false</uniqueVersion>
-		</snapshotRepository>
-	</distributionManagement>
 
     <dependencies>
         <dependency>

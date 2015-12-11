@@ -50,6 +50,8 @@ import java.util.Set;
 public enum VmmConfig {
     INSTANCE;
 
+	private String configurationFileName = null;
+
 	// Configuration file
 	private static final String PROPNAME_CONF_FILE = "config";
 
@@ -113,10 +115,10 @@ public enum VmmConfig {
 			if(new File(DEFAULT_CONF_FILE_LOCATION).exists()) {
 				defaultFileName = DEFAULT_CONF_FILE_LOCATION;
 			}
-			String customFileLocation = System.getProperty(PROPNAME_CONF_FILE, defaultFileName);
+			configurationFileName = System.getProperty(PROPNAME_CONF_FILE, defaultFileName);
 
-            log.debug("Loading configuration file: " + customFileLocation);
-            return new PropertiesConfiguration(customFileLocation);
+            log.debug("Loading configuration file: " + configurationFileName);
+            return new PropertiesConfiguration(configurationFileName);
         } catch (ConfigurationException e) {
 			log.error("Error loading properties file", e);
             e.printStackTrace();
@@ -124,7 +126,11 @@ public enum VmmConfig {
         return null;
     }
 
-    /**
+	public String getConfigurationFileName() {
+		return configurationFileName;
+	}
+
+	/**
      * Initializes all the configuration parameters.
      *
      */

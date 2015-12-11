@@ -16,7 +16,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package es.bsc.monitoring.ganglia.infrastructure;
+package es.bsc.demiurge.monitoring.ganglia;
 
 import java.util.HashMap;
 
@@ -34,7 +34,7 @@ import java.util.HashMap;
  * 
  * @author Mauro Canuto <mauro.canuto@bsc.es>
  */
-public class Metric {
+class Metric {
 
     private String name;
     private String value;
