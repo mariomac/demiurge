@@ -24,15 +24,15 @@ import es.bsc.demiurge.core.configuration.VmmConfig;
 import es.bsc.demiurge.core.db.VmManagerDbFactory;
 import es.bsc.demiurge.core.manager.VmManager;
 
-import javax.inject.Singleton;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import es.bsc.demiurge.rest.error.ErrorHandler;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import javax.inject.Singleton;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 /**
@@ -44,8 +44,8 @@ import java.util.List;
 /*It is important to indicate that it is a singleton. This way, the VMM is created only once instead of being created
 at every request. This increases performance greatly.*/
 @Singleton
-@Path("/vmmanager")
-public class VmManagerRest {
+@Path("/v1")
+public class VmManagerRestV1 {
 
     private VmManager vmManager;
 
@@ -58,9 +58,10 @@ public class VmManagerRest {
     private VmPlacementCallsManager vmPlacementCallsManager;
     private SelfAdaptationCallsManager selfAdaptationCallsManager;
 
-    private Logger log = LogManager.getLogger(VmManagerRest.class);
+    private Logger log = LogManager.getLogger(VmManagerRestV1.class);
 
-    public VmManagerRest() {
+    public VmManagerRestV1() {
+		log.info("**** INITIALIZING VmManagerRest ****");
         vmManager = VmmConfig.INSTANCE.getVmManager();
         if(vmManager == null) throw new AssertionError("VM Manager must not be null");
 
@@ -376,7 +377,7 @@ public class VmManagerRest {
     @GET
     @Path("/hello")
     @Produces(MediaType.TEXT_PLAIN)
-    public String helloº() {
+    public String hello() {
         return "hello!\n";
     }
 }

@@ -236,6 +236,9 @@ public abstract class Host {
         return !turnedOff.get();
     }
 
+	public double getCurrentPower() {
+		return currentPower;
+	}
 
 	@Override
 	public String toString() {

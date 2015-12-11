@@ -42,16 +42,30 @@ public class NodeCallsManager {
     }
 
     public String getNodes() {
-        // TODO Refactor this ugly hack
         List<Host> hosts = vmManager.getHosts();
-        String result = "{\"nodes\":[";
-        for (int i = 0; i < hosts.size(); ++i) {
-            result = result.concat(gson.toJson(hosts.get(i), Host.class));
-            if (i != hosts.size() -1) {
-                result = result.concat(",");
-            }
+        StringBuilder result = new StringBuilder("{\"nodes\":[");
+		boolean first = true;
+		for(Host h : hosts) {
+			if(!first) result.append(",");
+			first = false;
+			result.append("{\"hostname\":\"").append(h.getHostname())
+				    .append("\",\"totalCpus\":").append(h.getTotalCpus())
+					.append(",\"totalMemoryMb\":").append(h.getTotalMemoryMb())
+					.append(",\"totalDiskGb\":").append(h.getTotalDiskGb())
+					.append(",\"assignedCpus\":").append(h.getAssignedCpus())
+					.append(",\"assignedMemoryMb\":").append(h.getAssignedMemoryMb())
+					.append(",\"assignedDiskGb\":").append(h.getAssignedDiskGb())
+					.append(",\"currentPower\":").append(h.getCurrentPower())
+					.append(",\"turnedOff\":{\"value\":").append(h.isOn()?1:0)
+					.append("}}");
+
+			/*
+			{"hostname":"wally158","totalCpus":8,"totalMemoryMb":16022.0,"totalDiskGb":1805.6862564086914,"assignedCpus":0.07,
+			"assignedMemoryMb":2499.9921875,"assignedDiskGb":0.06598281860351562,"currentPower":-1.0,"turnedOff":{"value":0},
+			"turnOnDelaySeconds":30,"turnOffDelaySeconds":30}
+			*/
         }
-        return result.concat("]}");
+        return result.append("]}").toString();
     }
 
     public String getVMsDeployedInNode(String hostname) {
