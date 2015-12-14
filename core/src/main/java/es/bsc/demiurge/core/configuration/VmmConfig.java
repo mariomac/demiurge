@@ -55,7 +55,7 @@ public enum VmmConfig {
 	// Configuration file
 	private static final String PROPNAME_CONF_FILE = "config";
 
-	private static final String DEFAULT_CONF_FILE_LOCATION = "/etc/vmm/config.properties";
+	private static final String DEFAULT_CONF_FILE_LOCATION = "/etc/demiurge/config.properties";
 	private static final String OLD_ASCETIC_DEFAULT_CONF_FILE_LOCATION = "/etc/ascetic/vmm/vmmconfig.properties";
     private static final String DEFAULT_DB_NAME = "VmManagerDb";
     private static final String DEFAULT_BEANS_LOCATION = "/Beans.xml";

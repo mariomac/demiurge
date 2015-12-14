@@ -23,6 +23,7 @@ import es.bsc.demiurge.monitoring.ganglia.Cluster;
 import es.bsc.demiurge.monitoring.ganglia.ClusterSummary;
 import es.bsc.demiurge.monitoring.ganglia.Host;
 import junit.framework.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -33,6 +34,7 @@ import java.util.List;
  *
  * @author Mauro Canuto (mauro.canuto@bsc.es)
  */
+@Ignore
 public class GangliaTest {
 
     String clusterName = "testing-cloud";
@@ -89,6 +91,7 @@ public class GangliaTest {
 
     }
 
+	@Ignore
     @Test
     public void clusterTest() {
 
