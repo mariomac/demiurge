@@ -541,4 +541,7 @@ public class GenericVmManager implements VmManager {
 
 		return retJson;
 	}
+
+
+	// test methods
 }
