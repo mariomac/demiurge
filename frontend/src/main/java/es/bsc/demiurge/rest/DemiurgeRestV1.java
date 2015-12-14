@@ -45,7 +45,7 @@ import java.util.List;
 at every request. This increases performance greatly.*/
 @Singleton
 @Path("/v1")
-public class VmManagerRestV1 {
+public class DemiurgeRestV1 {
 
     private VmManager vmManager;
 
@@ -58,9 +58,9 @@ public class VmManagerRestV1 {
     private VmPlacementCallsManager vmPlacementCallsManager;
     private SelfAdaptationCallsManager selfAdaptationCallsManager;
 
-    private Logger log = LogManager.getLogger(VmManagerRestV1.class);
+    private Logger log = LogManager.getLogger(DemiurgeRestV1.class);
 
-    public VmManagerRestV1() {
+    public DemiurgeRestV1() {
 		log.info("**** INITIALIZING VmManagerRest ****");
         vmManager = VmmConfig.INSTANCE.getVmManager();
         if(vmManager == null) throw new AssertionError("VM Manager must not be null");
@@ -380,4 +380,12 @@ public class VmManagerRestV1 {
     public String hello() {
         return "hello!\n";
     }
+
+
+	@PUT
+	@Path("/migrate/{vmId}/{hostName}")
+	public void migrate(@PathParam("vmId") String vmId, @PathParam("hostName") String hostName) throws CloudMiddlewareException {
+		vmManager.migrateVm(vmId,hostName);
+	}
+
 }

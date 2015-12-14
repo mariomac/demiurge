@@ -89,4 +89,9 @@ public class VmManagerClient implements VmManager {
 	public List<VmCost> getCosts(List<String> vmIds) {
 		return vmmRestClient.getVmmService().getCosts(vmIds);
 	}
+
+	@Override
+	public void migrate(String vmId, String destinationHostName) {
+		vmmRestClient.getVmmService().migrate(vmId, destinationHostName);
+	}
 }

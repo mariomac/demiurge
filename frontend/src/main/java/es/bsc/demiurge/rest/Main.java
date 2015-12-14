@@ -50,7 +50,7 @@ public class Main {
 		// Tells the Jersey Servlet which REST service/class to load.
 //		jerseyServlet.setInitParameter("jersey.config.server.provider.resourceConfigClass", "com.sun.jersey.api.core.PackagesResourceConfig");
 		jerseyServlet.setInitParameter(
-				"jersey.config.server.provider.classnames",VmManagerRestV1.class.getCanonicalName());
+				"jersey.config.server.provider.classnames",DemiurgeRestV1.class.getCanonicalName());
 
 		// Tells the Jersey Servlet which REST service/class to load.
 

@@ -73,6 +73,10 @@ public interface VmManager {
      */
     List<String> deployVms(List<Vm> vms) throws CloudMiddlewareException;
 
+	// some test methods
+//	String deployVmOnHost(Vm vm, String hostId) throws CloudMiddlewareException;
+	// end of test methods
+
     /**
      * Performs an action on a VM (reboot, suspend, etc.).
      *

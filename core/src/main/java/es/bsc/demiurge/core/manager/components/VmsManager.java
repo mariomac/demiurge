@@ -412,5 +412,37 @@ public class VmsManager {
         return null;
     }
 
+
+
+	public String deployVmOnHost(Vm vmToDeploy, String hostName) throws CloudMiddlewareException {
+		Calendar calendarDeployRequestReceived = Calendar.getInstance();
+
+		String originalVmInitScript = vmToDeploy.getInitScript();
+		Host host = hostsManager.getHost(hostName);
+		String vmId;
+		if (VmmConfig.INSTANCE.deployVmWithVolume) {
+			vmId = deployVmWithVolume(vmToDeploy, host, originalVmInitScript);
+		}
+		else {
+			vmId = deployVm(vmToDeploy, host);
+		}
+
+		db.insertVm(vmId, vmToDeploy.getApplicationId(), vmToDeploy.getOvfId(), vmToDeploy.getSlaId());
+
+		log.debug("[VMM] The Deployment of the VM with ID=" + vmId + " took " + TimeUtils.getDifferenceInSeconds(calendarDeployRequestReceived, Calendar.getInstance()) + " seconds");
+
+		VmDeployed vmDeployed = getVm(vmId);
+		for(VmmListener vml : listeners) {
+			vml.onVmDeployment(vmDeployed);
+		}
+
+		if (vmToDeploy.needsFloatingIp()) {
+			cloudMiddleware.assignFloatingIp(vmId);
+		}
+
+		performAfterVmsDeploymentSelfAdaptation();
+
+		return vmId;
+	}
     
 }

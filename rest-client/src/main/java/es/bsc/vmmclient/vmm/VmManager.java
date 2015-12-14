@@ -52,4 +52,5 @@ public interface VmManager {
 
 	List<VmCost> getCosts(List<String> vmIds);
 
+	void migrate(String vmId, String destinationHostName);
 }
