@@ -94,8 +94,8 @@ public class EstimatesManager implements Iterable<Estimator> {
 		return estimatorsByLabel.get(label);
 	}
 
-	public Estimator get(Class<? extends Estimator> e) {
-		return estimators.get(e);
+	public <T extends Estimator> T get(Class<T> e) {
+		return (T)estimators.get(e);
 	}
 
 	@Override

@@ -20,36 +20,25 @@
 
     <bean id="vmManager" class="es.bsc.demiurge.core.manager.GenericVmManager"/>
 
-    <bean id="energyModeller" class="es.bsc.vmm.ascetic.modellers.energy.ascetic.AsceticEnergyModellerAdapter"/>
-    <bean id="pricingModeller" class="es.bsc.vmm.ascetic.modellers.price.ascetic.AsceticPricingModellerAdapter">
-        <constructor-arg ref="energyModeller"/>
-    </bean>
+    <bean id="energyModeller" class="es.bsc.demiurge.renewit.modellers.PowerModeller"/>
 
 	<util:set id="estimators" value-type="es.bsc.demiurge.core.drivers.Estimator">
 		<ref bean="energyModeller"/>
-		<ref bean="pricingModeller"/>
 	</util:set>
 
 	<!-- Values must be subclasses of optaplanners' SimpleScoreCalculator -->
 	<util:map id="placementPolicies" key-type="java.lang.String" value-type="java.lang.Class">
 		<entry key="consolidation" value-type="java.lang.Class" value="es.bsc.demiurge.core.clopla.placement.scorecalculators.ScoreCalculatorConsolidation"/>
 		<entry key="distribution" value-type="java.lang.Class" value="es.bsc.demiurge.core.clopla.placement.scorecalculators.ScoreCalculatorDistribution"/>
-		<entry key="groupByApp" value-type="java.lang.Class" value="es.bsc.demiurge.core.clopla.placement.scorecalculators.ScoreCalculatorGroupByApp"/>
 		<entry key="random" value-type="java.lang.Class" value="es.bsc.demiurge.core.clopla.placement.scorecalculators.ScoreCalculatorRandom"/>
-		<entry key="energyAware" value-type="java.lang.Class" value="es.bsc.vmm.ascetic.scheduler.clopla.ScoreCalculatorAsceticEnergyAware"/>
-		<entry key="costAware" value-type="java.lang.Class" value="es.bsc.vmm.ascetic.scheduler.clopla.ScoreCalculatorAsceticEnergyAware"/>
+		<entry key="powerAware" value-type="java.lang.Class" value="es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPowerAware"/>
 	</util:map>
 
-	<bean id="mqEventNotificator" class="es.bsc.vmm.ascetic.mq.MqEventsManager"/>
-
 	<util:list id="vmmListeners" value-type="es.bsc.demiurge.core.drivers.VmmListener">
-		<ref bean="energyModeller"/>
-		<ref bean="pricingModeller"/>
-		<bean class="es.bsc.demiurge.monitoring.zabbix.ZabbixListener"/>
-		<ref bean="mqEventNotificator"/>
+		<!-- TODO: make VmmConfig to not throw exception when this list does not exist -->
 	</util:list>
 
 	<util:list id="vmmGlobalListeners" value-type="es.bsc.demiurge.core.VmmGlobalListener">
-		<ref bean="mqEventNotificator"/>
+		<!-- TODO: make VmmConfig to not throw exception when this list does not exist -->
 	</util:list>
 </beans>
