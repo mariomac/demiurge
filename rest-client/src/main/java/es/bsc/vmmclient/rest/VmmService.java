@@ -76,5 +76,6 @@ public interface VmmService {
 	@POST("/cost")
 	List<VmCost> getCosts(@Body List<String> vmIds);
 
-
+	@PUT("/migrate/{vmId}/{destinationHostName}")
+	Response migrate(@Path("vmId") String vmId, @Path("destinationHostName") String destinationHostName);
 }

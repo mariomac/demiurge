@@ -12,7 +12,7 @@
     <artifactId>assemblies</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>ascetic</module>
+        <!--<module>ascetic</module>-->
         <module>renewit</module>
 		<!--module>test-local</module-->
 	</modules>
