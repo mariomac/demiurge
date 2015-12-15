@@ -18,7 +18,7 @@
 
 package es.bsc.vmm.ascetic.rest.rest;
 
-import es.bsc.demiurge.rest.VmmRestInputValidator;
+import es.bsc.demiurge.rest.RestInputValidator;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -27,9 +27,9 @@ import javax.ws.rs.WebApplicationException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class VmmRestInputValidatorTest {
+public class RestInputValidatorTest {
 
-    private VmmRestInputValidator inputValidator = new VmmRestInputValidator();
+    private RestInputValidator inputValidator = new RestInputValidator();
 
     @Rule
     public ExpectedException exception = ExpectedException.none();

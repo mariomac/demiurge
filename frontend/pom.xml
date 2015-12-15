@@ -18,66 +18,8 @@
 		<jetty.version>9.2.9.v20150224</jetty.version>
 		<jersey.version>2.10.1</jersey.version>
 		<artifact.name>demiurge</artifact.name>
+		<jar.file>${artifact.name}</jar.file>
 	</properties>
-
-	<profiles>
-		<profile>
-			<id>ascetic</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<properties>
-				<artifact.name>vmmanagercore</artifact.name>
-			</properties>
-			<dependencies>
-				<dependency>
-					<groupId>es.bsc.demiurge.assemblies</groupId>
-					<artifactId>ascetic</artifactId>
-					<version>0.0.1-SNAPSHOT</version>
-				</dependency>
-			</dependencies>
-			<repositories>
-				<!-- ASCETiC's private repo -->
-				<repository>
-					<id>ascetic-repository</id>
-					<snapshots>
-						<enabled>true</enabled>
-						<updatePolicy>daily</updatePolicy>
-					</snapshots>
-					<releases>
-						<enabled>true</enabled>
-						<updatePolicy>never</updatePolicy>
-					</releases>
-					<name>repo</name>
-					<url>https://ascetic-artifactory.cit.tu-berlin.de/artifactory/repo</url>
-				</repository>
-			</repositories>
-
-			<distributionManagement>
-				<repository>
-					<id>artifactory.ascetic-dev.cit.tu-berlin.de</id>
-					<name>artifactory.ascetic-dev.cit.tu-berlin.de-releases</name>
-					<url>http://ascetic-artifactory.cit.tu-berlin.de/artifactory/libs-release-local</url>
-				</repository>
-				<snapshotRepository>
-					<id>artifactory.ascetic-dev.cit.tu-berlin.de</id>
-					<name>artifactory.ascetic-dev.cit.tu-berlin.de-snapshots</name>
-					<url>http://ascetic-artifactory.cit.tu-berlin.de/artifactory/libs-snapshot-local</url>
-					<uniqueVersion>false</uniqueVersion>
-				</snapshotRepository>
-			</distributionManagement>
-		</profile>
-		<profile>
-			<id>renewit</id>
-			<dependencies>
-				<dependency>
-					<groupId>es.bsc.demiurge.assemblies</groupId>
-					<artifactId>renewit</artifactId>
-					<version>0.0.1-SNAPSHOT</version>
-				</dependency>
-			</dependencies>
-		</profile>
-	</profiles>
 
 	<dependencies>
 		<dependency>
@@ -171,10 +113,6 @@
 	</dependencies>
 
 	<build>
-		<!--<resources>-->
-		<!--<resource><directory>src/main/webapp</directory></resource>-->
-		<!--<resource><directory>src/main/resources</directory></resource>-->
-		<!--</resources>-->
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -185,53 +123,6 @@
 					<source>1.7</source>
 					<target>1.7</target>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-shade-plugin</artifactId>
-				<configuration>
-					<finalName>uber-${artifact.name}-${version}</finalName>
-					<filters>
-						<filter>
-							<artifact>*:*</artifact>
-							<excludes>
-								<exclude>META-INF/*.SF</exclude>
-								<exclude>META-INF/*.DSA</exclude>
-								<exclude>META-INF/*.RSA</exclude>
-							</excludes>
-						</filter>
-					</filters>
-					<transformers>
-						<transformer
-								implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
-						<transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-							<resource>META-INF/spring.handlers</resource>
-						</transformer>
-						<transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-							<resource>META-INF/spring.schemas</resource>
-						</transformer>
-					</transformers>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>shade</goal>
-						</goals>
-						<!--<configuration>-->
-							<!--<transformers>-->
-								<!--<transformer-->
-										<!--implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>-->
-								<!--<transformer-->
-										<!--implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">-->
-									<!--<manifestEntries>-->
-										<!--<Main-Class>es.bsc.demiurge.rest.Main</Main-Class>-->
-									<!--</manifestEntries>-->
-								<!--</transformer>-->
-							<!--</transformers>-->
-						<!--</configuration>-->
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>

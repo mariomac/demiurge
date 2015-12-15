@@ -47,7 +47,7 @@ import java.util.Set;
  * @author Mario Macias (github.com/mariomac), David Ortiz Lopez (david.ortiz@bsc.es), Mario Macias (http://github.com/mariomac)
  *
  */
-public enum VmmConfig {
+public enum Config {
     INSTANCE;
 
 	private String configurationFileName = null;
@@ -91,7 +91,7 @@ public enum VmmConfig {
     private CloplaConversor cloplaConversor;
 	private List<VmmGlobalListener> vmmGlobalListeners;
 
-	VmmConfig() {
+	Config() {
         configuration = getPropertiesObjectFromConfigFile();
 		initializeClassAttributes();
     }
@@ -106,7 +106,7 @@ public enum VmmConfig {
      * @return the properties file
      */
     private Configuration getPropertiesObjectFromConfigFile() {
-		Logger log = LogManager.getLogger(VmmConfig.class);
+		Logger log = LogManager.getLogger(Config.class);
         try {
 			// TO ALLOW COMPATIBILITY WITH OLDER VERSIONS OF VMM (Ascetic_exclusive)
 			// If there is a config file in the newest default location, looks for it
@@ -135,7 +135,7 @@ public enum VmmConfig {
      *
      */
     private void initializeClassAttributes() {
-        Logger logger = LogManager.getLogger(VmmConfig.class);
+        Logger logger = LogManager.getLogger(Config.class);
         dbName = configuration.getString("dbName", DEFAULT_DB_NAME);
 
         connectionPort = configuration.getInt("connectionPort",80);

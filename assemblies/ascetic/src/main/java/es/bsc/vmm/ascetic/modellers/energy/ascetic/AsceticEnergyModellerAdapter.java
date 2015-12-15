@@ -18,7 +18,7 @@
 
 package es.bsc.vmm.ascetic.modellers.energy.ascetic;
 
-import es.bsc.demiurge.core.configuration.VmmConfig;
+import es.bsc.demiurge.core.configuration.Config;
 import es.bsc.demiurge.core.drivers.VmAction;
 import es.bsc.demiurge.core.models.scheduling.DeploymentPlan;
 import es.bsc.demiurge.core.models.scheduling.VmAssignmentToHost;
@@ -151,7 +151,7 @@ public class AsceticEnergyModellerAdapter implements es.bsc.vmm.ascetic.modeller
 	public double getCloplaEstimation(es.bsc.demiurge.core.clopla.domain.Host host, List<es.bsc.demiurge.core.clopla.domain.Vm> vmsDeployedInHost) {
 		return getHostPredictedAvgPower(
 								host.getHostname(),
-								VmmConfig.INSTANCE.getCloplaConversor().cloplaVmsToVmmType(vmsDeployedInHost));
+								Config.INSTANCE.getCloplaConversor().cloplaVmsToVmmType(vmsDeployedInHost));
 
 	}
 

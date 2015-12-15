@@ -15,5 +15,6 @@
 		<module>rest-client</module>
 		<module>frontend</module>
 		<module>assemblies</module>
+		<module>dist</module>
 	</modules>
 </project>

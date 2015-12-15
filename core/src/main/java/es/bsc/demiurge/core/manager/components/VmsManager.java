@@ -33,7 +33,7 @@ import es.bsc.demiurge.core.selfadaptation.AfterVmDeleteSelfAdaptationRunnable;
 import es.bsc.demiurge.core.selfadaptation.SelfAdaptationManager;
 import es.bsc.demiurge.core.utils.TimeUtils;
 import es.bsc.demiurge.core.cloudmiddleware.CloudMiddleware;
-import es.bsc.demiurge.core.configuration.VmmConfig;
+import es.bsc.demiurge.core.configuration.Config;
 import es.bsc.demiurge.core.models.scheduling.VmAssignmentToHost;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -209,7 +209,7 @@ public class VmsManager {
 
 
             String vmId;
-            if (VmmConfig.INSTANCE.deployVmWithVolume) {
+            if (Config.INSTANCE.deployVmWithVolume) {
                 vmId = deployVmWithVolume(vmToDeploy, hostForDeployment, originalVmInitScript);
             }
             else {
@@ -420,7 +420,7 @@ public class VmsManager {
 		String originalVmInitScript = vmToDeploy.getInitScript();
 		Host host = hostsManager.getHost(hostName);
 		String vmId;
-		if (VmmConfig.INSTANCE.deployVmWithVolume) {
+		if (Config.INSTANCE.deployVmWithVolume) {
 			vmId = deployVmWithVolume(vmToDeploy, host, originalVmInitScript);
 		}
 		else {

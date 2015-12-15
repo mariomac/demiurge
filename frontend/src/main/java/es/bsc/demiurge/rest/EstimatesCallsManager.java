@@ -20,7 +20,7 @@ package es.bsc.demiurge.rest;
 
 import com.google.gson.Gson;
 import es.bsc.demiurge.core.cloudmiddleware.CloudMiddlewareException;
-import es.bsc.demiurge.core.configuration.VmmConfig;
+import es.bsc.demiurge.core.configuration.Config;
 import es.bsc.demiurge.core.models.vms.ListVmsToBeEstimated;
 
 /**
@@ -40,7 +40,7 @@ public class EstimatesCallsManager {
      */
     public String getEstimates(String vms) throws CloudMiddlewareException {
         ListVmsToBeEstimated listVmsToBeEstimated = gson.fromJson(vms, ListVmsToBeEstimated.class);
-        return VmmConfig.INSTANCE.getVmManager().getVmEstimates(listVmsToBeEstimated.getVms()).toJSON();
+        return Config.INSTANCE.getVmManager().getVmEstimates(listVmsToBeEstimated.getVms()).toJSON();
     }
 
 }
