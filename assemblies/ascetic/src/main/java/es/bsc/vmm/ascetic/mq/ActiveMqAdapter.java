@@ -18,7 +18,7 @@
 
 package es.bsc.vmm.ascetic.mq;
 
-import es.bsc.demiurge.core.configuration.VmmConfig;
+import es.bsc.demiurge.core.configuration.Config;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -32,7 +32,7 @@ import java.util.Set;
 public class ActiveMqAdapter {
 
     private final ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(
-            VmmConfig.INSTANCE.getConfiguration().getString("activeMqUrl","tcp://localhost:61616")
+            Config.INSTANCE.getConfiguration().getString("activeMqUrl","tcp://localhost:61616")
     );
 
     private final Logger log = LogManager.getLogger(ActiveMqAdapter.class);

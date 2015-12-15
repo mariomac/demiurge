@@ -45,10 +45,24 @@ Listing Virtual Machines instances:
 
 ![VMs list](etc/sshot/vmslist.png)
 
-## To complete:
+## How to compile and run
+
+To compile:
+
+	mvn clean install -P <profile>
+	
+Where `profile` can be `ascetic` or `renewit`.
+
+To run:
+
+	java -jar dist/target/demiurge.jar
+
+
+## TO DO:
 
 * Add documentation about:
 	- Creating an own assembly (beans.xml)
+		- per-project branding
 	- Configuring demiurge's properties file
 	- _Demiurge_'s core architecture
 	- Appending new OptaPlanner policies

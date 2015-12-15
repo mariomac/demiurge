@@ -5,7 +5,7 @@ import es.bsc.demiurge.core.clopla.domain.ClusterState;
 import es.bsc.demiurge.core.clopla.domain.Host;
 import es.bsc.demiurge.core.clopla.placement.config.VmPlacementConfig;
 import es.bsc.demiurge.core.clopla.placement.scorecalculators.ScoreCalculatorCommon;
-import es.bsc.demiurge.core.configuration.VmmConfig;
+import es.bsc.demiurge.core.configuration.Config;
 import org.optaplanner.core.api.score.buildin.hardmediumsoft.HardMediumSoftScore;
 import org.optaplanner.core.impl.score.director.simple.SimpleScoreCalculator;
 
@@ -39,7 +39,7 @@ public class ScoreCalculatorAsceticEnergyAware implements SimpleScoreCalculator<
 		for (Host host: solution.getHosts()) {
 			// TO DO: make sure the next function, for all the implementations, performs as:
 			// "higher values (price, energy) are less desirable"
-			result -= VmmConfig.INSTANCE.getVmManager().getEstimatesManager()
+			result -= Config.INSTANCE.getVmManager().getEstimatesManager()
 					.get(AsceticEnergyModellerAdapter.class)
 					.getCloplaEstimation(host, solution.getVmsDeployedInHost(host));
 		}

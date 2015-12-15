@@ -34,7 +34,7 @@ public class ImageCallsManager {
 
     private Gson gson = new Gson();
     private VmManager vmManager;
-    private VmmRestInputValidator inputValidator = new VmmRestInputValidator();
+    private RestInputValidator inputValidator = new RestInputValidator();
 
     /**
      * Class constructor.

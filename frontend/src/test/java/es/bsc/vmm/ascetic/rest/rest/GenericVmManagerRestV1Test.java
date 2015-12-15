@@ -21,7 +21,7 @@ package es.bsc.vmm.ascetic.rest.rest;
 import com.google.gson.*;
 import com.jayway.restassured.RestAssured;
 
-import es.bsc.demiurge.core.configuration.VmmConfig;
+import es.bsc.demiurge.core.configuration.Config;
 import es.bsc.demiurge.core.models.images.ImageToUpload;
 import es.bsc.demiurge.core.models.images.ImageUploaded;
 import es.bsc.demiurge.core.models.images.ListImagesUploaded;
@@ -437,7 +437,7 @@ public class GenericVmManagerRestV1Test {
     //================================================================================
 
     private static void initializeAttributesFromConfigFile() {
-        Configuration conf = VmmConfig.INSTANCE.getConfiguration();
+        Configuration conf = Config.INSTANCE.getConfiguration();
         testImageUrl = conf.getString("testingImageUrl");
         testImageId = conf.getString("testingImageId");
         testImageName = conf.getString("testingImageName");

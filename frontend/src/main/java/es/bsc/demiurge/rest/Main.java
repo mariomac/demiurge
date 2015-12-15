@@ -18,7 +18,7 @@
 
 package es.bsc.demiurge.rest;
 
-import es.bsc.demiurge.core.configuration.VmmConfig;
+import es.bsc.demiurge.core.configuration.Config;
 import org.eclipse.jetty.rewrite.handler.RedirectPatternRule;
 import org.eclipse.jetty.rewrite.handler.RewriteHandler;
 import org.eclipse.jetty.server.Server;
@@ -37,7 +37,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        VmmConfig.INSTANCE.loadBeansConfig();
+        Config.INSTANCE.loadBeansConfig();
 
 		// Configure jersey servlet for rest services
 		ServletContextHandler restContexthandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
@@ -77,7 +77,7 @@ public class Main {
 		handlerCollection.addHandler(rewriteHandler);
 
 
-		final Server jettyServer = new Server(VmmConfig.INSTANCE.connectionPort);
+		final Server jettyServer = new Server(Config.INSTANCE.connectionPort);
 		jettyServer.setHandler(handlerCollection);
 
 		jettyServer.start();
