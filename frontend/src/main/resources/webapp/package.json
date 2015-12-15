@@ -1,7 +1,7 @@
 {
-    "name": "vmmanager-frontend",
+    "name": "Demiurge GUI",
     "version": "0.1.0",
-    "description": "Front End for Ascetic's Virtual Machine Manager.",
+    "description": "Front End for Demiurge",
     "main": "app.js",
     "devDependencies": {
         "glob": "~3.2.9",

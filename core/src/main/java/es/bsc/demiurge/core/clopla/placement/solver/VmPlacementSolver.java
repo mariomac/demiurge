@@ -20,7 +20,7 @@
 package es.bsc.demiurge.core.clopla.placement.solver;
 
 import es.bsc.demiurge.core.clopla.placement.config.VmPlacementConfig;
-import es.bsc.demiurge.core.configuration.VmmConfig;
+import es.bsc.demiurge.core.configuration.Config;
 import org.optaplanner.core.api.solver.Solver;
 
 /**
@@ -34,7 +34,7 @@ public class VmPlacementSolver {
 
     public VmPlacementSolver(VmPlacementConfig vmPlacementConfig) {
         this.vmPlacementSolverFactory = new VmPlacementSolverFactory(vmPlacementConfig,
-				VmmConfig.INSTANCE.getPlacementPolicies());
+				Config.INSTANCE.getPlacementPolicies());
     }
 
     /**

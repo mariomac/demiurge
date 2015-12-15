@@ -29,8 +29,7 @@ import es.bsc.demiurge.core.models.vms.Vm;
 import es.bsc.demiurge.core.models.vms.VmDeployed;
 import es.bsc.demiurge.core.monitoring.hosts.Host;
 import es.bsc.demiurge.core.vmplacement.CloplaConversor;
-import es.bsc.demiurge.core.configuration.VmmConfig;
-import es.bsc.demiurge.core.models.scheduling.*;
+import es.bsc.demiurge.core.configuration.Config;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,7 +99,7 @@ public class VmPlacementManager {
                                               RecommendedPlanRequest recommendedPlanRequest,
                                               boolean assignVmsToCurrentHosts,
                                               List<Vm> vmsToDeploy) throws CloudMiddlewareException {
-        CloplaConversor cc = VmmConfig.INSTANCE.getCloplaConversor();
+        CloplaConversor cc = Config.INSTANCE.getCloplaConversor();
         List<Host> hosts = hostsManager.getHosts();
         ClusterState clusterStateRecommendedPlan = clopla.getBestSolution(
                 cc.getCloplaHosts(hosts),

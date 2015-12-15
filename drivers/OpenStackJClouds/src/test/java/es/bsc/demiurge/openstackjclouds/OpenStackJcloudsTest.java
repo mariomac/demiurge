@@ -18,7 +18,7 @@
 
 package es.bsc.demiurge.openstackjclouds;
 
-import es.bsc.demiurge.core.configuration.VmmConfig;
+import es.bsc.demiurge.core.configuration.Config;
 import es.bsc.demiurge.core.db.VmManagerDb;
 import es.bsc.demiurge.core.db.VmManagerDbFactory;
 import es.bsc.demiurge.core.models.vms.Vm;
@@ -75,7 +75,7 @@ public class OpenStackJcloudsTest {
 	
 	@BeforeClass
 	public static void setUpBeforeClass() {
-        VmmConfig conf = VmmConfig.INSTANCE;
+        Config conf = Config.INSTANCE;
 		testingImageId = conf.getConfiguration().getString("testingImageId");
 		VmManagerDb db = VmManagerDbFactory.getDb("testDb");
 		db.deleteAllVms();

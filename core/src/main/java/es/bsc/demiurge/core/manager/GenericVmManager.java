@@ -32,15 +32,13 @@ import es.bsc.demiurge.core.selfadaptation.PeriodicSelfAdaptationRunnable;
 import es.bsc.demiurge.core.VmmGlobalListener;
 import es.bsc.demiurge.core.cloudmiddleware.CloudMiddleware;
 import es.bsc.demiurge.core.cloudmiddleware.CloudMiddlewareException;
-import es.bsc.demiurge.core.configuration.VmmConfig;
+import es.bsc.demiurge.core.configuration.Config;
 import es.bsc.demiurge.core.db.VmManagerDbFactory;
 import es.bsc.demiurge.core.models.estimates.ListVmEstimates;
 import es.bsc.demiurge.core.models.images.ImageToUpload;
 import es.bsc.demiurge.core.monitoring.hosts.Host;
 import es.bsc.demiurge.core.selfadaptation.SelfAdaptationManager;
 import es.bsc.demiurge.core.selfadaptation.options.SelfAdaptationOptions;
-import es.bsc.demiurge.core.manager.components.*;
-import es.bsc.demiurge.core.models.scheduling.*;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -75,7 +73,7 @@ public class GenericVmManager implements VmManager {
 
     private static boolean periodicSelfAdaptationThreadRunning = false;
 
-    private static final VmmConfig conf = VmmConfig.INSTANCE;
+    private static final Config conf = Config.INSTANCE;
 	private Logger log = LogManager.getLogger(GenericVmManager.class);
 
 	/**
@@ -257,7 +255,7 @@ public class GenericVmManager implements VmManager {
      */
     @Override
     public List<String> getAvailableSchedulingAlgorithms() {
-		return new ArrayList<>(VmmConfig.INSTANCE.getPlacementPolicies().keySet());
+		return new ArrayList<>(Config.INSTANCE.getPlacementPolicies().keySet());
     }
 
     /**
@@ -425,11 +423,11 @@ public class GenericVmManager implements VmManager {
         imageManager = new ImageManager(cloudMiddleware);
 
         // Instantiates the hosts according to the monitoring software selected.
-		HostFactory hf = VmmConfig.INSTANCE.getHostFactory();
+		HostFactory hf = Config.INSTANCE.getHostFactory();
 
 		List<Host> hosts = new ArrayList<>();
 
-		for(String hostname : VmmConfig.INSTANCE.hosts) {
+		for(String hostname : Config.INSTANCE.hosts) {
 			hosts.add(hf.getHost(hostname));
 		}
 

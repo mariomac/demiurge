@@ -18,15 +18,13 @@
 
 package es.bsc.demiurge.monitoring.ganglia;
 
-import es.bsc.demiurge.core.configuration.VmmConfig;
+import es.bsc.demiurge.core.configuration.Config;
 import es.bsc.demiurge.core.monitoring.exceptions.MonitoringException;
 import org.apache.commons.configuration.Configuration;
-import org.apache.commons.configuration.ConfigurationException;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -52,13 +50,13 @@ class Ganglia {
     public Ganglia() {
         //read the configuration variables to create the testing VM from the config.properties file
 
-		Configuration config = VmmConfig.INSTANCE.getConfiguration();
+		Configuration config = Config.INSTANCE.getConfiguration();
 
 		if(!config.containsKey(GANGLIA_COLLECTOR_IP)
 				&& !config.containsKey(GANGLIA_FRONT_END_PATH)
 				&& !config.containsKey(GANGLIA_PORT)
 				&& !config.containsKey(GANGLIA_PORT_QUERY)) {
-			throw new RuntimeException("The configuration file " + VmmConfig.INSTANCE.getConfigurationFileName()
+			throw new RuntimeException("The configuration file " + Config.INSTANCE.getConfigurationFileName()
 					+ " must contain the next properties: " + GANGLIA_COLLECTOR_IP + ", " + GANGLIA_FRONT_END_PATH
 					+ ", " + GANGLIA_PORT+ ", " + GANGLIA_PORT_QUERY);
 		}

@@ -2,10 +2,9 @@ package es.bsc.vmm.ascetic.mq;
 
 import com.google.gson.Gson;
 import es.bsc.demiurge.core.VmmGlobalListener;
-import es.bsc.demiurge.core.configuration.VmmConfig;
+import es.bsc.demiurge.core.configuration.Config;
 import es.bsc.demiurge.core.drivers.VmAction;
 import es.bsc.demiurge.core.drivers.VmmListener;
-import es.bsc.demiurge.core.manager.VmManager;
 import es.bsc.demiurge.core.models.vms.Vm;
 import es.bsc.demiurge.core.models.vms.VmDeployed;
 import org.apache.log4j.LogManager;
@@ -62,7 +61,7 @@ public class MqEventsManager implements VmmListener, VmmGlobalListener, MessageL
 	@Override
 	public void onVmmStart() {
 		log.debug("Listening SLA queues for all the currently running VMs");
-		for(VmDeployed vm : VmmConfig.INSTANCE.getVmManager().getAllVms()) {
+		for(VmDeployed vm : Config.INSTANCE.getVmManager().getAllVms()) {
 			if(vm.getSlaId() != null && !"".equals(vm.getSlaId().trim())) {
 				String queueId = String.format(VIOLATION_QUEUE_NAME, vm.getSlaId(), vm.getId());
 				try {
@@ -98,7 +97,7 @@ public class MqEventsManager implements VmmListener, VmmGlobalListener, MessageL
 					if (lastSelfAdaptation + MIN_TIME_BETWEEN_SELF_ADAPTATIONS < System.currentTimeMillis()) {
 						// By the moment, only overall self-adaptation is performed (limit: 1 each 5 minutes. TO DO: make it lower for testing and maybe longer for production)
 						lastSelfAdaptation = System.currentTimeMillis();
-						VmmConfig.INSTANCE.getVmManager().executeOnDemandSelfAdaptation();
+						Config.INSTANCE.getVmManager().executeOnDemandSelfAdaptation();
 					} else {
 						Calendar c = Calendar.getInstance();
 						c.setTimeInMillis(lastSelfAdaptation);

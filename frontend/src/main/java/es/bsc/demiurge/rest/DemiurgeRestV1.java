@@ -20,7 +20,7 @@ package es.bsc.demiurge.rest;
 
 import es.bsc.demiurge.core.db.VmManagerDb;
 import es.bsc.demiurge.core.cloudmiddleware.CloudMiddlewareException;
-import es.bsc.demiurge.core.configuration.VmmConfig;
+import es.bsc.demiurge.core.configuration.Config;
 import es.bsc.demiurge.core.db.VmManagerDbFactory;
 import es.bsc.demiurge.core.manager.VmManager;
 
@@ -62,7 +62,7 @@ public class DemiurgeRestV1 {
 
     public DemiurgeRestV1() {
 		log.info("**** INITIALIZING VmManagerRest ****");
-        vmManager = VmmConfig.INSTANCE.getVmManager();
+        vmManager = Config.INSTANCE.getVmManager();
         if(vmManager == null) throw new AssertionError("VM Manager must not be null");
 
         vmCallsManager = new VmCallsManager(vmManager);
@@ -357,7 +357,7 @@ public class DemiurgeRestV1 {
     @Produces(MediaType.TEXT_PLAIN)
     public String getDbInfo() {
         StringBuilder sb = new StringBuilder("**********\nDB contents\n********\n");
-        VmManagerDb db = VmManagerDbFactory.getDb(VmmConfig.INSTANCE.dbName);
+        VmManagerDb db = VmManagerDbFactory.getDb(Config.INSTANCE.dbName);
         List<String> vmIds = db.getAllVmIds();
         if(vmIds != null && vmIds.size() > 0) {
             sb.append("== Virtual Machines ==\n");

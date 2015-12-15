@@ -18,7 +18,7 @@
 
 package es.bsc.demiurge.openstackjclouds;
 
-import es.bsc.demiurge.core.configuration.VmmConfig;
+import es.bsc.demiurge.core.configuration.Config;
 import es.bsc.demiurge.core.models.images.ImageToUpload;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -31,7 +31,7 @@ public class OpenStackGlanceTest {
 
     @BeforeClass
     public static void setUpClass() {
-        VmmConfig conf = VmmConfig.INSTANCE;
+        Config conf = Config.INSTANCE;
         glance = new OpenStackGlance(new OpenStackCredentials(
 				conf.getConfiguration().getString(OpenStackJclouds.OS_CONFIG_IP),
 				conf.getConfiguration().getInt(OpenStackJclouds.OS_CONFIG_KEYSTONE_PORT),
@@ -46,7 +46,7 @@ public class OpenStackGlanceTest {
     @Test
     public void canCreateAndDelete() throws Exception {
         ImageToUpload imageToUpload = new ImageToUpload("testImage",
-                VmmConfig.INSTANCE.getConfiguration().getString("testingImageUrl"));
+                Config.INSTANCE.getConfiguration().getString("testingImageUrl"));
         String imageId = glance.createImageFromUrl(imageToUpload);
         glance.deleteImage(imageId);
     }

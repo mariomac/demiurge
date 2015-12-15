@@ -38,7 +38,7 @@ public class VmCallsManager {
 
     private Gson gson = new Gson();
     private VmManager vmManager;
-    VmmRestInputValidator inputValidator = new VmmRestInputValidator();
+    RestInputValidator inputValidator = new RestInputValidator();
 
     /**
      * Class constructor.

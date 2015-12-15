@@ -33,7 +33,7 @@ import java.util.List;
  * @author Mario Macias (github.com/mariomac), David Ortiz Lopez (david.ortiz@bsc.es)
  *
  */
-public class VmmRestInputValidator {
+public class RestInputValidator {
 
     private List<String> validActions = Arrays.asList("migrate", "rebootHard", "rebootSoft", "start",
             "stop", "suspend", "resume");
