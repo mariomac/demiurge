@@ -25,7 +25,7 @@
 			<properties>
 				<artifact.name>vmmanagercore</artifact.name>
 				<jar.file>uber-${artifact.name}-${version}</jar.file>
-				<brand.logo>${project.basedir}/../assemblies/ascetic/etc/project_brand.png</brand.logo>
+				<brand.basedir>${project.parent.basedir}/assemblies/ascetic/etc</brand.basedir>
 			</properties>
 			<dependencies>
 				<dependency>
@@ -68,7 +68,7 @@
 		<profile>
 			<id>renewit</id>
 			<properties>
-				<brand.logo>${project.basedir}/../assemblies/renewit/etc/project_brand.png</brand.logo>
+				<brand.basedir>${project.parent.basedir}/assemblies/renewit/etc</brand.basedir>
 			</properties>
 			<dependencies>
 				<dependency>
@@ -96,7 +96,7 @@
 					<executions>
 						<execution>
 							<id>copy-brand-resources</id>
-							<phase>package</phase>
+							<phase>generate-resources</phase>
 							<goals>
 								<goal>copy-resources</goal>
 							</goals>
@@ -104,13 +104,13 @@
 								<!-- this is important -->
 								<overwrite>true</overwrite>
 								<!-- target -->
-								<outputDirectory>${basedir}/target/webapp/images</outputDirectory>
+								<outputDirectory>${basedir}/target/classes/webapp/images</outputDirectory>
 								<resources>
 									<resource>
 										<!-- source -->
-										<directory>${project.basedir}</directory>
+										<directory>${brand.basedir}</directory>
 										<includes>
-											<include>${brand.logo}</include>
+											<include>project_brand.png</include>
 										</includes>
 									</resource>
 								</resources>
