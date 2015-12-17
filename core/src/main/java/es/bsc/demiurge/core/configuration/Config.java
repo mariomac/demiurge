@@ -204,7 +204,7 @@ public enum Config {
 
     @Override
 	public String toString() {
-		return "VmmConfig{" +
+		return "Config{" +
                 "\n\tdbName='" + dbName + '\'' +
 				"\n\thosts=" + Arrays.toString(hosts) +
 				"\n\tconnectionPort='" + connectionPort + '\'' +
