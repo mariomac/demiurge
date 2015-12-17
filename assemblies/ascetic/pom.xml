@@ -12,12 +12,24 @@
 	<groupId>es.bsc.demiurge.assemblies</groupId>
     <artifactId>ascetic</artifactId>
 
+	<repositories>
+		<!-- ASCETiC's private repo -->
+		<repository>
+			<id>ascetic-repository</id>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>daily</updatePolicy>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<name>repo</name>
+			<url>https://ascetic-artifactory.cit.tu-berlin.de/artifactory/repo</url>
+		</repository>
+	</repositories>
+
     <dependencies>
-        <dependency>
-            <groupId>es.bsc.demiurge</groupId>
-            <artifactId>zabbix-monitoring</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
         <dependency>
             <groupId>es.bsc.demiurge</groupId>
             <artifactId>core</artifactId>
