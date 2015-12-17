@@ -34,23 +34,6 @@
 					<version>0.0.1-SNAPSHOT</version>
 				</dependency>
 			</dependencies>
-			<repositories>
-				<!-- ASCETiC's private repo -->
-				<repository>
-					<id>ascetic-repository</id>
-					<snapshots>
-						<enabled>true</enabled>
-						<updatePolicy>daily</updatePolicy>
-					</snapshots>
-					<releases>
-						<enabled>true</enabled>
-						<updatePolicy>never</updatePolicy>
-					</releases>
-					<name>repo</name>
-					<url>https://ascetic-artifactory.cit.tu-berlin.de/artifactory/repo</url>
-				</repository>
-			</repositories>
-
 			<distributionManagement>
 				<repository>
 					<id>artifactory.ascetic-dev.cit.tu-berlin.de</id>
