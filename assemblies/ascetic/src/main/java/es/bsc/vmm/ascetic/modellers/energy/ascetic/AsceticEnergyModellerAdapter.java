@@ -18,6 +18,7 @@
 
 package es.bsc.vmm.ascetic.modellers.energy.ascetic;
 
+import es.bsc.demiurge.core.cloudmiddleware.CloudMiddlewareException;
 import es.bsc.demiurge.core.configuration.Config;
 import es.bsc.demiurge.core.drivers.VmAction;
 import es.bsc.demiurge.core.models.scheduling.DeploymentPlan;
@@ -143,8 +144,9 @@ public class AsceticEnergyModellerAdapter implements es.bsc.vmm.ascetic.modeller
 	}
 
 	@Override
-	public double getCurrentEstimation(String vmId, Map options) {
-		throw new AssertionError("this should never call. Configure VMM to use clopla");
+	public double getCurrentEstimation(String vmId, Map options) throws CloudMiddlewareException {
+		return energyModeller.getCurrentEnergyForVM(energyModeller.getVM(Config.INSTANCE.getVmManager().getVm(vmId).getId()))
+				.getPower();
 	}
 
 	@Override
