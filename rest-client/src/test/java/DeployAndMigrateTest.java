@@ -23,7 +23,7 @@ public class DeployAndMigrateTest extends TestCase{
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        vmm = new VmManagerClient(URL_BSCGRID);
+        vmm = new VmManagerClient(null); //URL_BSCGRID);
     }
 
     @Ignore
