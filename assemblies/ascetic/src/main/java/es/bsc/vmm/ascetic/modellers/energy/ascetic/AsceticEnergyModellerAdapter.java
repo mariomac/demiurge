@@ -29,6 +29,7 @@ import es.bsc.demiurge.core.monitoring.hosts.Host;
 import eu.ascetic.asceticarchitecture.iaas.energymodeller.EnergyModeller;
 import eu.ascetic.asceticarchitecture.iaas.energymodeller.types.energyuser.VM;
 import eu.ascetic.asceticarchitecture.iaas.energymodeller.types.usage.EnergyUsagePrediction;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -145,8 +146,18 @@ public class AsceticEnergyModellerAdapter implements es.bsc.vmm.ascetic.modeller
 
 	@Override
 	public double getCurrentEstimation(String vmId, Map options) throws CloudMiddlewareException {
-		return energyModeller.getCurrentEnergyForVM(energyModeller.getVM(Config.INSTANCE.getVmManager().getVm(vmId).getId()))
+		Logger log = Logger.getLogger(getClass());
+		log.debug("getCurrentEstimation() called with " + "vmId = [" + vmId + "], options = [" + options + "]");
+
+		eu.ascetic.asceticarchitecture.iaas.energymodeller.types.energyuser.VmDeployed vmd = energyModeller.getVM(vmId);
+		if(vmd == null) {
+			log.error("The energy modeller has not found any VM for such ID : " + vmId);
+		} else {
+			log.debug("Energy Modeller got a vm: " + vmd.getName() + " (id: " + vmd.getId() + ")");
+		}
+		return energyModeller.getCurrentEnergyForVM(vmd)
 				.getPower();
+
 	}
 
 	@Override
