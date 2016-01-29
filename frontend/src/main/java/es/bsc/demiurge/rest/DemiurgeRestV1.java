@@ -344,7 +344,7 @@ public class DemiurgeRestV1 {
 		try {
 			return vmManager.getVmsEstimates(vmIds);
 		} catch(Exception e) {
-			log.warn("Error getting vms cost: " + e.getMessage());
+			log.warn("Error getting vms cost: " + e.getMessage(), e);
 			throw new ErrorHandler(e, Response.Status.NOT_FOUND);
 		}
 	}
