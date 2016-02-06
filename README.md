@@ -4,6 +4,8 @@ Bringing order to the (IaaS) Cloud
 
 ![Demiurge image](etc/demiurge.png)
 
+[WTF is this creature?](https://en.wikipedia.org/wiki/Demiurge)
+
 ## About
 
 _Demiurge_ is an Infrastructure-as-a-Service (IaaS) computing resources manager. It enables the optimization of the
