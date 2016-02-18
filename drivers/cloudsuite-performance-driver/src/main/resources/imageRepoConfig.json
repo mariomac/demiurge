@@ -1,0 +1,14 @@
+{
+  "data_analytics_image_id": "1d6ce6c4-3e16-43f1-9562-bfcffecc5e15",
+  "data_caching_image_id": "79f52947-7cf9-4750-a48a-2ea63f6bf792",
+  "data_serving_image_id": "97ffbb53-8f25-46da-bd61-f4c714bebcfb",
+  "graph_analytics_image_id": "e1f96d0e-4871-42fc-8a8c-dcc161256af3",
+  "media_streaming_server_image_id": "75b077e3-df92-4cbf-b462-63676fa43e5e",
+  "media_streaming_client_image_id": "1273bb0e-8c55-443a-8f2c-0e7a37392bda",
+  "software_testing_image_id": "db05fd9b-66f7-42c5-af65-7f5e2eb4ce9b",
+  "web_search_image_id": "1ccb3e18-d437-4fd0-a3fd-5e18e16f4fb8",
+  "web_search_client_image_id": "201322d2-f6ef-4a59-9315-c779dd28c78b",
+  "web_serving_client_image_id": "4b90e2d0-3a9f-4a1f-a03b-208502b779ce",
+  "web_serving_frontend_image_id": "94f3061e-d5f9-4c71-9cc0-d886721fc8ce",
+  "web_serving_backend_image_id": "d4be1355-3576-4007-bfa0-63c4b3340b67"
+}
