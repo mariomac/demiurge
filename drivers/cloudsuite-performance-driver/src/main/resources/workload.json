@@ -1,0 +1,16 @@
+{
+  "benchmarkExecutionList": [
+    {
+      "timeStartSeconds": 30,
+      "benchmark": "data_caching",
+      "performance": 4000,
+      "runtimeSeconds": 120
+    },
+    {
+      "timeStartSeconds": 90,
+      "benchmark": "data_serving",
+      "performance": 3000,
+      "runtimeSeconds": 120
+    }
+  ]
+}
