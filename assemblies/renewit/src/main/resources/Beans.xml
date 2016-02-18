@@ -18,7 +18,7 @@
     <bean id="monitoring" class="es.bsc.demiurge.monitoring.ganglia.GangliaMonitoring"/>
     <bean id="cloudMiddleware" class="es.bsc.demiurge.openstackjclouds.OpenStackJclouds"/>
 
-    <bean id="vmManager" class="es.bsc.demiurge.core.manager.GenericVmManager"/>
+    <bean id="vmManager" class="es.bsc.demiurge.renewit.manager.RenewITVmManager"/>
 
     <bean id="energyModeller" class="es.bsc.demiurge.renewit.modellers.PowerModeller"/>
 
