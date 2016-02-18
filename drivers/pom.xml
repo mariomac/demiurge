@@ -17,6 +17,7 @@
         <module>fake</module>
         <module>ZabbixMonitoring</module>
         <module>OpenStackJClouds</module>
+        <module>cloudsuite-performance-driver</module>
     </modules>
 
 </project>

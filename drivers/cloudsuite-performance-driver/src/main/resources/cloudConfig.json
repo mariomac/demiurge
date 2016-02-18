@@ -1,0 +1,5 @@
+{
+  "hosts": ["bscgrid28","bscgrid29"],
+  "vmmUrl": "http://bscgrid28.bsc.es:34372/api/v1/",
+  "hostForClients": "bscgrid31"
+}
