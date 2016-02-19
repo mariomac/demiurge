@@ -24,7 +24,7 @@
 			</activation>
 			<properties>
 				<artifact.name>vmmanagercore</artifact.name>
-				<jar.file>uber-${artifact.name}-${version}</jar.file>
+				<jar.file>uber-${artifact.name}-${project.version}</jar.file>
 				<brand.basedir>${project.parent.basedir}/assemblies/ascetic/etc</brand.basedir>
 			</properties>
 			<dependencies>
@@ -47,6 +47,21 @@
 					<uniqueVersion>false</uniqueVersion>
 				</snapshotRepository>
 			</distributionManagement>
+		</profile>
+		<profile>
+			<id>fake</id>
+			<properties>
+				<jar.file>${artifact.name}-fake</jar.file>
+				<brand.basedir>${project.parent.basedir}/assemblies/renewit/etc</brand.basedir>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>es.bsc.demiurge.assemblies</groupId>
+					<artifactId>fake</artifactId>
+					<version>0.0.1-SNAPSHOT</version>
+				</dependency>
+
+			</dependencies>
 		</profile>
 		<profile>
 			<id>renewit</id>
