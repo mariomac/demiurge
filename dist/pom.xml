@@ -13,6 +13,7 @@
 
 	<properties>
 		<artifact.name>demiurge</artifact.name>
+		<brand.basedir>${project.parent.basedir}/assemblies/branding</brand.basedir>
 		<jar.file>${artifact.name}</jar.file>
 	</properties>
 
@@ -52,7 +53,6 @@
 			<id>fake</id>
 			<properties>
 				<jar.file>${artifact.name}-fake</jar.file>
-				<brand.basedir>${project.parent.basedir}/assemblies/renewit/etc</brand.basedir>
 			</properties>
 			<dependencies>
 				<dependency>
