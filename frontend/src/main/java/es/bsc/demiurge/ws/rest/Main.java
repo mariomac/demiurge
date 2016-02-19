@@ -16,7 +16,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package es.bsc.demiurge.rest;
+package es.bsc.demiurge.ws.rest;
 
 import es.bsc.demiurge.core.configuration.Config;
 import org.eclipse.jetty.rewrite.handler.RedirectPatternRule;
@@ -36,7 +36,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
  */
 public class Main {
 
-    public static void main(String[] args) throws Exception {
+    public static void main0(String[] args) throws Exception {
         Config.INSTANCE.loadBeansConfig();
 
 		// Configure jersey servlet for rest services
@@ -56,7 +56,7 @@ public class Main {
 
 		// Configure static assets
 		ResourceHandler resourceHandler = new ResourceHandler();
-		resourceHandler.setWelcomeFiles(new String[] {"index.html"});
+		resourceHandler.setWelcomeFiles(new String[] {"static/index.html"});
 		resourceHandler.setResourceBase(Main.class.getClassLoader().getResource("webapp").toExternalForm());
 		resourceHandler.setDirectoriesListed(true);
 
