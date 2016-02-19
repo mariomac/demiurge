@@ -73,6 +73,7 @@ public enum Config {
 
     // Deploy
     public int connectionPort;
+    public String contextPath;
     public String deployPackage;
 
     private Monitoring monitoring;
@@ -169,6 +170,7 @@ public enum Config {
         connectionPort = configuration.getInt("connectionPort",80);
         deployPackage = configuration.getString("deployPackage");
         hosts = configuration.getStringArray("hosts");
+        contextPath = configuration.getString("contextPath","/");
         zabbixDbIp = configuration.getString("zabbixDbIp");
         zabbixDbUser = configuration.getString("zabbixDbUser");
         zabbixDbPassword = configuration.getString("zabbixDbPassword");
