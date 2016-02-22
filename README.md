@@ -53,7 +53,7 @@ To compile:
 
 	mvn clean install -P <profile>
 	
-Where `profile` can be `ascetic` or `renewit`.
+Where `profile` can be `ascetic`, `renewit` or `fake`.
 
 To run:
 
