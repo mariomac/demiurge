@@ -16,7 +16,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package es.bsc.demiurge.rest;
+package es.bsc.demiurge.ws.rest;
 
 import es.bsc.demiurge.core.db.VmManagerDb;
 import es.bsc.demiurge.core.cloudmiddleware.CloudMiddlewareException;
@@ -25,9 +25,10 @@ import es.bsc.demiurge.core.db.VmManagerDbFactory;
 import es.bsc.demiurge.core.manager.VmManager;
 
 
-import es.bsc.demiurge.rest.error.ErrorHandler;
+import es.bsc.demiurge.ws.rest.error.ErrorHandler;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.springframework.context.annotation.Configuration;
 
 import javax.inject.Singleton;
 import javax.ws.rs.*;
@@ -61,7 +62,6 @@ public class DemiurgeRestV1 {
     private Logger log = LogManager.getLogger(DemiurgeRestV1.class);
 
     public DemiurgeRestV1() {
-		log.info("**** INITIALIZING VmManagerRest ****");
         vmManager = Config.INSTANCE.getVmManager();
         if(vmManager == null) throw new AssertionError("VM Manager must not be null");
 
@@ -153,14 +153,14 @@ public class DemiurgeRestV1 {
     //================================================================================
 
     @GET
-    @Path("/images")
+    @Path("/static/images")
     @Produces(MediaType.APPLICATION_JSON)
     public String getAllImages() {
         return imageCallsManager.getAllImages();
     }
 
     @POST
-    @Path("/images")
+    @Path("/static/images")
     @Consumes("application/json")
     @Produces(MediaType.APPLICATION_JSON)
     public String uploadImage(String imageInfo) {
@@ -172,14 +172,14 @@ public class DemiurgeRestV1 {
     }
 
     @GET
-    @Path("/images/{id}")
+    @Path("/static/images/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public String getImage(@PathParam("id") String imageId) {
         return imageCallsManager.getImage(imageId);
     }
 
     @DELETE
-    @Path("/images/{id}")
+    @Path("/static/images/{id}")
     public void deleteImage(@PathParam("id") String imageId) {
         imageCallsManager.deleteImage(imageId);
     }

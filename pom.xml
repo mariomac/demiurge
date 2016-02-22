@@ -7,6 +7,9 @@
 
 	<packaging>pom</packaging>
 
+	<properties>
+		<spring.version>4.2.4.RELEASE</spring.version>
+	</properties>
 	<modules>
 		<!--<module>rest-client</module>-->
 		<module>core</module>
