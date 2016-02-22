@@ -102,7 +102,7 @@
 								<!-- this is important -->
 								<overwrite>true</overwrite>
 								<!-- target -->
-								<outputDirectory>${basedir}/target/classes/webapp/images</outputDirectory>
+								<outputDirectory>${basedir}/target/classes/static/images</outputDirectory>
 								<resources>
 									<resource>
 										<!-- source -->

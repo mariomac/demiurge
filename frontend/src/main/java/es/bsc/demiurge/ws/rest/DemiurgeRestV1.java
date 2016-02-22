@@ -62,7 +62,6 @@ public class DemiurgeRestV1 {
     private Logger log = LogManager.getLogger(DemiurgeRestV1.class);
 
     public DemiurgeRestV1() {
-		log.info("**** INITIALIZING VmManagerRest ****");
         vmManager = Config.INSTANCE.getVmManager();
         if(vmManager == null) throw new AssertionError("VM Manager must not be null");
 

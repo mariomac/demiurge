@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
  */
 public class ApiConfig extends ResourceConfig {
     public ApiConfig() {
-        System.out.println("ApiConfig.ApiConfig");
         register(DemiurgeRestV1.class);
     }
 }

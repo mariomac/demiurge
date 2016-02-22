@@ -19,7 +19,8 @@ public class DemiurgeApp {
     public static void main(String[] args) {
         Config.INSTANCE.loadBeansConfig();
         try {
-            new EmbeddedJetty().startJetty(Config.INSTANCE.connectionPort);
+            EmbeddedJetty jetty = new EmbeddedJetty();
+			jetty.startJetty(Config.INSTANCE.connectionPort);
         } catch (Exception e) {
             e.printStackTrace();
         }
