@@ -20,6 +20,7 @@ package es.bsc.demiurge.cloudsuiteperformancedriver.vmmclient.rest;
 
 import es.bsc.demiurge.cloudsuiteperformancedriver.vmmclient.models.*;
 import retrofit.client.Response;
+import retrofit.http.*;
 
 import java.util.List;
 
