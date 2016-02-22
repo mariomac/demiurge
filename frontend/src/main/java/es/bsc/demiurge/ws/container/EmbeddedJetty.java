@@ -1,7 +1,10 @@
 package es.bsc.demiurge.ws.container;
 
 import es.bsc.demiurge.core.configuration.Config;
+import org.eclipse.jetty.rewrite.handler.RedirectPatternRule;
+import org.eclipse.jetty.rewrite.handler.RewriteHandler;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.HandlerCollection;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.servlet.ServletContainer;
@@ -25,7 +28,15 @@ public class EmbeddedJetty {
 
     public void startJetty(int port) throws Exception {
         final Server server = new Server(port);
-        server.setHandler(getServletContextHandler(getContext()));
+		HandlerCollection handlerCollection = new HandlerCollection(false);
+		RewriteHandler rewriteHandler = new RewriteHandler();
+		RedirectPatternRule rpr = new RedirectPatternRule();
+		rpr.setPattern("/gui");
+		rpr.setLocation("/gui/");
+		rewriteHandler.addRule(rpr);
+		handlerCollection.addHandler(rewriteHandler);
+		handlerCollection.addHandler(getServletContextHandler(getContext()));
+        server.setHandler(handlerCollection);
         server.start();
         server.join();
         Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
@@ -48,13 +59,14 @@ public class EmbeddedJetty {
         contextHandler.setContextPath(Config.INSTANCE.contextPath);
 
         DispatcherServlet dispatcherServlet = new DispatcherServlet(context);
-        contextHandler.addServlet(new ServletHolder(dispatcherServlet), GUI_MAPPING_URL);
+		ServletHolder guiServletHolder = new ServletHolder(dispatcherServlet);
+        contextHandler.addServlet(guiServletHolder, GUI_MAPPING_URL);
+
         ServletHolder apiServletContainer = new ServletHolder(
          new ServletContainer(new ApiConfig()));
         contextHandler.addServlet(apiServletContainer, API_MAPPING_URL);
-
         contextHandler.addEventListener(new ContextLoaderListener(context));
-        contextHandler.setResourceBase(new ClassPathResource("webapp").getURI().toString());
+//        contextHandler.setResourceBase(new ClassPathResource("static").getURI().toString());
         return contextHandler;
     }
 
