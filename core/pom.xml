@@ -181,7 +181,7 @@
 
 	<parent>
 		<groupId>es.bsc.demiurge</groupId>
-		<artifactId>parent</artifactId>
+		<artifactId>demiurge-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 </project>

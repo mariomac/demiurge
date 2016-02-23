@@ -66,7 +66,6 @@ public class EmbeddedJetty {
          new ServletContainer(new ApiConfig()));
         contextHandler.addServlet(apiServletContainer, API_MAPPING_URL);
         contextHandler.addEventListener(new ContextLoaderListener(context));
-//        contextHandler.setResourceBase(new ClassPathResource("static").getURI().toString());
         return contextHandler;
     }
 
