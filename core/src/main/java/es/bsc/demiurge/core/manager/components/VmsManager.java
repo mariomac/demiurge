@@ -444,5 +444,12 @@ public class VmsManager {
 
 		return vmId;
 	}
-    
+
+	public Map<String, String> getFlavours() {
+		return cloudMiddleware.getFlavours();
+	}
+
+	public void resize(String vmId, String flavourId) {
+		cloudMiddleware.resize(vmId, flavourId);
+	}
 }

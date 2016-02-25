@@ -93,6 +93,8 @@ public enum Config {
     private CloplaConversor cloplaConversor;
 	private List<VmmGlobalListener> vmmGlobalListeners;
 
+	public String cryptSalt;
+
 	Config() {
         configuration = getPropertiesObjectFromConfigFile();
 		initializeClassAttributes();
@@ -175,6 +177,8 @@ public enum Config {
         zabbixDbUser = configuration.getString("zabbixDbUser");
         zabbixDbPassword = configuration.getString("zabbixDbPassword");
         deployVmWithVolume = configuration.getBoolean("deployVmWithVolume", false);
+
+		cryptSalt = configuration.getString("crypt.salt", "addYourOwnSaltPropertyToTheConfigFile");
 
 		logger.debug("Loading configuration: " + toString());
     }

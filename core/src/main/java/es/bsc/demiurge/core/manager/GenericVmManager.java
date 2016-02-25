@@ -540,6 +540,15 @@ public class GenericVmManager implements VmManager {
 		return retJson;
 	}
 
+	@Override
+	public Map<String, String> getFlavours() {
+		return vmsManager.getFlavours();
+	}
 
-	// test methods
+	@Override
+	public void resize(String vmId, String flavourId) {
+		vmsManager.resize(vmId, flavourId);
+	}
+
+// test methods
 }

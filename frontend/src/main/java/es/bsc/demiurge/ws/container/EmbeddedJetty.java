@@ -71,7 +71,7 @@ public class EmbeddedJetty {
 
     private static WebApplicationContext getContext() {
         AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
-        context.setConfigLocation("es.bsc.demiurge.ws");
+        context.setConfigLocation("es.bsc.demiurge.ws es.bsc.demiurge.jpa");
         return context;
     }
 
