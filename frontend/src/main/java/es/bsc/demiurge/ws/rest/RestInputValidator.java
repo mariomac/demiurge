@@ -21,6 +21,7 @@ package es.bsc.demiurge.ws.rest;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import es.bsc.demiurge.core.configuration.Config;
 import es.bsc.demiurge.core.models.images.ImageToUpload;
 
 import javax.ws.rs.WebApplicationException;
@@ -42,31 +43,48 @@ public class RestInputValidator {
         if (vmsJson.get("vms") == null) {
             throw new WebApplicationException(400);
         }
+        // When using performance models (Renewit) required params are only name, benchmark and performance
+        String[] requiredParamsPerf = {"name", "benchmark", "performance"};
 
         String[] requiredParams = {"name", "image", "cpus", "ramMb", "diskGb"};
         JsonArray vmsJsonArray = vmsJson.getAsJsonArray("vms");
         for (JsonElement vmJsonElement: vmsJsonArray) {
             JsonObject vmJson = vmJsonElement.getAsJsonObject();
-            for (String requiredParam: requiredParams) {
 
-                // Check that the required parameters have been included
-                if (vmJson.get(requiredParam) == null) {
-                    throw new WebApplicationException(400);
-                }
-
-                // Check that CPUs, ramMb, and diskGb have non-negative values
-                if (requiredParam.equals("cpus") || requiredParam.equals("ramMb") ||
-                        requiredParam.equals("diskGb")) {
-                    if (vmJson.get(requiredParam).getAsInt() < 0) {
+            if (Config.INSTANCE.getVmManager().getClass().getCanonicalName().equalsIgnoreCase("es.bsc.demiurge.renewit.manager.PerformanceVmManager")) {
+                for (String requiredParamPerf: requiredParamsPerf){
+                    // Check that the required parameters have been included and not empty
+                    if (requiredParamPerf.equals("name")) {
+                        if (vmJson.get(requiredParamPerf).getAsString().equals("")) {
+                            throw new WebApplicationException(400);
+                        }
+                    }else if (vmJson.getAsJsonObject("extraParameters") == null || vmJson.getAsJsonObject("extraParameters").get(requiredParamPerf).getAsString().equals("")) {
                         throw new WebApplicationException(400);
                     }
                 }
+            } else {
+                for (String requiredParam: requiredParams) {
 
-                // Check that the name is not empty
-                if (requiredParam.equals("name")) {
-                    if (vmJson.get(requiredParam).getAsString().equals("")) {
+                    // Check that the required parameters have been included
+                    if (vmJson.get(requiredParam) == null) {
                         throw new WebApplicationException(400);
                     }
+
+                    // Check that CPUs, ramMb, and diskGb have non-negative values
+                    if (requiredParam.equals("cpus") || requiredParam.equals("ramMb") ||
+                            requiredParam.equals("diskGb")) {
+                        if (vmJson.get(requiredParam).getAsInt() < 0) {
+                            throw new WebApplicationException(400);
+                        }
+                    }
+
+                    // Check that the name is not empty
+                    if (requiredParam.equals("name")) {
+                        if (vmJson.get(requiredParam).getAsString().equals("")) {
+                            throw new WebApplicationException(400);
+                        }
+                    }
+
                 }
 
             }

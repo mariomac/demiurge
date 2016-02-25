@@ -1,0 +1,4 @@
+/*C3*/SET SCHEMA PUBLIC
+CREATE TABLE IF NOT EXISTS virtual_machines (id VARCHAR(255), appId VARCHAR(255), ovfId VARCHAR(255), slaId VARCHAR(255), PRIMARY KEY (id)) 
+CREATE TABLE IF NOT EXISTS current_scheduling_alg (algorithm VARCHAR(255), PRIMARY KEY (algorithm))
+CREATE TABLE IF NOT EXISTS self_adaptation_options (options LONGVARCHAR) 

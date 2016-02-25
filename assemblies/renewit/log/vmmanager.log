@@ -1,0 +1,447 @@
+2016-02-24 12:31:14,533 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-02-24 12:31:14,549 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-02-24 12:33:21,045 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-02-24 12:33:21,055 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-02-24 12:36:26,008 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-02-24 12:36:26,018 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-02-24 12:39:01,878 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-02-24 12:39:01,888 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-02-24 12:39:29,068 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-02-24 12:39:29,078 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-02-24 12:41:16,827 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-02-24 12:41:16,836 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-02-24 12:42:23,306 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-02-24 12:42:23,316 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-02-24 12:45:12,998 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-02-24 12:45:13,010 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-02-24 12:47:18,521 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-02-24 12:47:18,532 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-02-24 12:50:43,268 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-02-24 12:50:43,278 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-02-24 12:51:43,354 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-02-24 12:51:43,364 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-02-24 15:07:40,150 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-02-24 15:07:40,160 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-02-24 15:22:57,290 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-02-24 15:22:57,299 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-02-24 15:46:08,908 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-02-24 15:46:08,918 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-02-24 15:46:09,547 INFO   - es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance
+Host bscgrid30 discarded: performance not guaranteed
+2016-02-24 15:46:09,548 INFO   - es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance
+Host bscgrid31 discarded: performance not guaranteed
+2016-02-24 15:49:59,471 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-02-24 15:49:59,481 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-02-24 15:50:00,103 INFO   - es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance
+Host bscgrid31 discarded: performance not guaranteed
+2016-02-24 15:51:33,584 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-02-24 15:51:33,594 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-02-24 15:57:18,224 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-02-24 15:57:18,233 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-02-24 16:09:44,923 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-02-24 16:09:44,933 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-02-24 16:10:01,972 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-02-24 16:10:01,981 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-02-24 16:30:08,318 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-02-24 16:30:08,329 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-02-24 16:31:19,283 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-02-24 16:31:19,295 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-02-24 16:34:38,191 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-02-24 16:34:38,202 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-02-24 16:35:06,462 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-02-24 16:35:06,472 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-02-24 16:35:07,172 INFO   - es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance
+Host "bscgrid30" discarded: performance not guaranteed
+2016-02-24 16:35:07,172 INFO   - es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance
+Host "bscgrid31" discarded: performance not guaranteed
+2016-02-24 16:35:32,615 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-02-24 16:35:32,625 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-02-24 16:35:47,042 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-02-24 16:35:47,051 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-02-24 16:35:47,883 INFO   - es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance
+Host "bscgrid31" discarded: performance not guaranteed
+2016-02-24 16:35:59,813 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-02-24 16:35:59,823 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-02-24 16:36:08,498 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-02-24 16:36:08,508 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-02-24 16:36:09,128 INFO   - es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance
+Host "bscgrid31" discarded: performance not guaranteed
+2016-02-24 16:36:09,129 INFO   - es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance
+Host "bscgrid31" discarded: performance not guaranteed
+2016-02-24 16:36:51,577 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-02-24 16:36:51,586 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-02-24 16:36:52,215 INFO   - es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance
+Host "bscgrid31" discarded: performance not guaranteed
+2016-02-24 16:37:40,688 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-02-24 16:37:40,698 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-02-24 16:38:28,855 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-02-24 16:38:28,865 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-02-24 16:38:39,297 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-02-24 16:38:39,307 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-02-24 16:38:46,161 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-02-24 16:38:46,171 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-02-24 16:38:55,826 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-02-24 16:38:55,836 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}

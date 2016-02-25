@@ -12,6 +12,8 @@ public class FormulaConfig {
     private final List<Double> ramGbCoefficients = new ArrayList<>();
     private final List<Double> diskGbCoefficients = new ArrayList<>();
     private final double independentTerm;
+    private double maxPerformance;
+
 
     public FormulaConfig(String benchmark, List<Double> cpusCoefficients, List<Double> ramGbCoefficients,
                          List<Double> diskGbCoefficients, double independentTerm) {
@@ -21,6 +23,17 @@ public class FormulaConfig {
         this.diskGbCoefficients.addAll(diskGbCoefficients);
         this.independentTerm = independentTerm;
     }
+
+    public FormulaConfig(String benchmark, List<Double> cpusCoefficients, List<Double> ramGbCoefficients,
+                         List<Double> diskGbCoefficients, double independentTerm, double maxPerf) {
+        this.benchmark = benchmark;
+        this.cpusCoefficients.addAll(cpusCoefficients);
+        this.ramGbCoefficients.addAll(ramGbCoefficients);
+        this.diskGbCoefficients.addAll(diskGbCoefficients);
+        this.independentTerm = independentTerm;
+        this.maxPerformance = maxPerformance;
+    }
+
 
     public String getBenchmark() {
         return benchmark;
@@ -42,6 +55,10 @@ public class FormulaConfig {
         return new ArrayList<>(diskGbCoefficients);
     }
 
+    public double getMaxPerformance() {
+        return maxPerformance;
+    }
+
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
@@ -50,6 +67,7 @@ public class FormulaConfig {
                 .add("ramGbCoefficients", ramGbCoefficients)
                 .add("diskGbCoefficients", diskGbCoefficients)
                 .add("independentTerm", independentTerm)
+        //        .add("maxPerf", maxPerf)
                 .toString();
     }
 

@@ -15,10 +15,61 @@
 	</transformer>
 -->
 
+	<!--
     <bean id="monitoring" class="es.bsc.demiurge.monitoring.ganglia.GangliaMonitoring"/>
     <bean id="cloudMiddleware" class="es.bsc.demiurge.openstackjclouds.OpenStackJclouds"/>
+	-->
+	<!-- FOR TEST -->
 
-    <bean id="vmManager" class="es.bsc.demiurge.renewit.manager.RenewITVmManager"/>
+	<bean id="monitoring" class="es.bsc.demiurge.fake.FakeMonitoring"/>
+	<bean id="cloudMiddleware" class="es.bsc.demiurge.fake.FakeCloudMiddleware">
+		<constructor-arg>
+			<util:list value-type="es.bsc.demiurge.core.monitoring.hosts.Host">
+				<bean class="es.bsc.demiurge.fake.HostFake">
+					<constructor-arg index="0" value="fakehost_1"/>
+					<constructor-arg index="1" value="8"/>
+					<constructor-arg index="2" value="16000"/>
+					<constructor-arg index="3" value="4000000"/>
+					<constructor-arg index="4" value="0"/>
+					<constructor-arg index="5" value="0"/>
+					<constructor-arg index="6" value="0"/>
+				</bean>
+				<bean class="es.bsc.demiurge.fake.HostFake">
+					<constructor-arg index="0" value="fakehost_2"/>
+					<constructor-arg index="1" value="8"/>
+					<constructor-arg index="2" value="16000"/>
+					<constructor-arg index="3" value="4000000"/>
+					<constructor-arg index="4" value="0"/>
+					<constructor-arg index="5" value="0"/>
+					<constructor-arg index="6" value="0"/>
+				</bean>
+				<bean class="es.bsc.demiurge.fake.HostFake">
+					<constructor-arg index="0" value="bscgrid30"/>
+					<constructor-arg index="1" value="32"/>
+					<constructor-arg index="2" value="24000"/>
+					<constructor-arg index="3" value="4000000"/>
+					<constructor-arg index="4" value="0"/>
+					<constructor-arg index="5" value="0"/>
+					<constructor-arg index="6" value="0"/>
+				</bean>
+				<bean class="es.bsc.demiurge.fake.HostFake">
+					<constructor-arg index="0" value="bscgrid31"/>
+					<constructor-arg index="1" value="24"/>
+					<constructor-arg index="2" value="18000"/>
+					<constructor-arg index="3" value="4000000"/>
+					<constructor-arg index="4" value="0"/>
+					<constructor-arg index="5" value="0"/>
+					<constructor-arg index="6" value="0"/>
+				</bean>
+			</util:list>
+		</constructor-arg>
+	</bean>
+
+
+
+
+    <!--bean id="vmManager" class="es.bsc.demiurge.core.manager.GenericVmManager"/-->
+	<bean id="vmManager" class="es.bsc.demiurge.renewit.manager.PerformanceVmManager"/>
 
     <bean id="energyModeller" class="es.bsc.demiurge.renewit.modellers.PowerModeller"/>
 
@@ -28,10 +79,11 @@
 
 	<!-- Values must be subclasses of optaplanners' SimpleScoreCalculator -->
 	<util:map id="placementPolicies" key-type="java.lang.String" value-type="java.lang.Class">
-		<entry key="consolidation" value-type="java.lang.Class" value="es.bsc.demiurge.core.clopla.placement.scorecalculators.ScoreCalculatorConsolidation"/>
-		<entry key="distribution" value-type="java.lang.Class" value="es.bsc.demiurge.core.clopla.placement.scorecalculators.ScoreCalculatorDistribution"/>
-		<entry key="random" value-type="java.lang.Class" value="es.bsc.demiurge.core.clopla.placement.scorecalculators.ScoreCalculatorRandom"/>
-		<entry key="powerAware" value-type="java.lang.Class" value="es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPowerAware"/>
+		<!--entry key="consolidation" value-type="java.lang.Class" value="es.bsc.demiurge.core.clopla.placement.scorecalculators.ScoreCalculatorConsolidation"/-->
+		<!--entry key="distribution" value-type="java.lang.Class" value="es.bsc.demiurge.core.clopla.placement.scorecalculators.ScoreCalculatorDistribution"/-->
+		<!--entry key="random" value-type="java.lang.Class" value="es.bsc.demiurge.core.clopla.placement.scorecalculators.ScoreCalculatorRandom"/-->
+		<!--entry key="powerAware" value-type="java.lang.Class" value="es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPowerAware"/-->
+		<entry key="performanceAware" value-type="java.lang.Class" value="es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance"/>
 	</util:map>
 
 	<util:list id="vmmListeners" value-type="es.bsc.demiurge.core.drivers.VmmListener">

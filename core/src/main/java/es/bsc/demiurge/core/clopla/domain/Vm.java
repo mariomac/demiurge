@@ -21,6 +21,7 @@ package es.bsc.demiurge.core.clopla.domain;
 
 import es.bsc.demiurge.core.clopla.domain.comparators.HostStrengthComparator;
 import es.bsc.demiurge.core.clopla.domain.comparators.VmDifficultyComparator;
+import es.bsc.demiurge.core.models.vms.ExtraParameters;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.variable.PlanningVariable;
 
@@ -40,6 +41,10 @@ public class Vm extends AbstractPersistable {
     private String alphaNumericId; /* This might be needed in some cases. For example, OpenStack uses alphanumeric
                                    IDs, and optaplanner needs an ID of type long. */
 
+    // Added by Mauro
+    private boolean isDeployed;  //this is set to true if the Vm was already deployed
+    private ExtraParameters extraParameters;// This is valid within the RenewIT project
+
     public Vm() { } // OptaPlanner needs no arg constructor to clone
 
     public static class Builder {
@@ -53,7 +58,9 @@ public class Vm extends AbstractPersistable {
         // Optional parameters
         private String appId;
         private String alphaNumericId;
-        
+        private boolean isDeployed;
+        private ExtraParameters extraParameters;
+
         public Builder (Long id, int ncpus, int ramMb, int diskGb) {
             this.id = id;
             this.ncpus = ncpus;
@@ -66,6 +73,16 @@ public class Vm extends AbstractPersistable {
             return this;
         }
         
+        public Builder isDeployed(boolean isDeployed) {
+            this.isDeployed = isDeployed;
+            return this;
+        }
+
+        public Builder extraParameters(ExtraParameters extraParameters) {
+            this.extraParameters = extraParameters;
+            return this;
+        }
+
         public Builder alphaNumericId(String alphaNumericId) {
             this.alphaNumericId = alphaNumericId;
             return this;
@@ -84,6 +101,8 @@ public class Vm extends AbstractPersistable {
         diskGb = builder.diskGb;
         appId = builder.appId;
         alphaNumericId = builder.alphaNumericId;
+        isDeployed = builder.isDeployed;
+        extraParameters = builder.extraParameters;
     }
 
     /**
@@ -120,6 +139,14 @@ public class Vm extends AbstractPersistable {
 
     public String getAlphaNumericId() {
         return alphaNumericId;
+    }
+
+    public boolean isDeployed() {
+        return isDeployed;
+    }
+
+    public ExtraParameters getExtraParameters() {
+        return extraParameters;
     }
 
     @PlanningVariable(valueRangeProviderRefs = {"hostRange"}, strengthComparatorClass = HostStrengthComparator.class)

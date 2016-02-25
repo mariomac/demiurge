@@ -29,6 +29,11 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
+			<groupId>es.bsc.demiurge</groupId>
+			<artifactId>fake-plugins</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 			<version>4.3.2</version>
@@ -43,7 +48,18 @@
 			<artifactId>gson</artifactId>
 			<version>2.2.4</version>
 		</dependency>
-    </dependencies>
+		<dependency>
+			<groupId>es.bsc.demiurge</groupId>
+			<artifactId>cloudsuite-performace-driver</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 
 
 	<build>

@@ -45,6 +45,9 @@ public class Vm {
     private String slaId = "";
     private boolean needsFloatingIp = false;
 
+    // The next two parameters are just valid within the RenewIT project
+    private ExtraParameters extraParameters;
+
     private String preferredHost;
 
     // TODO: apply builder pattern instead of having several constructors.
@@ -116,6 +119,7 @@ public class Vm {
         this.slaId = slaId;
         this.preferredHost = preferredHost;
     }
+
 
     public String getName() {
         return name;
@@ -204,5 +208,17 @@ public class Vm {
         Preconditions.checkArgument(diskGb > 0, "Disk GB was %s but expected positive", diskGb);
         Preconditions.checkArgument(swapMb >= 0, "Swap MB was %s but expected non-negative", swapMb);
     }
-    
+
+    public ExtraParameters getExtraParameters() {
+        return extraParameters;
+    }
+
+    /**
+     *
+     * @param extra
+     * The extra parameters
+     */
+    public void setExtraParameters(ExtraParameters extra) {
+        this.extraParameters = extra;
+    }
 }

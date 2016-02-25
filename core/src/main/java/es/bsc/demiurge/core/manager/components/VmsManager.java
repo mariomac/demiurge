@@ -187,6 +187,7 @@ public class VmsManager {
      * @return the IDs of the VMs deployed in the same order that they were received
      */
     public List<String> deployVms(List<Vm> vms) throws CloudMiddlewareException {
+
         // Get current time to know how much each VM has to wait until it is deployed.
         Calendar calendarDeployRequestReceived = Calendar.getInstance();
 

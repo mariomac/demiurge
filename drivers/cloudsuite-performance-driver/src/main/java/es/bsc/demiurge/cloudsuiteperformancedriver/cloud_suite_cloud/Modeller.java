@@ -16,7 +16,7 @@ public class Modeller {
     private static final double PERF_ACCEPTABLE_DELTA = 0.05;
 
     private final Map<String, Map<CloudSuiteBenchmark, ModelFormula>> powerModels = new HashMap<>();
-    private final Map<String, Map<CloudSuiteBenchmark, ModelFormula>> performanceModels = new HashMap<>();
+    private final Map<String, Map<CloudSuiteBenchmark, ModelFormulaMaxPerf>> performanceModels = new HashMap<>();
 
     public Modeller(ModelsConfig modelsConfig) {
         for (HostModelsConfig hostModelsConfig : modelsConfig.getModels()) {
@@ -34,17 +34,18 @@ public class Modeller {
             }
             powerModels.put(hostname, benchmarkFormula);
 
-            benchmarkFormula = new HashMap<>();
+            Map<CloudSuiteBenchmark, ModelFormulaMaxPerf> benchmarkFormulaMaxPerf = new HashMap<>();
             for (FormulaConfig formulaConfig : hostModelsConfig.getPerformanceModels()) {
-                benchmarkFormula.put(
+                benchmarkFormulaMaxPerf.put(
                         getBenchmarkFromName(formulaConfig.getBenchmark()),
-                        new ModelFormula(
+                        new ModelFormulaMaxPerf(
                                 formulaConfig.getCpusCoefficients(),
                                 formulaConfig.getRamGbCoefficients(),
                                 formulaConfig.getDiskGbCoefficients(),
-                                formulaConfig.getIndependentTerm()));
+                                formulaConfig.getIndependentTerm(),
+                                formulaConfig.getMaxPerformance()));
             }
-            performanceModels.put(hostname, benchmarkFormula);
+            performanceModels.put(hostname, benchmarkFormulaMaxPerf);
         }
     }
 
@@ -59,6 +60,7 @@ public class Modeller {
      */
     public List<VmSize> getVmSizesWithAtLeastPerformance(double perf, CloudSuiteBenchmark benchmark,
                                                          Host host) {
+
         List<VmSize> result = new ArrayList<>();
         int minCpus = benchmark.getMinimumVmSize().getCpus();
         int minRamGb = benchmark.getMinimumVmSize().getRamGb();
@@ -86,6 +88,53 @@ public class Modeller {
         return result;
     }
 
+
+    public boolean hostSupportPerformance(Host host, CloudSuiteBenchmark benchmark, double requiredPerf){
+        //System.out.println("comparing " + requiredPerf + ": max supported: " + performanceModels.get(host.getHostname()).get(benchmark).getMaxPerformance());
+        if ( requiredPerf <= performanceModels.get(host.getHostname()).get(benchmark).getMaxPerformance()){
+            return true;
+        }else
+            return false;
+
+    }
+
+    /**
+     * Returns the smaller VM size for which the given benchmark has a minimum performance of perf when
+     * executed in the specified host.
+     *
+     * @param perf the minimum performance desired
+     * @param benchmark the benchmark
+     * @param host the host where the benchmark is executed
+     * @return the list of VM sizes
+     */
+    public VmSize getMinVmSizesWithAtLeastPerformance(double perf, CloudSuiteBenchmark benchmark,
+                                                      Host host){
+
+        int minCpus = benchmark.getMinimumVmSize().getCpus();
+        int minRamGb = benchmark.getMinimumVmSize().getRamGb();
+        int minDiskGb = benchmark.getMinimumVmSize().getDiskGb();
+
+        for (int cpus = minCpus; cpus <= benchmarkMaxCpus(benchmark, host); ++cpus) {
+            for (int ramGb = minRamGb; ramGb <= benchmarkMaxRamGb(benchmark, host); ++ramGb) {
+                for (int diskGb = minDiskGb; diskGb <= benchmarkMaxDiskGb(benchmark, host); diskGb += 10) {
+                    if (benchmark.getPerformanceValue() == PerformanceValue.ASCENDANT_PERFORMANCE) {
+                        if (getBenchmarkPerformance(benchmark, host.getHostname(), new VmSize(cpus, ramGb, diskGb))
+                                >= (perf - PERF_ACCEPTABLE_DELTA)) {
+                            return (new VmSize(cpus, ramGb, diskGb));
+                        }
+                    }
+                    else {
+                        if (getBenchmarkPerformance(benchmark, host.getHostname(), new VmSize(cpus, ramGb, diskGb))
+                                <= (perf - PERF_ACCEPTABLE_DELTA)) {
+                            return (new VmSize(cpus, ramGb, diskGb));
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
     public double getBenchmarkPerformance(CloudSuiteBenchmark benchmark, String hostname, VmSize vmSize) {
         return performanceModels.get(hostname).get(benchmark).applyFormula(
                 vmSize.getCpus(), vmSize.getRamGb(), vmSize.getDiskGb());
@@ -110,7 +159,7 @@ public class Modeller {
     }
 
     // This should be done in a better way, but it's ok for now
-    private CloudSuiteBenchmark getBenchmarkFromName(String name) {
+    public CloudSuiteBenchmark getBenchmarkFromName(String name) {
         switch (name) {
             case "data_analytics":
                 return CloudSuiteBenchmark.DATA_ANALYTICS;

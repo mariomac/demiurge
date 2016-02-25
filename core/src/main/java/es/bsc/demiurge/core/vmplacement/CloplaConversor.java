@@ -26,7 +26,6 @@ import es.bsc.demiurge.core.manager.components.EstimatesManager;
 import es.bsc.demiurge.core.models.scheduling.RecommendedPlan;
 import es.bsc.demiurge.core.models.scheduling.RecommendedPlanRequest;
 import es.bsc.demiurge.core.models.vms.VmDeployed;
-import es.bsc.demiurge.core.clopla.placement.config.localsearch.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -156,13 +155,23 @@ public class CloplaConversor {
 	protected es.bsc.demiurge.core.clopla.domain.Vm getCloplaVm(Long id, VmDeployed vm,
                                                                 List<es.bsc.demiurge.core.clopla.domain.Host> cloplaHosts,
                                                                 boolean assignVmsToHosts) {
-        es.bsc.demiurge.core.clopla.domain.Vm result = new es.bsc.demiurge.core.clopla.domain.Vm.Builder(
+
+        es.bsc.demiurge.core.clopla.domain.Vm result;
+
+        es.bsc.demiurge.core.clopla.domain.Vm.Builder builder = new es.bsc.demiurge.core.clopla.domain.Vm.Builder(
                 id, vm.getCpus(), vm.getRamMb(), vm.getDiskGb())
                 .appId(vm.getApplicationId())
                 .alphaNumericId(vm.getId())
-                .build();
+                .isDeployed(true);
 
-        // If we do not need to assign the VMs to their current hosts, then return the result
+        if (vm.getExtraParameters() != null){
+            result = builder.extraParameters(vm.getExtraParameters())
+                    .build();
+        }else{
+            result = builder.build();
+        }
+
+                // If we do not need to assign the VMs to their current hosts, then return the result
         if (!assignVmsToHosts) {
             return result;
         }
@@ -174,11 +183,22 @@ public class CloplaConversor {
 
     // Note: This function should probably be merged with getCloplaVm
 	protected static es.bsc.demiurge.core.clopla.domain.Vm getCloplaVmToDeploy(Long id, es.bsc.demiurge.core.models.vms.Vm vm) {
-        return new es.bsc.demiurge.core.clopla.domain.Vm.Builder(
+
+        es.bsc.demiurge.core.clopla.domain.Vm result;
+        es.bsc.demiurge.core.clopla.domain.Vm.Builder builder = new es.bsc.demiurge.core.clopla.domain.Vm.Builder(
                 id, vm.getCpus(), vm.getRamMb(), vm.getDiskGb())
                 .appId(vm.getApplicationId())
                 .alphaNumericId(vm.getName())
-                .build();
+                .isDeployed(false);
+
+        if (vm.getExtraParameters() != null){
+            result = builder.extraParameters(vm.getExtraParameters())
+                    .build();
+        }else{
+            result = builder.build();
+        }
+
+        return result;
     }
 
     /**
