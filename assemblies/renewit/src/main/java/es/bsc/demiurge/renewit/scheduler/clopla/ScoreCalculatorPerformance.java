@@ -61,7 +61,7 @@ public class ScoreCalculatorPerformance implements SimpleScoreCalculator<Cluster
                         used = true;
 
                     }else{
-                        logger.info("Host \"" + hostPerf.getHostname() + "\" discarded: performance not guaranteed");
+                        logger.info("Host \"" + hostPerf.getHostname() + "\" discarded: performance not guaranteed!");
                     }
 
                 }
