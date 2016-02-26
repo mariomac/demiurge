@@ -7,11 +7,9 @@
         		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
         		">
 
-	<security:http use-expressions="true">
-		<security:intercept-url pattern="/gui/test/**" access="isAuthenticated()"/>
-		<security:intercept-url pattern="/gui/index/**" access="permitAll"/>
-		<security:intercept-url pattern="/**" access="denyAll"/>
-		<security:form-login/>
+	<security:http use-expressions="true" pattern="/gui/**">
+		<security:intercept-url pattern="/gui/test/**" access="hasRole('ROLE_ADMIN')"/>
+		<security:form-login login-page="/login"/>
 	</security:http>
 	<security:authentication-manager>
 		<security:authentication-provider>

@@ -64,7 +64,7 @@ public enum Config {
     // TODO: remove public ATTRIBUTES and access only through apache configuration
 	// security
 	public String cryptSalt;
-	public boolean securityEnabled;
+	public boolean disableSecurity;
 
 
 	// db
@@ -175,7 +175,7 @@ public enum Config {
         Logger logger = LogManager.getLogger(Config.class);
         dbName = configuration.getString("dbName", DEFAULT_DB_NAME);
 
-		securityEnabled = configuration.getBoolean("securityEnabled",true);
+		disableSecurity = configuration.getBoolean("disableSecurity",false);
         connectionPort = configuration.getInt("connectionPort",80);
         deployPackage = configuration.getString("deployPackage");
         hosts = configuration.getStringArray("hosts");
