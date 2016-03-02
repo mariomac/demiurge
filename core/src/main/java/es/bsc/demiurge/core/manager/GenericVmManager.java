@@ -18,6 +18,7 @@
 
 package es.bsc.demiurge.core.manager;
 
+import es.bsc.demiurge.core.auth.UserDao;
 import es.bsc.demiurge.core.db.VmManagerDb;
 import es.bsc.demiurge.core.drivers.Estimator;
 import es.bsc.demiurge.core.drivers.VmAction;
