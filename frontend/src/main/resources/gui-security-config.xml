@@ -10,7 +10,8 @@
         		">
 
 	<security:http use-expressions="true" pattern="/gui/**">
-		<security:intercept-url pattern="/gui/test/**" access="hasRole('ROLE_USER')"/>
+		<security:intercept-url pattern="/gui/login/**" access="permitAll"/>
+		<security:intercept-url pattern="/gui/**" access="hasRole('ROLE_USER')"/>
 		<security:form-login login-page="/gui/login"
 							 username-parameter="username"
 							 password-parameter="password"/>

@@ -138,7 +138,7 @@ public class VmManagerDbHsql implements VmManagerDb {
 				script.addBatch(sql);
 			}
 			script.executeBatch();
-			script.closeOnCompletion();
+			script.close();
 			conn.commit();
 			if(userDao.countUsers() == 0) {
 				userDao.insertUser("admin","changeme");
