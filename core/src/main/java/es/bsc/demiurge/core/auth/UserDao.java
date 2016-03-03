@@ -12,4 +12,7 @@ public interface UserDao {
 	void insertUser(String username, String plainPassword) throws SQLException;
 
 	User loadUser(String username);
+
+	boolean checkUser(String username, String plainPassword);
+	void updateUserPassword(String username, String plainPassword) throws SQLException;
 }
