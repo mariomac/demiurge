@@ -4,8 +4,7 @@ import es.bsc.demiurge.core.configuration.Config;
 import org.apache.activemq.transport.discovery.http.EmbeddedJettyServer;
 import org.eclipse.jetty.rewrite.handler.RedirectPatternRule;
 import org.eclipse.jetty.rewrite.handler.RewriteHandler;
-import org.eclipse.jetty.server.Handler;
-import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.*;
 import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.server.handler.HandlerCollection;
 import org.eclipse.jetty.server.session.HashSessionIdManager;
@@ -14,6 +13,7 @@ import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.glassfish.jersey.servlet.ServletContainer;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.context.ContextLoaderListener;
@@ -39,7 +39,25 @@ public class EmbeddedJetty {
 
     public void startJetty(int port) throws Exception {
 		// prepare server
-		final Server server = new Server(port);
+		final Server server;
+		if(Config.INSTANCE.disableSecurity) {
+			server = new Server(port);
+		} else {
+			// TODO: allow configuration-defined REAL certificates
+			server = new Server();
+			HttpConfiguration https = new HttpConfiguration();
+			https.addCustomizer(new SecureRequestCustomizer());
+			SslContextFactory sslContextFactory = new SslContextFactory();
+			sslContextFactory.setKeyStorePath(EmbeddedJetty.class.getResource(
+					"/keystore").toExternalForm());
+			sslContextFactory.setKeyStorePassword("testtest");
+			sslContextFactory.setKeyManagerPassword("test");
+			ServerConnector sslConnector = new ServerConnector(server,
+					new SslConnectionFactory(sslContextFactory, "http/1.1"),
+					new HttpConnectionFactory(https));
+			sslConnector.setPort(port);
+			server.setConnectors(new Connector[] { sslConnector });
+		}
 
 		HandlerCollection handlerCollection = new HandlerCollection(false);
 
@@ -91,18 +109,25 @@ public class EmbeddedJetty {
 		ServletHolder guiServletHolder = new ServletHolder(dispatcherServlet);
         jettyServletContext.addServlet(guiServletHolder, GUI_MAPPING_URL);
 
-        ServletHolder apiServletContainer = new ServletHolder(
-         new ServletContainer(new ApiConfig()));
+        ServletHolder apiServletContainer = new ServletHolder(new ServletContainer(new ApiConfig()));
         jettyServletContext.addServlet(apiServletContainer, API_MAPPING_URL);
         jettyServletContext.addEventListener(new ContextLoaderListener(springContext));
 
-		// TODO: add security config for API
 		if(!Config.INSTANCE.disableSecurity) {
-			XmlWebApplicationContext ctx = new XmlWebApplicationContext();
-			ctx.setConfigLocation("classpath:/gui-security-config.xml");
-			FilterHolder fh = new FilterHolder(new DelegatingFilterProxy("springSecurityFilterChain",ctx));
-			jettyServletContext.addFilter(fh,"/*",EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD));
-
+			// GUI SECURITY
+			{
+				XmlWebApplicationContext ctx = new XmlWebApplicationContext();
+				ctx.setConfigLocation("classpath:/gui-security-config.xml");
+				FilterHolder fh = new FilterHolder(new DelegatingFilterProxy("springSecurityFilterChain",ctx));
+				jettyServletContext.addFilter(fh,"/gui/*",EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD));
+			}
+			// API SECURITY
+			{
+				XmlWebApplicationContext ctx = new XmlWebApplicationContext();
+				ctx.setConfigLocation("classpath:/api-security-config.xml");
+				FilterHolder fh = new FilterHolder(new DelegatingFilterProxy("springSecurityFilterChain",ctx));
+				jettyServletContext.addFilter(fh,"/api/*",EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD));
+			}
 			// Create the SessionHandler (wrapper) to handle the sessions
 			HashSessionManager manager = new HashSessionManager();
 			SessionHandler sessions = new SessionHandler(manager);

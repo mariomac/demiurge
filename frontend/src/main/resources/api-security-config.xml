@@ -9,15 +9,19 @@
         		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.2.xsd
         		">
 
-	<security:http use-expressions="true" pattern="/gui/**">
-		<security:intercept-url pattern="/gui/login/**" access="permitAll"/>
-		<security:intercept-url pattern="/gui/**" access="hasRole('ROLE_USER')"/>
-		<security:form-login login-page="/gui/login"
-							 username-parameter="username"
-							 password-parameter="password"/>
-		<!--login-processing-url="/gui/login"-->
+	<security:http use-expressions="true">
+		<security:intercept-url pattern="/api/**" access="hasRole('ROLE_USER')"/>
+		<security:http-basic />
 	</security:http>
 
+	<!-- Connect the custom authentication success handler -->
+	<bean id="mySuccessHandler"
+				class="org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler" />
+	<!-- Using default failure handler -->
+	<bean id="myFailureHandler"
+				class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler" />
+
+	<!-- Authentication manager -->
 	<bean id="authProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
 		<property name="userDetailsService" ref="customUserService"/>
 		<property name="passwordEncoder">

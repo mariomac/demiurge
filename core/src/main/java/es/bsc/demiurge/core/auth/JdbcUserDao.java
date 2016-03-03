@@ -61,4 +61,20 @@ public class JdbcUserDao implements UserDao {
 			return null;
 		}
 	}
+
+	@Override
+	public boolean checkUser(String username, String plainPassword) {
+		User user = loadUser(username);
+		return user != null && user.isEnabled() && encoder.matches(plainPassword,user.getCipheredPassword());
+	}
+
+	@Override
+	public void updateUserPassword(String username, String plainPassword) throws SQLException {
+		try(PreparedStatement stmt = connection.prepareStatement("UPDATE users SET password=? WHERE username=?")) {
+			stmt.setString(1, encoder.encode(plainPassword));
+			stmt.setString(2, username);
+			stmt.executeUpdate();
+			connection.commit();
+		}
+	}
 }
