@@ -30,6 +30,8 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.validator.UrlValidator;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.jclouds.collect.IterableWithMarker;
+import org.jclouds.collect.PagedIterable;
 import org.jclouds.openstack.neutron.v2.NeutronApi;
 import org.jclouds.openstack.nova.v2_0.NovaApi;
 import org.jclouds.openstack.nova.v2_0.domain.*;
@@ -647,4 +649,30 @@ public class OpenStackJclouds implements CloudMiddleware {
         return null;
     }
 
+	@Override
+	public Map<String, String> getFlavours() {
+		PagedIterable<Resource> flavours = openStackJcloudsApis.getFlavorApi().list();
+		Map<String,String> ids = new HashMap<>();
+		for(IterableWithMarker<Resource> resIterable : flavours) {
+			Iterator<Resource> iterator = resIterable.iterator();
+			while(iterator.hasNext()) {
+				Resource res = iterator.next();
+				ids.put(res.getId(), res.getName());
+			}
+		}
+		return ids;
+	}
+
+	@Override
+	public void resize(String vmId, String flavourId) {
+		System.out.println("OpenStackJclouds.resize");
+		System.out.println("vmId = " + vmId);
+		System.out.println("flavourId = " + flavourId);
+		logger.info("vmId = " + vmId + ", " + "flavourId = " + flavourId);
+
+		openStackJcloudsApis.getServerApi().
+				resize(vmId, flavourId);
+		openStackJcloudsApis.getServerApi().confirmResize(vmId);
+
+	}
 }

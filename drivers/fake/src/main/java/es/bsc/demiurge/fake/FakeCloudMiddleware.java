@@ -24,10 +24,7 @@ import es.bsc.demiurge.core.cloudmiddleware.CloudMiddleware;
 import es.bsc.demiurge.core.models.images.ImageToUpload;
 import es.bsc.demiurge.core.models.vms.VmDeployed;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -253,4 +250,13 @@ public class FakeCloudMiddleware implements CloudMiddleware {
         return null;
     }
 
+	@Override
+	public Map<String, String> getFlavours() {
+		return null;
+	}
+
+	@Override
+	public void resize(String vmId, String flavourId) {
+
+	}
 }

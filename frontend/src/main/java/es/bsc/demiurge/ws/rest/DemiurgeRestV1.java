@@ -28,12 +28,15 @@ import es.bsc.demiurge.core.manager.VmManager;
 import es.bsc.demiurge.ws.rest.error.ErrorHandler;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.context.annotation.Configuration;
 
 import javax.inject.Singleton;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -388,4 +391,32 @@ public class DemiurgeRestV1 {
 		vmManager.migrateVm(vmId,hostName);
 	}
 
+	@GET
+	@Path("/flavours")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getFlavours() {
+		ByteArrayOutputStream bos;
+		ObjectMapper mapper = new ObjectMapper();
+		bos = new ByteArrayOutputStream();
+		try {
+			mapper.writeValue(bos, vmManager.getFlavours());
+			return bos.toString();
+		} catch(Exception ex) {
+			log.error(ex.getMessage(),ex);
+			throw new WebApplicationException(ex.getMessage(), ex.getCause());
+		} finally {
+			try {
+				bos.close();
+			} catch (IOException e) {
+				log.warn(e.getMessage(),e);
+			}
+		}
+	}
+
+	@POST
+	@Path("/vms/{id}/resize")
+	@Consumes(MediaType.TEXT_PLAIN)
+	public void resizeVM(@PathParam("id") String vmId, String flavourId) {
+		vmManager.resize(vmId, flavourId);
+	}
 }
