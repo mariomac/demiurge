@@ -62,6 +62,12 @@ public enum Config {
     private static final String DEFAULT_BEANS_LOCATION = "/Beans.xml";
 
     // TODO: remove public ATTRIBUTES and access only through apache configuration
+	// security
+	public String cryptSalt;
+	public boolean disableSecurity;
+
+
+	// db
     public String dbName;
 
     // OpenStack configuration
@@ -91,7 +97,9 @@ public enum Config {
 	private HostFactory hostFactory;
 	private VmManager vmManager;
     private CloplaConversor cloplaConversor;
+
 	private List<VmmGlobalListener> vmmGlobalListeners;
+
 
 	Config() {
         configuration = getPropertiesObjectFromConfigFile();
@@ -167,6 +175,7 @@ public enum Config {
         Logger logger = LogManager.getLogger(Config.class);
         dbName = configuration.getString("dbName", DEFAULT_DB_NAME);
 
+		disableSecurity = configuration.getBoolean("disableSecurity",false);
         connectionPort = configuration.getInt("connectionPort",80);
         deployPackage = configuration.getString("deployPackage");
         hosts = configuration.getStringArray("hosts");
@@ -175,6 +184,8 @@ public enum Config {
         zabbixDbUser = configuration.getString("zabbixDbUser");
         zabbixDbPassword = configuration.getString("zabbixDbPassword");
         deployVmWithVolume = configuration.getBoolean("deployVmWithVolume", false);
+
+		cryptSalt = configuration.getString("crypt.salt", "addYourOwnSaltPropertyToTheConfigFile");
 
 		logger.debug("Loading configuration: " + toString());
     }

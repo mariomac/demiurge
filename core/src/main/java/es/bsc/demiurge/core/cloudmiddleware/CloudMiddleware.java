@@ -24,6 +24,7 @@ import es.bsc.demiurge.core.models.vms.Vm;
 import es.bsc.demiurge.core.models.vms.VmDeployed;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Interface for the Cloud Middleware infrastructure (e.g. OpenNebula, OpenStack,
@@ -177,4 +178,8 @@ public interface CloudMiddleware {
      */
     void assignFloatingIp(String vmId) throws CloudMiddlewareException;
 
+
+	Map<String, String> getFlavours();
+
+	void resize(String vmId, String flavourId);
 }

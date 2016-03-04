@@ -1,5 +1,6 @@
 package es.bsc.demiurge.core.manager;
 
+import es.bsc.demiurge.core.auth.UserDao;
 import es.bsc.demiurge.core.cloudmiddleware.CloudMiddlewareException;
 import es.bsc.demiurge.core.db.VmManagerDb;
 import es.bsc.demiurge.core.manager.components.EstimatesManager;
@@ -16,6 +17,7 @@ import es.bsc.demiurge.core.monitoring.hosts.Host;
 import es.bsc.demiurge.core.selfadaptation.options.SelfAdaptationOptions;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * VM Manager interface.
@@ -280,4 +282,8 @@ public interface VmManager {
     void doInitActions();
 
 	EstimatesManager getEstimatesManager();
+
+	Map<String, String> getFlavours();
+
+	void resize(String vmId, String flavourId);
 }

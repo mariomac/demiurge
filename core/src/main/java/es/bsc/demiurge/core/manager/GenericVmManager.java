@@ -18,6 +18,7 @@
 
 package es.bsc.demiurge.core.manager;
 
+import es.bsc.demiurge.core.auth.UserDao;
 import es.bsc.demiurge.core.db.VmManagerDb;
 import es.bsc.demiurge.core.drivers.Estimator;
 import es.bsc.demiurge.core.drivers.VmAction;
@@ -540,6 +541,15 @@ public class GenericVmManager implements VmManager {
 		return retJson;
 	}
 
+	@Override
+	public Map<String, String> getFlavours() {
+		return vmsManager.getFlavours();
+	}
 
-	// test methods
+	@Override
+	public void resize(String vmId, String flavourId) {
+		vmsManager.resize(vmId, flavourId);
+	}
+
+// test methods
 }
