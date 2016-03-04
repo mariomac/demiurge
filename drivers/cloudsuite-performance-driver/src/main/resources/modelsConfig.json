@@ -480,7 +480,7 @@
           "ramGbCoefficients": [710.505, -21.104],
           "diskGbCoefficients": [],
           "independentTerm":-799.194,
-          "maxPerformance": 23000
+          "maxPerformance": 20000
         },
         {
           "benchmark": "web_serving",

@@ -6860,3 +6860,5 @@ Caused by: java.lang.NullPointerException
 Could not send response error 500: javax.servlet.ServletException: javax.servlet.ServletException: java.lang.NullPointerException
 2016-02-24 16:45:19,117 DEBUG  - es.bsc.demiurge.core.manager.GenericVmManager$1
 Notifying vmm global listeners on shutdown hook
+2016-03-01 11:43:53,615 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties

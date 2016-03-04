@@ -51,7 +51,7 @@ public class ScoreCalculatorPerformance implements SimpleScoreCalculator<Cluster
                     // Step 2: Obtain Vm sizes for required performance
                     if (hostOk){
                         VmSize vmSize = getVmSizes(vm, h);
-
+                        //logger.info(vmSize.toString());
                         cpuPowerUsage += vmSize.getCpus();
                         memoryUsage += vmSize.getRamGb();
                         diskUsage += vmSize.getDiskGb();
@@ -61,9 +61,12 @@ public class ScoreCalculatorPerformance implements SimpleScoreCalculator<Cluster
                         used = true;
 
                     }else{
-                        logger.info("Host \"" + hostPerf.getHostname() + "\" discarded: performance not guaranteed");
+                        //logger.info("Host \"" + hostPerf.getHostname() + "\" discarded: performance not guaranteed");
+                        used = false;
                     }
 
+                }else{
+                    energyUsage +=  vm.getPowerConsumption();
                 }
             }
 
@@ -84,12 +87,14 @@ public class ScoreCalculatorPerformance implements SimpleScoreCalculator<Cluster
             // Soft constraints
             if (used) {
                 softScore -= energyUsage;
+                //logger.info(h.getHostname() + " - soft: "+ softScore + " hard: " + hardScore);
             }
+
 
         }
 
         HardSoftDoubleScore a = HardSoftDoubleScore.valueOf(hardScore, softScore);
-        System.out.println(a.toString());
+        //System.out.println(a.toString());
 
         return HardSoftDoubleScore.valueOf(hardScore,softScore);
     }
