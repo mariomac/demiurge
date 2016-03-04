@@ -1,4 +1,4 @@
-package es.bsc.demiurge.auth;
+package es.bsc.demiurge.ws.auth;
 
 import es.bsc.demiurge.core.auth.User;
 import es.bsc.demiurge.core.auth.UserDao;
@@ -59,4 +59,5 @@ public class CustomUserDetailsService implements UserDetailsService {
 			}
 		};
 	}
+
 }
