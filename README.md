@@ -42,11 +42,12 @@ Listing Virtual Machines instances:
 	
 ## Credits
 
-Core contributors:
+Core contributors (in surname's alphabetical order):
 
+* [Raimon Bosch](https://github.com/raimonbosch)
+* [Mauro Canuto](https://github.com/maurocanuto)
 * [Mario Macias](http://github.com/mariomac)
 * [David Ortiz](http://github.com/davidor)
-* [Mauro Canuto](https://github.com/maurocanuto)
 
 _Demiurge_ is possible thanks to the next open source projects:
 
