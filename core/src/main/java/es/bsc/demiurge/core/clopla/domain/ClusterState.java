@@ -298,5 +298,16 @@ public class ClusterState extends AbstractPersistable implements Solution<Score>
         double unusedPerc = (double)(host.getNcpus() - cpusAssignedInHost(host))/(host.getNcpus());
         return unusedPerc > 0 ? unusedPerc : 0; // If a host is overbooked simply return 0
     }
-    
+
+    public void setVmsDeployedInHost(Host host, List<Vm> vms) {
+        for (Vm vmModified: vms) {
+            for (Vm v : this.vms) {
+                if (vmModified.getId() == v.getId()) {
+                    v.setNcpus(vmModified.getNcpus());
+                    v.setRamMb(vmModified.getRamMb());
+                    v.setDiskGb(vmModified.getDiskGb());
+                }
+            }
+        }
+    }
 }

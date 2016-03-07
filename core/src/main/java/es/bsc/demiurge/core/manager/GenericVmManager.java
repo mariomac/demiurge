@@ -18,29 +18,27 @@
 
 package es.bsc.demiurge.core.manager;
 
-import es.bsc.demiurge.core.auth.UserDao;
-import es.bsc.demiurge.core.db.VmManagerDb;
-import es.bsc.demiurge.core.drivers.Estimator;
-import es.bsc.demiurge.core.drivers.VmAction;
-import es.bsc.demiurge.core.manager.components.*;
-import es.bsc.demiurge.core.models.estimates.VmToBeEstimated;
-import es.bsc.demiurge.core.models.images.ImageUploaded;
-import es.bsc.demiurge.core.models.scheduling.*;
-import es.bsc.demiurge.core.models.vms.Vm;
-import es.bsc.demiurge.core.models.vms.VmDeployed;
-import es.bsc.demiurge.core.monitoring.hosts.HostFactory;
-import es.bsc.demiurge.core.selfadaptation.PeriodicSelfAdaptationRunnable;
 import es.bsc.demiurge.core.VmmGlobalListener;
 import es.bsc.demiurge.core.cloudmiddleware.CloudMiddleware;
 import es.bsc.demiurge.core.cloudmiddleware.CloudMiddlewareException;
 import es.bsc.demiurge.core.configuration.Config;
+import es.bsc.demiurge.core.db.VmManagerDb;
 import es.bsc.demiurge.core.db.VmManagerDbFactory;
+import es.bsc.demiurge.core.drivers.Estimator;
+import es.bsc.demiurge.core.drivers.VmAction;
+import es.bsc.demiurge.core.manager.components.*;
 import es.bsc.demiurge.core.models.estimates.ListVmEstimates;
+import es.bsc.demiurge.core.models.estimates.VmToBeEstimated;
 import es.bsc.demiurge.core.models.images.ImageToUpload;
+import es.bsc.demiurge.core.models.images.ImageUploaded;
+import es.bsc.demiurge.core.models.scheduling.*;
+import es.bsc.demiurge.core.models.vms.Vm;
+import es.bsc.demiurge.core.models.vms.VmDeployed;
 import es.bsc.demiurge.core.monitoring.hosts.Host;
+import es.bsc.demiurge.core.monitoring.hosts.HostFactory;
+import es.bsc.demiurge.core.selfadaptation.PeriodicSelfAdaptationRunnable;
 import es.bsc.demiurge.core.selfadaptation.SelfAdaptationManager;
 import es.bsc.demiurge.core.selfadaptation.options.SelfAdaptationOptions;
-
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -63,7 +61,7 @@ public class GenericVmManager implements VmManager {
     private HostsManager hostsManager;
     private VmsManager vmsManager;
     private SelfAdaptationOptsManager selfAdaptationOptsManager;
-    private VmPlacementManager vmPlacementManager;
+    protected VmPlacementManager vmPlacementManager;
     private EstimatesManager estimatesManager;
     
     private CloudMiddleware cloudMiddleware;
@@ -550,6 +548,8 @@ public class GenericVmManager implements VmManager {
 	public void resize(String vmId, String flavourId) {
 		vmsManager.resize(vmId, flavourId);
 	}
+
+
 
 // test methods
 }

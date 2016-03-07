@@ -173,6 +173,18 @@ public class Vm extends AbstractPersistable {
         this.host = host;
     }
 
+    public void setNcpus(int ncpus) {
+        this.ncpus = ncpus;
+    }
+
+    public void setRamMb(int ramMb) {
+        this.ramMb = ramMb;
+    }
+
+    public void setDiskGb(int diskGb) {
+        this.diskGb = diskGb;
+    }
+
     @Override
     public String toString() {
         return "VM - ID:" + id.toString() + ", cpus:" + ncpus + ", ram:" + ramMb + ", disk:" + diskGb

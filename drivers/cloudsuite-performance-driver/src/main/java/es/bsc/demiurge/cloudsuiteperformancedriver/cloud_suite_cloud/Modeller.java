@@ -18,6 +18,8 @@ public class Modeller {
     private final Map<String, Map<CloudSuiteBenchmark, ModelFormula>> powerModels = new HashMap<>();
     private final Map<String, Map<CloudSuiteBenchmark, ModelFormulaMaxPerf>> performanceModels = new HashMap<>();
 
+    private final HashMap<String, Double> idleValues = new HashMap<>();
+
     public Modeller(ModelsConfig modelsConfig) {
         for (HostModelsConfig hostModelsConfig : modelsConfig.getModels()) {
             String hostname = hostModelsConfig.getHostname();
@@ -46,6 +48,9 @@ public class Modeller {
                                 formulaConfig.getMaxPerformance()));
             }
             performanceModels.put(hostname, benchmarkFormulaMaxPerf);
+
+
+            idleValues.put(hostname, hostModelsConfig.getIdlePower());
         }
     }
 
@@ -180,6 +185,13 @@ public class Modeller {
         }
         throw new RuntimeException("The benchmark name specified is not correct.");
     }
+
+    public double getIdlePowerHost(String hostname){
+
+        return idleValues.get(hostname);
+
+    }
+
 
     @Override
     public String toString() {

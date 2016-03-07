@@ -6862,3 +6862,34 @@ Could not send response error 500: javax.servlet.ServletException: javax.servlet
 Notifying vmm global listeners on shutdown hook
 2016-03-01 11:43:53,615 DEBUG  - es.bsc.demiurge.core.configuration.Config
 Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-03-04 15:49:07,713 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-03-04 15:49:07,725 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='FakeDB'
+	hosts=[fakehost_1, fakehost_2]
+	connectionPort='34372'
+	deployPackage='es.bsc.demiurge.core.rest'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-03-04 15:49:08,096 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+DB connection to jdbc:hsqldb:file:db/FakeDB
+2016-03-04 15:49:08,587 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch: CREATE TABLE IF NOT EXISTS virtual_machines (id VARCHAR(255),   appId VARCHAR(255),   ovfId VARCHAR(255),   slaId VARCHAR(255), PRIMARY KEY (id)) 
+2016-03-04 15:49:08,587 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS current_scheduling_alg (algorithm VARCHAR(255), PRIMARY KEY (algorithm))
+2016-03-04 15:49:08,587 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS self_adaptation_options (options LONGVARCHAR)
+2016-03-04 15:49:08,587 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS users (   username VARCHAR(256) UNIQUE not null, password VARCHAR(2048) NOT NULL,   enabled BOOLEAN not null )
+2016-03-04 15:49:08,587 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS authorities (   username VARCHAR(256) FOREIGN KEY REFERENCES users(username),   authority VARCHAR(50)) 
+2016-03-04 15:49:08,750 DEBUG  - es.bsc.demiurge.core.auth.JdbcUserDao
+Inserting user. ExecuteUpdate result: 1
+2016-03-04 15:50:19,044 WARN   - org.springframework.web.servlet.DispatcherServlet
+No mapping found for HTTP request with URI [/gui/admin] in DispatcherServlet with name 'org.springframework.web.servlet.DispatcherServlet-4edaa789'
+2016-03-04 15:54:36,368 DEBUG  - es.bsc.demiurge.core.manager.GenericVmManager$1
+Notifying vmm global listeners on shutdown hook

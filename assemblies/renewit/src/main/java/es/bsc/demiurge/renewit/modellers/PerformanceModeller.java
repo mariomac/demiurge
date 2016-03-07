@@ -30,8 +30,19 @@ public class PerformanceModeller  implements Estimator {
         return 0;
     }
 
+    /**
+     *
+     * This method return the power consumption of the host. Actual consumption can be calculate in 2 ways:
+     *  - Directly reading the power meter of the host and summing the non-deployed-VMs power estimation.
+     *  - If the host does not have a power meter summing the power estimation of all the VMs
+     *
+     * @param host
+     * @param vmsDeployedInHost
+     * @return
+     */
+
     @Override
-    public double getCloplaEstimation(Host host, List<Vm> vmsDeployedInHost) {
-        return 0;
-    }
+    public double getCloplaEstimation(Host host, List<Vm> vmsDeployedInHost){return 0;}
+
+
 }

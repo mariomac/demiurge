@@ -42,6 +42,7 @@ public abstract class Host {
     protected double assignedCpus;
     protected double assignedMemoryMb;
     protected double assignedDiskGb;
+    protected double idlePower;
 
 	// todo: quit this as a property. Use abstract getter
     protected double currentPower;
@@ -242,7 +243,16 @@ public abstract class Host {
 		return currentPower;
 	}
 
-	@Override
+    public double getIdlePower() {
+
+        return idlePower;
+    }
+
+    public void setIdlePower(double idlePower) {
+        this.idlePower = idlePower;
+    }
+
+    @Override
 	public String toString() {
 		return "Host{" +
 				"hostname='" + hostname + '\'' +

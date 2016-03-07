@@ -37,17 +37,18 @@ public class ScoreCalculatorPerformanceTest {
 
         ExtraParameters extraParams = new ExtraParameters("data_serving", 10000);
 
-        Vm vm1 = new Vm.Builder(1l, 0, 0,0).isDeployed(false).extraParameters(extraParams).build();
-        Vm vm2 = new Vm.Builder(1l, 0, 0,0).isDeployed(false).extraParameters(extraParams).build();
+        Vm vm1 = new Vm.Builder(1l, 10, 20,0).isDeployed(false).extraParameters(extraParams).build();
+        Vm vm2 = new Vm.Builder(2l, 20, 30,30).isDeployed(false).extraParameters(extraParams).build();
         ArrayList<Vm> vmList = new ArrayList<Vm>();
         vmList.add(vm1);
-        //vmList.add(vm2);
+        vmList.add(vm2);
         clusterState.setVms(vmList);
+
 
     }
 
 
-    //@Test
+    @Test
     public void testAllocationWithPerformaceModels(){
 
         ScoreCalculatorPerformance calculateScore = new ScoreCalculatorPerformance();
@@ -55,7 +56,7 @@ public class ScoreCalculatorPerformanceTest {
 
     }
 
-    //@Test
+   // @Test
     public void test2AllocationWithPerformaceModels(){
 
 
@@ -72,7 +73,7 @@ public class ScoreCalculatorPerformanceTest {
 
         ExtraParameters extraParams = new ExtraParameters("data_serving", 10000);
 
-        Vm vm1 = new Vm.Builder(1l, 0, 0,0).isDeployed(false).extraParameters(extraParams).build();
+        Vm vm1 = new Vm.Builder(1l, 2, 1,1).isDeployed(false).extraParameters(extraParams).build();
         Vm vm2 = new Vm.Builder(2l, 0, 0,0).isDeployed(false).extraParameters(extraParams).build();
         Vm vm3 = new Vm.Builder(3l, 5, 10,50).isDeployed(true).extraParameters(extraParams).powerConsumption(130.0).build();
         vm3.setHost(bscgrid31_fake);
@@ -98,7 +99,7 @@ public class ScoreCalculatorPerformanceTest {
 
     }
 
-    @Test
+    //@Test
     public void test3AllocationWithPerformaceModels() {
 
 

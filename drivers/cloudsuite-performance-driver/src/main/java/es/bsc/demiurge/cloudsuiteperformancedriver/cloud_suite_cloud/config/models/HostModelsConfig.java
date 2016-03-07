@@ -8,6 +8,7 @@ import java.util.List;
 public class HostModelsConfig {
 
     private final String hostname;
+    private final double idlePower;
     private final List<FormulaConfig> powerModels = new ArrayList<>();
     private final List<FormulaConfig> performanceModels = new ArrayList<>();
 
@@ -15,6 +16,13 @@ public class HostModelsConfig {
         this.hostname = hostname;
         this.powerModels.addAll(powerModels);
         this.performanceModels.addAll(performanceModels);
+        this.idlePower = 0;
+    }
+    public HostModelsConfig(String hostname, List<FormulaConfig> powerModels, List<FormulaConfig> performanceModels, double idlePower) {
+        this.hostname = hostname;
+        this.powerModels.addAll(powerModels);
+        this.performanceModels.addAll(performanceModels);
+        this.idlePower = idlePower;
     }
 
     public String getHostname() {
@@ -28,6 +36,8 @@ public class HostModelsConfig {
     public List<FormulaConfig> getPerformanceModels() {
         return new ArrayList<>(performanceModels);
     }
+
+    public double getIdlePower() { return idlePower; }
 
     @Override
     public String toString() {

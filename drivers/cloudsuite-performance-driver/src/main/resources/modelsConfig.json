@@ -2,6 +2,7 @@
   "models" : [
     {
       "hostname": "bscgrid21",
+      "idlePower": 120,
       "powerModels": [
         {
           "benchmark": "data_analytics",
@@ -121,6 +122,7 @@
     },
     {
       "hostname": "bscgrid27",
+      "idlePower": 120,
       "powerModels": [
         {
           "benchmark": "data_analytics",
@@ -240,6 +242,7 @@
     },
     {
       "hostname": "bscgrid30",
+      "idlePower": 75,
       "powerModels": [
         {
           "benchmark": "data_analytics",
@@ -367,6 +370,7 @@
     },
     {
       "hostname": "bscgrid31",
+      "idlePower": 90,
       "powerModels": [
         {
           "benchmark": "data_analytics",

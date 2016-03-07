@@ -56,4 +56,38 @@ public class PowerModeller implements Estimator {
 		}
 		return pow;
 	}
+
+	/**
+	 *
+	 * This method return the power consumption of the host. Actual consumption can be calculate in 2 ways:
+	 *  - Directly reading the power meter of the host and summing the non-deployed-VMs power estimation.
+	 *  - If the host does not have a power meter summing the power estimation of all the VMs
+	 *
+	 * @param host
+	 * @param vmsDeployedInHost
+     * @return
+     */
+	public double getCloplaHostPowerConsumption(Host host, List<Vm> vmsDeployedInHost) {
+
+		double pow = 0;
+
+		if (host.getActualPowerConsumption() > 0){
+			pow += host.getActualPowerConsumption();
+			for(Vm vm : vmsDeployedInHost) {
+				if (!vm.isDeployed()){
+					pow += vm.getPowerConsumption();
+				}
+			}
+		}else{
+			pow = host.getIdlePower();
+			for(Vm vm : vmsDeployedInHost) {
+				pow += vm.getPowerConsumption();
+
+			}
+		}
+		return pow;
+	}
+
+
+
 }

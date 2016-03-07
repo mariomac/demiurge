@@ -18,18 +18,19 @@
 
 package es.bsc.demiurge.core.manager.components;
 
+import es.bsc.demiurge.cloudsuiteperformancedriver.core.PerformanceDriverCore;
 import es.bsc.demiurge.core.clopla.domain.ClusterState;
 import es.bsc.demiurge.core.clopla.domain.LocalSearchHeuristic;
 import es.bsc.demiurge.core.clopla.domain.LocalSearchHeuristicOption;
 import es.bsc.demiurge.core.clopla.lib.Clopla;
 import es.bsc.demiurge.core.clopla.lib.IClopla;
 import es.bsc.demiurge.core.cloudmiddleware.CloudMiddlewareException;
+import es.bsc.demiurge.core.configuration.Config;
 import es.bsc.demiurge.core.models.scheduling.*;
 import es.bsc.demiurge.core.models.vms.Vm;
 import es.bsc.demiurge.core.models.vms.VmDeployed;
 import es.bsc.demiurge.core.monitoring.hosts.Host;
 import es.bsc.demiurge.core.vmplacement.CloplaConversor;
-import es.bsc.demiurge.core.configuration.Config;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,6 +111,38 @@ public class VmPlacementManager {
                         assignVmsToCurrentHosts),
                 cc.getCloplaConfig(
 						schedulingAlgorithm,
+                        recommendedPlanRequest,
+                        estimatesManager));
+        return cc.getRecommendedPlan(clusterStateRecommendedPlan);
+    }
+
+    public RecommendedPlan getRecommendedPlanWithHostIdle(String schedulingAlgorithm,
+                                              RecommendedPlanRequest recommendedPlanRequest,
+                                              boolean assignVmsToCurrentHosts,
+                                              List<Vm> vmsToDeploy, PerformanceDriverCore performanceDriverCore) throws CloudMiddlewareException {
+
+        CloplaConversor cc = Config.INSTANCE.getCloplaConversor();
+        List<Host> hosts = hostsManager.getHosts();
+
+
+        // Assign idle power
+        for (Host h : hosts){
+            if (performanceDriverCore.getModeller().getIdlePowerHost(h.getHostname()) > 0){
+                h.setIdlePower(performanceDriverCore.getModeller().getIdlePowerHost(h.getHostname()));
+            }else{
+                h.setIdlePower(0d);
+            }
+        }
+
+        ClusterState clusterStateRecommendedPlan = clopla.getBestSolution(
+                cc.getCloplaHosts(hosts),
+                cc.getCloplaVms(
+                        getVmsDeployedAndScheduledNonDeployed(),
+                        vmsToDeploy,
+                        cc.getCloplaHosts(hosts),
+                        assignVmsToCurrentHosts),
+                cc.getCloplaConfig(
+                        schedulingAlgorithm,
                         recommendedPlanRequest,
                         estimatesManager));
         return cc.getRecommendedPlan(clusterStateRecommendedPlan);

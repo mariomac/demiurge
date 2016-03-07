@@ -35,6 +35,8 @@ public class Host extends AbstractPersistable {
     private final double diskGb;
     private final List<Long> fixedVmsIds = new ArrayList<>(); // IDs of the VMs that need to be deployed in this host
     private final boolean initiallyOff; // The host was off before the planning started
+    private final double idlePower;
+    private double actualPowerConsumption = -1d;
 
     public Host(Long id, String hostname, int ncpus, double ramMb, double diskGb, boolean initiallyOff) {
         this.hostname = hostname;
@@ -43,6 +45,18 @@ public class Host extends AbstractPersistable {
         this.ramMb = ramMb;
         this.diskGb = diskGb;
         this.initiallyOff = initiallyOff;
+        this.idlePower = 0d;
+    }
+
+    //Constructor with idle power
+    public Host(Long id, String hostname, int ncpus, double ramMb, double diskGb, boolean initiallyOff, double idlePower) {
+        this.hostname = hostname;
+        this.id = id;
+        this.ncpus = ncpus;
+        this.ramMb = ramMb;
+        this.diskGb = diskGb;
+        this.initiallyOff = initiallyOff;
+        this.idlePower = idlePower;
     }
 
     /**
@@ -155,4 +169,15 @@ public class Host extends AbstractPersistable {
         return ((diskGb - hostUsage.getDiskGbUsed()) < 0) ? - (hostUsage.getDiskGbUsed()/diskGb) : 0.0;
     }
 
+    public double getIdlePower() {
+        return idlePower;
+    }
+
+    public double getActualPowerConsumption() {
+        return actualPowerConsumption;
+    }
+
+    public void setActualPowerConsumption(double actualPowerConsumption) {
+        this.actualPowerConsumption = actualPowerConsumption;
+    }
 }

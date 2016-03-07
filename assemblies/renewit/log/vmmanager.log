@@ -927,3 +927,430 @@ Loading configuration: Config{
 	zabbixDbPassword='null'
 	deployVmWithVolume='false'
 }
+2016-03-07 12:14:27,725 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-03-07 12:14:27,781 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-03-07 12:14:27,859 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+DB connection to jdbc:hsqldb:file:db/VmManagerDb
+2016-03-07 12:14:28,378 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch: CREATE TABLE IF NOT EXISTS virtual_machines (id VARCHAR(255),   appId VARCHAR(255),   ovfId VARCHAR(255),   slaId VARCHAR(255), PRIMARY KEY (id)) 
+2016-03-07 12:14:28,379 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS current_scheduling_alg (algorithm VARCHAR(255), PRIMARY KEY (algorithm))
+2016-03-07 12:14:28,379 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS self_adaptation_options (options LONGVARCHAR)
+2016-03-07 12:14:28,379 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS users (   username VARCHAR(256) UNIQUE not null, password VARCHAR(2048) NOT NULL,   enabled BOOLEAN not null )
+2016-03-07 12:14:28,379 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS authorities (   username VARCHAR(256) FOREIGN KEY REFERENCES users(username),   authority VARCHAR(50)) 
+2016-03-07 12:14:28,541 DEBUG  - es.bsc.demiurge.core.auth.JdbcUserDao
+Inserting user. ExecuteUpdate result: 1
+2016-03-07 12:15:36,724 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-03-07 12:15:36,733 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-03-07 12:15:36,803 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+DB connection to jdbc:hsqldb:file:db/VmManagerDb
+2016-03-07 12:15:37,276 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch: CREATE TABLE IF NOT EXISTS virtual_machines (id VARCHAR(255),   appId VARCHAR(255),   ovfId VARCHAR(255),   slaId VARCHAR(255), PRIMARY KEY (id)) 
+2016-03-07 12:15:37,277 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS current_scheduling_alg (algorithm VARCHAR(255), PRIMARY KEY (algorithm))
+2016-03-07 12:15:37,277 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS self_adaptation_options (options LONGVARCHAR)
+2016-03-07 12:15:37,277 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS users (   username VARCHAR(256) UNIQUE not null, password VARCHAR(2048) NOT NULL,   enabled BOOLEAN not null )
+2016-03-07 12:15:37,277 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS authorities (   username VARCHAR(256) FOREIGN KEY REFERENCES users(username),   authority VARCHAR(50)) 
+2016-03-07 12:15:37,463 DEBUG  - es.bsc.demiurge.core.auth.JdbcUserDao
+Inserting user. ExecuteUpdate result: 1
+2016-03-07 12:21:03,998 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-03-07 12:21:04,007 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-03-07 12:21:04,066 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+DB connection to jdbc:hsqldb:file:db/VmManagerDb
+2016-03-07 12:21:04,549 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch: CREATE TABLE IF NOT EXISTS virtual_machines (id VARCHAR(255),   appId VARCHAR(255),   ovfId VARCHAR(255),   slaId VARCHAR(255), PRIMARY KEY (id)) 
+2016-03-07 12:21:04,549 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS current_scheduling_alg (algorithm VARCHAR(255), PRIMARY KEY (algorithm))
+2016-03-07 12:21:04,550 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS self_adaptation_options (options LONGVARCHAR)
+2016-03-07 12:21:04,550 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS users (   username VARCHAR(256) UNIQUE not null, password VARCHAR(2048) NOT NULL,   enabled BOOLEAN not null )
+2016-03-07 12:21:04,550 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS authorities (   username VARCHAR(256) FOREIGN KEY REFERENCES users(username),   authority VARCHAR(50)) 
+2016-03-07 12:21:04,719 DEBUG  - es.bsc.demiurge.core.auth.JdbcUserDao
+Inserting user. ExecuteUpdate result: 1
+2016-03-07 12:21:04,780 INFO   - es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance
+0.0hard/-250.0soft
+2016-03-07 12:21:39,028 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-03-07 12:21:39,038 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-03-07 12:21:39,094 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+DB connection to jdbc:hsqldb:file:db/VmManagerDb
+2016-03-07 12:21:39,575 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch: CREATE TABLE IF NOT EXISTS virtual_machines (id VARCHAR(255),   appId VARCHAR(255),   ovfId VARCHAR(255),   slaId VARCHAR(255), PRIMARY KEY (id)) 
+2016-03-07 12:21:39,575 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS current_scheduling_alg (algorithm VARCHAR(255), PRIMARY KEY (algorithm))
+2016-03-07 12:21:39,575 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS self_adaptation_options (options LONGVARCHAR)
+2016-03-07 12:21:39,576 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS users (   username VARCHAR(256) UNIQUE not null, password VARCHAR(2048) NOT NULL,   enabled BOOLEAN not null )
+2016-03-07 12:21:39,576 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS authorities (   username VARCHAR(256) FOREIGN KEY REFERENCES users(username),   authority VARCHAR(50)) 
+2016-03-07 12:21:39,677 INFO   - es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance
+0.0hard/-250.0soft
+2016-03-07 12:22:09,409 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-03-07 12:22:09,424 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-03-07 12:22:09,493 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+DB connection to jdbc:hsqldb:file:db/VmManagerDb
+2016-03-07 12:22:09,954 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch: CREATE TABLE IF NOT EXISTS virtual_machines (id VARCHAR(255),   appId VARCHAR(255),   ovfId VARCHAR(255),   slaId VARCHAR(255), PRIMARY KEY (id)) 
+2016-03-07 12:22:09,954 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS current_scheduling_alg (algorithm VARCHAR(255), PRIMARY KEY (algorithm))
+2016-03-07 12:22:09,954 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS self_adaptation_options (options LONGVARCHAR)
+2016-03-07 12:22:09,955 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS users (   username VARCHAR(256) UNIQUE not null, password VARCHAR(2048) NOT NULL,   enabled BOOLEAN not null )
+2016-03-07 12:22:09,955 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS authorities (   username VARCHAR(256) FOREIGN KEY REFERENCES users(username),   authority VARCHAR(50)) 
+2016-03-07 12:22:10,079 INFO   - es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance
+bscgrid30
+2016-03-07 12:22:10,079 INFO   - es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance
+bscgrid31
+2016-03-07 12:22:10,081 INFO   - es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance
+0.0hard/-250.0soft
+2016-03-07 14:19:23,827 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-03-07 14:19:23,838 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-03-07 14:19:23,896 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+DB connection to jdbc:hsqldb:file:db/VmManagerDb
+2016-03-07 14:19:24,389 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch: CREATE TABLE IF NOT EXISTS virtual_machines (id VARCHAR(255),   appId VARCHAR(255),   ovfId VARCHAR(255),   slaId VARCHAR(255), PRIMARY KEY (id)) 
+2016-03-07 14:19:24,389 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS current_scheduling_alg (algorithm VARCHAR(255), PRIMARY KEY (algorithm))
+2016-03-07 14:19:24,389 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS self_adaptation_options (options LONGVARCHAR)
+2016-03-07 14:19:24,389 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS users (   username VARCHAR(256) UNIQUE not null, password VARCHAR(2048) NOT NULL,   enabled BOOLEAN not null )
+2016-03-07 14:19:24,390 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS authorities (   username VARCHAR(256) FOREIGN KEY REFERENCES users(username),   authority VARCHAR(50)) 
+2016-03-07 16:32:55,426 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-03-07 16:32:55,436 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-03-07 16:32:55,502 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+DB connection to jdbc:hsqldb:file:db/VmManagerDb
+2016-03-07 16:32:56,028 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch: CREATE TABLE IF NOT EXISTS virtual_machines (id VARCHAR(255),   appId VARCHAR(255),   ovfId VARCHAR(255),   slaId VARCHAR(255), PRIMARY KEY (id)) 
+2016-03-07 16:32:56,028 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS current_scheduling_alg (algorithm VARCHAR(255), PRIMARY KEY (algorithm))
+2016-03-07 16:32:56,028 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS self_adaptation_options (options LONGVARCHAR)
+2016-03-07 16:32:56,029 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS users (   username VARCHAR(256) UNIQUE not null, password VARCHAR(2048) NOT NULL,   enabled BOOLEAN not null )
+2016-03-07 16:32:56,029 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS authorities (   username VARCHAR(256) FOREIGN KEY REFERENCES users(username),   authority VARCHAR(50)) 
+2016-03-07 16:32:56,145 INFO   - es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance
+[]
+2016-03-07 16:32:56,146 INFO   - es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance
+[]
+2016-03-07 16:33:12,219 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-03-07 16:33:12,229 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-03-07 16:33:12,286 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+DB connection to jdbc:hsqldb:file:db/VmManagerDb
+2016-03-07 16:33:12,765 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch: CREATE TABLE IF NOT EXISTS virtual_machines (id VARCHAR(255),   appId VARCHAR(255),   ovfId VARCHAR(255),   slaId VARCHAR(255), PRIMARY KEY (id)) 
+2016-03-07 16:33:12,765 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS current_scheduling_alg (algorithm VARCHAR(255), PRIMARY KEY (algorithm))
+2016-03-07 16:33:12,765 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS self_adaptation_options (options LONGVARCHAR)
+2016-03-07 16:33:12,765 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS users (   username VARCHAR(256) UNIQUE not null, password VARCHAR(2048) NOT NULL,   enabled BOOLEAN not null )
+2016-03-07 16:33:12,766 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS authorities (   username VARCHAR(256) FOREIGN KEY REFERENCES users(username),   authority VARCHAR(50)) 
+2016-03-07 16:33:12,858 INFO   - es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance
+[VM - ID:1, cpus:0, ram:0, disk:0, app:null]
+2016-03-07 16:33:12,858 INFO   - es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance
+[VM - ID:1, cpus:0, ram:0, disk:0, app:null]
+2016-03-07 16:33:37,036 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-03-07 16:33:37,046 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-03-07 16:33:37,103 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+DB connection to jdbc:hsqldb:file:db/VmManagerDb
+2016-03-07 16:33:37,547 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch: CREATE TABLE IF NOT EXISTS virtual_machines (id VARCHAR(255),   appId VARCHAR(255),   ovfId VARCHAR(255),   slaId VARCHAR(255), PRIMARY KEY (id)) 
+2016-03-07 16:33:37,547 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS current_scheduling_alg (algorithm VARCHAR(255), PRIMARY KEY (algorithm))
+2016-03-07 16:33:37,547 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS self_adaptation_options (options LONGVARCHAR)
+2016-03-07 16:33:37,548 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS users (   username VARCHAR(256) UNIQUE not null, password VARCHAR(2048) NOT NULL,   enabled BOOLEAN not null )
+2016-03-07 16:33:37,548 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS authorities (   username VARCHAR(256) FOREIGN KEY REFERENCES users(username),   authority VARCHAR(50)) 
+2016-03-07 16:33:37,668 INFO   - es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance
+[VM - ID:1, cpus:0, ram:0, disk:0, app:null]
+2016-03-07 16:33:37,668 INFO   - es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance
+[VM - ID:1, cpus:0, ram:0, disk:0, app:null]
+2016-03-07 16:34:07,826 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-03-07 16:34:07,836 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-03-07 16:34:07,895 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+DB connection to jdbc:hsqldb:file:db/VmManagerDb
+2016-03-07 16:34:08,337 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch: CREATE TABLE IF NOT EXISTS virtual_machines (id VARCHAR(255),   appId VARCHAR(255),   ovfId VARCHAR(255),   slaId VARCHAR(255), PRIMARY KEY (id)) 
+2016-03-07 16:34:08,338 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS current_scheduling_alg (algorithm VARCHAR(255), PRIMARY KEY (algorithm))
+2016-03-07 16:34:08,338 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS self_adaptation_options (options LONGVARCHAR)
+2016-03-07 16:34:08,338 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS users (   username VARCHAR(256) UNIQUE not null, password VARCHAR(2048) NOT NULL,   enabled BOOLEAN not null )
+2016-03-07 16:34:08,338 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS authorities (   username VARCHAR(256) FOREIGN KEY REFERENCES users(username),   authority VARCHAR(50)) 
+2016-03-07 16:34:08,459 INFO   - es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance
+[VM - ID:1, cpus:10, ram:20, disk:0, app:null, VM - ID:1, cpus:20, ram:30, disk:30, app:null]
+2016-03-07 16:34:08,460 INFO   - es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance
+[VM - ID:1, cpus:10, ram:20, disk:0, app:null, VM - ID:1, cpus:20, ram:30, disk:30, app:null]
+2016-03-07 16:35:03,568 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-03-07 16:35:03,578 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-03-07 16:35:03,635 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+DB connection to jdbc:hsqldb:file:db/VmManagerDb
+2016-03-07 16:35:04,124 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch: CREATE TABLE IF NOT EXISTS virtual_machines (id VARCHAR(255),   appId VARCHAR(255),   ovfId VARCHAR(255),   slaId VARCHAR(255), PRIMARY KEY (id)) 
+2016-03-07 16:35:04,124 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS current_scheduling_alg (algorithm VARCHAR(255), PRIMARY KEY (algorithm))
+2016-03-07 16:35:04,124 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS self_adaptation_options (options LONGVARCHAR)
+2016-03-07 16:35:04,124 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS users (   username VARCHAR(256) UNIQUE not null, password VARCHAR(2048) NOT NULL,   enabled BOOLEAN not null )
+2016-03-07 16:35:04,125 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS authorities (   username VARCHAR(256) FOREIGN KEY REFERENCES users(username),   authority VARCHAR(50)) 
+2016-03-07 16:35:04,250 INFO   - es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance
+[]
+2016-03-07 16:35:04,251 INFO   - es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance
+[]
+2016-03-07 16:35:15,960 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-03-07 16:35:15,970 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-03-07 16:35:16,026 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+DB connection to jdbc:hsqldb:file:db/VmManagerDb
+2016-03-07 16:35:16,464 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch: CREATE TABLE IF NOT EXISTS virtual_machines (id VARCHAR(255),   appId VARCHAR(255),   ovfId VARCHAR(255),   slaId VARCHAR(255), PRIMARY KEY (id)) 
+2016-03-07 16:35:16,465 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS current_scheduling_alg (algorithm VARCHAR(255), PRIMARY KEY (algorithm))
+2016-03-07 16:35:16,465 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS self_adaptation_options (options LONGVARCHAR)
+2016-03-07 16:35:16,465 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS users (   username VARCHAR(256) UNIQUE not null, password VARCHAR(2048) NOT NULL,   enabled BOOLEAN not null )
+2016-03-07 16:35:16,465 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS authorities (   username VARCHAR(256) FOREIGN KEY REFERENCES users(username),   authority VARCHAR(50)) 
+2016-03-07 16:35:16,601 INFO   - es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance
+Host - ID:1, cpus:32, ram:24576.0, disk:1500.0: []
+2016-03-07 16:35:16,602 INFO   - es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance
+Host - ID:2, cpus:24, ram:16384.0, disk:1500.0: []
+2016-03-07 16:40:04,488 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-03-07 16:40:04,498 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-03-07 16:40:04,555 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+DB connection to jdbc:hsqldb:file:db/VmManagerDb
+2016-03-07 16:40:05,020 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch: CREATE TABLE IF NOT EXISTS virtual_machines (id VARCHAR(255),   appId VARCHAR(255),   ovfId VARCHAR(255),   slaId VARCHAR(255), PRIMARY KEY (id)) 
+2016-03-07 16:40:05,020 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS current_scheduling_alg (algorithm VARCHAR(255), PRIMARY KEY (algorithm))
+2016-03-07 16:40:05,020 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS self_adaptation_options (options LONGVARCHAR)
+2016-03-07 16:40:05,020 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS users (   username VARCHAR(256) UNIQUE not null, password VARCHAR(2048) NOT NULL,   enabled BOOLEAN not null )
+2016-03-07 16:40:05,020 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS authorities (   username VARCHAR(256) FOREIGN KEY REFERENCES users(username),   authority VARCHAR(50)) 
+2016-03-07 16:40:05,138 INFO   - es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance
+Host - ID:1, cpus:32, ram:24576.0, disk:1500.0: []
+2016-03-07 16:40:05,138 INFO   - es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance
+Host - ID:2, cpus:24, ram:16384.0, disk:1500.0: []
+2016-03-07 16:43:28,692 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-03-07 16:43:28,702 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-03-07 16:43:28,767 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+DB connection to jdbc:hsqldb:file:db/VmManagerDb
+2016-03-07 16:43:29,231 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch: CREATE TABLE IF NOT EXISTS virtual_machines (id VARCHAR(255),   appId VARCHAR(255),   ovfId VARCHAR(255),   slaId VARCHAR(255), PRIMARY KEY (id)) 
+2016-03-07 16:43:29,232 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS current_scheduling_alg (algorithm VARCHAR(255), PRIMARY KEY (algorithm))
+2016-03-07 16:43:29,232 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS self_adaptation_options (options LONGVARCHAR)
+2016-03-07 16:43:29,232 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS users (   username VARCHAR(256) UNIQUE not null, password VARCHAR(2048) NOT NULL,   enabled BOOLEAN not null )
+2016-03-07 16:43:29,232 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS authorities (   username VARCHAR(256) FOREIGN KEY REFERENCES users(username),   authority VARCHAR(50)) 
+2016-03-07 16:43:29,334 INFO   - es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance
+
+2016-03-07 16:43:29,335 INFO   - es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance
+
+2016-03-07 16:43:55,179 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-03-07 16:43:55,189 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-03-07 16:43:55,246 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+DB connection to jdbc:hsqldb:file:db/VmManagerDb
+2016-03-07 16:43:55,716 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch: CREATE TABLE IF NOT EXISTS virtual_machines (id VARCHAR(255),   appId VARCHAR(255),   ovfId VARCHAR(255),   slaId VARCHAR(255), PRIMARY KEY (id)) 
+2016-03-07 16:43:55,717 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS current_scheduling_alg (algorithm VARCHAR(255), PRIMARY KEY (algorithm))
+2016-03-07 16:43:55,717 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS self_adaptation_options (options LONGVARCHAR)
+2016-03-07 16:43:55,717 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS users (   username VARCHAR(256) UNIQUE not null, password VARCHAR(2048) NOT NULL,   enabled BOOLEAN not null )
+2016-03-07 16:43:55,717 DEBUG  - es.bsc.demiurge.core.db.VmManagerDbHsql
+Adding script to batch:   CREATE TABLE IF NOT EXISTS authorities (   username VARCHAR(256) FOREIGN KEY REFERENCES users(username),   authority VARCHAR(50)) 
+2016-03-07 16:43:55,834 INFO   - es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance
+[]
+2016-03-07 16:43:55,834 INFO   - es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance
+[]
