@@ -23,6 +23,7 @@ import es.bsc.demiurge.core.models.vms.Vm;
 import es.bsc.demiurge.core.cloudmiddleware.CloudMiddleware;
 import es.bsc.demiurge.core.models.images.ImageToUpload;
 import es.bsc.demiurge.core.models.vms.VmDeployed;
+import es.bsc.demiurge.core.models.vms.VmRequirements;
 
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -257,6 +258,16 @@ public class FakeCloudMiddleware implements CloudMiddleware {
 
 	@Override
 	public void resize(String vmId, String flavourId) {
+
+	}
+    
+    @Override
+	public void resize(String vmId, VmRequirements vm) {
+
+	}
+    
+    @Override
+	public void confirmResize(String vmId) {
 
 	}
 }

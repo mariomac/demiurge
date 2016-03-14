@@ -23,13 +23,12 @@ import es.bsc.demiurge.core.cloudmiddleware.CloudMiddlewareException;
 import es.bsc.demiurge.core.configuration.Config;
 import es.bsc.demiurge.core.db.VmManagerDbFactory;
 import es.bsc.demiurge.core.manager.VmManager;
-
+import es.bsc.demiurge.core.models.vms.VmRequirements;
 
 import es.bsc.demiurge.ws.rest.error.ErrorHandler;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.springframework.context.annotation.Configuration;
 
 import javax.inject.Singleton;
 import javax.ws.rs.*;
@@ -415,8 +414,18 @@ public class DemiurgeRestV1 {
 
 	@POST
 	@Path("/vms/{id}/resize")
-	@Consumes(MediaType.TEXT_PLAIN)
-	public void resizeVM(@PathParam("id") String vmId, String flavourId) {
-		vmManager.resize(vmId, flavourId);
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
+	public void resize(@PathParam("id") String vmId, String vm) {
+        VmRequirements vmRequirements = vmCallsManager.getVmRequirements(vm);
+		vmManager.resize(vmId, vmRequirements);
+	}
+    
+    @POST
+	@Path("/vms/{id}/confirmResize")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
+	public void confirmResize(@PathParam("id") String vmId) {
+		vmManager.confirmResize(vmId);
 	}
 }

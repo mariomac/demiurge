@@ -22,9 +22,12 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import es.bsc.demiurge.core.cloudmiddleware.CloudMiddlewareException;
+import es.bsc.demiurge.core.configuration.Config;
 import es.bsc.demiurge.core.models.vms.ListVmsDeployed;
 import es.bsc.demiurge.core.manager.VmManager;
 import es.bsc.demiurge.core.models.vms.ListVms;
+import es.bsc.demiurge.core.models.vms.ListVmsToBeEstimated;
+import es.bsc.demiurge.core.models.vms.VmRequirements;
 
 import java.util.List;
 
@@ -148,6 +151,11 @@ public class VmCallsManager {
         JsonObject result = new JsonObject();
         result.add("ids", idsArrayJson);
         return result;
+    }
+    
+    public VmRequirements getVmRequirements(String vm) {
+        VmRequirements vmRequirements = gson.fromJson(vm, VmRequirements.class);
+        return vmRequirements;
     }
 
 }

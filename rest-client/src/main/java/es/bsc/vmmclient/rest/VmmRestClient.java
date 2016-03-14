@@ -48,80 +48,79 @@ public class VmmRestClient {
 	}
 
 	public VmmRestClient(String url, long timeout, final String username, final String password) {
-		if(url.startsWith("https://")) {
-			// TODO: add the option to accept only Trusted HTTPS connections
-			okHttpClient = getUnsafeOkHttpClient();
-		} else {
-			okHttpClient = new OkHttpClient();
-		}
-        // Define our own okHttpClient to increase the timeout
-        okHttpClient.setReadTimeout(timeout, TimeUnit.SECONDS);
+            if(url.startsWith("https://")) {
+                    // TODO: add the option to accept only Trusted HTTPS connections
+                    okHttpClient = getUnsafeOkHttpClient();
+            } else {
+                    okHttpClient = new OkHttpClient();
+            }
+            
+            // Define our own okHttpClient to increase the timeout
+            okHttpClient.setReadTimeout(timeout, TimeUnit.SECONDS);
 
-		if(username != null && password != null) {
-			okHttpClient.setAuthenticator(new Authenticator() {
-				@Override
-				public Request authenticate(Proxy proxy, Response response) throws IOException {
-					String credential = Credentials.basic(username, password);
-					return response.request().newBuilder().header("Authorization", credential).build();
-				}
+            if(username != null && password != null) {
+                okHttpClient.setAuthenticator(new Authenticator() {
+                    @Override
+                    public Request authenticate(Proxy proxy, Response response) throws IOException {
+                        String credential = Credentials.basic(username, password);
+                        return response.request().newBuilder().header("Authorization", credential).build();
+                    }
 
-				@Override
-				public Request authenticateProxy(Proxy proxy, Response response) throws IOException {
-					return null;
-				}
-			});
-		}
+                    @Override
+                    public Request authenticateProxy(Proxy proxy, Response response) throws IOException {
+                        return null;
+                    }
+                });
+            }
 
         RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(url)
-                .setClient(new OkClient(okHttpClient))
-                .build();
+            .setEndpoint(url)
+            .setClient(new OkClient(okHttpClient))
+            .build();
         service = restAdapter.create(VmmService.class);
     }
 
     public VmmService getVmmService() {
         return service;
     }
+    
+    private static OkHttpClient getUnsafeOkHttpClient() {
+        try {
+            // Create a trust manager that does not validate certificate chains
+            final TrustManager[] trustAllCerts = new TrustManager[] {
+                new X509TrustManager() {
+                    @Override
+                    public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
+                    }
 
+                    @Override
+                    public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
+                    }
 
-	private static OkHttpClient getUnsafeOkHttpClient() {
-		try {
-			// Create a trust manager that does not validate certificate chains
-			final TrustManager[] trustAllCerts = new TrustManager[] {
-					new X509TrustManager() {
-						@Override
-						public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
-						}
-
-						@Override
-						public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
-						}
-
-						@Override
-						public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-							return new java.security.cert.X509Certificate[]{};
-						}
-					}
-			};
-
-			// Install the all-trusting trust manager
-			final SSLContext sslContext = SSLContext.getInstance("SSL");
-			sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
-			// Create an ssl socket factory with our all-trusting manager
-			final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
-
-
-			OkHttpClient okHttpClient = new OkHttpClient();
-			okHttpClient.setSslSocketFactory(sslSocketFactory);
-			okHttpClient.setHostnameVerifier(new HostnameVerifier() {
-				@Override
-				public boolean verify(String hostname, SSLSession session) {
-					return true;
-				}
-			});
-			return okHttpClient;
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
+                    @Override
+                    public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                            return new java.security.cert.X509Certificate[]{};
+                    }
+                }
+            };
+            
+            // Install the all-trusting trust manager
+            final SSLContext sslContext = SSLContext.getInstance("SSL");
+            sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
+            // Create an ssl socket factory with our all-trusting manager
+            final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
+            
+            OkHttpClient okHttpClient = new OkHttpClient();
+            okHttpClient.setSslSocketFactory(sslSocketFactory);
+            okHttpClient.setHostnameVerifier(new HostnameVerifier() {
+                @Override
+                public boolean verify(String hostname, SSLSession session) {
+                    return true;
+                }
+            });
+            return okHttpClient;
+        } catch (Exception e) {
+                throw new RuntimeException(e);
+        }
+    }
 }
