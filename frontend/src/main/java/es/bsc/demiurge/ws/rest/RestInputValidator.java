@@ -51,7 +51,7 @@ public class RestInputValidator {
         for (JsonElement vmJsonElement: vmsJsonArray) {
             JsonObject vmJson = vmJsonElement.getAsJsonObject();
 
-            if (Config.INSTANCE.getVmManager().getClass().getCanonicalName().equalsIgnoreCase("es.bsc.demiurge.renewit.manager.PerformanceVmManager")) {
+            if (Config.INSTANCE.getVmManager().getCurrentSchedulingAlgorithm().equalsIgnoreCase("es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance")) {
                 for (String requiredParamPerf: requiredParamsPerf){
                     // Check that the required parameters have been included and not empty
                     if (requiredParamPerf.equals("name")) {
@@ -59,7 +59,8 @@ public class RestInputValidator {
                             throw new WebApplicationException(400);
                         }
                     }else if (vmJson.getAsJsonObject("extraParameters") == null || vmJson.getAsJsonObject("extraParameters").get(requiredParamPerf).getAsString().equals("")) {
-                        throw new WebApplicationException(400);
+                        throw new WebApplicationException("Wrong json format; required params are name, benchmark and performance",400);
+
                     }
                 }
             } else {
@@ -67,9 +68,8 @@ public class RestInputValidator {
 
                     // Check that the required parameters have been included
                     if (vmJson.get(requiredParam) == null) {
-                        throw new WebApplicationException(400);
+                        throw new WebApplicationException("Wrong json format; required params are name, image, cpus, ramMb, diskGb" ,400);
                     }
-
                     // Check that CPUs, ramMb, and diskGb have non-negative values
                     if (requiredParam.equals("cpus") || requiredParam.equals("ramMb") ||
                             requiredParam.equals("diskGb")) {
