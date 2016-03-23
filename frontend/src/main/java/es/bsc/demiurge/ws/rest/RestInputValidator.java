@@ -51,7 +51,7 @@ public class RestInputValidator {
         for (JsonElement vmJsonElement: vmsJsonArray) {
             JsonObject vmJson = vmJsonElement.getAsJsonObject();
 
-            if (Config.INSTANCE.getVmManager().getCurrentSchedulingAlgorithm().equalsIgnoreCase("es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance")) {
+            if (Config.INSTANCE.getVmManager().getCurrentSchedulingAlgorithm().equalsIgnoreCase("performanceAware")) {
                 for (String requiredParamPerf: requiredParamsPerf){
                     // Check that the required parameters have been included and not empty
                     if (requiredParamPerf.equals("name")) {

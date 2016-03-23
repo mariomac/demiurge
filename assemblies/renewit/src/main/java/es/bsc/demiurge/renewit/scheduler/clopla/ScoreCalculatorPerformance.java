@@ -38,31 +38,32 @@ public class ScoreCalculatorPerformance implements SimpleScoreCalculator<Cluster
     @Override
     public HardSoftDoubleScore calculateScore(ClusterState solution) {
 
-        double hardScore;
+        double hardScore = -1;
         double softScore = 0;
 
         for(Host h : solution.getHosts()) {
 
-
+            List<Vm> vms = solution.getVms();
             // Calculate cpus, mem, disk for performance required
-            List<Vm> vms = solution.getVmsDeployedInHost(h);
+            //List<Vm> vms = solution.getVmsDeployedInHost(h);
+
             for (Vm vm : vms){
                 if (!vm.isDeployed()){
                     VmSize vmSize = getVmSizes(vm, h);
                     vm.setNcpus(vmSize.getCpus());
-                    vm.setRamMb(vm.getRamMb());
-                    vm.setDiskGb(vm.getDiskGb());
+                    vm.setRamMb(vmSize.getRamGb()*1024);
+                    vm.setDiskGb(vmSize.getDiskGb());
                 }
-                solution.setVmsDeployedInHost(h, vms);
-
+                //solution.setVmsDeployedInHost(h, vms);
             }
 
             softScore -= powerModeller.getCloplaHostPowerConsumption(h, solution.getVmsDeployedInHost(h));
         }
 
-        //Hard score at the end because we have to set vms cpu, ram, disk in the loop before
-        hardScore = calculateHardScore(solution);
-
+        if (solution.getHosts().size() > 0) {
+            //Hard score at the end because we have to set vms cpu, ram, disk in the loop before
+            hardScore = calculateHardScore(solution);
+        }
         //logger.info(HardSoftDoubleScore.valueOf(hardScore,softScore));
         return HardSoftDoubleScore.valueOf(hardScore,softScore);
     }

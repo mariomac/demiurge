@@ -40,7 +40,7 @@ public class PerformanceVmManager extends GenericVmManager {
                                               boolean assignVmsToCurrentHosts,
                                               List<Vm> vmsToDeploy) throws CloudMiddlewareException {
 
-        if (Config.INSTANCE.getVmManager().getCurrentSchedulingAlgorithm().equalsIgnoreCase("es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance")) {
+        if (Config.INSTANCE.getVmManager().getCurrentSchedulingAlgorithm().equalsIgnoreCase("performanceAware")) {
 
             return super.vmPlacementManager.getRecommendedPlanDiscardHostNoPerformance(super.getDB().getCurrentSchedulingAlg(),recommendedPlanRequest, assignVmsToCurrentHosts, vmsToDeploy, performanceDriverCore);
         }else{

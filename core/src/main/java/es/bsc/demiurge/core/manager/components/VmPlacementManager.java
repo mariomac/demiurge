@@ -19,6 +19,7 @@
 package es.bsc.demiurge.core.manager.components;
 
 import es.bsc.demiurge.cloudsuiteperformancedriver.core.PerformanceDriverCore;
+import es.bsc.demiurge.cloudsuiteperformancedriver.models.CloudSuiteBenchmark;
 import es.bsc.demiurge.core.clopla.domain.ClusterState;
 import es.bsc.demiurge.core.clopla.domain.LocalSearchHeuristic;
 import es.bsc.demiurge.core.clopla.domain.LocalSearchHeuristicOption;
@@ -47,13 +48,13 @@ public class VmPlacementManager {
     private final HostsManager hostsManager;
     private final EstimatesManager estimatesManager;
 
-    public VmPlacementManager(VmsManager vmsManager, HostsManager hostsManager, 
+    public VmPlacementManager(VmsManager vmsManager, HostsManager hostsManager,
                               EstimatesManager estimatesManager) {
         this.vmsManager = vmsManager;
         this.hostsManager = hostsManager;
         this.estimatesManager = estimatesManager;
     }
-    
+
     /**
      * Returns a list of the construction heuristics supported by the VM Manager.
      *
@@ -111,16 +112,16 @@ public class VmPlacementManager {
                         cc.getCloplaHosts(hosts),
                         assignVmsToCurrentHosts),
                 cc.getCloplaConfig(
-						schedulingAlgorithm,
+                        schedulingAlgorithm,
                         recommendedPlanRequest,
                         estimatesManager));
         return cc.getRecommendedPlan(clusterStateRecommendedPlan);
     }
 
     public RecommendedPlan getRecommendedPlanDiscardHostNoPerformance(String schedulingAlgorithm,
-                                              RecommendedPlanRequest recommendedPlanRequest,
-                                              boolean assignVmsToCurrentHosts,
-                                              List<Vm> vmsToDeploy, PerformanceDriverCore performanceDriverCore) throws CloudMiddlewareException {
+                                                                      RecommendedPlanRequest recommendedPlanRequest,
+                                                                      boolean assignVmsToCurrentHosts,
+                                                                      List<Vm> vmsToDeploy, PerformanceDriverCore performanceDriverCore) throws CloudMiddlewareException {
 
         CloplaConversor cc = Config.INSTANCE.getCloplaConversor();
         List<Host> hosts = hostsManager.getHosts();
@@ -130,11 +131,34 @@ public class VmPlacementManager {
 
         //FIRST STEP: Before building the cluster state,  check if the host (MaxPF-TH) support the required performance of the VM (PF):
         //   PF =< MaxPF-TH
-        logger.info("Available hosts: ");
         for (Vm vm : vmsToDeploy){
+
+            // Read the benchmark for the VM
+            CloudSuiteBenchmark vmBenchmark = performanceDriverCore.getModeller().getBenchmarkFromName(vm.getExtraParameters().getBenchmark());
+
+            // Set image to vm
+            List<String> images = performanceDriverCore.getImageRepo().getImages(vmBenchmark);
+            if (images.size() == 1) {
+                vm.setImage(performanceDriverCore.getImageRepo().getImages(vmBenchmark).get(0));
+            }
+            else {
+                //TODO: IMPLEMENT FOR WEB BENCHMARK (Client deployments) -> comment next line
+                vm.setImage(performanceDriverCore.getImageRepo().getImages(vmBenchmark).get(0));
+            }
+
             for (Host h : hosts){
-                logger.info(h.getHostname());
-                if (h.getMaxPerformance() < vm.getExtraParameters().getPerformance()){
+
+                // Assign idle power
+                if (performanceDriverCore.getModeller().getIdlePowerHost(h.getHostname()) > 0){
+                    h.setIdlePower(performanceDriverCore.getModeller().getIdlePowerHost(h.getHostname()));
+                }else{
+                    h.setIdlePower(0d);
+                }
+
+                double hostMaxPerf = performanceDriverCore.getModeller().getBenchmarkMaxPerformanceHost(vmBenchmark, h.getHostname());
+                double vmRequiredPerf = vm.getExtraParameters().getPerformance();
+
+                if (hostMaxPerf < vmRequiredPerf){
 
                     // count if the host is bad for all the vm: in that case it will be discarded
                     int count = badHosts.containsKey(h) ? badHosts.get(h) : 0;
@@ -143,14 +167,13 @@ public class VmPlacementManager {
             }
 
         }
-        logger.info("Hosts to remove: ");
+
         int numOfVmsToDEPLOY = vmsToDeploy.size();
 
         Iterator it = badHosts.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry<Host, Integer> pair = (Map.Entry)it.next();
-            if (pair.getValue() == numOfVmsToDEPLOY){
-                logger.info(pair.getKey().getHostname());
+            if (pair.getValue() != numOfVmsToDEPLOY){
                 it.remove(); // avoids a ConcurrentModificationException
             }
 
@@ -159,22 +182,14 @@ public class VmPlacementManager {
         // Remove hosts that do not support performance
         goodHosts.removeAll(new ArrayList<>(Arrays.asList(badHosts.keySet().toArray())));
 
-        logger.info("Final list of host to be considered: ");
-        for (Host item : goodHosts) {
-            System.out.println(item.getHostname());
+        logger.info("Final list of host to consider for deploy: ");
+        if (goodHosts.size() > 0) {
+            for (Host item : goodHosts) {
+                System.out.println(item.getHostname());
+            }
         }
 
         // END FIRST STEP
-
-
-        // Assign idle power
-        for (Host h : hosts){
-            if (performanceDriverCore.getModeller().getIdlePowerHost(h.getHostname()) > 0){
-                h.setIdlePower(performanceDriverCore.getModeller().getIdlePowerHost(h.getHostname()));
-            }else{
-                h.setIdlePower(0d);
-            }
-        }
 
         ClusterState clusterStateRecommendedPlan = clopla.getBestSolution(
                 cc.getCloplaHosts(goodHosts),

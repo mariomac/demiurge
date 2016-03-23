@@ -31,7 +31,7 @@ import java.io.File;
 public class Vm {
 
     private final String name;
-    private final String image; // It can be an ID or a URL
+    private String image; // It can be an ID or a URL
     private final int cpus;
     private final int ramMb;
     private final int diskGb;
@@ -149,6 +149,10 @@ public class Vm {
         return initScript;
     }
 
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public void setInitScript(String initScript) {
         // If a path for an loadConfiguration script was specified
         if (initScript != null && !initScript.equals("")) {
@@ -192,6 +196,7 @@ public class Vm {
     public boolean needsFloatingIp() {
         return needsFloatingIp;
     }
+
 
     public boolean belongsToAnApp() {
         return applicationId != null && !applicationId.equals("") && !applicationId.equals(" ");

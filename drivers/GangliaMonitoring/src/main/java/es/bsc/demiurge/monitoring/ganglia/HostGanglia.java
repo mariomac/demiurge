@@ -19,8 +19,6 @@ package es.bsc.demiurge.monitoring.ganglia;
 
 
 import es.bsc.demiurge.core.monitoring.hosts.Host;
-import es.bsc.demiurge.monitoring.ganglia.Cluster;
-import es.bsc.demiurge.monitoring.ganglia.Ganglia;
 
 import java.util.List;
 

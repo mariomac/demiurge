@@ -145,6 +145,10 @@ public class Modeller {
                 vmSize.getCpus(), vmSize.getRamGb(), vmSize.getDiskGb());
     }
 
+    public double getBenchmarkMaxPerformanceHost(CloudSuiteBenchmark benchmark, String hostname) {
+        return performanceModels.get(hostname).get(benchmark).getMaxPerformance();
+    }
+
     public double getBenchmarkAvgPower(CloudSuiteBenchmark benchmark, String hostname, VmSize vmSize) {
         return powerModels.get(hostname).get(benchmark).applyFormula(
                 vmSize.getCpus(), vmSize.getRamGb(), vmSize.getDiskGb());
