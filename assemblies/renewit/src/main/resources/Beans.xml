@@ -79,11 +79,11 @@
 
 	<!-- Values must be subclasses of optaplanners' SimpleScoreCalculator -->
 	<util:map id="placementPolicies" key-type="java.lang.String" value-type="java.lang.Class">
-		<entry key="consolidation" value-type="java.lang.Class" value="es.bsc.demiurge.core.clopla.placement.scorecalculators.ScoreCalculatorConsolidation"/>
+		<entry key="consolidation"  value="es.bsc.demiurge.core.clopla.placement.scorecalculators.ScoreCalculatorConsolidation"/>
 		<!--entry key="distribution" value-type="java.lang.Class" value="es.bsc.demiurge.core.clopla.placement.scorecalculators.ScoreCalculatorDistribution"/-->
 		<!--entry key="random" value-type="java.lang.Class" value="es.bsc.demiurge.core.clopla.placement.scorecalculators.ScoreCalculatorRandom"/-->
 		<!--entry key="powerAware" value-type="java.lang.Class" value="es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPowerAware"/-->
-		<entry key="performanceAware" value-type="java.lang.Class" value="es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance"/>
+		<entry key="performanceAware"  value="es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance"/>
 	</util:map>
 
 	<util:list id="vmmListeners" value-type="es.bsc.demiurge.core.drivers.VmmListener">
