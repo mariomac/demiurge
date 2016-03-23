@@ -15,12 +15,12 @@
 	</transformer>
 -->
 
-	<!--
+
     <bean id="monitoring" class="es.bsc.demiurge.monitoring.ganglia.GangliaMonitoring"/>
     <bean id="cloudMiddleware" class="es.bsc.demiurge.openstackjclouds.OpenStackJclouds"/>
-	-->
-	<!-- FOR TEST -->
 
+	<!-- FOR TEST -->
+	<!--
 	<bean id="monitoring" class="es.bsc.demiurge.fake.FakeMonitoring"/>
 	<bean id="cloudMiddleware" class="es.bsc.demiurge.fake.FakeCloudMiddleware">
 		<constructor-arg>
@@ -66,7 +66,7 @@
 	</bean>
 
 
-
+	-->
 
     <!--bean id="vmManager" class="es.bsc.demiurge.core.manager.GenericVmManager"/-->
 	<bean id="vmManager" class="es.bsc.demiurge.renewit.manager.PerformanceVmManager"/>
@@ -79,7 +79,7 @@
 
 	<!-- Values must be subclasses of optaplanners' SimpleScoreCalculator -->
 	<util:map id="placementPolicies" key-type="java.lang.String" value-type="java.lang.Class">
-		<!--entry key="consolidation" value-type="java.lang.Class" value="es.bsc.demiurge.core.clopla.placement.scorecalculators.ScoreCalculatorConsolidation"/-->
+		<entry key="consolidation" value-type="java.lang.Class" value="es.bsc.demiurge.core.clopla.placement.scorecalculators.ScoreCalculatorConsolidation"/>
 		<!--entry key="distribution" value-type="java.lang.Class" value="es.bsc.demiurge.core.clopla.placement.scorecalculators.ScoreCalculatorDistribution"/-->
 		<!--entry key="random" value-type="java.lang.Class" value="es.bsc.demiurge.core.clopla.placement.scorecalculators.ScoreCalculatorRandom"/-->
 		<!--entry key="powerAware" value-type="java.lang.Class" value="es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPowerAware"/-->

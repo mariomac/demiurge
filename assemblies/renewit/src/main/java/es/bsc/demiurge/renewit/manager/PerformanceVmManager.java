@@ -39,7 +39,7 @@ public class PerformanceVmManager extends GenericVmManager {
                                               boolean assignVmsToCurrentHosts,
                                               List<Vm> vmsToDeploy) throws CloudMiddlewareException {
 
-        return super.vmPlacementManager.getRecommendedPlanWithHostIdle(super.getDB().getCurrentSchedulingAlg(),recommendedPlanRequest, assignVmsToCurrentHosts, vmsToDeploy, performanceDriverCore);
+        return super.vmPlacementManager.getRecommendedPlanDiscardHostNoPerformance(super.getDB().getCurrentSchedulingAlg(),recommendedPlanRequest, assignVmsToCurrentHosts, vmsToDeploy, performanceDriverCore);
     }
 
 

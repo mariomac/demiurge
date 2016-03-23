@@ -308,7 +308,7 @@
           "ramGbCoefficients": [-0.3658173],
           "diskGbCoefficients": [],
           "independentTerm": 22.6291772,
-          "maxPerformance": 30000
+          "maxPerformance": 3.3421044
         },
         {
           "benchmark": "web_search",
@@ -316,7 +316,7 @@
           "ramGbCoefficients": [],
           "diskGbCoefficients": [],
           "independentTerm": -3.473e+01,
-          "maxPerformance": 30000
+          "maxPerformance": 453.228016
         },
         {
           "benchmark": "media_streaming",
@@ -324,7 +324,7 @@
           "ramGbCoefficients": [],
           "diskGbCoefficients": [],
           "independentTerm": 722.44,
-          "maxPerformance": 30000
+          "maxPerformance": 5081.16
         },
         {
           "benchmark": "graph_analytics",
@@ -332,7 +332,7 @@
           "ramGbCoefficients": [],
           "diskGbCoefficients": [],
           "independentTerm": 6.950e+02,
-          "maxPerformance": 30000
+          "maxPerformance": 226.8426
         },
         {
           "benchmark": "software_testing",
@@ -340,7 +340,7 @@
           "ramGbCoefficients": [],
           "diskGbCoefficients": [],
           "independentTerm": 2.975,
-          "maxPerformance": 30000
+          "maxPerformance": 2502.911
         },
         {
           "benchmark": "data_caching",
@@ -348,7 +348,7 @@
           "ramGbCoefficients": [],
           "diskGbCoefficients": [],
           "independentTerm":-1.234e+04,
-          "maxPerformance": 30000
+          "maxPerformance": 190764.0
         },
         {
           "benchmark": "data_serving",
@@ -356,7 +356,7 @@
           "ramGbCoefficients": [3794.178, -265.976, 5.748],
           "diskGbCoefficients": [],
           "independentTerm": -10382.178,
-          "maxPerformance": 30000
+          "maxPerformance": 23675.614
         },
         {
           "benchmark": "web_serving",
@@ -364,7 +364,7 @@
           "ramGbCoefficients": [],
           "diskGbCoefficients": [],
           "independentTerm": 42.489781,
-          "maxPerformance": 30000
+          "maxPerformance": 326.538173
         }
       ]
     },
@@ -436,7 +436,7 @@
           "ramGbCoefficients": [-0.325499],
           "diskGbCoefficients": [],
           "independentTerm": 27.073392,
-          "maxPerformance": 10000
+          "maxPerformance": 4.586592
         },
         {
           "benchmark": "web_search",
@@ -444,7 +444,7 @@
           "ramGbCoefficients": [],
           "diskGbCoefficients": [],
           "independentTerm": -3.1434391,
-          "maxPerformance": 10000
+          "maxPerformance": 319.9497257
         },
         {
           "benchmark": "media_streaming",
@@ -452,7 +452,7 @@
           "ramGbCoefficients": [],
           "diskGbCoefficients": [],
           "independentTerm": -710.131,
-          "maxPerformance": 10000
+          "maxPerformance": 5293.277
         },
         {
           "benchmark": "graph_analytics",
@@ -460,7 +460,7 @@
           "ramGbCoefficients": [],
           "diskGbCoefficients": [],
           "independentTerm": 1.004e+03,
-          "maxPerformance": 10000
+          "maxPerformance":  361.261952
         },
         {
           "benchmark": "software_testing",
@@ -468,7 +468,7 @@
           "ramGbCoefficients": [],
           "diskGbCoefficients": [],
           "independentTerm": 244.76,
-          "maxPerformance": 10000
+          "maxPerformance": 1683.92
         },
         {
           "benchmark": "data_caching",
@@ -476,7 +476,7 @@
           "ramGbCoefficients": [],
           "diskGbCoefficients": [],
           "independentTerm": -3946.547,
-          "maxPerformance": 10000
+          "maxPerformance": 139196.2323
         },
         {
         "benchmark": "data_serving",
@@ -484,7 +484,7 @@
           "ramGbCoefficients": [710.505, -21.104],
           "diskGbCoefficients": [],
           "independentTerm":-799.194,
-          "maxPerformance": 20000
+          "maxPerformance":  14864.106
         },
         {
           "benchmark": "web_serving",
@@ -492,7 +492,7 @@
           "ramGbCoefficients": [],
           "diskGbCoefficients": [],
           "independentTerm": 97.31062,
-          "maxPerformance": 10000
+          "maxPerformance": 289.8595
         }
       ]
     }

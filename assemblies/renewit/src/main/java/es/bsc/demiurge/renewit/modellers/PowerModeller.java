@@ -65,29 +65,28 @@ public class PowerModeller implements Estimator {
 	 *
 	 * @param host
 	 * @param vmsDeployedInHost
-     * @return
-     */
+	 * @return
+	 */
 	public double getCloplaHostPowerConsumption(Host host, List<Vm> vmsDeployedInHost) {
 
 		double pow = 0;
 
-		if (host.getActualPowerConsumption() > 0){
-			pow += host.getActualPowerConsumption();
-			for(Vm vm : vmsDeployedInHost) {
-				if (!vm.isDeployed()){
-					pow += vm.getPowerConsumption();
-				}
-			}
-		}else{
-			pow = host.getIdlePower();
-			for(Vm vm : vmsDeployedInHost) {
+		// Sum idle
+		pow += host.getIdlePower();
+
+		// Power of VMs already deployed + power estimation of VM to be deployed
+		for(Vm vm : vmsDeployedInHost) {
+			if (vm.isDeployed()){
+
 				pow += vm.getPowerConsumption();
 
 			}
+			if (!vm.isDeployed()){
+				pow += vm.getPowerEstimation();
+			}
 		}
+
 		return pow;
 	}
-
-
 
 }

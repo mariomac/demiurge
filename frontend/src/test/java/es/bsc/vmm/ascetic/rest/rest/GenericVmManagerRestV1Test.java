@@ -305,7 +305,7 @@ public class GenericVmManagerRestV1Test {
         String idUploadedImage = uploadTestImage();
 
         // Check that the response for the get operation contains the image uploaded
-        String imagesJson = RestAssured.get(testDeploymentBaseUrl + "static/images/").asString();
+        String imagesJson = RestAssured.get(testDeploymentBaseUrl + "images/").asString();
 
         // Make sure that the image uploaded exists and that it was created with the right name
         boolean imageFound = false;
@@ -318,7 +318,7 @@ public class GenericVmManagerRestV1Test {
         assertTrue(imageFound);
 
         // Delete the image created in this test
-        RestAssured.delete(testDeploymentBaseUrl + "static/images/" + idUploadedImage);
+        RestAssured.delete(testDeploymentBaseUrl + "images/" + idUploadedImage);
     }
     
     @Test
@@ -328,7 +328,7 @@ public class GenericVmManagerRestV1Test {
         assertNotNull(idUploadedImage);
 
         // Delete the image created in this test
-        RestAssured.delete(testDeploymentBaseUrl + "static/images/" + idUploadedImage);
+        RestAssured.delete(testDeploymentBaseUrl + "images/" + idUploadedImage);
     }
     
     @Test
@@ -339,7 +339,7 @@ public class GenericVmManagerRestV1Test {
             .contentType("application/json")
             .body(getInvalidImageJson())
         .when()
-            .post(testDeploymentBaseUrl + "static/images/");
+            .post(testDeploymentBaseUrl + "images/");
     }
     
     @Test
@@ -348,11 +348,11 @@ public class GenericVmManagerRestV1Test {
         String idUploadedImage = uploadTestImage();
 
         // Get the image by ID and check that it was created correctly
-        String imageJson = RestAssured.get(testDeploymentBaseUrl + "static/images/" + idUploadedImage).asString();
+        String imageJson = RestAssured.get(testDeploymentBaseUrl + "images/" + idUploadedImage).asString();
         assertEquals(testImageName, gson.fromJson(imageJson, ImageUploaded.class).getName());
 
         // Delete the image created in this test
-        RestAssured.delete(testDeploymentBaseUrl + "static/images/" + idUploadedImage);
+        RestAssured.delete(testDeploymentBaseUrl + "images/" + idUploadedImage);
 
     }
     
@@ -361,7 +361,7 @@ public class GenericVmManagerRestV1Test {
         RestAssured.expect()
             .statusCode(404)
         .when()
-            .get(testDeploymentBaseUrl + "static/images/fakeId");
+            .get(testDeploymentBaseUrl + "images/fakeId");
     }
     
     @Test
@@ -373,7 +373,7 @@ public class GenericVmManagerRestV1Test {
         RestAssured.expect()
             .statusCode(204)
         .when()
-            .delete(testDeploymentBaseUrl + "static/images/" + idUploadedImage);
+            .delete(testDeploymentBaseUrl + "images/" + idUploadedImage);
     }
     
     @Test
@@ -381,7 +381,7 @@ public class GenericVmManagerRestV1Test {
         RestAssured.expect()
             .statusCode(404)
         .when()
-            .delete(testDeploymentBaseUrl + "static/images/fakeId");
+            .delete(testDeploymentBaseUrl + "images/fakeId");
     }
     
     
@@ -547,7 +547,7 @@ public class GenericVmManagerRestV1Test {
             RestAssured.given()
                 .contentType("application/json")
                 .body(getValidImageJson())
-            .post(testDeploymentBaseUrl + "static/images/").asString();
+            .post(testDeploymentBaseUrl + "images/").asString();
 
         // Return the ID of the image uploaded
         return gson.fromJson(jsonString, JsonObject.class).get("id").getAsString();

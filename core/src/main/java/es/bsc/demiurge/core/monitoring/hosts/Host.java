@@ -44,6 +44,10 @@ public abstract class Host {
     protected double assignedDiskGb;
     protected double idlePower;
 
+    // Added for renewit scheduling
+
+    protected double maxPerformance;
+
 	// todo: quit this as a property. Use abstract getter
     protected double currentPower;
     
@@ -246,6 +250,15 @@ public abstract class Host {
     public double getIdlePower() {
 
         return idlePower;
+    }
+
+    public double getMaxPerformance(){
+        return this.maxPerformance;
+
+    }
+
+    public void setMaxPerformance(double maxPerformance) {
+        this.maxPerformance = maxPerformance;
     }
 
     public void setIdlePower(double idlePower) {

@@ -6,6 +6,7 @@ import es.bsc.demiurge.core.clopla.domain.ClusterState;
 import es.bsc.demiurge.core.clopla.domain.Host;
 import es.bsc.demiurge.core.clopla.domain.Vm;
 import es.bsc.demiurge.core.clopla.placement.scorecalculators.ScoreCalculatorCommon;
+import es.bsc.demiurge.core.configuration.Config;
 import es.bsc.demiurge.renewit.manager.PerformanceVmManager;
 import es.bsc.demiurge.renewit.modellers.PowerModeller;
 import es.bsc.demiurge.renewit.utils.CloudsuiteUtils;
@@ -28,8 +29,7 @@ public class ScoreCalculatorPerformance implements SimpleScoreCalculator<Cluster
 
     public ScoreCalculatorPerformance() {
         // TODO: Uncomment - comment
-        //private PerformanceVmManager performanceVmManager = (PerformanceVmManager) Config.INSTANCE.getVmManager();
-        performanceVmManager = new PerformanceVmManager();
+        performanceVmManager = (PerformanceVmManager) Config.INSTANCE.getVmManager();
         powerModeller = new PowerModeller();
 
         performanceModeller = performanceVmManager.getPerformanceDriverCore().getModeller();
@@ -38,10 +38,11 @@ public class ScoreCalculatorPerformance implements SimpleScoreCalculator<Cluster
     @Override
     public HardSoftDoubleScore calculateScore(ClusterState solution) {
 
-        double hardScore = 0;
+        double hardScore;
         double softScore = 0;
-        
+
         for(Host h : solution.getHosts()) {
+
 
             // Calculate cpus, mem, disk for performance required
             List<Vm> vms = solution.getVmsDeployedInHost(h);

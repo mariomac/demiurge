@@ -18,18 +18,15 @@
 
 package es.bsc.demiurge.ws.rest;
 
-import es.bsc.demiurge.core.db.VmManagerDb;
 import es.bsc.demiurge.core.cloudmiddleware.CloudMiddlewareException;
 import es.bsc.demiurge.core.configuration.Config;
+import es.bsc.demiurge.core.db.VmManagerDb;
 import es.bsc.demiurge.core.db.VmManagerDbFactory;
 import es.bsc.demiurge.core.manager.VmManager;
-
-
 import es.bsc.demiurge.ws.rest.error.ErrorHandler;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.springframework.context.annotation.Configuration;
 
 import javax.inject.Singleton;
 import javax.ws.rs.*;
@@ -156,14 +153,14 @@ public class DemiurgeRestV1 {
     //================================================================================
 
     @GET
-    @Path("/static/images")
+    @Path("/images")
     @Produces(MediaType.APPLICATION_JSON)
     public String getAllImages() {
         return imageCallsManager.getAllImages();
     }
 
     @POST
-    @Path("/static/images")
+    @Path("/images")
     @Consumes("application/json")
     @Produces(MediaType.APPLICATION_JSON)
     public String uploadImage(String imageInfo) {
@@ -175,14 +172,14 @@ public class DemiurgeRestV1 {
     }
 
     @GET
-    @Path("/static/images/{id}")
+    @Path("/images/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public String getImage(@PathParam("id") String imageId) {
         return imageCallsManager.getImage(imageId);
     }
 
     @DELETE
-    @Path("/static/images/{id}")
+    @Path("/images/{id}")
     public void deleteImage(@PathParam("id") String imageId) {
         imageCallsManager.deleteImage(imageId);
     }

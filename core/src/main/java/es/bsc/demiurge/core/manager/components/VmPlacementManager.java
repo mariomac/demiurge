@@ -31,16 +31,17 @@ import es.bsc.demiurge.core.models.vms.Vm;
 import es.bsc.demiurge.core.models.vms.VmDeployed;
 import es.bsc.demiurge.core.monitoring.hosts.Host;
 import es.bsc.demiurge.core.vmplacement.CloplaConversor;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Mario Macias (github.com/mariomac), David Ortiz Lopez (david.ortiz@bsc.es)
  */
 public class VmPlacementManager {
 
+    private Logger logger = LogManager.getLogger(VmPlacementManager.class);
     private final IClopla clopla = new Clopla(); // Library used for the VM Placement
     private final VmsManager vmsManager;
     private final HostsManager hostsManager;
@@ -116,13 +117,54 @@ public class VmPlacementManager {
         return cc.getRecommendedPlan(clusterStateRecommendedPlan);
     }
 
-    public RecommendedPlan getRecommendedPlanWithHostIdle(String schedulingAlgorithm,
+    public RecommendedPlan getRecommendedPlanDiscardHostNoPerformance(String schedulingAlgorithm,
                                               RecommendedPlanRequest recommendedPlanRequest,
                                               boolean assignVmsToCurrentHosts,
                                               List<Vm> vmsToDeploy, PerformanceDriverCore performanceDriverCore) throws CloudMiddlewareException {
 
         CloplaConversor cc = Config.INSTANCE.getCloplaConversor();
         List<Host> hosts = hostsManager.getHosts();
+        ArrayList<Host> goodHosts = new ArrayList<>(hosts);
+        HashMap<Host, Integer> badHosts = new HashMap<>();
+
+
+        //FIRST STEP: Before building the cluster state,  check if the host (MaxPF-TH) support the required performance of the VM (PF):
+        //   PF =< MaxPF-TH
+        logger.info("Available hosts: ");
+        for (Vm vm : vmsToDeploy){
+            for (Host h : hosts){
+                logger.info(h.getHostname());
+                if (h.getMaxPerformance() < vm.getExtraParameters().getPerformance()){
+
+                    // count if the host is bad for all the vm: in that case it will be discarded
+                    int count = badHosts.containsKey(h) ? badHosts.get(h) : 0;
+                    badHosts.put(h, count + 1);
+                }
+            }
+
+        }
+        logger.info("Hosts to remove: ");
+        int numOfVmsToDEPLOY = vmsToDeploy.size();
+
+        Iterator it = badHosts.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<Host, Integer> pair = (Map.Entry)it.next();
+            if (pair.getValue() == numOfVmsToDEPLOY){
+                logger.info(pair.getKey().getHostname());
+                it.remove(); // avoids a ConcurrentModificationException
+            }
+
+        }
+
+        // Remove hosts that do not support performance
+        goodHosts.removeAll(new ArrayList<>(Arrays.asList(badHosts.keySet().toArray())));
+
+        logger.info("Final list of host to be considered: ");
+        for (Host item : goodHosts) {
+            System.out.println(item.getHostname());
+        }
+
+        // END FIRST STEP
 
 
         // Assign idle power
@@ -135,11 +177,11 @@ public class VmPlacementManager {
         }
 
         ClusterState clusterStateRecommendedPlan = clopla.getBestSolution(
-                cc.getCloplaHosts(hosts),
+                cc.getCloplaHosts(goodHosts),
                 cc.getCloplaVms(
                         getVmsDeployedAndScheduledNonDeployed(),
                         vmsToDeploy,
-                        cc.getCloplaHosts(hosts),
+                        cc.getCloplaHosts(goodHosts),
                         assignVmsToCurrentHosts),
                 cc.getCloplaConfig(
                         schedulingAlgorithm,

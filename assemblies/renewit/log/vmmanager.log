@@ -1354,3 +1354,29 @@ Adding script to batch:   CREATE TABLE IF NOT EXISTS authorities (   username VA
 []
 2016-03-07 16:43:55,834 INFO   - es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance
 []
+2016-03-21 17:24:21,940 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-03-21 17:24:21,975 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-03-21 17:24:34,901 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-03-21 17:24:34,911 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[bscgrid21, bscgrid27, bscgrid28, bscgrid29, bscgrid30, bscgrid31]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}

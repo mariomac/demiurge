@@ -8,7 +8,7 @@ import org.junit.Test;
  */
 @Ignore
 public class AuthTest extends TestCase {
-	private static final String LOCAL_URL = "https://localhost:34372/api/v1";
+	private static final String LOCAL_URL = "https://localhost:34372/api/v1.1";
 	@Test
 	@Ignore
 	public void testAuthentication() {

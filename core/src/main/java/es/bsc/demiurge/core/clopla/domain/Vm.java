@@ -45,23 +45,25 @@ public class Vm extends AbstractPersistable {
     private boolean isDeployed;  //this is set to true if the Vm was already deployed
     private ExtraParameters extraParameters;// This is valid within the RenewIT project
     private double powerConsumption; // This is valid within the RenewIT project
+    private double powerEstimation; // This is valid within the RenewIT project
 
     public Vm() { } // OptaPlanner needs no arg constructor to clone
 
     public static class Builder {
-        
+
         // Required parameters
         private final Long id;
         private final int ncpus;
         private final int ramMb;
         private final int diskGb;
-        
+
         // Optional parameters
         private String appId;
         private String alphaNumericId;
         private boolean isDeployed;
         private ExtraParameters extraParameters;
         private double powerConsumption;
+        private double powerEstimation;
 
         public Builder (Long id, int ncpus, int ramMb, int diskGb) {
             this.id = id;
@@ -69,12 +71,12 @@ public class Vm extends AbstractPersistable {
             this.ramMb = ramMb;
             this.diskGb = diskGb;
         }
-        
+
         public Builder appId(String appId) {
             this.appId = appId;
             return this;
         }
-        
+
         public Builder isDeployed(boolean isDeployed) {
             this.isDeployed = isDeployed;
             return this;
@@ -93,11 +95,16 @@ public class Vm extends AbstractPersistable {
             this.powerConsumption = powerConsumption;
             return this;
         }
-        
+
+        public Builder powerEstimation(double powerEstimation) {
+            this.powerEstimation = powerEstimation;
+            return this;
+        }
+
         public Vm build() {
             return new Vm(this);
         }
-        
+
     }
     
     private Vm(Builder builder) {
@@ -110,6 +117,7 @@ public class Vm extends AbstractPersistable {
         isDeployed = builder.isDeployed;
         extraParameters = builder.extraParameters;
         powerConsumption = builder.powerConsumption;
+        powerEstimation = builder.powerEstimation;
     }
 
     /**
@@ -162,6 +170,15 @@ public class Vm extends AbstractPersistable {
 
     public void setPowerConsumption(double powerConsumption) {
         this.powerConsumption = powerConsumption;
+    }
+
+
+    public double getPowerEstimation() {
+        return powerEstimation;
+    }
+
+    public void setPowerEstimation(double powerEstimation) {
+        this.powerEstimation = powerEstimation;
     }
 
     @PlanningVariable(valueRangeProviderRefs = {"hostRange"}, strengthComparatorClass = HostStrengthComparator.class)

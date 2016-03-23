@@ -150,14 +150,14 @@ public class DemiurgeRestV11 {
     //================================================================================
 
     @GET
-    @Path("/static/images")
+    @Path("/images")
     @Produces(MediaType.APPLICATION_JSON)
     public String getAllImages() {
         return imageCallsManager.getAllImages();
     }
 
     @POST
-    @Path("/static/images")
+    @Path("/images")
     @Consumes("application/json")
     @Produces(MediaType.APPLICATION_JSON)
     public String uploadImage(String imageInfo) {
@@ -169,14 +169,14 @@ public class DemiurgeRestV11 {
     }
 
     @GET
-    @Path("/static/images/{id}")
+    @Path("/images/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public String getImage(@PathParam("id") String imageId) {
         return imageCallsManager.getImage(imageId);
     }
 
     @DELETE
-    @Path("/static/images/{id}")
+    @Path("/images/{id}")
     public void deleteImage(@PathParam("id") String imageId) {
         imageCallsManager.deleteImage(imageId);
     }
