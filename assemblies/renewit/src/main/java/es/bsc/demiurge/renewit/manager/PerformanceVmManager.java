@@ -2,6 +2,7 @@ package es.bsc.demiurge.renewit.manager;
 
 import es.bsc.demiurge.cloudsuiteperformancedriver.core.PerformanceDriverCore;
 import es.bsc.demiurge.core.cloudmiddleware.CloudMiddlewareException;
+import es.bsc.demiurge.core.configuration.Config;
 import es.bsc.demiurge.core.manager.GenericVmManager;
 import es.bsc.demiurge.core.models.scheduling.RecommendedPlan;
 import es.bsc.demiurge.core.models.scheduling.RecommendedPlanRequest;
@@ -39,7 +40,13 @@ public class PerformanceVmManager extends GenericVmManager {
                                               boolean assignVmsToCurrentHosts,
                                               List<Vm> vmsToDeploy) throws CloudMiddlewareException {
 
-        return super.vmPlacementManager.getRecommendedPlanDiscardHostNoPerformance(super.getDB().getCurrentSchedulingAlg(),recommendedPlanRequest, assignVmsToCurrentHosts, vmsToDeploy, performanceDriverCore);
+        if (Config.INSTANCE.getVmManager().getCurrentSchedulingAlgorithm().equalsIgnoreCase("es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance")) {
+
+            return super.vmPlacementManager.getRecommendedPlanDiscardHostNoPerformance(super.getDB().getCurrentSchedulingAlg(),recommendedPlanRequest, assignVmsToCurrentHosts, vmsToDeploy, performanceDriverCore);
+        }else{
+            return super.vmPlacementManager.getRecommendedPlan(super.getDB().getCurrentSchedulingAlg(),recommendedPlanRequest, assignVmsToCurrentHosts, vmsToDeploy);
+        }
+
     }
 
 
