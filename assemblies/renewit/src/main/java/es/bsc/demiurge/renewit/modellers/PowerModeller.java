@@ -71,6 +71,7 @@ public class PowerModeller implements Estimator {
 
 		double pow = 0;
 
+
 		// Sum idle
 		pow += host.getIdlePower();
 
@@ -78,10 +79,11 @@ public class PowerModeller implements Estimator {
 		for(Vm vm : vmsDeployedInHost) {
 			if (vm.isDeployed()){
 
-				pow += vm.getPowerConsumption();
+				pow += vm.getNcpus() * DUMMY_POWER_PER_CPU_CORE;
 
 			}
 			if (!vm.isDeployed()){
+
 				pow += vm.getPowerEstimation();
 			}
 		}

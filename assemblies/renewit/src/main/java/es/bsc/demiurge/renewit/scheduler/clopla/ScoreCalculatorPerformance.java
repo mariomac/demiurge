@@ -1,6 +1,7 @@
 package es.bsc.demiurge.renewit.scheduler.clopla;
 
 import es.bsc.demiurge.cloudsuiteperformancedriver.cloud_suite_cloud.Modeller;
+import es.bsc.demiurge.cloudsuiteperformancedriver.models.CloudSuiteBenchmark;
 import es.bsc.demiurge.cloudsuiteperformancedriver.models.VmSize;
 import es.bsc.demiurge.core.clopla.domain.ClusterState;
 import es.bsc.demiurge.core.clopla.domain.Host;
@@ -42,29 +43,37 @@ public class ScoreCalculatorPerformance implements SimpleScoreCalculator<Cluster
         double softScore = 0;
 
         for(Host h : solution.getHosts()) {
-
-            List<Vm> vms = solution.getVms();
+            //List<Vm> vms = solution.getVms();
             // Calculate cpus, mem, disk for performance required
-            //List<Vm> vms = solution.getVmsDeployedInHost(h);
+            List<Vm> vms_in_host = solution.getVmsDeployedInHost(h);
 
-            for (Vm vm : vms){
+            for (Vm vm : vms_in_host){
+
                 if (!vm.isDeployed()){
                     VmSize vmSize = getVmSizes(vm, h);
                     vm.setNcpus(vmSize.getCpus());
                     vm.setRamMb(vmSize.getRamGb()*1024);
                     vm.setDiskGb(vmSize.getDiskGb());
+
+                    CloudSuiteBenchmark benchmark = performanceModeller.getBenchmarkFromName(vm.getExtraParameters().getBenchmark());
+                    double newVMPowerEstimation = performanceModeller.getBenchmarkAvgPower(benchmark, h.getHostname(), vmSize);
+                    // Set power estimation
+                    vm.setPowerEstimation(newVMPowerEstimation);
+
+
+                    logger.info(vm.getExtraParameters().getBenchmark()+" with perf. " + vm.getExtraParameters().getPerformance()+ " - " +h.getHostname() + ": "+ vmSize.getCpus() + " CPUs, " + vmSize.getRamGb() + " GB RAM, " + vmSize.getDiskGb() +" GB Disk" + " -> Power: " + newVMPowerEstimation);
                 }
-                //solution.setVmsDeployedInHost(h, vms);
+
+
             }
 
-            softScore -= powerModeller.getCloplaHostPowerConsumption(h, solution.getVmsDeployedInHost(h));
+            softScore -= powerModeller.getCloplaHostPowerConsumption(h, vms_in_host);
         }
 
-        if (solution.getHosts().size() > 0) {
-            //Hard score at the end because we have to set vms cpu, ram, disk in the loop before
-            hardScore = calculateHardScore(solution);
-        }
-        //logger.info(HardSoftDoubleScore.valueOf(hardScore,softScore));
+        //Hard score at the end because we have to set vms cpu, ram, disk in the loop before
+        hardScore = calculateHardScore(solution);
+
+        logger.info(HardSoftDoubleScore.valueOf(hardScore,softScore));
         return HardSoftDoubleScore.valueOf(hardScore,softScore);
     }
 

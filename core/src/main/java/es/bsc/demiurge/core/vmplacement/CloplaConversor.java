@@ -197,7 +197,6 @@ public class CloplaConversor {
         }else{
             result = builder.build();
         }
-
         return result;
     }
 

@@ -45,7 +45,7 @@ public class ClusterState extends AbstractPersistable implements Solution<Score>
     private List<Vm> vms;
     private List<Host> hosts;
 
-    public ClusterState () { } // OptaPlanner needs no arg constructor to clone
+    public ClusterState () {} // OptaPlanner needs no arg constructor to clone
     
     @XStreamConverter(value = XStreamScoreConverter.class, types = {HardSoftScoreDefinition.class, BendableScoreDefinition.class, HardMediumSoftScoreDefinition.class})
     private Score score;

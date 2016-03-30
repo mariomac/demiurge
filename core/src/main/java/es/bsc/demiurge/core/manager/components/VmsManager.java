@@ -404,7 +404,7 @@ public class VmsManager {
         return false;
     }
 
-    private VmPlacement findVmPlacementByVmId(VmPlacement[] vmPlacements, String vmId) {
+    public VmPlacement findVmPlacementByVmId(VmPlacement[] vmPlacements, String vmId) {
         for (VmPlacement vmPlacement: vmPlacements) {
             if (vmId.equals(vmPlacement.getVmId())) {
                 return vmPlacement;

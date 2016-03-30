@@ -32,9 +32,9 @@ public class Vm {
 
     private final String name;
     private String image; // It can be an ID or a URL
-    private final int cpus;
-    private final int ramMb;
-    private final int diskGb;
+    private int cpus;
+    private int ramMb;
+    private int diskGb;
     private final int swapMb;
     private String initScript;
     private String applicationId;
@@ -197,6 +197,17 @@ public class Vm {
         return needsFloatingIp;
     }
 
+    public void setCpus(int cpus) {
+        this.cpus = cpus;
+    }
+
+    public void setRamMb(int ramMb) {
+        this.ramMb = ramMb;
+    }
+
+    public void setDiskGb(int diskGb) {
+        this.diskGb = diskGb;
+    }
 
     public boolean belongsToAnApp() {
         return applicationId != null && !applicationId.equals("") && !applicationId.equals(" ");

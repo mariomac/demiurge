@@ -202,8 +202,10 @@ public class VmPlacementManager {
                         schedulingAlgorithm,
                         recommendedPlanRequest,
                         estimatesManager));
+
         return cc.getRecommendedPlan(clusterStateRecommendedPlan);
     }
+
 
     /**
      * This function executes a deployment plan. This means that each of the VMs of the deployment plan are migrated
