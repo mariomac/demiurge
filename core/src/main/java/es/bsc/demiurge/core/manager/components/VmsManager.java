@@ -210,6 +210,7 @@ public class VmsManager {
 //			AFAIK this is not anymore needed for ascetic y2
 //            setAsceticInitScript(vmToDeploy);
 
+            log.debug("Deploying VM " + vmToDeploy.getName() + " in host " + hostForDeployment.getHostname());
 
             String vmId;
             if (Config.INSTANCE.deployVmWithVolume) {
@@ -219,7 +220,11 @@ public class VmsManager {
                 vmId = deployVm(vmToDeploy, hostForDeployment);
             }
 
-            db.insertVm(vmId, vmToDeploy.getApplicationId(), vmToDeploy.getOvfId(), vmToDeploy.getSlaId(), vmToDeploy.getExtraParameters().getBenchmark(), vmToDeploy.getExtraParameters().getPerformance());
+            if (vmToDeploy.getExtraParameters() != null) {
+                db.insertVm(vmId, vmToDeploy.getApplicationId(), vmToDeploy.getOvfId(), vmToDeploy.getSlaId(), vmToDeploy.getExtraParameters().getBenchmark(), vmToDeploy.getExtraParameters().getPerformance());
+            }else{
+                db.insertVm(vmId, vmToDeploy.getApplicationId(), vmToDeploy.getOvfId(), vmToDeploy.getSlaId());
+            }
             ids.put(vmToDeploy, vmId);
 
             log.debug("[VMM] The Deployment of the VM with ID=" + vmId + " took " + TimeUtils.getDifferenceInSeconds(calendarDeployRequestReceived, Calendar.getInstance()) + " seconds");

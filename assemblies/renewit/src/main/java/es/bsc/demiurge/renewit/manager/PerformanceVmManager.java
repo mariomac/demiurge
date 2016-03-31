@@ -25,7 +25,6 @@ public class PerformanceVmManager extends GenericVmManager {
     private PerformanceDriverCore performanceDriverCore = new PerformanceDriverCore();
 
     public PerformanceVmManager() {
-
         super();
     }
 
@@ -47,7 +46,7 @@ public class PerformanceVmManager extends GenericVmManager {
                                               boolean assignVmsToCurrentHosts,
                                               List<Vm> vmsToDeploy) throws CloudMiddlewareException {
 
-        if (Config.INSTANCE.getVmManager().getCurrentSchedulingAlgorithm().equalsIgnoreCase("performanceAware")) {
+        if (Config.INSTANCE.getVmManager().getCurrentSchedulingAlgorithm().startsWith("perfAware")) {
 
             RecommendedPlan recommendedPlan = super.vmPlacementManager.getRecommendedPlanDiscardHostNoPerformance(super.getDB().getCurrentSchedulingAlg(), recommendedPlanRequest, assignVmsToCurrentHosts, vmsToDeploy, performanceDriverCore);
 
@@ -65,7 +64,7 @@ public class PerformanceVmManager extends GenericVmManager {
                         recommendedPlan.getVMPlacements(), vm.getName());
 
                 Host host = super.getHostsManager().getHost(vmPlacement.getHostname());
-                VmSize vmSize = getVmSizes(vm, host);
+                VmSize vmSize = getVmSizesVMM(vm, host);
 
                 vm.setCpus(vmSize.getCpus());
                 vm.setRamMb(vmSize.getRamGb()*1024);
@@ -84,8 +83,12 @@ public class PerformanceVmManager extends GenericVmManager {
     }
 
 
-    private VmSize getVmSizes(Vm vm, Host h){
+    public VmSize getVmSizesVMM(Vm vm, Host h){
         return performanceDriverCore.getModeller().getMinVmSizesWithAtLeastPerformance(vm.getExtraParameters().getPerformance(), performanceDriverCore.getModeller().getBenchmarkFromName(vm.getExtraParameters().getBenchmark()), CloudsuiteUtils.convertVMMHostToPerformanceHost(h));
+
+    }
+    public VmSize getVmSizesClopla(es.bsc.demiurge.core.clopla.domain.Vm vm, es.bsc.demiurge.core.clopla.domain.Host h){
+        return performanceDriverCore.getModeller().getMinVmSizesWithAtLeastPerformance(vm.getExtraParameters().getPerformance(), performanceDriverCore.getModeller().getBenchmarkFromName(vm.getExtraParameters().getBenchmark()), CloudsuiteUtils.convertClusterHostToPerformanceHost(h));
 
     }
 

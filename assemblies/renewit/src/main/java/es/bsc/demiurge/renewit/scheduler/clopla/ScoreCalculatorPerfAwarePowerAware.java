@@ -10,7 +10,6 @@ import es.bsc.demiurge.core.clopla.placement.scorecalculators.ScoreCalculatorCom
 import es.bsc.demiurge.core.configuration.Config;
 import es.bsc.demiurge.renewit.manager.PerformanceVmManager;
 import es.bsc.demiurge.renewit.modellers.PowerModeller;
-import es.bsc.demiurge.renewit.utils.CloudsuiteUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.optaplanner.core.api.score.buildin.hardsoftdouble.HardSoftDoubleScore;
@@ -21,18 +20,17 @@ import java.util.List;
 /**
  * @author Mauro Canuto (mauro.canuto@bsc.es)
  */
-public class ScoreCalculatorPerformance implements SimpleScoreCalculator<ClusterState> {
-    private Logger logger = LogManager.getLogger(ScoreCalculatorPerformance.class);
+public class ScoreCalculatorPerfAwarePowerAware implements SimpleScoreCalculator<ClusterState> {
+    private Logger logger = LogManager.getLogger(ScoreCalculatorPerfAwarePowerAware.class);
 
     private PerformanceVmManager performanceVmManager;
     private PowerModeller powerModeller;
     private Modeller performanceModeller;
 
-    public ScoreCalculatorPerformance() {
-        // TODO: Uncomment - comment
+    public ScoreCalculatorPerfAwarePowerAware() {
+
         performanceVmManager = (PerformanceVmManager) Config.INSTANCE.getVmManager();
         powerModeller = new PowerModeller();
-
         performanceModeller = performanceVmManager.getPerformanceDriverCore().getModeller();
     }
 
@@ -44,28 +42,26 @@ public class ScoreCalculatorPerformance implements SimpleScoreCalculator<Cluster
 
         for(Host h : solution.getHosts()) {
             logger.info("Host: " + h.getHostname());
-            //List<Vm> vms = solution.getVms();
-            // Calculate cpus, mem, disk for performance required
+
             List<Vm> vms_in_host = solution.getVmsDeployedInHost(h);
 
             for (Vm vm : vms_in_host){
 
                 if (!vm.isDeployed()){
-                    VmSize vmSize = getVmSizes(vm, h);
+                    // Calculate cpus, mem, disk for performance required
+                    VmSize vmSize = performanceVmManager.getVmSizesClopla(vm, h);
                     vm.setNcpus(vmSize.getCpus());
                     vm.setRamMb(vmSize.getRamGb()*1024);
                     vm.setDiskGb(vmSize.getDiskGb());
 
                     CloudSuiteBenchmark benchmark = performanceModeller.getBenchmarkFromName(vm.getExtraParameters().getBenchmark());
                     double newVMPowerEstimation = performanceModeller.getBenchmarkAvgPower(benchmark, h.getHostname(), vmSize);
-                    // Set power estimation
-                    vm.setPowerEstimation(newVMPowerEstimation);
 
+                    // Set power estimation to VM using performance models
+                    vm.setPowerEstimation(newVMPowerEstimation);
 
                     logger.info(vm.getExtraParameters().getBenchmark()+" with perf. " + vm.getExtraParameters().getPerformance()+ " - " +h.getHostname() + ": "+ vmSize.getCpus() + " CPUs, " + vmSize.getRamGb() + " GB RAM, " + vmSize.getDiskGb() +" GB Disk" + " -> Power: " + newVMPowerEstimation);
                 }
-
-
             }
 
             softScore -= powerModeller.getCloplaHostPowerConsumption(h, vms_in_host);
@@ -74,7 +70,7 @@ public class ScoreCalculatorPerformance implements SimpleScoreCalculator<Cluster
         //Hard score at the end because we have to set vms cpu, ram, disk in the loop before
         hardScore = calculateHardScore(solution);
 
-        System.out.println(HardSoftDoubleScore.valueOf(hardScore,softScore));
+        //System.out.println(HardSoftDoubleScore.valueOf(hardScore,softScore));
         return HardSoftDoubleScore.valueOf(hardScore,softScore);
     }
 
@@ -83,11 +79,6 @@ public class ScoreCalculatorPerformance implements SimpleScoreCalculator<Cluster
                 + ScoreCalculatorCommon.getClusterPenaltyScoreForFixedVms(solution));
     }
 
-
-    private VmSize getVmSizes(Vm vm, Host h){
-        return performanceModeller.getMinVmSizesWithAtLeastPerformance(vm.getExtraParameters().getPerformance(), performanceModeller.getBenchmarkFromName(vm.getExtraParameters().getBenchmark()), CloudsuiteUtils.convertClusterHostToPerformanceHost(h));
-
-    }
 }
 
 

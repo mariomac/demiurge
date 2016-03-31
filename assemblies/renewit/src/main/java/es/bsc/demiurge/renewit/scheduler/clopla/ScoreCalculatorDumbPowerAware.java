@@ -11,10 +11,10 @@ import org.optaplanner.core.impl.score.director.simple.SimpleScoreCalculator;
 /**
  * Created by mmacias on 14/12/15.
  */
-public class ScoreCalculatorPowerAware implements SimpleScoreCalculator<ClusterState> {
+public class ScoreCalculatorDumbPowerAware implements SimpleScoreCalculator<ClusterState> {
 	private PowerModeller powerModeller;
 
-	public ScoreCalculatorPowerAware() {
+	public ScoreCalculatorDumbPowerAware() {
 		powerModeller = Config.INSTANCE.getVmManager().getEstimatesManager().get(PowerModeller.class);
 	}
 	@Override

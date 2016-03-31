@@ -18,7 +18,7 @@ import java.util.ArrayList;
 /**
  * @author Mauro Canuto (mauro.canuto@bsc.es)
  */
-public class ScoreCalculatorPerformanceTest {
+public class ScoreCalculatorPerfAwarePowerAwareTest {
 
     ClusterState clusterState;
     @Before
@@ -51,7 +51,7 @@ public class ScoreCalculatorPerformanceTest {
     @Test
     public void testAllocationWithPerformaceModels(){
 
-        ScoreCalculatorPerformance calculateScore = new ScoreCalculatorPerformance();
+        ScoreCalculatorPerfAwarePowerAware calculateScore = new ScoreCalculatorPerfAwarePowerAware();
         calculateScore.calculateScore(this.clusterState);
 
     }
@@ -84,7 +84,7 @@ public class ScoreCalculatorPerformanceTest {
         clusterState.setVms(vmList);
 
 
-        ScoreCalculatorPerformance calculateScore = new ScoreCalculatorPerformance();
+        ScoreCalculatorPerfAwarePowerAware calculateScore = new ScoreCalculatorPerfAwarePowerAware();
         calculateScore.calculateScore(this.clusterState);
 
         IClopla clopla = new Clopla();

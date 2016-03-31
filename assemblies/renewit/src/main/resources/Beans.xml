@@ -82,8 +82,10 @@
 		<entry key="consolidation"  value="es.bsc.demiurge.core.clopla.placement.scorecalculators.ScoreCalculatorConsolidation"/>
 		<entry key="distribution" value="es.bsc.demiurge.core.clopla.placement.scorecalculators.ScoreCalculatorDistribution"/>
 		<entry key="random" value="es.bsc.demiurge.core.clopla.placement.scorecalculators.ScoreCalculatorRandom"/>
-		<entry key="powerAware"  value="es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPowerAware"/>
-		<entry key="performanceAware"  value="es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerformance"/>
+		<entry key="dumbPowerAware"  value="es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorDumbPowerAware"/>
+		<entry key="perfAwareHostRandom"  value="es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerfAwareHostRandom"/>
+		<entry key="perfAwareConsolidation"  value="es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerfAwareConsolidation"/>
+		<entry key="perfAwarePowerAware"  value="es.bsc.demiurge.renewit.scheduler.clopla.ScoreCalculatorPerfAwarePowerAware"/>
 	</util:map>
 
 	<util:list id="vmmListeners" value-type="es.bsc.demiurge.core.drivers.VmmListener">
