@@ -3,6 +3,8 @@ CREATE TABLE IF NOT EXISTS virtual_machines
   appId VARCHAR(255),
   ovfId VARCHAR(255),
   slaId VARCHAR(255),
+  benchmark VARCHAR(255),
+  performance DOUBLE PRECISION,
 PRIMARY KEY (id)) ;
 
 CREATE TABLE IF NOT EXISTS current_scheduling_alg
@@ -21,4 +23,11 @@ password VARCHAR(2048) NOT NULL,
 
 CREATE TABLE IF NOT EXISTS authorities (
   username VARCHAR(256) FOREIGN KEY REFERENCES users(username),
-  authority VARCHAR(50))
+  authority VARCHAR(50));
+
+
+CREATE TABLE IF NOT EXISTS vm_benchmark_performance
+(id VARCHAR(255),
+  benchmark VARCHAR(255),
+  performance DOUBLE PRECISION,
+PRIMARY KEY (id))

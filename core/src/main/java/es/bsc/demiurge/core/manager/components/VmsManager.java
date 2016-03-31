@@ -25,6 +25,7 @@ import es.bsc.demiurge.core.drivers.VmmListener;
 import es.bsc.demiurge.core.models.scheduling.DeploymentPlan;
 import es.bsc.demiurge.core.models.scheduling.RecommendedPlan;
 import es.bsc.demiurge.core.models.scheduling.VmPlacement;
+import es.bsc.demiurge.core.models.vms.ExtraParameters;
 import es.bsc.demiurge.core.models.vms.Vm;
 import es.bsc.demiurge.core.models.vms.VmDeployed;
 import es.bsc.demiurge.core.monitoring.hosts.Host;
@@ -120,6 +121,7 @@ public class VmsManager {
             vm.setApplicationId(db.getAppIdOfVm(vm.getId()));
             vm.setOvfId(db.getOvfIdOfVm(vm.getId()));
             vm.setSlaId(db.getSlaIdOfVm(vm.getId()));
+            vm.setExtraParameters(new ExtraParameters(db.getBenchmarkOfVm(vm.getId()), db.getPerformanceOfVm(vm.getId())));
         }
         return vm;
     }
@@ -217,7 +219,7 @@ public class VmsManager {
                 vmId = deployVm(vmToDeploy, hostForDeployment);
             }
 
-            db.insertVm(vmId, vmToDeploy.getApplicationId(), vmToDeploy.getOvfId(), vmToDeploy.getSlaId());
+            db.insertVm(vmId, vmToDeploy.getApplicationId(), vmToDeploy.getOvfId(), vmToDeploy.getSlaId(), vmToDeploy.getExtraParameters().getBenchmark(), vmToDeploy.getExtraParameters().getPerformance());
             ids.put(vmToDeploy, vmId);
 
             log.debug("[VMM] The Deployment of the VM with ID=" + vmId + " took " + TimeUtils.getDifferenceInSeconds(calendarDeployRequestReceived, Calendar.getInstance()) + " seconds");

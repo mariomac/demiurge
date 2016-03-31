@@ -25,7 +25,6 @@ import es.bsc.demiurge.core.selfadaptation.options.SelfAdaptationOptions;
 import org.apache.log4j.Logger;
 
 import java.io.BufferedReader;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.*;
 import java.util.ArrayList;
@@ -170,11 +169,27 @@ public class VmManagerDbHsql implements VmManagerDb {
     
     @Override
     public void insertVm(String vmId, String appId, String ovfId, String slaId) {
+        String benchmark = "";
+        double performance = 0;
         try {
             update("INSERT INTO virtual_machines (id, appId, ovfId, slaId) "
                     + "VALUES ('" + vmId + "', '" + appId + "', '" + ovfId + "', '" + slaId + "')");
         } catch (SQLException e) {
 			log.error(ERROR_INSERT_VM, e);
+        }
+    }
+
+    @Override
+    public void insertVm(String vmId, String appId, String ovfId, String slaId, String benchmark, double performance) {
+        try {
+            update("INSERT INTO virtual_machines (id, appId, ovfId, slaId) "
+                    + "VALUES ('" + vmId + "', '" + appId + "', '" + ovfId + "', '" + slaId + "')");
+
+            update("INSERT INTO vm_benchmark_performance (id, benchmark, performance) "
+                    + "VALUES ('" + vmId + "', '" + benchmark + "', " + performance + ")");
+
+        } catch (SQLException e) {
+            log.error(ERROR_INSERT_VM, e);
         }
     }
 
@@ -324,4 +339,46 @@ public class VmManagerDbHsql implements VmManagerDb {
 	public UserDao getUserDao() {
 		return userDao;
 	}
+
+    @Override
+    public String getBenchmarkOfVm(String vmId) {
+
+        List<String> appId = new ArrayList<>();
+        try {
+            appId = query("SELECT benchmark FROM vm_benchmark_performance WHERE id = '" + vmId + "'");
+        } catch (SQLException e) {
+            appId.add("");
+        }
+        if (appId.isEmpty()) {
+            appId.add("");
+        }
+        return appId.get(0);
+
+
+    }
+
+    @Override
+    public double getPerformanceOfVm(String vmId) {
+        List<String> appId = new ArrayList<>();
+        try {
+            appId = query("SELECT performance FROM vm_benchmark_performance WHERE id = '" + vmId + "'");
+        } catch (SQLException e) {
+            appId.add("");
+        }
+        if (appId.isEmpty()) {
+            appId.add("");
+        }
+        String strNumber = appId.get(0);
+
+        if (strNumber != null && strNumber.length() > 0) {
+            try {
+                return Double.parseDouble(strNumber);
+            } catch(Exception e) {
+                return -1;   // or some value to mark this field is wrong. or make a function validates field first ...
+            }
+        }
+        else return 0;
+    }
+
+
 }

@@ -43,6 +43,7 @@ public class ScoreCalculatorPerformance implements SimpleScoreCalculator<Cluster
         double softScore = 0;
 
         for(Host h : solution.getHosts()) {
+            logger.info("Host: " + h.getHostname());
             //List<Vm> vms = solution.getVms();
             // Calculate cpus, mem, disk for performance required
             List<Vm> vms_in_host = solution.getVmsDeployedInHost(h);
@@ -73,7 +74,7 @@ public class ScoreCalculatorPerformance implements SimpleScoreCalculator<Cluster
         //Hard score at the end because we have to set vms cpu, ram, disk in the loop before
         hardScore = calculateHardScore(solution);
 
-        logger.info(HardSoftDoubleScore.valueOf(hardScore,softScore));
+        System.out.println(HardSoftDoubleScore.valueOf(hardScore,softScore));
         return HardSoftDoubleScore.valueOf(hardScore,softScore);
     }
 

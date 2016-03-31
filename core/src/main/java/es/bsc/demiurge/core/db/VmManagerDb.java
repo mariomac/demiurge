@@ -55,6 +55,19 @@ public interface VmManagerDb {
      */
     void insertVm(String vmId, String appId, String ovfId, String slaId);
 
+
+    /**
+     * Inserts a VM on the DB with performance.
+     *
+     * @param vmId the ID of the VM to be inserted
+     * @param appId the ID of the application to which the VM belongs to.
+     * @param ovfId the OVF ID of the VM
+     * @param slaId the SLA ID of the VM
+     * @param benchmark the benchmark running within the VM
+     * @param performance the performance required
+     */
+    void insertVm(String vmId, String appId, String ovfId, String slaId,  String benchmark, double performance);
+
     /**
      * Deletes a VM from the DB.
      *
@@ -135,5 +148,10 @@ public interface VmManagerDb {
     SelfAdaptationOptions getSelfAdaptationOptions();
 
 	UserDao getUserDao();
+
+    String getBenchmarkOfVm(String vmId);
+
+    double getPerformanceOfVm(String vmId);
+
 
 }

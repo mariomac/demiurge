@@ -84,7 +84,7 @@ public class PowerModeller implements Estimator {
 			}
 			if (!vm.isDeployed()){
 
-				pow += vm.getPowerEstimation();
+				pow += vm.getPowerEstimation()* vmsDeployedInHost.size();
 			}
 		}
 

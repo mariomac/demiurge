@@ -5,8 +5,8 @@ package es.bsc.demiurge.core.models.vms;
  */
 public class ExtraParameters {
 
-    private String benchmark;
-    private double performance;
+    private String benchmark = "";
+    private double performance = -1;
 
     public ExtraParameters(String benchmark, double performance) {
         this.benchmark = benchmark;
