@@ -202,7 +202,14 @@ public class ClusterState extends AbstractPersistable implements Solution<Score>
         }
         return null;
     }
-    
+
+    public double getFinalClusterConsumption(){
+        return calculateClusterConsumption();
+    }
+
+
+
+
     @PlanningEntityCollectionProperty
     public List<Vm> getVms() {
         return vms;
@@ -310,4 +317,32 @@ public class ClusterState extends AbstractPersistable implements Solution<Score>
             }
         }
     }
+
+    private double calculateClusterConsumption() {
+
+        // 5 as overhead of virtualization: to change
+        double pow = 0;
+
+
+        // Sum the idle of all the hosts on
+        for (Host host: hosts){
+            if (!(host.wasOffInitiallly() && getVmsDeployedInHost(host).size() == 0)){
+                pow +=host.getIdlePower();
+            }
+        }
+
+        // Power of VMs already deployed + power estimation of VM to be deployed. Rest idle since it has already been summed
+        for(Vm vm : vms) {
+            pow += vm.getPowerEstimation() - vm.getHost().getIdlePower();
+
+            // 5 as overhead of virtualization: to change
+            pow += 5;
+        }
+
+        return pow;
+
+    }
+
+
+
 }

@@ -18,12 +18,16 @@
 
 package es.bsc.demiurge.core.manager.components;
 
+import es.bsc.demiurge.cloudsuiteperformancedriver.cloud_suite_cloud.Modeller;
+import es.bsc.demiurge.core.cloudmiddleware.CloudMiddleware;
 import es.bsc.demiurge.core.cloudmiddleware.CloudMiddlewareException;
+import es.bsc.demiurge.core.configuration.Config;
 import es.bsc.demiurge.core.db.VmManagerDb;
 import es.bsc.demiurge.core.drivers.VmAction;
 import es.bsc.demiurge.core.drivers.VmmListener;
 import es.bsc.demiurge.core.models.scheduling.DeploymentPlan;
 import es.bsc.demiurge.core.models.scheduling.RecommendedPlan;
+import es.bsc.demiurge.core.models.scheduling.VmAssignmentToHost;
 import es.bsc.demiurge.core.models.scheduling.VmPlacement;
 import es.bsc.demiurge.core.models.vms.ExtraParameters;
 import es.bsc.demiurge.core.models.vms.Vm;
@@ -33,9 +37,6 @@ import es.bsc.demiurge.core.scheduler.Scheduler;
 import es.bsc.demiurge.core.selfadaptation.AfterVmDeleteSelfAdaptationRunnable;
 import es.bsc.demiurge.core.selfadaptation.SelfAdaptationManager;
 import es.bsc.demiurge.core.utils.TimeUtils;
-import es.bsc.demiurge.core.cloudmiddleware.CloudMiddleware;
-import es.bsc.demiurge.core.configuration.Config;
-import es.bsc.demiurge.core.models.scheduling.VmAssignmentToHost;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -121,7 +122,7 @@ public class VmsManager {
             vm.setApplicationId(db.getAppIdOfVm(vm.getId()));
             vm.setOvfId(db.getOvfIdOfVm(vm.getId()));
             vm.setSlaId(db.getSlaIdOfVm(vm.getId()));
-            vm.setExtraParameters(new ExtraParameters(db.getBenchmarkOfVm(vm.getId()), db.getPerformanceOfVm(vm.getId())));
+            vm.setExtraParameters(new ExtraParameters(Modeller.getBenchmarkFromName(db.getBenchmarkOfVm(vm.getId())), db.getPerformanceOfVm(vm.getId())));
         }
         return vm;
     }
@@ -221,7 +222,7 @@ public class VmsManager {
             }
 
             if (vmToDeploy.getExtraParameters() != null) {
-                db.insertVm(vmId, vmToDeploy.getApplicationId(), vmToDeploy.getOvfId(), vmToDeploy.getSlaId(), vmToDeploy.getExtraParameters().getBenchmark(), vmToDeploy.getExtraParameters().getPerformance());
+                db.insertVm(vmId, vmToDeploy.getApplicationId(), vmToDeploy.getOvfId(), vmToDeploy.getSlaId(), vmToDeploy.getExtraParameters().getBenchmark().getName(), vmToDeploy.getExtraParameters().getPerformance());
             }else{
                 db.insertVm(vmId, vmToDeploy.getApplicationId(), vmToDeploy.getOvfId(), vmToDeploy.getSlaId());
             }

@@ -11,6 +11,7 @@ import es.bsc.demiurge.core.models.scheduling.RecommendedPlanRequest;
 import es.bsc.demiurge.core.models.scheduling.VmPlacement;
 import es.bsc.demiurge.core.models.vms.Vm;
 import es.bsc.demiurge.core.monitoring.hosts.Host;
+import es.bsc.demiurge.renewit.modellers.PowerModeller;
 import es.bsc.demiurge.renewit.utils.CloudsuiteUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -23,6 +24,7 @@ import java.util.List;
 public class PerformanceVmManager extends GenericVmManager {
     private Logger logger = LogManager.getLogger(PerformanceVmManager.class);
     private PerformanceDriverCore performanceDriverCore = new PerformanceDriverCore();
+    private PowerModeller powerModeller = new PowerModeller();
 
     public PerformanceVmManager() {
         super();
@@ -46,7 +48,7 @@ public class PerformanceVmManager extends GenericVmManager {
                                               boolean assignVmsToCurrentHosts,
                                               List<Vm> vmsToDeploy) throws CloudMiddlewareException {
 
-        if (Config.INSTANCE.getVmManager().getCurrentSchedulingAlgorithm().startsWith("perfAware")) {
+        if (Config.INSTANCE.getVmManager().getCurrentSchedulingAlgorithm().startsWith(Config.INSTANCE.PERF_POWER_ALGORITHM_PREFIX)) {
 
             RecommendedPlan recommendedPlan = super.vmPlacementManager.getRecommendedPlanDiscardHostNoPerformance(super.getDB().getCurrentSchedulingAlg(), recommendedPlanRequest, assignVmsToCurrentHosts, vmsToDeploy, performanceDriverCore);
 
@@ -84,11 +86,11 @@ public class PerformanceVmManager extends GenericVmManager {
 
 
     public VmSize getVmSizesVMM(Vm vm, Host h){
-        return performanceDriverCore.getModeller().getMinVmSizesWithAtLeastPerformance(vm.getExtraParameters().getPerformance(), performanceDriverCore.getModeller().getBenchmarkFromName(vm.getExtraParameters().getBenchmark()), CloudsuiteUtils.convertVMMHostToPerformanceHost(h));
+        return performanceDriverCore.getModeller().getMinVmSizesWithAtLeastPerformance(vm.getExtraParameters().getPerformance(), vm.getExtraParameters().getBenchmark(), CloudsuiteUtils.convertVMMHostToPerformanceHost(h));
 
     }
     public VmSize getVmSizesClopla(es.bsc.demiurge.core.clopla.domain.Vm vm, es.bsc.demiurge.core.clopla.domain.Host h){
-        return performanceDriverCore.getModeller().getMinVmSizesWithAtLeastPerformance(vm.getExtraParameters().getPerformance(), performanceDriverCore.getModeller().getBenchmarkFromName(vm.getExtraParameters().getBenchmark()), CloudsuiteUtils.convertClusterHostToPerformanceHost(h));
+        return performanceDriverCore.getModeller().getMinVmSizesWithAtLeastPerformance(vm.getExtraParameters().getPerformance(), vm.getExtraParameters().getBenchmark(), CloudsuiteUtils.convertClusterHostToPerformanceHost(h));
 
     }
 

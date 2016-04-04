@@ -1,14 +1,16 @@
 package es.bsc.demiurge.core.models.vms;
 
+import es.bsc.demiurge.cloudsuiteperformancedriver.models.CloudSuiteBenchmark;
+
 /**
  * @author Mauro Canuto (mauro.canuto@bsc.es)
  */
 public class ExtraParameters {
 
-    private String benchmark;
+    private CloudSuiteBenchmark benchmark;
     private double performance;
 
-    public ExtraParameters(String benchmark, double performance) {
+    public ExtraParameters(CloudSuiteBenchmark benchmark, double performance) {
         this.benchmark = benchmark;
         this.performance = performance;
     }
@@ -16,14 +18,14 @@ public class ExtraParameters {
     /**
      * @return The benchmark
      */
-    public String getBenchmark() {
+    public CloudSuiteBenchmark getBenchmark() {
         return benchmark;
     }
 
     /**
      * @param benchmark The benchmark
      */
-    public void setBenchmark(String benchmark) {
+    public void setBenchmark(CloudSuiteBenchmark benchmark) {
         this.benchmark = benchmark;
     }
 

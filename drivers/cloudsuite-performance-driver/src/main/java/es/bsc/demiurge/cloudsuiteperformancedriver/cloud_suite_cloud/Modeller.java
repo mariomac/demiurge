@@ -168,7 +168,7 @@ public class Modeller {
     }
 
     // This should be done in a better way, but it's ok for now
-    public CloudSuiteBenchmark getBenchmarkFromName(String name) {
+    public static CloudSuiteBenchmark getBenchmarkFromName(String name) {
         switch (name) {
             case "data_analytics":
                 return CloudSuiteBenchmark.DATA_ANALYTICS;

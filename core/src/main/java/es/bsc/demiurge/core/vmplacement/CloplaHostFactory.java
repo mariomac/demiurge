@@ -44,7 +44,7 @@ public class CloplaHostFactory {
             return result;
         }
         result = new es.bsc.demiurge.core.clopla.domain.Host(cloplaHostId, host.getHostname(), host.getTotalCpus(),
-                host.getTotalMemoryMb(), host.getTotalDiskGb(), !host.isOn());
+                host.getTotalMemoryMb(), host.getTotalDiskGb(), !host.isOn(), host.getIdlePower());
         ++cloplaHostId;
         cloplaHosts.put(host.getHostname(), result);
         return result;

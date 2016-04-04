@@ -20,6 +20,7 @@ package es.bsc.demiurge.core.manager.components;
 
 import es.bsc.demiurge.cloudsuiteperformancedriver.core.PerformanceDriverCore;
 import es.bsc.demiurge.cloudsuiteperformancedriver.models.CloudSuiteBenchmark;
+import es.bsc.demiurge.cloudsuiteperformancedriver.models.VmSize;
 import es.bsc.demiurge.core.clopla.domain.ClusterState;
 import es.bsc.demiurge.core.clopla.domain.LocalSearchHeuristic;
 import es.bsc.demiurge.core.clopla.domain.LocalSearchHeuristicOption;
@@ -134,7 +135,7 @@ public class VmPlacementManager {
         for (Vm vm : vmsToDeploy){
 
             // Read the benchmark for the VM
-            CloudSuiteBenchmark vmBenchmark = performanceDriverCore.getModeller().getBenchmarkFromName(vm.getExtraParameters().getBenchmark());
+            CloudSuiteBenchmark vmBenchmark = vm.getExtraParameters().getBenchmark();
 
             // Set image to vm
             List<String> images = performanceDriverCore.getImageRepo().getImages(vmBenchmark);
@@ -202,6 +203,20 @@ public class VmPlacementManager {
                         schedulingAlgorithm,
                         recommendedPlanRequest,
                         estimatesManager));
+
+        // Set the VM power estimation according to the best palcement
+
+        for (es.bsc.demiurge.core.clopla.domain.Vm vmBestCLuster : clusterStateRecommendedPlan.getVms()){
+            CloudSuiteBenchmark benchmark = vmBestCLuster.getExtraParameters().getBenchmark();
+            VmSize vmSize = new VmSize(vmBestCLuster.getNcpus(), vmBestCLuster.getRamMb() * 1024, vmBestCLuster.getDiskGb());
+            double newVMPowerEstimation = performanceDriverCore.getModeller().getBenchmarkAvgPower(benchmark, vmBestCLuster.getHost().getHostname(), vmSize);
+            vmBestCLuster.setPowerEstimation(newVMPowerEstimation);
+        }
+
+        System.out.println("*******************************************");
+        System.out.println("**  Cluster Estimated Power Consumption  **");
+        System.out.println("**********  " + clusterStateRecommendedPlan.getFinalClusterConsumption() + "***********");
+        System.out.println("*******************************************");
 
         return cc.getRecommendedPlan(clusterStateRecommendedPlan);
     }

@@ -21,6 +21,7 @@ package es.bsc.demiurge.ws.rest;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import es.bsc.demiurge.core.configuration.Config;
 import es.bsc.demiurge.core.models.images.ImageToUpload;
 
 import javax.ws.rs.WebApplicationException;
@@ -47,28 +48,32 @@ public class RestInputValidator {
         if (vmsJson.get("vms") == null) {
             throw new WebApplicationException(400);
         }
+        // When using performance models (Renewit) required params are only name, benchmark and performance
+        String[] requiredParamsPerf = {"name", "benchmark", "performance"};
 
         String[] requiredParams = {"name", "image", "cpus", "ramMb", "diskGb"};
         JsonArray vmsJsonArray = vmsJson.getAsJsonArray("vms");
-
-
-        for (JsonElement vmJsonElement : vmsJsonArray) {
-
+        for (JsonElement vmJsonElement: vmsJsonArray) {
             JsonObject vmJson = vmJsonElement.getAsJsonObject();
 
-            for (String requiredParam : requiredParams) {
-                // Check that the name is not empty
-                if (requiredParam.equals("name")) {
-                    if (vmJson.get(requiredParam).getAsString().equals("")) {
-                        throw new WebApplicationException(400);
+            if (Config.INSTANCE.getVmManager().getCurrentSchedulingAlgorithm().startsWith(Config.INSTANCE.PERF_POWER_ALGORITHM_PREFIX)) {
+                for (String requiredParamPerf: requiredParamsPerf){
+                    // Check that the required parameters have been included and not empty
+                    if (requiredParamPerf.equals("name")) {
+                        if (vmJson.get(requiredParamPerf).getAsString().equals("")) {
+                            throw new WebApplicationException(400);
+                        }
+                    }else if (vmJson.getAsJsonObject("extraParameters") == null || vmJson.getAsJsonObject("extraParameters").get(requiredParamPerf).getAsString().equals("")) {
+                        throw new WebApplicationException("Wrong json format; required params are name, benchmark and performance",400);
+
                     }
                 }
-
-                if (vmJson.getAsJsonObject("extraParameters") == null || vmJson.getAsJsonObject("extraParameters").get("benchmark").getAsString().equals("") || vmJson.getAsJsonObject("extraParameters").get("performance").getAsString().equals("")) {
+            } else {
+                for (String requiredParam: requiredParams) {
 
                     // Check that the required parameters have been included
                     if (vmJson.get(requiredParam) == null) {
-                        throw new WebApplicationException("Wrong json format; required params are name, image, cpus, ramMb, diskGb", 400);
+                        throw new WebApplicationException("Wrong json format; required params are name, image, cpus, ramMb, diskGb" ,400);
                     }
                     // Check that CPUs, ramMb, and diskGb have non-negative values
                     if (requiredParam.equals("cpus") || requiredParam.equals("ramMb") ||
@@ -77,14 +82,21 @@ public class RestInputValidator {
                             throw new WebApplicationException(400);
                         }
                     }
+
+                    // Check that the name is not empty
+                    if (requiredParam.equals("name")) {
+                        if (vmJson.get(requiredParam).getAsString().equals("")) {
+                            throw new WebApplicationException(400);
+                        }
+                    }
+
                 }
 
-
             }
-
         }
-
     }
+
+
 
 
     public void checkVmExists(boolean vmExists) {

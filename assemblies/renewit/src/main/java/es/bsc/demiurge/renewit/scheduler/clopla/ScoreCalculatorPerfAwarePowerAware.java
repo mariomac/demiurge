@@ -37,40 +37,57 @@ public class ScoreCalculatorPerfAwarePowerAware implements SimpleScoreCalculator
     @Override
     public HardSoftDoubleScore calculateScore(ClusterState solution) {
 
-        double hardScore = -1;
+        double hardScore;
         double softScore = 0;
 
         for(Host h : solution.getHosts()) {
-            logger.info("Host: " + h.getHostname());
+            //System.out.println("Host: " + h.getHostname());
 
             List<Vm> vms_in_host = solution.getVmsDeployedInHost(h);
 
             for (Vm vm : vms_in_host){
 
-                if (!vm.isDeployed()){
+                VmSize vmSize = null;
+
+                // If Vm is not already deployed, calculate vm size
+                if (!vm.isDeployed()) {
                     // Calculate cpus, mem, disk for performance required
-                    VmSize vmSize = performanceVmManager.getVmSizesClopla(vm, h);
+                    vmSize = performanceVmManager.getVmSizesClopla(vm, h);
                     vm.setNcpus(vmSize.getCpus());
-                    vm.setRamMb(vmSize.getRamGb()*1024);
+                    vm.setRamMb(vmSize.getRamGb() * 1024);
                     vm.setDiskGb(vmSize.getDiskGb());
-
-                    CloudSuiteBenchmark benchmark = performanceModeller.getBenchmarkFromName(vm.getExtraParameters().getBenchmark());
-                    double newVMPowerEstimation = performanceModeller.getBenchmarkAvgPower(benchmark, h.getHostname(), vmSize);
-
-                    // Set power estimation to VM using performance models
-                    vm.setPowerEstimation(newVMPowerEstimation);
-
-                    logger.info(vm.getExtraParameters().getBenchmark()+" with perf. " + vm.getExtraParameters().getPerformance()+ " - " +h.getHostname() + ": "+ vmSize.getCpus() + " CPUs, " + vmSize.getRamGb() + " GB RAM, " + vmSize.getDiskGb() +" GB Disk" + " -> Power: " + newVMPowerEstimation);
+                }else {
+                    vmSize = new VmSize(vm.getNcpus(), vm.getRamMb()*1024, vm.getDiskGb());
                 }
+
+                CloudSuiteBenchmark benchmark;
+
+                if (vm.getExtraParameters().getBenchmark() == null){
+                    // Assign a random benchmark
+                    benchmark = CloudSuiteBenchmark.SOFTWARE_TESTING;
+                }else{
+                    // Estimate the power of a VM using performance/power models
+                    benchmark = vm.getExtraParameters().getBenchmark();
+                }
+
+                double newVMPowerEstimation = performanceModeller.getBenchmarkAvgPower(benchmark, h.getHostname(), vmSize);
+
+                // Set power estimation to VM using performance models
+                //logger.info("vm power estimation: " + newVMPowerEstimation);
+                vm.setPowerEstimation(newVMPowerEstimation);
+
+                //logger.info(vm.getAlphaNumericId() + ": " + vm.getExtraParameters().getBenchmark()+" with perf. " + vm.getExtraParameters().getPerformance()+ " - " +h.getHostname() + ": "+ vmSize.getCpus() + " CPUs, " + vmSize.getRamGb() + " GB RAM, " + vmSize.getDiskGb() +" GB Disk" + " -> Power: " + newVMPowerEstimation);
             }
 
-            softScore -= powerModeller.getCloplaHostPowerConsumption(h, vms_in_host);
-        }
 
+            softScore -= powerModeller.getCloplaHostPowerConsumptionPerformanceModels(h, vms_in_host);
+
+        }
+        //System.out.println("Cluster consumption: " + -softScore);
         //Hard score at the end because we have to set vms cpu, ram, disk in the loop before
         hardScore = calculateHardScore(solution);
 
-        //System.out.println(HardSoftDoubleScore.valueOf(hardScore,softScore));
+        System.out.println("---- " + HardSoftDoubleScore.valueOf(hardScore,softScore) + " ----");
         return HardSoftDoubleScore.valueOf(hardScore,softScore);
     }
 

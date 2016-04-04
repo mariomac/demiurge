@@ -26,7 +26,10 @@ import es.bsc.demiurge.core.drivers.VmmListener;
 import es.bsc.demiurge.core.manager.VmManager;
 import es.bsc.demiurge.core.monitoring.hosts.HostFactory;
 import es.bsc.demiurge.core.vmplacement.CloplaConversor;
-import org.apache.commons.configuration.*;
+import org.apache.commons.configuration.CompositeConfiguration;
+import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.optaplanner.core.impl.score.director.simple.SimpleScoreCalculator;
@@ -34,7 +37,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.File;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
@@ -61,6 +63,8 @@ public enum Config {
     private static final String DEFAULT_DB_NAME = "VmManagerDb";
     private static final String DEFAULT_BEANS_LOCATION = "/Beans.xml";
 
+
+    public static final String PERF_POWER_ALGORITHM_PREFIX = "perfAware";
     // TODO: remove public ATTRIBUTES and access only through apache configuration
 	// security
 	public String cryptSalt;
