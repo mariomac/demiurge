@@ -90,6 +90,7 @@ public enum Config {
     private CloudMiddleware cloudMiddleware;
     private Set<Estimator> estimators;
 
+    private boolean runBenchmarkAutomatically;
     // Zabbix config
     public String zabbixDbIp;
     public String zabbixDbUser;
@@ -188,6 +189,8 @@ public enum Config {
         zabbixDbUser = configuration.getString("zabbixDbUser");
         zabbixDbPassword = configuration.getString("zabbixDbPassword");
         deployVmWithVolume = configuration.getBoolean("deployVmWithVolume", false);
+
+        runBenchmarkAutomatically = configuration.getBoolean("runBenchmarkAutomatically", false);
 
 		cryptSalt = configuration.getString("crypt.salt", "addYourOwnSaltPropertyToTheConfigFile");
 
