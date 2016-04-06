@@ -165,6 +165,10 @@ public class Vm {
         }
     }
 
+    public void setInitScriptStr(String initScript) {
+            this.initScript = initScript;
+    }
+
     public String getApplicationId() {
         return applicationId;
     }

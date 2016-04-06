@@ -18,7 +18,9 @@
 
 package es.bsc.demiurge.core.manager.components;
 
-import es.bsc.demiurge.cloudsuiteperformancedriver.cloud_suite_cloud.Modeller;
+import es.bsc.autonomicbenchmarks.benchmarks.GenericBenchmark;
+import es.bsc.autonomicbenchmarks.controllers.QueueBenchmarkManager;
+import es.bsc.autonomicbenchmarks.models.VmAutonomic;
 import es.bsc.demiurge.core.cloudmiddleware.CloudMiddleware;
 import es.bsc.demiurge.core.cloudmiddleware.CloudMiddlewareException;
 import es.bsc.demiurge.core.configuration.Config;
@@ -42,12 +44,15 @@ import org.apache.log4j.Logger;
 
 import java.util.*;
 
+import static es.bsc.autonomicbenchmarks.utils.Utils.getBenchmark;
+
 /**
  * @author Mario Macias (github.com/mariomac), David Ortiz Lopez (david.ortiz@bsc.es)
  */
 public class VmsManager {
 
-	private final Logger log = LogManager.getLogger(VmsManager.class);
+    private static final int MAX_RUNNING_TIME = 3600*12; // 12 HOURS
+    private final Logger log = LogManager.getLogger(VmsManager.class);
     private final HostsManager hostsManager;
     private final CloudMiddleware cloudMiddleware;
     private final VmManagerDb db;
@@ -56,13 +61,18 @@ public class VmsManager {
     private final EstimatesManager estimatorsManager;
 	private final List<VmmListener> listeners;
 
+
+    // Specific for RenewIT
+    private QueueBenchmarkManager queueBenchmarkManager;
+
 //    private static final String ASCETIC_ZABBIX_SCRIPT_PATH = "/DFS/ascetic/vm-scripts/zabbix_agents.sh";
 
     public VmsManager(HostsManager hostsManager, CloudMiddleware cloudMiddleware, VmManagerDb db, 
                       SelfAdaptationManager selfAdaptationManager,
 					  EstimatesManager estimatorsManager,
-					  List<VmmListener> listeners
-					  ) {
+					  List<VmmListener> listeners,
+                      QueueBenchmarkManager queueBenchmarkManager
+                      ) {
 		this.listeners = listeners;
 
         this.hostsManager = hostsManager;
@@ -70,6 +80,9 @@ public class VmsManager {
         this.db = db;
         this.selfAdaptationManager = selfAdaptationManager;
         this.estimatorsManager = estimatorsManager;
+
+        this.queueBenchmarkManager = queueBenchmarkManager;
+
     }
 
     /**
@@ -122,7 +135,7 @@ public class VmsManager {
             vm.setApplicationId(db.getAppIdOfVm(vm.getId()));
             vm.setOvfId(db.getOvfIdOfVm(vm.getId()));
             vm.setSlaId(db.getSlaIdOfVm(vm.getId()));
-            vm.setExtraParameters(new ExtraParameters(Modeller.getBenchmarkFromName(db.getBenchmarkOfVm(vm.getId())), db.getPerformanceOfVm(vm.getId())));
+            vm.setExtraParameters(new ExtraParameters(db.getBenchmarkOfVm(vm.getId()), db.getPerformanceOfVm(vm.getId())));
         }
         return vm;
     }
@@ -177,6 +190,8 @@ public class VmsManager {
 		for(VmmListener l : listeners) {
 			l.onVmDestruction(vmToBeDeleted);
 		}
+        // RENEWIT: remove benchmark from queue in BenchmarkController
+        queueBenchmarkManager.removeBenchmarkFromQueue(vmId);
 
 		log.debug(vmId + " destruction took " + (System.currentTimeMillis()/1000.0) + " seconds");
 		performAfterVmDeleteSelfAdaptation();
@@ -213,6 +228,20 @@ public class VmsManager {
 
             log.debug("Deploying VM " + vmToDeploy.getName() + " in host " + hostForDeployment.getHostname());
 
+            GenericBenchmark benchmarkToRun = null;
+
+            // To run benchmark automatically we need to pass an init script to the vm
+            if (Config.INSTANCE.runBenchmarkAutomatically) {
+                int runningTime = vmToDeploy.getExtraParameters().getRunningTime();
+                if (runningTime == 0){
+                    runningTime = MAX_RUNNING_TIME;
+                }
+                benchmarkToRun = getBenchmark(vmToDeploy.getExtraParameters().getBenchmarkStr(), vmToDeploy.getCpus(), vmToDeploy.getRamMb()/1024, vmToDeploy.getDiskGb(), runningTime);
+                String initScript = benchmarkToRun.getInitScript();
+                vmToDeploy.setInitScriptStr(initScript);
+            }
+
+
             String vmId;
             if (Config.INSTANCE.deployVmWithVolume) {
                 vmId = deployVmWithVolume(vmToDeploy, hostForDeployment, originalVmInitScript);
@@ -222,7 +251,7 @@ public class VmsManager {
             }
 
             if (vmToDeploy.getExtraParameters() != null) {
-                db.insertVm(vmId, vmToDeploy.getApplicationId(), vmToDeploy.getOvfId(), vmToDeploy.getSlaId(), vmToDeploy.getExtraParameters().getBenchmark().getName(), vmToDeploy.getExtraParameters().getPerformance());
+                db.insertVm(vmId, vmToDeploy.getApplicationId(), vmToDeploy.getOvfId(), vmToDeploy.getSlaId(), vmToDeploy.getExtraParameters().getBenchmarkStr(), vmToDeploy.getExtraParameters().getPerformance());
             }else{
                 db.insertVm(vmId, vmToDeploy.getApplicationId(), vmToDeploy.getOvfId(), vmToDeploy.getSlaId());
             }
@@ -238,6 +267,19 @@ public class VmsManager {
             if (vmToDeploy.needsFloatingIp()) {
                 cloudMiddleware.assignFloatingIp(vmId);
             }
+
+            // Running benchmarks automatically within the VM
+            if (Config.INSTANCE.runBenchmarkAutomatically && benchmarkToRun != null){
+                log.debug("Running benchmark within VM " + vmDeployed.getId());
+                VmAutonomic vmAutonomic = new VmAutonomic(vmDeployed.getId(), vmDeployed.getName(), vmDeployed.getIpAddress(), vmDeployed.getCpus(), vmDeployed.getRamMb()*1024, vmDeployed.getDiskGb(), hostForDeployment.getHostname());
+                benchmarkToRun.runBenchmark(vmAutonomic);
+
+                // IF RUNNING TIME != 0
+                queueBenchmarkManager.addBenchmarkToQueue(benchmarkToRun);
+
+            }
+
+
         }
 
         performAfterVmsDeploymentSelfAdaptation();

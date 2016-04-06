@@ -11,7 +11,6 @@ import es.bsc.demiurge.core.models.scheduling.RecommendedPlanRequest;
 import es.bsc.demiurge.core.models.scheduling.VmPlacement;
 import es.bsc.demiurge.core.models.vms.Vm;
 import es.bsc.demiurge.core.monitoring.hosts.Host;
-import es.bsc.demiurge.renewit.modellers.PowerModeller;
 import es.bsc.demiurge.renewit.utils.CloudsuiteUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -24,11 +23,13 @@ import java.util.List;
 public class PerformanceVmManager extends GenericVmManager {
     private Logger logger = LogManager.getLogger(PerformanceVmManager.class);
     private PerformanceDriverCore performanceDriverCore = new PerformanceDriverCore();
-    private PowerModeller powerModeller = new PowerModeller();
+
 
     public PerformanceVmManager() {
         super();
+
     }
+
 
     public PerformanceDriverCore getPerformanceDriverCore() {
         return performanceDriverCore;
@@ -104,6 +105,7 @@ public class PerformanceVmManager extends GenericVmManager {
                 "\n\tHost: " + host.getHostname() +
                 "\n\tBenchmark: " + vm.getExtraParameters().getBenchmark() +
                 "\n\tPerformance: " + vm.getExtraParameters().getPerformance() +
+                "\n\tRunning Time: " + vm.getExtraParameters().getRunningTime() +
                 "\n}";
     }
 

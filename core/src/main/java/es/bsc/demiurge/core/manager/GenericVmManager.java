@@ -18,6 +18,8 @@
 
 package es.bsc.demiurge.core.manager;
 
+import es.bsc.autonomicbenchmarks.controllers.BenchmarkController;
+import es.bsc.autonomicbenchmarks.controllers.QueueBenchmarkManager;
 import es.bsc.demiurge.core.VmmGlobalListener;
 import es.bsc.demiurge.core.cloudmiddleware.CloudMiddleware;
 import es.bsc.demiurge.core.cloudmiddleware.CloudMiddlewareException;
@@ -74,6 +76,10 @@ public class GenericVmManager implements VmManager {
 
     private static final Config conf = Config.INSTANCE;
 	private Logger log = LogManager.getLogger(GenericVmManager.class);
+
+    // Specific for RenewIT
+    private BenchmarkController benchmarkController;
+    private QueueBenchmarkManager queueBenchmarkManager;
 
 	/**
      * Constructs a VmManager with the name of the database to be used.
@@ -435,10 +441,20 @@ public class GenericVmManager implements VmManager {
 		// initializes other subcomponents
         estimatesManager = new EstimatesManager(this, conf.getEstimators());
 
-        vmsManager = new VmsManager(hostsManager, cloudMiddleware, db, selfAdaptationManager, estimatesManager, conf.getVmmListeners());
+        // Renewit: Clousdsuite BENCHMARK MANAGER
+        queueBenchmarkManager = new QueueBenchmarkManager();
+        benchmarkController = new BenchmarkController(queueBenchmarkManager);
+
+        //Start new thread that takes care of the cloudsuite benchmark run inside VMs
+        startBenchmarkControllerThread();
+
+        vmsManager = new VmsManager(hostsManager, cloudMiddleware, db, selfAdaptationManager, estimatesManager, conf.getVmmListeners(), queueBenchmarkManager);
 
         selfAdaptationOptsManager = new SelfAdaptationOptsManager(selfAdaptationManager);
         vmPlacementManager = new VmPlacementManager(vmsManager, hostsManager,estimatesManager);
+
+
+
 
         // Start periodic self-adaptation thread if it is not already running.
         // This check would not be needed if only one instance of this class was created.
@@ -471,6 +487,12 @@ public class GenericVmManager implements VmManager {
         Thread thread = new Thread(
                 new PeriodicSelfAdaptationRunnable(selfAdaptationManager),
                 "periodicSelfAdaptationThread");
+        thread.start();
+    }
+
+    private void startBenchmarkControllerThread() {
+        log.debug("RENEWIT: Starting benchmark VM controller Thread");
+        Thread thread = new Thread(benchmarkController);
         thread.start();
     }
 

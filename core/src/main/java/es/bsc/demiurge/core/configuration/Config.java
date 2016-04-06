@@ -90,7 +90,7 @@ public enum Config {
     private CloudMiddleware cloudMiddleware;
     private Set<Estimator> estimators;
 
-    private boolean runBenchmarkAutomatically;
+    public boolean runBenchmarkAutomatically;
     // Zabbix config
     public String zabbixDbIp;
     public String zabbixDbUser;
