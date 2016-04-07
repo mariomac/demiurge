@@ -81,7 +81,7 @@ public abstract class GenericBenchmark {
 
     protected void writeResultToCsv(double result) {
 
-        String toWrite = vm.getName() +"," + benchmarkName + "," + cpuValue + "," + ramGbValue + "," + diskGbValue + "," + result + END_OF_LINE;
+        String toWrite = vm.getName() +"," + benchmarkName + "," + cpuValue + "," + ramGbValue + "," + diskGbValue + "," + vm.getHostName() +","+ result + END_OF_LINE;
         try (FileWriter fileWriter = new FileWriter(resultsFile, true);
              BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
              PrintWriter out = new PrintWriter(bufferedWriter)) {
