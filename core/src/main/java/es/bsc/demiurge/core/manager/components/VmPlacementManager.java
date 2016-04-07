@@ -20,6 +20,7 @@ package es.bsc.demiurge.core.manager.components;
 
 import es.bsc.demiurge.cloudsuiteperformancedriver.core.PerformanceDriverCore;
 import es.bsc.demiurge.cloudsuiteperformancedriver.models.CloudSuiteBenchmark;
+import es.bsc.demiurge.cloudsuiteperformancedriver.models.PerformanceValue;
 import es.bsc.demiurge.cloudsuiteperformancedriver.models.VmSize;
 import es.bsc.demiurge.core.clopla.domain.ClusterState;
 import es.bsc.demiurge.core.clopla.domain.LocalSearchHeuristic;
@@ -159,11 +160,22 @@ public class VmPlacementManager {
                 double hostMaxPerf = performanceDriverCore.getModeller().getBenchmarkMaxPerformanceHost(vmBenchmark, h.getHostname());
                 double vmRequiredPerf = vm.getExtraParameters().getPerformance();
 
-                if (hostMaxPerf < vmRequiredPerf){
+                // Check if performance is ascendant or descendant
+                if (vmBenchmark.getPerformanceValue() == PerformanceValue.ASCENDANT_PERFORMANCE){
+                    if (hostMaxPerf <= vmRequiredPerf){
 
-                    // count if the host is bad for all the vm: in that case it will be discarded
-                    int count = badHosts.containsKey(h) ? badHosts.get(h) : 0;
-                    badHosts.put(h, count + 1);
+                        // count if the host is bad for all the vm: in that case it will be discarded
+                        int count = badHosts.containsKey(h) ? badHosts.get(h) : 0;
+                        badHosts.put(h, count + 1);
+                    }
+                }else{
+                    if (hostMaxPerf >= vmRequiredPerf){
+
+                        // count if the host is bad for all the vm: in that case it will be discarded
+                        int count = badHosts.containsKey(h) ? badHosts.get(h) : 0;
+                        badHosts.put(h, count + 1);
+                    }
+
                 }
             }
 
@@ -206,11 +218,13 @@ public class VmPlacementManager {
 
         // Set the VM power estimation according to the best palcement
 
-        for (es.bsc.demiurge.core.clopla.domain.Vm vmBestCLuster : clusterStateRecommendedPlan.getVms()){
-            CloudSuiteBenchmark benchmark = vmBestCLuster.getExtraParameters().getBenchmark();
-            VmSize vmSize = new VmSize(vmBestCLuster.getNcpus(), vmBestCLuster.getRamMb() * 1024, vmBestCLuster.getDiskGb());
-            double newVMPowerEstimation = performanceDriverCore.getModeller().getBenchmarkAvgPower(benchmark, vmBestCLuster.getHost().getHostname(), vmSize);
-            vmBestCLuster.setPowerEstimation(newVMPowerEstimation);
+        if (goodHosts.size() > 0) {
+            for (es.bsc.demiurge.core.clopla.domain.Vm vmBestCLuster : clusterStateRecommendedPlan.getVms()) {
+                CloudSuiteBenchmark benchmark = vmBestCLuster.getExtraParameters().getBenchmark();
+                VmSize vmSize = new VmSize(vmBestCLuster.getNcpus(), vmBestCLuster.getRamMb() * 1024, vmBestCLuster.getDiskGb());
+                double newVMPowerEstimation = performanceDriverCore.getModeller().getBenchmarkAvgPower(benchmark, vmBestCLuster.getHost().getHostname(), vmSize);
+                vmBestCLuster.setPowerEstimation(newVMPowerEstimation);
+            }
         }
 
         System.out.println("*******************************************");
