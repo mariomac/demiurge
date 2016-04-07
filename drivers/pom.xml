@@ -18,6 +18,7 @@
         <module>ZabbixMonitoring</module>
         <module>OpenStackJClouds</module>
         <module>cloudsuite-performance-driver</module>
+        <module>autonomic-benchmarks-suite</module>
     </modules>
 
 </project>

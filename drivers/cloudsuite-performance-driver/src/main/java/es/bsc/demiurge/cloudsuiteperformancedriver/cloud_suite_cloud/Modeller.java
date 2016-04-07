@@ -129,7 +129,8 @@ public class Modeller {
                         }
                     }
                     else {
-                        if (getBenchmarkPerformance(benchmark, host.getHostname(), new VmSize(cpus, ramGb, diskGb))
+                        double predPerf = getBenchmarkPerformance(benchmark, host.getHostname(), new VmSize(cpus, ramGb, diskGb));
+                        if (predPerf
                                 <= (perf - PERF_ACCEPTABLE_DELTA)) {
                             return (new VmSize(cpus, ramGb, diskGb));
                         }
