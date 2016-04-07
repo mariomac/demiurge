@@ -27,7 +27,8 @@ public class DataCaching extends GenericBenchmark {
                 return Double.parseDouble(outputLineWithRps.split(",")[1]);
             }
         }
-        throw new RuntimeException("Error while getting rps from console output.");
+        //throw new RuntimeException("Error while getting rps from console output.");
+        return -1;
     }
 
     @Override

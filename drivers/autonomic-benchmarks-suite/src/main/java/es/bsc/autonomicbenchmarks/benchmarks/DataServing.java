@@ -55,6 +55,11 @@ public class DataServing extends GenericBenchmark {
                 ++samples;
             }
         }
-        return sumAvgOpsSec/samples;
+        if (samples == 0){
+            return -1;
+        }else{
+            return sumAvgOpsSec/samples;
+        }
+
     }
 }

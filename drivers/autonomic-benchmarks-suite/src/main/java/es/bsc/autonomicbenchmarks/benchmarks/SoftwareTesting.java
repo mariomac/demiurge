@@ -63,7 +63,8 @@ public class SoftwareTesting extends GenericBenchmark {
                 return Double.parseDouble(vmConsoleOutputLines.get(i).split("\\|")[2])/1000;
             }
         }
-        throw new RuntimeException("Error while getting code coverage from VM console output.");
+        //throw new RuntimeException("Error while getting code coverage from VM console output.");
+        return -1;
     }
 
 
