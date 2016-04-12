@@ -61,6 +61,30 @@ public class HostFake extends Host {
         this.assignedDiskGb = assignedDiskGb;
     }
 
+    /**
+     * Class constructor
+     * @param hostname host name
+     * @param totalCpus total number of CPUs of the host
+     * @param totalMemoryMb total memory of the host (in MB)
+     * @param totalDiskGb total disk space of the host (in GB)
+     * @param assignedCpus assigned CPUs of the host
+     * @param assignedMemoryMb assigned memory of the host (in MB)
+     * @param assignedDiskGb assigned disk space of the host (in GB)
+     * @param type type of server (INTEL-xeon, AMD..)
+     */
+    public HostFake(String hostname, int totalCpus, int totalMemoryMb, int totalDiskGb, double assignedCpus,
+                    int assignedMemoryMb, int assignedDiskGb, String type) {
+        super(hostname);
+        checkConstructorParams(totalCpus, totalMemoryMb, totalDiskGb, assignedCpus, assignedMemoryMb, assignedDiskGb);
+        this.totalCpus = totalCpus;
+        this.totalMemoryMb = totalMemoryMb;
+        this.totalDiskGb = totalDiskGb;
+        this.assignedCpus = assignedCpus;
+        this.assignedMemoryMb = assignedMemoryMb;
+        this.assignedDiskGb = assignedDiskGb;
+        this.type = type;
+    }
+
     //TODO: I think this method should be in the class HostInfo.
     private void checkConstructorParams(int totalCpus, int totalMemoryMb, int totalDiskGb, double assignedCpus,
             int assignedMemoryMb, int assignedDiskGb) {

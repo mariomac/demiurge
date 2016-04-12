@@ -43,6 +43,8 @@ public abstract class Host {
     protected double assignedMemoryMb;
     protected double assignedDiskGb;
     protected double idlePower;
+    protected String type;
+
 
 	// todo: quit this as a property. Use abstract getter
     protected double currentPower;
@@ -57,6 +59,11 @@ public abstract class Host {
     public Host(String hostname) {
         this.hostname = hostname;
     }
+    public Host(String hostname, String type) {
+        this.hostname = hostname;
+        this.type = type;
+    }
+
 
 
     /**
@@ -250,6 +257,14 @@ public abstract class Host {
 
     public void setIdlePower(double idlePower) {
         this.idlePower = idlePower;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override

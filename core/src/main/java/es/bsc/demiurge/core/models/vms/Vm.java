@@ -159,9 +159,10 @@ public class Vm {
             // Check that the path is valid and the file can be read
             File f = new File(initScript);
             if (!f.isFile() || !f.canRead()) {
-                throw new IllegalArgumentException("The path for the loadConfiguration script is not valid");
-            }
-            this.initScript = initScript;
+                //throw new IllegalArgumentException("The path for the loadConfiguration script is not valid");
+
+            }else{
+            this.initScript = initScript;}
         }
     }
 

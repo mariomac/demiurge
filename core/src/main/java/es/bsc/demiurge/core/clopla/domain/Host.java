@@ -37,6 +37,7 @@ public class Host extends AbstractPersistable {
     private final boolean initiallyOff; // The host was off before the planning started
     private final double idlePower;
     private double actualPowerConsumption = -1d;
+    private String type;
 
     public Host(Long id, String hostname, int ncpus, double ramMb, double diskGb, boolean initiallyOff) {
         this.hostname = hostname;
@@ -57,6 +58,18 @@ public class Host extends AbstractPersistable {
         this.diskGb = diskGb;
         this.initiallyOff = initiallyOff;
         this.idlePower = idlePower;
+    }
+
+    //Constructor with type
+    public Host(Long id, String hostname, int ncpus, double ramMb, double diskGb, boolean initiallyOff, double idlePower, String type) {
+        this.hostname = hostname;
+        this.id = id;
+        this.ncpus = ncpus;
+        this.ramMb = ramMb;
+        this.diskGb = diskGb;
+        this.initiallyOff = initiallyOff;
+        this.idlePower = idlePower;
+        this.type = type;
     }
 
     /**
@@ -179,5 +192,9 @@ public class Host extends AbstractPersistable {
 
     public void setActualPowerConsumption(double actualPowerConsumption) {
         this.actualPowerConsumption = actualPowerConsumption;
+    }
+
+    public String getType() {
+        return type;
     }
 }

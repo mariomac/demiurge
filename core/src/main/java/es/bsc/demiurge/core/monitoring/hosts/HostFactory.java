@@ -20,6 +20,7 @@ package es.bsc.demiurge.core.monitoring.hosts;
 
 import com.google.gson.Gson;
 import es.bsc.demiurge.core.cloudmiddleware.CloudMiddleware;
+import es.bsc.demiurge.core.configuration.Config;
 import es.bsc.demiurge.core.drivers.Monitoring;
 
 import java.util.HashMap;
@@ -68,12 +69,30 @@ public class HostFactory {
             host.refreshMonitoringInfo();
             return host;
         }
+        Host newHost = null;
 
-        // If the host does not already exist, create and return it.
-        // If the type is Fake, this switch will not be called, because all the fake hosts are created beforehand.
-        // This is because we do not want to have to read the description file more than once.
-		Host newHost = monitoring.createHost(hostname);
-        hosts.put(hostname, newHost);
+        if (cloudMiddleware.getClass().getCanonicalName().contains("FakeCloudMiddleware")){
+
+            // We need to create N servers (from configuration) of X types (X = amd, intel, from bean.xml)
+            int n = Config.INSTANCE.numberOfFakeHosts/Config.INSTANCE.hosts.length;
+            for (int i = 0; i< n ; i++) {
+                Host h = cloudMiddleware.getHost(hostname);
+                if (h != null) {
+                    newHost = h;
+                    hosts.put(hostname, h);
+                } else {
+                    newHost = monitoring.createHost(hostname);
+                    hosts.put(hostname, newHost);
+                }
+            }
+        }else {
+            // If the host does not already exist, create and return it.
+            // If the type is Fake, this switch will not be called, because all the fake hosts are created beforehand.
+            // This is because we do not want to have to read the description file more than once.
+            newHost = monitoring.createHost(hostname);
+            hosts.put(hostname, newHost);
+        }
+        
         return newHost;
     }
 

@@ -106,7 +106,6 @@ public class GraphAnalytics extends GenericBenchmark {
         for (String line : lines){
             logger.debug(line);
             if (line.startsWith(wordToFind)) {
-                benchmarkEndTimestamp = Long.parseLong(line.split(":")[1]);
 
                 //  Copy benchmark log
                 try {

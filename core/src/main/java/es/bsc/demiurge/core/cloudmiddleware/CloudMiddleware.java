@@ -22,6 +22,7 @@ import es.bsc.demiurge.core.models.images.ImageToUpload;
 import es.bsc.demiurge.core.models.images.ImageUploaded;
 import es.bsc.demiurge.core.models.vms.Vm;
 import es.bsc.demiurge.core.models.vms.VmDeployed;
+import es.bsc.demiurge.core.monitoring.hosts.Host;
 
 import java.util.List;
 import java.util.Map;
@@ -182,4 +183,6 @@ public interface CloudMiddleware {
 	Map<String, String> getFlavours();
 
 	void resize(String vmId, String flavourId);
+
+    Host getHost(String hostname);
 }

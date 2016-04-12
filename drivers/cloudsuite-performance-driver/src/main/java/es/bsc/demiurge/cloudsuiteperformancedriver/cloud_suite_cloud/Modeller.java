@@ -75,13 +75,13 @@ public class Modeller {
             for (int ramGb = minRamGb; ramGb <= benchmarkMaxRamGb(benchmark, host); ++ramGb) {
                 for (int diskGb = minDiskGb; diskGb <= benchmarkMaxDiskGb(benchmark, host); diskGb += 10) {
                     if (benchmark.getPerformanceValue() == PerformanceValue.ASCENDANT_PERFORMANCE) {
-                        if (getBenchmarkPerformance(benchmark, host.getHostname(), new VmSize(cpus, ramGb, diskGb))
+                        if (getBenchmarkPerformance(benchmark, host.getType(), new VmSize(cpus, ramGb, diskGb))
                                 >= (perf - PERF_ACCEPTABLE_DELTA)) {
                             result.add(new VmSize(cpus, ramGb, diskGb));
                         }
                     }
                     else {
-                        if (getBenchmarkPerformance(benchmark, host.getHostname(), new VmSize(cpus, ramGb, diskGb))
+                        if (getBenchmarkPerformance(benchmark, host.getType(), new VmSize(cpus, ramGb, diskGb))
                                 <= (perf - PERF_ACCEPTABLE_DELTA)) {
                             result.add(new VmSize(cpus, ramGb, diskGb));
                         }
@@ -123,13 +123,13 @@ public class Modeller {
             for (int ramGb = minRamGb; ramGb <= benchmarkMaxRamGb(benchmark, host); ++ramGb) {
                 for (int diskGb = minDiskGb; diskGb <= benchmarkMaxDiskGb(benchmark, host); diskGb += 10) {
                     if (benchmark.getPerformanceValue() == PerformanceValue.ASCENDANT_PERFORMANCE) {
-                        if (getBenchmarkPerformance(benchmark, host.getHostname(), new VmSize(cpus, ramGb, diskGb))
+                        if (getBenchmarkPerformance(benchmark, host.getType(), new VmSize(cpus, ramGb, diskGb))
                                 >= (perf - PERF_ACCEPTABLE_DELTA)) {
                             return (new VmSize(cpus, ramGb, diskGb));
                         }
                     }
                     else {
-                        double predPerf = getBenchmarkPerformance(benchmark, host.getHostname(), new VmSize(cpus, ramGb, diskGb));
+                        double predPerf = getBenchmarkPerformance(benchmark, host.getType(), new VmSize(cpus, ramGb, diskGb));
                         if (predPerf
                                 <= (perf - PERF_ACCEPTABLE_DELTA)) {
                             return (new VmSize(cpus, ramGb, diskGb));

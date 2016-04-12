@@ -18,13 +18,14 @@
 
 package es.bsc.demiurge.openstackjclouds;
 
-import es.bsc.demiurge.core.models.vms.Vm;
 import es.bsc.demiurge.core.cloudmiddleware.CloudMiddleware;
 import es.bsc.demiurge.core.cloudmiddleware.CloudMiddlewareException;
 import es.bsc.demiurge.core.configuration.Config;
 import es.bsc.demiurge.core.models.images.ImageToUpload;
 import es.bsc.demiurge.core.models.images.ImageUploaded;
+import es.bsc.demiurge.core.models.vms.Vm;
 import es.bsc.demiurge.core.models.vms.VmDeployed;
+import es.bsc.demiurge.core.monitoring.hosts.Host;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.validator.UrlValidator;
@@ -675,4 +676,9 @@ public class OpenStackJclouds implements CloudMiddleware {
 		openStackJcloudsApis.getServerApi().confirmResize(vmId);
 
 	}
+
+    @Override
+    public Host getHost(String hostname) {
+        return null;
+    }
 }

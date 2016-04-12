@@ -36,6 +36,7 @@ import es.bsc.demiurge.core.monitoring.hosts.Host;
 import es.bsc.demiurge.core.vmplacement.CloplaConversor;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.optaplanner.core.api.score.buildin.hardsoftdouble.HardSoftDoubleScore;
 
 import java.util.*;
 
@@ -151,13 +152,13 @@ public class VmPlacementManager {
             for (Host h : hosts){
 
                 // Assign idle power
-                if (performanceDriverCore.getModeller().getIdlePowerHost(h.getHostname()) > 0){
-                    h.setIdlePower(performanceDriverCore.getModeller().getIdlePowerHost(h.getHostname()));
+                if (performanceDriverCore.getModeller().getIdlePowerHost(h.getType()) > 0){
+                    h.setIdlePower(performanceDriverCore.getModeller().getIdlePowerHost(h.getType()));
                 }else{
                     h.setIdlePower(0d);
                 }
 
-                double hostMaxPerf = performanceDriverCore.getModeller().getBenchmarkMaxPerformanceHost(vmBenchmark, h.getHostname());
+                double hostMaxPerf = performanceDriverCore.getModeller().getBenchmarkMaxPerformanceHost(vmBenchmark, h.getType());
                 double vmRequiredPerf = vm.getExtraParameters().getPerformance();
 
                 // Check if performance is ascendant or descendant
@@ -200,39 +201,47 @@ public class VmPlacementManager {
             for (Host item : goodHosts) {
                 System.out.println(item.getHostname());
             }
-        }
 
-        // END FIRST STEP
 
-        ClusterState clusterStateRecommendedPlan = clopla.getBestSolution(
-                cc.getCloplaHosts(goodHosts),
-                cc.getCloplaVms(
-                        getVmsDeployedAndScheduledNonDeployed(),
-                        vmsToDeploy,
-                        cc.getCloplaHosts(goodHosts),
-                        assignVmsToCurrentHosts),
-                cc.getCloplaConfig(
-                        schedulingAlgorithm,
-                        recommendedPlanRequest,
-                        estimatesManager));
+            // END FIRST STEP
 
-        // Set the VM power estimation according to the best palcement
+            ClusterState clusterStateRecommendedPlan = clopla.getBestSolution(
+                    cc.getCloplaHosts(goodHosts),
+                    cc.getCloplaVms(
+                            getVmsDeployedAndScheduledNonDeployed(),
+                            vmsToDeploy,
+                            cc.getCloplaHosts(goodHosts),
+                            assignVmsToCurrentHosts),
+                    cc.getCloplaConfig(
+                            schedulingAlgorithm,
+                            recommendedPlanRequest,
+                            estimatesManager));
 
-        if (goodHosts.size() > 0) {
-            for (es.bsc.demiurge.core.clopla.domain.Vm vmBestCLuster : clusterStateRecommendedPlan.getVms()) {
-                CloudSuiteBenchmark benchmark = vmBestCLuster.getExtraParameters().getBenchmark();
-                VmSize vmSize = new VmSize(vmBestCLuster.getNcpus(), vmBestCLuster.getRamMb() * 1024, vmBestCLuster.getDiskGb());
-                double newVMPowerEstimation = performanceDriverCore.getModeller().getBenchmarkAvgPower(benchmark, vmBestCLuster.getHost().getHostname(), vmSize);
-                vmBestCLuster.setPowerEstimation(newVMPowerEstimation);
+            // Set the VM power estimation according to the best palcement
+            HardSoftDoubleScore s = (HardSoftDoubleScore) clusterStateRecommendedPlan.getScore();
+            if (s.getHardScore() != 0){
+                throw new CloudMiddlewareException("DEPLOYMENT REJECTED: Hard score not respected\n");
             }
+
+            if (goodHosts.size() > 0) {
+                for (es.bsc.demiurge.core.clopla.domain.Vm vmBestCLuster : clusterStateRecommendedPlan.getVms()) {
+                    CloudSuiteBenchmark benchmark = vmBestCLuster.getExtraParameters().getBenchmark();
+                    VmSize vmSize = new VmSize(vmBestCLuster.getNcpus(), vmBestCLuster.getRamMb() * 1024, vmBestCLuster.getDiskGb());
+                    double newVMPowerEstimation = performanceDriverCore.getModeller().getBenchmarkAvgPower(benchmark, vmBestCLuster.getHost().getType(), vmSize);
+                    vmBestCLuster.setPowerEstimation(newVMPowerEstimation);
+                }
+            }
+
+            System.out.println("*******************************************");
+            System.out.println("**  Cluster Estimated Power Consumption  **");
+            System.out.println("**********  " + clusterStateRecommendedPlan.getFinalClusterConsumption() + "***********");
+            System.out.println("*******************************************");
+
+            return cc.getRecommendedPlan(clusterStateRecommendedPlan);
+        }else
+        {
+            throw new CloudMiddlewareException("DEPLOYMENT REJECTED: There are no hosts supporting the required performance");
         }
-
-        System.out.println("*******************************************");
-        System.out.println("**  Cluster Estimated Power Consumption  **");
-        System.out.println("**********  " + clusterStateRecommendedPlan.getFinalClusterConsumption() + "***********");
-        System.out.println("*******************************************");
-
-        return cc.getRecommendedPlan(clusterStateRecommendedPlan);
     }
 
 

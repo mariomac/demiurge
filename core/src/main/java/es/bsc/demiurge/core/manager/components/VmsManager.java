@@ -186,6 +186,7 @@ public class VmsManager {
 
         cloudMiddleware.destroy(vmId);
         db.deleteVm(vmId);
+        db.deletePerformanceOfVM(vmId);
 
 		for(VmmListener l : listeners) {
 			l.onVmDestruction(vmToBeDeleted);
@@ -231,7 +232,7 @@ public class VmsManager {
             GenericBenchmark benchmarkToRun = null;
 
             // To run benchmark automatically we need to pass an init script to the vm
-            if (Config.INSTANCE.runBenchmarkAutomatically) {
+            if ((Config.INSTANCE.getVmManager().getCurrentSchedulingAlgorithm().startsWith(Config.INSTANCE.PERF_POWER_ALGORITHM_PREFIX)) && (Config.INSTANCE.runBenchmarkAutomatically)) {
                 int runningTime = vmToDeploy.getExtraParameters().getRunningTime();
                 if (runningTime == 0){
                     runningTime = MAX_RUNNING_TIME;
@@ -269,7 +270,7 @@ public class VmsManager {
             }
 
             // Running benchmarks automatically within the VM
-            if (Config.INSTANCE.runBenchmarkAutomatically && benchmarkToRun != null){
+            if ((Config.INSTANCE.getVmManager().getCurrentSchedulingAlgorithm().startsWith(Config.INSTANCE.PERF_POWER_ALGORITHM_PREFIX)) && (Config.INSTANCE.runBenchmarkAutomatically && benchmarkToRun != null)){
                 log.debug("Running benchmark within VM " + vmDeployed.getId());
                 VmAutonomic vmAutonomic = new VmAutonomic(vmDeployed.getId(), vmDeployed.getName(), vmDeployed.getIpAddress(), vmDeployed.getCpus(), vmDeployed.getRamMb()*1024, vmDeployed.getDiskGb(), hostForDeployment.getHostname());
                 benchmarkToRun.runBenchmark(vmAutonomic);

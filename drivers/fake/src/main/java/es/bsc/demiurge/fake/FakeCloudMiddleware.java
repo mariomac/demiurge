@@ -65,12 +65,12 @@ public class FakeCloudMiddleware implements CloudMiddleware {
             throw new IllegalArgumentException(
                     "Error during VM deployment. There is not a host with the given hostname.");
         }
-
+/*
         if (getVmImage(vm.getImage()) == null) {
             throw new IllegalArgumentException(
                     "Error during VM deployment. There is not an image with the given ID.");
         }
-
+*/
         VmDeployed newVm = new VmDeployed(
                 vm.getName(),
                 vm.getImage(),
@@ -228,6 +228,7 @@ public class FakeCloudMiddleware implements CloudMiddleware {
         images.clear();
     }
 
+    @Override
     public HostFake getHost(String hostname) {
         for (HostFake host: hosts) {
             if (hostname.equals(host.getHostname())) {

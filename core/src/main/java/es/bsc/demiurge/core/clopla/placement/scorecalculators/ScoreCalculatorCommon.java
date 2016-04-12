@@ -36,6 +36,7 @@ public abstract class ScoreCalculatorCommon {
         for (Host host: clusterState.getHosts()) {
             result -= host.getOverCapacityScore(clusterState.getVms());
         }
+
         return result;
     }
     
@@ -49,6 +50,7 @@ public abstract class ScoreCalculatorCommon {
         if(result < 0) {
             System.out.println("getClusterPenaltyScoreForFixedVms: " + result);
         }
+
         return result;
     }
 

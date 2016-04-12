@@ -16,11 +16,11 @@
 -->
 
 
-    <bean id="monitoring" class="es.bsc.demiurge.monitoring.ganglia.GangliaMonitoring"/>
-    <bean id="cloudMiddleware" class="es.bsc.demiurge.openstackjclouds.OpenStackJclouds"/>
+    <!--bean id="monitoring" class="es.bsc.demiurge.monitoring.ganglia.GangliaMonitoring"/>
+    <bean id="cloudMiddleware" class="es.bsc.demiurge.openstackjclouds.OpenStackJclouds"/-->
 
 	<!-- FOR TEST -->
-	<!--
+
 	<bean id="monitoring" class="es.bsc.demiurge.fake.FakeMonitoring"/>
 	<bean id="cloudMiddleware" class="es.bsc.demiurge.fake.FakeCloudMiddleware">
 		<constructor-arg>
@@ -29,44 +29,35 @@
 					<constructor-arg index="0" value="fakehost_1"/>
 					<constructor-arg index="1" value="8"/>
 					<constructor-arg index="2" value="16000"/>
-					<constructor-arg index="3" value="4000000"/>
+					<constructor-arg index="3" value="400"/>
 					<constructor-arg index="4" value="0"/>
 					<constructor-arg index="5" value="0"/>
 					<constructor-arg index="6" value="0"/>
 				</bean>
 				<bean class="es.bsc.demiurge.fake.HostFake">
-					<constructor-arg index="0" value="fakehost_2"/>
-					<constructor-arg index="1" value="8"/>
-					<constructor-arg index="2" value="16000"/>
-					<constructor-arg index="3" value="4000000"/>
-					<constructor-arg index="4" value="0"/>
-					<constructor-arg index="5" value="0"/>
-					<constructor-arg index="6" value="0"/>
-				</bean>
-				<bean class="es.bsc.demiurge.fake.HostFake">
-					<constructor-arg index="0" value="bscgrid30"/>
-					<constructor-arg index="1" value="32"/>
+					<constructor-arg index="0" value="host01"/>
+					<constructor-arg index="1" value="13"/>
 					<constructor-arg index="2" value="24000"/>
-					<constructor-arg index="3" value="4000000"/>
+					<constructor-arg index="3" value="400"/>
 					<constructor-arg index="4" value="0"/>
 					<constructor-arg index="5" value="0"/>
 					<constructor-arg index="6" value="0"/>
+					<constructor-arg index="7" value="bscgrid30"/>
 				</bean>
 				<bean class="es.bsc.demiurge.fake.HostFake">
-					<constructor-arg index="0" value="bscgrid31"/>
+					<constructor-arg index="0" value="host02"/>
 					<constructor-arg index="1" value="24"/>
 					<constructor-arg index="2" value="18000"/>
-					<constructor-arg index="3" value="4000000"/>
+					<constructor-arg index="3" value="400"/>
 					<constructor-arg index="4" value="0"/>
 					<constructor-arg index="5" value="0"/>
 					<constructor-arg index="6" value="0"/>
+					<constructor-arg index="7" value="bscgrid31"/>
 				</bean>
 			</util:list>
 		</constructor-arg>
 	</bean>
 
-
-	-->
 
     <!--bean id="vmManager" class="es.bsc.demiurge.core.manager.GenericVmManager"/-->
 	<bean id="vmManager" class="es.bsc.demiurge.renewit.manager.PerformanceVmManager"/>

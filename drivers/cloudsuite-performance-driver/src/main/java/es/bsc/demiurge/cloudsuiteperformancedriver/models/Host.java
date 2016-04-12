@@ -11,6 +11,7 @@ public class Host {
     private final int usedCpus;
     private final int usedRamGb;
     private final int usedDiskGb;
+    private final String type;
 
     public Host(String hostname, int cpus, int ramGb, int diskGb, int usedCpus, int usedRamGb, int usedDiskGb) {
         this.hostname = hostname;
@@ -20,6 +21,18 @@ public class Host {
         this.usedCpus = usedCpus;
         this.usedRamGb = usedRamGb;
         this.usedDiskGb = usedDiskGb;
+        this.type = null;
+    }
+
+    public Host(String hostname, int cpus, int ramGb, int diskGb, int usedCpus, int usedRamGb, int usedDiskGb, String type) {
+        this.hostname = hostname;
+        this.cpus = cpus;
+        this.ramGb = ramGb;
+        this.diskGb = diskGb;
+        this.usedCpus = usedCpus;
+        this.usedRamGb = usedRamGb;
+        this.usedDiskGb = usedDiskGb;
+        this.type = type;
     }
 
     public boolean hasEnoughSpaceToHost(VmSize vmSize) {
@@ -44,9 +57,9 @@ public class Host {
         return diskGb;
     }
 
-
-
-
+    public String getType() {
+        return type;
+    }
 
     @Override
     public String toString() {

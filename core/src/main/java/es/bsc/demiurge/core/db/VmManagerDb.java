@@ -153,5 +153,6 @@ public interface VmManagerDb {
 
     double getPerformanceOfVm(String vmId);
 
+    void deletePerformanceOfVM(String vmId);
 
 }

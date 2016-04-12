@@ -380,5 +380,14 @@ public class VmManagerDbHsql implements VmManagerDb {
         else return 0;
     }
 
+    @Override
+    public void deletePerformanceOfVM(String vmId) {
+        try {
+            update("DELETE FROM vm_benchmark_performance WHERE id = '" + vmId + "'");
+        } catch (SQLException e) {
+            log.error(ERROR_DELETE_VM,e);
+        }
+    }
+
 
 }

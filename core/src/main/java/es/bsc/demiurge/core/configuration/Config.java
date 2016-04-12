@@ -91,6 +91,8 @@ public enum Config {
     private Set<Estimator> estimators;
 
     public boolean runBenchmarkAutomatically;
+    public int numberOfFakeHosts;
+
     // Zabbix config
     public String zabbixDbIp;
     public String zabbixDbUser;
@@ -191,7 +193,7 @@ public enum Config {
         deployVmWithVolume = configuration.getBoolean("deployVmWithVolume", false);
 
         runBenchmarkAutomatically = configuration.getBoolean("runBenchmarkAutomatically", false);
-
+        numberOfFakeHosts = configuration.getInt("numberOfFakeHosts");
 		cryptSalt = configuration.getString("crypt.salt", "addYourOwnSaltPropertyToTheConfigFile");
 
 		logger.debug("Loading configuration: " + toString());

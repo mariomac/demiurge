@@ -34,12 +34,9 @@ public abstract class GenericBenchmark {
     protected String vmId;
     protected String benchmarkName;
     protected VmAutonomic vm;
-
-    protected static Long benchmarkStartTimestamp;
-    protected static Long benchmarkEndTimestamp;
     protected long timestampStartVM;
     protected long timestampStartBenchmark;
-
+    protected long timestampEndBenchmark;
     public GenericBenchmark(int cpus, int ramGb, int diskGb, int runningTime, String benchmarkName) {
         this.cpuValue = cpus;
         this.ramGbValue = ramGb;
@@ -81,7 +78,7 @@ public abstract class GenericBenchmark {
 
     protected void writeResultToCsv(double result) {
 
-        String toWrite = vm.getName() +"," + benchmarkName + "," + cpuValue + "," + ramGbValue + "," + diskGbValue + "," + vm.getHostName() +","+ result + END_OF_LINE;
+        String toWrite = timestampStartVM + "," + timestampStartBenchmark + "," + timestampEndBenchmark + "," + vm.getName() + "," + benchmarkName + "," + cpuValue + "," + ramGbValue + "," + diskGbValue + "," + vm.getHostName() +","+ result + END_OF_LINE;
         try (FileWriter fileWriter = new FileWriter(resultsFile, true);
              BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
              PrintWriter out = new PrintWriter(bufferedWriter)) {
@@ -95,7 +92,7 @@ public abstract class GenericBenchmark {
     protected static boolean hasBenchmarkTerminated(List<String> vmConsoleOutputLines) {
         for (String line : vmConsoleOutputLines) {
             if (line.startsWith("timestamp_end:")) {
-                benchmarkEndTimestamp = Long.parseLong(line.split(":")[1]);
+               // benchmarkEndTimestamp = Long.parseLong(line.split(":")[1]);
                 return true;
             }
         }
@@ -105,7 +102,6 @@ public abstract class GenericBenchmark {
     protected static boolean isBenchmarkRunning(List<String> vmConsoleOutputLines) {
         for (String line : vmConsoleOutputLines) {
             if (line.startsWith("timestamp_start:")) {
-                benchmarkStartTimestamp = Long.parseLong(line.split(":")[1]);
                 return true;
             }
             /*

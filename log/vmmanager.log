@@ -6893,3 +6893,20 @@ Inserting user. ExecuteUpdate result: 1
 No mapping found for HTTP request with URI [/gui/admin] in DispatcherServlet with name 'org.springframework.web.servlet.DispatcherServlet-4edaa789'
 2016-03-04 15:54:36,368 DEBUG  - es.bsc.demiurge.core.manager.GenericVmManager$1
 Notifying vmm global listeners on shutdown hook
+2016-04-12 12:06:13,867 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-04-12 12:07:34,437 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-04-12 12:07:47,691 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /home/mcanuto/config.properties
+2016-04-12 12:07:47,744 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[fakehost_1, fakehost_2]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
