@@ -267,6 +267,10 @@ public abstract class Host {
         this.type = type;
     }
 
+    public void setHostname(String hostname) {
+        this.hostname = hostname;
+    }
+
     @Override
 	public String toString() {
 		return "Host{" +

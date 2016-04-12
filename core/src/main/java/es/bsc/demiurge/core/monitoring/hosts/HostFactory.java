@@ -20,7 +20,6 @@ package es.bsc.demiurge.core.monitoring.hosts;
 
 import com.google.gson.Gson;
 import es.bsc.demiurge.core.cloudmiddleware.CloudMiddleware;
-import es.bsc.demiurge.core.configuration.Config;
 import es.bsc.demiurge.core.drivers.Monitoring;
 
 import java.util.HashMap;
@@ -70,20 +69,19 @@ public class HostFactory {
             return host;
         }
         Host newHost = null;
-
         if (cloudMiddleware.getClass().getCanonicalName().contains("FakeCloudMiddleware")){
 
-            // We need to create N servers (from configuration) of X types (X = amd, intel, from bean.xml)
-            int n = Config.INSTANCE.numberOfFakeHosts/Config.INSTANCE.hosts.length;
-            for (int i = 0; i< n ; i++) {
-                Host h = cloudMiddleware.getHost(hostname);
-                if (h != null) {
-                    newHost = h;
-                    hosts.put(hostname, h);
-                } else {
-                    newHost = monitoring.createHost(hostname);
-                    hosts.put(hostname, newHost);
-                }
+            String[] nameStr = hostname.split("_");
+            String ind = nameStr[nameStr.length-1];
+            String originName = hostname.substring(0, hostname.indexOf("_" + ind));
+
+            Host h = cloudMiddleware.getHost(originName);
+            if (h != null){
+                newHost = h;
+                hosts.put(hostname, h);
+            }else{
+                newHost = monitoring.createHost(hostname);
+                hosts.put(hostname, newHost);
             }
         }else {
             // If the host does not already exist, create and return it.

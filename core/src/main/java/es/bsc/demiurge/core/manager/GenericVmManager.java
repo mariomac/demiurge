@@ -432,9 +432,23 @@ public class GenericVmManager implements VmManager {
 
 		List<Host> hosts = new ArrayList<>();
 
-		for(String hostname : Config.INSTANCE.hosts) {
-			hosts.add(hf.getHost(hostname));
-		}
+        if (cloudMiddleware.getClass().getCanonicalName().contains("FakeCloudMiddleware")){
+
+            // We need to create N servers (from configuration) of X types (X = amd, intel, from bean.xml)
+            int n = Config.INSTANCE.numberOfFakeHosts/Config.INSTANCE.hosts.length;
+
+            for(String hostname : Config.INSTANCE.hosts) {
+                for (int i = 0; i< n; i++) {
+                    Host horigin = hf.getHost(hostname + "_" + i);
+                    hosts.add(horigin);
+                }
+            }
+
+        }else {
+            for (String hostname : Config.INSTANCE.hosts) {
+                hosts.add(hf.getHost(hostname));
+            }
+        }
 
 		hostsManager = new HostsManager(hosts);
 
