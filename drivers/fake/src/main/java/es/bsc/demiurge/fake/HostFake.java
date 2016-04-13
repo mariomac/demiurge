@@ -85,6 +85,10 @@ public class HostFake extends Host {
         this.type = type;
     }
 
+    public HostFake(String hostname, int totalCpus, double totalMemoryMb, double totalDiskGb) {
+        super(hostname, totalCpus, totalMemoryMb, totalDiskGb);
+    }
+
     //TODO: I think this method should be in the class HostInfo.
     private void checkConstructorParams(int totalCpus, int totalMemoryMb, int totalDiskGb, double assignedCpus,
             int assignedMemoryMb, int assignedDiskGb) {

@@ -185,4 +185,6 @@ public interface CloudMiddleware {
 	void resize(String vmId, String flavourId);
 
     Host getHost(String hostname);
+
+    void addHost(Host host);
 }

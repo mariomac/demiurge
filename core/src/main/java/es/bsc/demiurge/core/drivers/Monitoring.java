@@ -7,4 +7,6 @@ import es.bsc.demiurge.core.monitoring.hosts.Host;
  */
 public interface Monitoring<T extends Host> {
 	T createHost(String hostName);
+
+	T createHost(String hostname, int totalCpus, double totalMemoryMb, double totalDiskGb);
 }

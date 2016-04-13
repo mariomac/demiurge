@@ -1,6 +1,7 @@
 package es.bsc.demiurge.renewit.manager;
 
 import es.bsc.demiurge.cloudsuiteperformancedriver.core.PerformanceDriverCore;
+import es.bsc.demiurge.cloudsuiteperformancedriver.models.CloudSuiteBenchmark;
 import es.bsc.demiurge.cloudsuiteperformancedriver.models.VmSize;
 import es.bsc.demiurge.core.cloudmiddleware.CloudMiddlewareException;
 import es.bsc.demiurge.core.configuration.Config;
@@ -9,12 +10,15 @@ import es.bsc.demiurge.core.manager.components.VmsManager;
 import es.bsc.demiurge.core.models.scheduling.RecommendedPlan;
 import es.bsc.demiurge.core.models.scheduling.RecommendedPlanRequest;
 import es.bsc.demiurge.core.models.scheduling.VmPlacement;
+import es.bsc.demiurge.core.models.vms.ListVmsDeployed;
 import es.bsc.demiurge.core.models.vms.Vm;
+import es.bsc.demiurge.core.models.vms.VmDeployed;
 import es.bsc.demiurge.core.monitoring.hosts.Host;
 import es.bsc.demiurge.renewit.utils.CloudsuiteUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -94,6 +98,42 @@ public class PerformanceVmManager extends GenericVmManager {
         return performanceDriverCore.getModeller().getMinVmSizesWithAtLeastPerformance(vm.getExtraParameters().getPerformance(), vm.getExtraParameters().getBenchmark(), CloudsuiteUtils.convertClusterHostToPerformanceHost(h));
 
     }
+
+    @Override
+    public double getClusterConsumption() {
+        List<Host> hosts = this.getHosts();
+        ListVmsDeployed vms = new ListVmsDeployed(this.getAllVms());
+        double pow = 0;
+
+        HashMap <String, Integer> hmap = new HashMap<>();
+        for (Host h : hosts){
+            hmap.put(h.getHostname(), 0);
+            if (h.isOn()) {
+                pow += performanceDriverCore.getModeller().getIdlePowerHost(h.getType());
+            }
+
+        }
+        for (VmDeployed vm : vms.getVms()){
+
+            VmSize vmSize = new VmSize(vm.getCpus(), vm.getRamMb()*1024, vm.getDiskGb());
+            String hostName = vm.getHostName();
+            Host host = getHost(hostName);
+            CloudSuiteBenchmark benchmark = vm.getExtraParameters().getBenchmark();
+
+            double vmPowerEstimation = performanceDriverCore.getModeller().getBenchmarkAvgPower(benchmark, host.getType(), vmSize);
+            pow += vmPowerEstimation - host.getIdlePower();
+
+            if (hmap.get(hostName) == 0){
+                pow += 5;
+                hmap.put(hostName, 1);
+            }
+
+        }
+
+        return pow;
+
+    }
+
 
     private String VmPlacementToString(Vm vm, Host host){
         return "Vm:{ " +

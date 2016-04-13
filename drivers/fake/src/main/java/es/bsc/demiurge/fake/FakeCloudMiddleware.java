@@ -18,11 +18,12 @@
 
 package es.bsc.demiurge.fake;
 
-import es.bsc.demiurge.core.models.images.ImageUploaded;
-import es.bsc.demiurge.core.models.vms.Vm;
 import es.bsc.demiurge.core.cloudmiddleware.CloudMiddleware;
 import es.bsc.demiurge.core.models.images.ImageToUpload;
+import es.bsc.demiurge.core.models.images.ImageUploaded;
+import es.bsc.demiurge.core.models.vms.Vm;
 import es.bsc.demiurge.core.models.vms.VmDeployed;
+import es.bsc.demiurge.core.monitoring.hosts.Host;
 
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -46,7 +47,7 @@ public class FakeCloudMiddleware implements CloudMiddleware {
     private final List<HostFake> hosts = new CopyOnWriteArrayList<>();
     private final List<VmDeployed> deployedVms = new CopyOnWriteArrayList<>();
     private final List<ImageUploaded> images = new CopyOnWriteArrayList<>();
-
+    private final int numHosts = 0;
     // For assigning IDs and IPs manually
     private final AtomicInteger nextVmId = new AtomicInteger(0);
     private final AtomicInteger nextVmIp = new AtomicInteger(0); // Invalid IPs but it does not matter
@@ -57,7 +58,24 @@ public class FakeCloudMiddleware implements CloudMiddleware {
             this.hosts.add(host);
         }
     }
+/*
+    public FakeCloudMiddleware(List<HostFake> hosts, Integer numHosts) {
+        int n = numHosts/hosts.size();
+        for (HostFake host: hosts) {
 
+            if (n > 0) {
+                for (int i = 0; i < n; i++) {
+                    String newName = host.getHostname() + "_" + i;
+                    HostFake hf = host;
+                    hf.setHostname(newName);
+                    hosts.add(hf);
+                }
+            }else{
+                this.hosts.add(host);
+            }
+        }
+    }
+*/
     @Override
     public String deploy(Vm vm, String hostname) {
         HostFake host = getHost(hostname);
@@ -236,6 +254,11 @@ public class FakeCloudMiddleware implements CloudMiddleware {
             }
         }
         return null;
+    }
+
+    @Override
+    public void addHost(Host host) {
+        this.hosts.add((HostFake) host);
     }
 
     public void addHost(HostFake host) {

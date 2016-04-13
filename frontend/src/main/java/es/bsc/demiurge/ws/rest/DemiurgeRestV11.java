@@ -385,4 +385,11 @@ public class DemiurgeRestV11 {
 		vmManager.migrateVm(vmId,hostName);
 	}
 
+
+    @GET
+    @Path("/powerConsumption")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getPowerConsumption() { return "{\"clusterConsumption\": " + vmManager.getClusterConsumption() + "}";}
+
+
 }

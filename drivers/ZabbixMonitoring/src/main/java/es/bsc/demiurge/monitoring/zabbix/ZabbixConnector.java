@@ -204,4 +204,9 @@ public class ZabbixConnector implements Monitoring<HostZabbix> {
 	public HostZabbix createHost(String hostName) {
 		return new HostZabbix(hostName);
 	}
+
+    @Override
+    public HostZabbix createHost(String hostname, int totalCpus, double totalMemoryMb, double totalDiskGb) {
+        return null;
+    }
 }

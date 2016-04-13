@@ -45,14 +45,14 @@ public class ScoreCalculatorPerfAwarePowerAware implements SimpleScoreCalculator
             List<Vm> vms_in_host = solution.getVmsDeployedInHost(h);
 
             for (Vm vm : vms_in_host){
-                System.out.println("Host: " + h.getHostname());
+                //System.out.println("Host: " + h.getHostname());
                 VmSize vmSize = null;
 
                 // If Vm is not already deployed, calculate vm size
                 if (!vm.isDeployed()) {
                     // Calculate cpus, mem, disk for performance required
                     vmSize = performanceVmManager.getVmSizesClopla(vm, h);
-                    System.out.println(vmSize);
+                    //System.out.println(vmSize);
                     if (vmSize != null){
                         vm.setNcpus(vmSize.getCpus());
                         vm.setRamMb(vmSize.getRamGb() * 1024);
@@ -75,7 +75,7 @@ public class ScoreCalculatorPerfAwarePowerAware implements SimpleScoreCalculator
                 }
 
                 double newVMPowerEstimation = performanceModeller.getBenchmarkAvgPower(benchmark, h.getType(), vmSize);
-
+                logger.info("VM power estimation = " + newVMPowerEstimation);
                 // Set power estimation to VM using performance models
                 //logger.info("vm power estimation: " + newVMPowerEstimation);
                 vm.setPowerEstimation(newVMPowerEstimation);

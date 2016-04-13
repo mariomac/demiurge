@@ -72,15 +72,16 @@ public class PowerModeller implements Estimator {
 		// 5 as overhead of virtualization: to change
 		double pow = 0;
 
-		// Sum idle of host if on
-		if (!(host.wasOffInitiallly() && vmsDeployedInHost.size() == 0)){
+		// Sum idle of host if on  //&& vmsDeployedInHost.size() == 0
+		if (!(host.wasOffInitiallly())){
 			pow +=host.getIdlePower();
 		}
 
-		// Power of VMs already deployed + power estimation of VM to be deployed
-		for(Vm vm : vmsDeployedInHost) {
-			pow += vm.getPowerEstimation() - host.getIdlePower();
-
+		if (vmsDeployedInHost.size() > 0){
+			// Power of VMs already deployed + power estimation of VM to be deployed
+			for(Vm vm : vmsDeployedInHost) {
+				pow += vm.getPowerEstimation() - host.getIdlePower();
+			}
 			// 5 as overhead of virtualization: to change
 			pow += 5;
 		}

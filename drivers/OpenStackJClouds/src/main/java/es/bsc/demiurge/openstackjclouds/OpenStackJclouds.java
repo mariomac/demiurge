@@ -681,4 +681,10 @@ public class OpenStackJclouds implements CloudMiddleware {
     public Host getHost(String hostname) {
         return null;
     }
+
+    @Override
+    public void addHost(Host host) {
+
+    }
+
 }

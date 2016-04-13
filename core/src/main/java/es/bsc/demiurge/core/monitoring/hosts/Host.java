@@ -64,7 +64,12 @@ public abstract class Host {
         this.type = type;
     }
 
-
+    public Host(String hostname, int totalCpus, double totalMemoryMb, double totalDiskGb) {
+        this.hostname = hostname;
+        this.totalCpus = totalCpus;
+        this.totalMemoryMb = totalMemoryMb;
+        this.totalDiskGb = totalDiskGb;
+    }
 
     /**
      * Checks whether a host has enough available resources to host a VM.

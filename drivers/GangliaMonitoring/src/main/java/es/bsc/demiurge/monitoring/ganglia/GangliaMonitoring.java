@@ -10,4 +10,9 @@ public class GangliaMonitoring implements Monitoring<HostGanglia> {
 	public HostGanglia createHost(String hostName) {
 		return new HostGanglia(hostName);
 	}
+
+	@Override
+	public HostGanglia createHost(String hostname, int totalCpus, double totalMemoryMb, double totalDiskGb) {
+		return null;
+	}
 }

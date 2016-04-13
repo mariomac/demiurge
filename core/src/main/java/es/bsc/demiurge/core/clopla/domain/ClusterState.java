@@ -319,6 +319,7 @@ public class ClusterState extends AbstractPersistable implements Solution<Score>
     }
 
     private double calculateClusterConsumption() {
+        HashMap <String, Integer> hmap = new HashMap<>();
 
         // 5 as overhead of virtualization: to change
         double pow = 0;
@@ -326,7 +327,8 @@ public class ClusterState extends AbstractPersistable implements Solution<Score>
 
         // Sum the idle of all the hosts on
         for (Host host: hosts){
-            if (!(host.wasOffInitiallly() && getVmsDeployedInHost(host).size() == 0)){
+            if (!(host.wasOffInitiallly())){
+                hmap.put(host.getHostname(), 0);
                 pow +=host.getIdlePower();
             }
         }
@@ -336,7 +338,10 @@ public class ClusterState extends AbstractPersistable implements Solution<Score>
             pow += vm.getPowerEstimation() - vm.getHost().getIdlePower();
 
             // 5 as overhead of virtualization: to change
-            pow += 5;
+            if (hmap.get(vm.getHost().getHostname()) == 0){
+                pow += 5;
+                hmap.put(vm.getHost().getHostname(), 1);
+            }
         }
 
         return pow;

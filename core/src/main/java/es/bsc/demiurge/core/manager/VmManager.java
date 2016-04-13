@@ -1,6 +1,5 @@
 package es.bsc.demiurge.core.manager;
 
-import es.bsc.demiurge.core.auth.UserDao;
 import es.bsc.demiurge.core.cloudmiddleware.CloudMiddlewareException;
 import es.bsc.demiurge.core.db.VmManagerDb;
 import es.bsc.demiurge.core.manager.components.EstimatesManager;
@@ -286,4 +285,6 @@ public interface VmManager {
 	Map<String, String> getFlavours();
 
 	void resize(String vmId, String flavourId);
+
+    double getClusterConsumption();
 }

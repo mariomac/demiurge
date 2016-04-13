@@ -10,4 +10,9 @@ public class FakeMonitoring implements Monitoring<HostFake> {
     public HostFake createHost(String hostName) {
         return new HostFake(hostName);
     }
+
+    @Override
+    public HostFake createHost(String hostname, int totalCpus, double totalMemoryMb, double totalDiskGb) {
+        return new HostFake(hostname, totalCpus, totalMemoryMb, totalDiskGb);
+    }
 }

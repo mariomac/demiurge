@@ -70,12 +70,12 @@ public class HostFactory {
         }
         Host newHost = null;
         if (cloudMiddleware.getClass().getCanonicalName().contains("FakeCloudMiddleware")){
-
+/*
             String[] nameStr = hostname.split("_");
             String ind = nameStr[nameStr.length-1];
             String originName = hostname.substring(0, hostname.indexOf("_" + ind));
-
-            Host h = cloudMiddleware.getHost(originName);
+*/
+            Host h = cloudMiddleware.getHost(hostname);
             if (h != null){
                 newHost = h;
                 hosts.put(hostname, h);
@@ -90,7 +90,7 @@ public class HostFactory {
             newHost = monitoring.createHost(hostname);
             hosts.put(hostname, newHost);
         }
-        
+
         return newHost;
     }
 
