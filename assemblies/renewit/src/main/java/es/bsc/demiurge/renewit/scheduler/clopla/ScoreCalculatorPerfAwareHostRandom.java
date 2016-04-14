@@ -36,7 +36,7 @@ public class ScoreCalculatorPerfAwareHostRandom implements SimpleScoreCalculator
 
         //  Calculate cpus, mem, disk for performance required. it depends on the host where the vm is deployed
         for (Host h : solution.getHosts()) {
-            logger.info("Host: " + h.getHostname());
+            //logger.info("Host: " + h.getHostname());
 
             List<Vm> vms_in_host = solution.getVmsDeployedInHost(h);
 
@@ -47,7 +47,7 @@ public class ScoreCalculatorPerfAwareHostRandom implements SimpleScoreCalculator
                     vm.setNcpus(vmSize.getCpus());
                     vm.setRamMb(vmSize.getRamGb() * 1024);
                     vm.setDiskGb(vmSize.getDiskGb());
-                    logger.info(vm.getExtraParameters().getBenchmark() + " with perf. " + vm.getExtraParameters().getPerformance() + " - " + h.getHostname() + ": " + vmSize.getCpus() + " CPUs, " + vmSize.getRamGb() + " GB RAM, " + vmSize.getDiskGb() + " GB Disk");
+                    //logger.info(vm.getExtraParameters().getBenchmark() + " with perf. " + vm.getExtraParameters().getPerformance() + " - " + h.getHostname() + ": " + vmSize.getCpus() + " CPUs, " + vmSize.getRamGb() + " GB RAM, " + vmSize.getDiskGb() + " GB Disk");
                 }
             }
         }
@@ -57,14 +57,18 @@ public class ScoreCalculatorPerfAwareHostRandom implements SimpleScoreCalculator
                 solution.countOffHosts(),
                 rand.nextInt(POSSIBLE_SCORES),
                 -VmPlacementConfig.initialClusterState.get().countVmMigrationsNeeded(solution)};
-
+        System.out.println("---- " + BendableScore.valueOf(hardScores, softScores) + " ----");
         return BendableScore.valueOf(hardScores, softScores);
 
     }
 
     private int calculateHardScore(ClusterState solution) {
-        return (int) (ScoreCalculatorCommon.getClusterOverCapacityScore(solution)
-                + ScoreCalculatorCommon.getClusterPenaltyScoreForFixedVms(solution));
+        if ((ScoreCalculatorCommon.getClusterOverCapacityScore(solution)
+                + ScoreCalculatorCommon.getClusterPenaltyScoreForFixedVms(solution)) != 0) {
+            return -1;
+        } else {
+            return 0;
+        }
     }
 
 }

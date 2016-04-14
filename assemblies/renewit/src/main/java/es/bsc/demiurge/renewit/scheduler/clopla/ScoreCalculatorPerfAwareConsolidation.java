@@ -12,6 +12,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.optaplanner.core.api.score.Score;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
+import org.optaplanner.core.api.score.buildin.hardsoftdouble.HardSoftDoubleScore;
 import org.optaplanner.core.impl.score.director.simple.SimpleScoreCalculator;
 
 import java.util.List;
@@ -33,7 +34,7 @@ public class ScoreCalculatorPerfAwareConsolidation implements SimpleScoreCalcula
 
         //  Calculate cpus, mem, disk for performance required. it depends on the host where the vm is deployed
         for(Host h : solution.getHosts()) {
-            logger.info("Host: " + h.getHostname());
+            //logger.info("Host: " + h.getHostname());
 
             List<Vm> vms_in_host = solution.getVmsDeployedInHost(h);
 
@@ -46,7 +47,7 @@ public class ScoreCalculatorPerfAwareConsolidation implements SimpleScoreCalcula
                     vm.setRamMb(vmSize.getRamGb()*1024);
                     vm.setDiskGb(vmSize.getDiskGb());
 
-                    logger.info(vm.getExtraParameters().getBenchmark()+" with perf. " + vm.getExtraParameters().getPerformance()+ " - " +h.getHostname() + ": "+ vmSize.getCpus() + " CPUs, " + vmSize.getRamGb() + " GB RAM, " + vmSize.getDiskGb() +" GB Disk" );
+                    //logger.info(vm.getExtraParameters().getBenchmark()+" with perf. " + vm.getExtraParameters().getPerformance()+ " - " +h.getHostname() + ": "+ vmSize.getCpus() + " CPUs, " + vmSize.getRamGb() + " GB RAM, " + vmSize.getDiskGb() +" GB Disk" );
                 }
             }
 
@@ -56,14 +57,18 @@ public class ScoreCalculatorPerfAwareConsolidation implements SimpleScoreCalcula
                 - VmPlacementConfig.initialClusterState.get().countVmMigrationsNeeded(solution);
 
         int hardScore = calculateHardScore(solution);
-
+        System.out.println("---- " + HardSoftDoubleScore.valueOf(hardScore,softScore) + " ----");
         return HardSoftScore.valueOf(hardScore,softScore);
 
     }
 
 
     private int calculateHardScore(ClusterState solution) {
-        return (int) (ScoreCalculatorCommon.getClusterOverCapacityScore(solution)
-                + ScoreCalculatorCommon.getClusterPenaltyScoreForFixedVms(solution));
+        if((ScoreCalculatorCommon.getClusterOverCapacityScore(solution)
+                + ScoreCalculatorCommon.getClusterPenaltyScoreForFixedVms(solution)) != 0){
+            return -1;
+        }else{
+            return 0;
+        }
     }
 }

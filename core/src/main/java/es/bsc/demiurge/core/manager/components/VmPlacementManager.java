@@ -37,6 +37,7 @@ import es.bsc.demiurge.core.vmplacement.CloplaConversor;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.optaplanner.core.api.score.Score;
+import org.optaplanner.core.api.score.buildin.hardsoftdouble.HardSoftDoubleScore;
 
 import java.util.*;
 
@@ -219,9 +220,17 @@ public class VmPlacementManager {
 
             // Set the VM power estimation according to the best palcement
             Score s = (Score) clusterStateRecommendedPlan.getScore();
-            Number[] scoreArray = s.toLevelNumbers();
-            if (scoreArray[0] != 0){
-                throw new CloudMiddlewareException("DEPLOYMENT REJECTED: Hard score not respected\n");
+
+            if (s instanceof HardSoftDoubleScore){
+                if (((HardSoftDoubleScore) s).getHardScore() != 0){
+                    throw new CloudMiddlewareException("DEPLOYMENT REJECTED: Hard score not respected\n");
+                }
+            }
+            else {
+                Number[] scoreArray = s.toLevelNumbers();
+                if (scoreArray[0] != 0) {
+                    throw new CloudMiddlewareException("DEPLOYMENT REJECTED: Hard score not respected\n");
+                }
             }
 
             if (goodHosts.size() > 0) {

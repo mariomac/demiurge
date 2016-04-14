@@ -75,7 +75,7 @@ public class ScoreCalculatorPerfAwarePowerAware implements SimpleScoreCalculator
                 }
 
                 double newVMPowerEstimation = performanceModeller.getBenchmarkAvgPower(benchmark, h.getType(), vmSize);
-                logger.info("VM power estimation = " + newVMPowerEstimation);
+                //logger.info("VM power estimation = " + newVMPowerEstimation);
                 // Set power estimation to VM using performance models
                 //logger.info("vm power estimation: " + newVMPowerEstimation);
                 vm.setPowerEstimation(newVMPowerEstimation);
@@ -96,8 +96,12 @@ public class ScoreCalculatorPerfAwarePowerAware implements SimpleScoreCalculator
     }
 
     private int calculateHardScore(ClusterState solution) {
-        return (int) -Math.abs(ScoreCalculatorCommon.getClusterOverCapacityScore(solution)
-                + ScoreCalculatorCommon.getClusterPenaltyScoreForFixedVms(solution));
+        if ((ScoreCalculatorCommon.getClusterOverCapacityScore(solution)
+                + ScoreCalculatorCommon.getClusterPenaltyScoreForFixedVms(solution)) != 0) {
+            return -1;
+        } else {
+            return 0;
+        }
     }
 
 }
