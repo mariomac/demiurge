@@ -57,7 +57,7 @@ public class ScoreCalculatorPerfAwareHostRandom implements SimpleScoreCalculator
                 solution.countOffHosts(),
                 rand.nextInt(POSSIBLE_SCORES),
                 -VmPlacementConfig.initialClusterState.get().countVmMigrationsNeeded(solution)};
-        System.out.println("---- " + BendableScore.valueOf(hardScores, softScores) + " ----");
+        //System.out.println("---- " + BendableScore.valueOf(hardScores, softScores) + " ----");
         return BendableScore.valueOf(hardScores, softScores);
 
     }

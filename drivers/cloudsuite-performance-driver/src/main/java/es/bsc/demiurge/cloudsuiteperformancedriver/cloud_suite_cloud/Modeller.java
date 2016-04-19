@@ -141,6 +141,23 @@ public class Modeller {
         return null;
     }
 
+
+    public double getPerformanceFromVmSize(VmSize vmSize, CloudSuiteBenchmark benchmark,
+                                           String hostType){
+
+        int minCpus = benchmark.getMinimumVmSize().getCpus();
+        int minRamGb = benchmark.getMinimumVmSize().getRamGb();
+        int minDiskGb = benchmark.getMinimumVmSize().getDiskGb();
+
+        if (minCpus > vmSize.getCpus() || minRamGb > vmSize.getRamGb() || minDiskGb > vmSize.getDiskGb()){
+            return (getBenchmarkPerformance(benchmark, hostType, new VmSize(minCpus, minRamGb, minDiskGb)));
+
+        }
+
+        return (getBenchmarkPerformance(benchmark, hostType, vmSize));
+
+    }
+
     public double getBenchmarkPerformance(CloudSuiteBenchmark benchmark, String hostname, VmSize vmSize) {
         return performanceModels.get(hostname).get(benchmark).applyFormula(
                 vmSize.getCpus(), vmSize.getRamGb(), vmSize.getDiskGb());

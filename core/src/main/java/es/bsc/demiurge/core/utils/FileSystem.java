@@ -18,7 +18,7 @@
 
 package es.bsc.demiurge.core.utils;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -43,6 +43,23 @@ public class FileSystem {
         } catch (IOException e) {
             throw new RuntimeException("Error while deleting a file.");
         }
+    }
+
+    public static void writeToFile(String fname, long timestamp, String s){
+        PrintWriter writer = null;
+        try {
+            writer = new PrintWriter(new BufferedWriter(new FileWriter(fname, true)));
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        writer.append(timestamp + "," + s + "\n");
+        writer.close();
+
     }
 
 }

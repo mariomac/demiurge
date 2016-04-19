@@ -45,6 +45,7 @@ import org.apache.log4j.Logger;
 import java.util.*;
 
 import static es.bsc.autonomicbenchmarks.utils.Utils.getBenchmark;
+import static es.bsc.demiurge.core.utils.FileSystem.writeToFile;
 
 /**
  * @author Mario Macias (github.com/mariomac), David Ortiz Lopez (david.ortiz@bsc.es)
@@ -60,7 +61,7 @@ public class VmsManager {
     private Scheduler scheduler;
     private final EstimatesManager estimatorsManager;
 	private final List<VmmListener> listeners;
-
+    private static final String fname = "VMactions.csv";
 
     // Specific for RenewIT
     private QueueBenchmarkManager queueBenchmarkManager;
@@ -180,6 +181,9 @@ public class VmsManager {
      * @param vmId the ID of the VM
      */
     public void deleteVm(final String vmId) throws CloudMiddlewareException {
+        String s = "destroy, " + getVm(vmId).getName();
+        writeToFile(fname, System.currentTimeMillis()/1000, s);
+
 		long now = System.currentTimeMillis();
 		log.debug("Destroying VM: " + vmId);
         VmDeployed vmToBeDeleted = getVm(vmId);
@@ -336,6 +340,9 @@ public class VmsManager {
      * @param destinationHostName the host where the VM will be migrated to
      */
     public void migrateVm(String vmId, String destinationHostName) throws CloudMiddlewareException {
+
+        String s = "migrate, " + getVm(vmId).getName();
+        writeToFile(fname, System.currentTimeMillis()/1000, s);
         log.debug("[VMM] Requested to migrate VM with ID=" + vmId + " to host " + destinationHostName);
         cloudMiddleware.migrate(vmId, destinationHostName);
 		VmDeployed vm = getVm(vmId);
@@ -368,6 +375,8 @@ public class VmsManager {
                 }
             }
         }
+        String s = "deploy, " + vm.getName();
+        writeToFile(fname, System.currentTimeMillis()/1000, s);
         return cloudMiddleware.deploy(vm, host.getHostname());
     }
 
@@ -383,6 +392,8 @@ public class VmsManager {
                 }
             }
         }
+        String s = "deploy, " + vm.getName();
+        writeToFile(fname, System.currentTimeMillis()/1000, s);
         return cloudMiddleware.deployWithVolume(vm, host.getHostname(), isoPath);
     }
 

@@ -197,11 +197,12 @@ public class VmPlacementManager {
         // Remove hosts that do not support performance
         goodHosts.removeAll(new ArrayList<>(Arrays.asList(badHosts.keySet().toArray())));
 
-        logger.info("Final list of host to consider for deploy: ");
+        //logger.info("Final list of host to consider for deploy: ");
         if (goodHosts.size() > 0) {
-            for (Host item : goodHosts) {
+
+           /* for (Host item : goodHosts) {
                 System.out.println(item.getHostname());
-            }
+            }*/
 
 
             // END FIRST STEP

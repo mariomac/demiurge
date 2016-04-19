@@ -13,6 +13,7 @@ public class FormulaConfig {
     private final List<Double> diskGbCoefficients = new ArrayList<>();
     private final double independentTerm;
     private double maxPerformance;
+    private double minPerformance;
 
 
     public FormulaConfig(String benchmark, List<Double> cpusCoefficients, List<Double> ramGbCoefficients,
@@ -57,6 +58,10 @@ public class FormulaConfig {
 
     public double getMaxPerformance() {
         return maxPerformance;
+    }
+
+    public double getMinPerformance() {
+        return minPerformance;
     }
 
     @Override

@@ -53,8 +53,12 @@ public class ScoreCalculatorPerfAwareConsolidation implements SimpleScoreCalcula
 
         }
 
+        /*int softScore = 10 * (solution.countOffHosts() + solution.countIdleHosts())
+                - VmPlacementConfig.initialClusterState.get().countVmMigrationsNeeded(solution);*/
+
         int softScore = 10 * (solution.countOffHosts() + solution.countIdleHosts())
-                - VmPlacementConfig.initialClusterState.get().countVmMigrationsNeeded(solution);
+                - (VmPlacementConfig.initialClusterState.get().countVmMigrationsNeeded(solution)
+                * 60);
 
         int hardScore = calculateHardScore(solution);
         System.out.println("---- " + HardSoftDoubleScore.valueOf(hardScore,softScore) + " ----");

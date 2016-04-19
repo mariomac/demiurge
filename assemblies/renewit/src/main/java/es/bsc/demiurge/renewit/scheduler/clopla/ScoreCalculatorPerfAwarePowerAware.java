@@ -91,7 +91,7 @@ public class ScoreCalculatorPerfAwarePowerAware implements SimpleScoreCalculator
         //Hard score at the end because we have to set vms cpu, ram, disk in the loop before
         hardScore = calculateHardScore(solution);
 
-        System.out.println("---- " + HardSoftDoubleScore.valueOf(hardScore,softScore) + " ----");
+        //System.out.println("---- " + HardSoftDoubleScore.valueOf(hardScore,softScore) + " ----");
         return HardSoftDoubleScore.valueOf(hardScore,softScore);
     }
 
