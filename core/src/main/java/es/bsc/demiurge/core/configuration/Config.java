@@ -24,6 +24,7 @@ import es.bsc.demiurge.core.drivers.Estimator;
 import es.bsc.demiurge.core.drivers.Monitoring;
 import es.bsc.demiurge.core.drivers.VmmListener;
 import es.bsc.demiurge.core.manager.VmManager;
+import es.bsc.demiurge.core.models.hosts.HardwareInfo;
 import es.bsc.demiurge.core.monitoring.hosts.HostFactory;
 import es.bsc.demiurge.core.vmplacement.CloplaConversor;
 import org.apache.commons.configuration.*;
@@ -34,7 +35,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.File;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
@@ -60,6 +60,8 @@ public enum Config {
 	private static final String OLD_ASCETIC_DEFAULT_CONF_FILE_LOCATION = "/etc/ascetic/vmm/vmmconfig.properties";
     private static final String DEFAULT_DB_NAME = "VmManagerDb";
     private static final String DEFAULT_BEANS_LOCATION = "/Beans.xml";
+    private static final String DEFAULT_HWINFO_LOCATION_1 = "/etc/ascetic/vmm/hwinfo.json";
+    private static final String DEFAULT_HWINFO_LOCATION_2 = "/hwinfo.json";
 
     // TODO: remove public ATTRIBUTES and access only through apache configuration
 	// security
@@ -99,7 +101,7 @@ public enum Config {
     private CloplaConversor cloplaConversor;
 
 	private List<VmmGlobalListener> vmmGlobalListeners;
-
+    private Map<String, HardwareInfo> hwinfo;
 
 	Config() {
         configuration = getPropertiesObjectFromConfigFile();
@@ -208,13 +210,13 @@ public enum Config {
         // by the moment, don't need to put these two into beans (to simplify)
 		hostFactory = new HostFactory(cloudMiddleware, monitoring);
         cloplaConversor = new CloplaConversor();
+        
+        hwinfo = HardwareInfo.loadFromConfig(DEFAULT_HWINFO_LOCATION_1, DEFAULT_HWINFO_LOCATION_2);
 
         /*
          * Extra initialization actions for managers
          */
         vmManager.doInitActions();
-
-
     }
 
 	public Map<String,Class<? extends SimpleScoreCalculator>> getPlacementPolicies() {
@@ -264,4 +266,11 @@ public enum Config {
 	public VmManager getVmManager() {
 		return vmManager;
 	}
+
+    /**
+     * @return the hwinfo
+     */
+    public Map<String, HardwareInfo> getHwinfo() {
+        return hwinfo;
+    }
 }

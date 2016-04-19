@@ -84,6 +84,19 @@ public class Vm {
         setInitScript(initScript);
         this.applicationId = applicationId;
     }
+    
+    public Vm(String name, String image, int cpus, int ramMb, int diskGb, String initScript, String applicationId, String preferredHost) {
+        validateConstructorParams(cpus, ramMb, diskGb, 0);
+        this.name = name;
+        this.image = image;
+        this.cpus = cpus;
+        this.ramMb = ramMb;
+        this.diskGb = diskGb;
+        this.swapMb = 0;
+        setInitScript(initScript);
+        this.applicationId = applicationId;
+        this.preferredHost = preferredHost;
+    }
 
     public Vm(String name, String image, int cpus, int ramMb, int diskGb, String initScript, String applicationId,
               String ovfId, String slaId, boolean needsFloatingIp) {

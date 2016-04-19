@@ -34,6 +34,7 @@ import es.bsc.demiurge.core.selfadaptation.SelfAdaptationManager;
 import es.bsc.demiurge.core.utils.TimeUtils;
 import es.bsc.demiurge.core.cloudmiddleware.CloudMiddleware;
 import es.bsc.demiurge.core.configuration.Config;
+import es.bsc.demiurge.core.models.hosts.HardwareInfo;
 import es.bsc.demiurge.core.models.scheduling.VmAssignmentToHost;
 import es.bsc.demiurge.core.models.vms.VmRequirements;
 import org.apache.log4j.LogManager;
@@ -54,13 +55,13 @@ public class VmsManager {
     private Scheduler scheduler;
     private final EstimatesManager estimatorsManager;
 	private final List<VmmListener> listeners;
-
-//    private static final String ASCETIC_ZABBIX_SCRIPT_PATH = "/DFS/ascetic/vm-scripts/zabbix_agents.sh";
+    private final Map<String, HardwareInfo> hwinfo;
 
     public VmsManager(HostsManager hostsManager, CloudMiddleware cloudMiddleware, VmManagerDb db, 
                       SelfAdaptationManager selfAdaptationManager,
 					  EstimatesManager estimatorsManager,
-					  List<VmmListener> listeners
+					  List<VmmListener> listeners,
+                      Map<String, HardwareInfo> hwinfo
 					  ) {
 		this.listeners = listeners;
 
@@ -69,6 +70,7 @@ public class VmsManager {
         this.db = db;
         this.selfAdaptationManager = selfAdaptationManager;
         this.estimatorsManager = estimatorsManager;
+        this.hwinfo = hwinfo;
     }
 
     /**
@@ -456,5 +458,10 @@ public class VmsManager {
     
     public void confirmResize(String vmId) {
 		cloudMiddleware.confirmResize(vmId);
+	}
+    
+    public Map<String,HardwareInfo> getHardwareInfo(String element) {
+        Map<String, HardwareInfo> hypervisors = cloudMiddleware.getHypervisors();
+        return HardwareInfo.merge(hwinfo, hypervisors);
 	}
 }

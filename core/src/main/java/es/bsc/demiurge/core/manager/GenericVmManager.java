@@ -35,6 +35,7 @@ import es.bsc.demiurge.core.cloudmiddleware.CloudMiddlewareException;
 import es.bsc.demiurge.core.configuration.Config;
 import es.bsc.demiurge.core.db.VmManagerDbFactory;
 import es.bsc.demiurge.core.models.estimates.ListVmEstimates;
+import es.bsc.demiurge.core.models.hosts.HardwareInfo;
 import es.bsc.demiurge.core.models.images.ImageToUpload;
 import es.bsc.demiurge.core.models.vms.VmRequirements;
 import es.bsc.demiurge.core.monitoring.hosts.Host;
@@ -435,7 +436,7 @@ public class GenericVmManager implements VmManager {
         // initializes other subcomponents
         estimatesManager = new EstimatesManager(this, conf.getEstimators());
 
-        vmsManager = new VmsManager(hostsManager, cloudMiddleware, db, selfAdaptationManager, estimatesManager, conf.getVmmListeners());
+        vmsManager = new VmsManager(hostsManager, cloudMiddleware, db, selfAdaptationManager, estimatesManager, conf.getVmmListeners(), conf.getHwinfo());
 
         selfAdaptationOptsManager = new SelfAdaptationOptsManager(selfAdaptationManager);
         vmPlacementManager = new VmPlacementManager(vmsManager, hostsManager,estimatesManager);
@@ -551,5 +552,10 @@ public class GenericVmManager implements VmManager {
     @Override
     public void confirmResize(String vmId) {
         vmsManager.confirmResize(vmId);
+    }
+    
+    @Override
+    public Map<String,HardwareInfo> getHardwareInfo(String element) {
+        return vmsManager.getHardwareInfo(element);
     }
 }

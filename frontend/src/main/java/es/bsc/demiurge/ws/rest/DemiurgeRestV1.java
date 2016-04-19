@@ -23,6 +23,7 @@ import es.bsc.demiurge.core.cloudmiddleware.CloudMiddlewareException;
 import es.bsc.demiurge.core.configuration.Config;
 import es.bsc.demiurge.core.db.VmManagerDbFactory;
 import es.bsc.demiurge.core.manager.VmManager;
+import es.bsc.demiurge.core.models.hosts.HardwareInfo;
 import es.bsc.demiurge.core.models.vms.VmRequirements;
 
 import es.bsc.demiurge.ws.rest.error.ErrorHandler;
@@ -37,6 +38,7 @@ import javax.ws.rs.core.Response;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * REST interface for the VM Manager.
@@ -308,7 +310,13 @@ public class DemiurgeRestV1 {
     public void pressHostPowerButton(@PathParam("hostname") String hostname) {
         nodeCallsManager.pressHostPowerButton(hostname);
     }
-
+    
+    @GET
+    @Path("/hwinfo/{element}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Map<String, HardwareInfo> getHardwareInfo(@PathParam("element") String element) {
+        return nodeCallsManager.getHardwareInfo(element);
+    }
     
     //================================================================================
     // Logs Methods

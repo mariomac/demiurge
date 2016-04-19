@@ -27,6 +27,9 @@ public class VmRequirements {
     protected final int diskGb;
     protected final int swapMb;
     private boolean autoConfirmResize;
+    private String processorArchitecture;
+    private String processorBrand;
+    private String diskType;
 
     public VmRequirements(int cpus, int ramMb, int diskGb, int swapMb) {
         this.cpus = cpus;
@@ -74,5 +77,47 @@ public class VmRequirements {
      */
     public void setAutoConfirm(boolean autoConfirm) {
         this.autoConfirmResize = autoConfirm;
+    }
+
+    /**
+     * @return the processorArchitecture
+     */
+    public String getProcessorArchitecture() {
+        return processorArchitecture;
+    }
+
+    /**
+     * @param processorArchitecture the processorArchitecture to set
+     */
+    public void setProcessorArchitecture(String processorArchitecture) {
+        this.processorArchitecture = processorArchitecture;
+    }
+
+    /**
+     * @return the processorBrand
+     */
+    public String getProcessorBrand() {
+        return processorBrand;
+    }
+
+    /**
+     * @param processorBrand the processorBrand to set
+     */
+    public void setProcessorBrand(String processorBrand) {
+        this.processorBrand = processorBrand;
+    }
+
+    /**
+     * @return the diskType
+     */
+    public String getDiskType() {
+        return diskType;
+    }
+
+    /**
+     * @param diskType the diskType to set
+     */
+    public void setDiskType(String diskType) {
+        this.diskType = diskType;
     }
 }
