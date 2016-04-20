@@ -460,8 +460,31 @@ public class VmsManager {
 		cloudMiddleware.confirmResize(vmId);
 	}
     
-    public Map<String,HardwareInfo> getHardwareInfo(String element) {
+    public Map<String,HardwareInfo> getHardwareInfo() {
         Map<String, HardwareInfo> hypervisors = cloudMiddleware.getHypervisors();
         return HardwareInfo.merge(hwinfo, hypervisors);
+	}
+    
+    public String getHardwareInfo(String hostname, String hardware, String property) {
+        Map<String, HardwareInfo> osIncludedHwInfo = 
+            HardwareInfo.merge(hwinfo, cloudMiddleware.getHypervisors());
+        HardwareInfo hostnameHwInfo = osIncludedHwInfo.get(hostname);
+        
+        if(hardware.equalsIgnoreCase("cpu")){
+            if(property.equalsIgnoreCase("vendor") || property.equalsIgnoreCase("brand")){
+                return hostnameHwInfo.getCpuVendor();
+            }
+            else if(property.equalsIgnoreCase("architecture") || property.equalsIgnoreCase("arch")){
+                return hostnameHwInfo.getCpuArchitecture();
+            }
+        }
+        
+        if(hardware.equalsIgnoreCase("disk")){
+            if(property.equals("type")){
+                return hostnameHwInfo.getDiskType();
+            }
+        }
+        
+        return null;
 	}
 }

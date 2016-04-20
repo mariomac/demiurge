@@ -312,10 +312,17 @@ public class DemiurgeRestV1 {
     }
     
     @GET
-    @Path("/hwinfo/{element}")
+    @Path("/hwinfo")
     @Produces(MediaType.APPLICATION_JSON)
-    public Map<String, HardwareInfo> getHardwareInfo(@PathParam("element") String element) {
-        return nodeCallsManager.getHardwareInfo(element);
+    public Map<String, HardwareInfo> getHardwareInfo() {
+        return nodeCallsManager.getHardwareInfo();
+    }
+    
+    @GET
+    @Path("/hwinfo/{hostname}/{hardware}/{property}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getHardwareInfo(@PathParam("hostname") String hostname, @PathParam("hardware") String hardware, @PathParam("property") String property) {
+        return nodeCallsManager.getHardwareInfo(hostname, hardware, property);
     }
     
     //================================================================================

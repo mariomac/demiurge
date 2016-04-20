@@ -30,6 +30,7 @@ import es.bsc.demiurge.core.models.vms.VmDeployed;
 import es.bsc.demiurge.core.monitoring.hosts.Host;
 import es.bsc.demiurge.core.vmplacement.CloplaConversor;
 import es.bsc.demiurge.core.configuration.Config;
+import es.bsc.demiurge.core.models.hosts.HardwareInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,12 +45,14 @@ public class VmPlacementManager {
     private final VmsManager vmsManager;
     private final HostsManager hostsManager;
     private final EstimatesManager estimatesManager;
+    private final Map<String, HardwareInfo> hwinfo;
 
     public VmPlacementManager(VmsManager vmsManager, HostsManager hostsManager, 
-                              EstimatesManager estimatesManager) {
+                              EstimatesManager estimatesManager, Map<String, HardwareInfo> hwinfo) {
         this.vmsManager = vmsManager;
         this.hostsManager = hostsManager;
         this.estimatesManager = estimatesManager;
+        this.hwinfo = hwinfo;
     }
     
     /**

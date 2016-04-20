@@ -7,7 +7,7 @@ package es.bsc.demiurge.core.models.hosts;
 
 import es.bsc.demiurge.core.utils.FileSystem;
 import java.io.File;
-import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import org.codehaus.jackson.JsonNode;
@@ -54,7 +54,7 @@ public class HardwareInfo {
      */
     public static Map<String, HardwareInfo> loadFromConfig(String filePath, String fileConfigPath) {
         Map<String, HardwareInfo> hwinfo = 
-            new HashMap<>();
+            new TreeMap<>();
         
         try{
             File f = new File(filePath);

@@ -1,11 +1,13 @@
 package es.bsc.vmmclient.vmm;
 
+import es.bsc.demiurge.core.models.hosts.HardwareInfo;
 import es.bsc.demiurge.core.models.vms.VmRequirements;
 import es.bsc.vmmclient.models.*;
 import es.bsc.vmmclient.rest.VmmRestClient;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class VmManagerClient implements VmManager {
     
@@ -104,5 +106,13 @@ public class VmManagerClient implements VmManager {
     @Override
     public void confirmResize(String vmId) {
         vmmRestClient.getVmmService().confirmResize(vmId);
+    }
+    
+    public Map<String,HardwareInfo> getHardwareInfo() {
+        return vmmRestClient.getVmmService().getHardwareInfo();
+    }
+    
+    public String getHardwareInfo(String hostname, String hardware, String property) {
+        return vmmRestClient.getVmmService().getHardwareInfo(hostname, hardware, property);
     }
 }

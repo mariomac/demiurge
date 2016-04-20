@@ -302,8 +302,19 @@ public interface VmManager {
     void confirmResize(String vmId);
     
     /**
-     * Returns information about hardware information.
+     * Returns all information about hardware.
+     * 
      * @return 
      */
-    Map<String, HardwareInfo> getHardwareInfo(String element);
+    Map<String, HardwareInfo> getHardwareInfo();
+    
+    /**
+     * Returns a specific hardware property.
+     * 
+     * @param hostname
+     * @param hardware
+     * @param property
+     * @return 
+     */
+    String getHardwareInfo(String hostname, String hardware, String property);
 }

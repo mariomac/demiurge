@@ -70,8 +70,12 @@ public class NodeCallsManager {
         return result.append("]}").toString();
     }
     
-    public Map<String, HardwareInfo> getHardwareInfo(String element) {
-        return vmManager.getHardwareInfo(element);
+    public Map<String, HardwareInfo> getHardwareInfo() {
+        return vmManager.getHardwareInfo();
+    }
+    
+    public String getHardwareInfo(String hostname, String hardware, String property) {
+        return vmManager.getHardwareInfo(hostname, hardware, property);
     }
 
     public String getVMsDeployedInNode(String hostname) {

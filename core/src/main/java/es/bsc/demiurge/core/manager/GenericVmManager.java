@@ -439,7 +439,7 @@ public class GenericVmManager implements VmManager {
         vmsManager = new VmsManager(hostsManager, cloudMiddleware, db, selfAdaptationManager, estimatesManager, conf.getVmmListeners(), conf.getHwinfo());
 
         selfAdaptationOptsManager = new SelfAdaptationOptsManager(selfAdaptationManager);
-        vmPlacementManager = new VmPlacementManager(vmsManager, hostsManager,estimatesManager);
+        vmPlacementManager = new VmPlacementManager(vmsManager, hostsManager, estimatesManager, conf.getHwinfo());
 
         // Start periodic self-adaptation thread if it is not already running.
         // This check would not be needed if only one instance of this class was created.
@@ -555,7 +555,12 @@ public class GenericVmManager implements VmManager {
     }
     
     @Override
-    public Map<String,HardwareInfo> getHardwareInfo(String element) {
-        return vmsManager.getHardwareInfo(element);
+    public Map<String,HardwareInfo> getHardwareInfo() {
+        return vmsManager.getHardwareInfo();
+    }
+    
+    @Override
+    public String getHardwareInfo(String hostname, String hardware, String property) {
+        return vmsManager.getHardwareInfo(hostname, hardware, property);
     }
 }
