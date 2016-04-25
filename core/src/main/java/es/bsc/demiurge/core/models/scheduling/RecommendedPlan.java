@@ -28,7 +28,7 @@ import java.util.*;
 public class RecommendedPlan {
 
     private final Map<String, String> plan = new HashMap<>(); // VM ID -> Host ID
-
+    private double predictedClusterConsumption;
     /**
      * Class constructor.
      */
@@ -66,4 +66,11 @@ public class RecommendedPlan {
         return vmPlacements.toArray(new VmPlacement[vmPlacements.size()]);
     }
 
+    public double getPredictedClusterConsumption() {
+        return predictedClusterConsumption;
+    }
+
+    public void setPredictedClusterConsumption(double predictedClusterConsumption) {
+        this.predictedClusterConsumption = predictedClusterConsumption;
+    }
 }

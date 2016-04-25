@@ -392,4 +392,17 @@ public class DemiurgeRestV11 {
     public String getPowerConsumption() { return "{\"clusterConsumption\": " + vmManager.getClusterConsumption() + "}";}
 
 
+    @POST
+    @Path("/predictClusterConsumption")
+    @Consumes("application/json")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String predictClusterConsumption(String vmDescriptions) {
+        try {
+            return "{\"predictedClusterConsumption\": " +vmCallsManager.predictClusterConsumption(vmDescriptions)+ "}";
+        } catch (final CloudMiddlewareException e) {
+            log.error("Error deploying VMs: " + e.getMessage(), e);
+            throw new ErrorHandler(e, Response.Status.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

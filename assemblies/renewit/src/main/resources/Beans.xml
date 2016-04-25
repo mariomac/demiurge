@@ -125,6 +125,406 @@
 <constructor-arg index="6" value="0"/>
 <constructor-arg index="7" value="bscgrid31"/>
 </bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host10"/>
+<constructor-arg index="1" value="8"/>
+<constructor-arg index="2" value="32000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid21"/>
+</bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host11"/>
+<constructor-arg index="1" value="12"/>
+<constructor-arg index="2" value="23000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid27"/>
+</bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host12"/>
+<constructor-arg index="1" value="16"/>
+<constructor-arg index="2" value="32000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid30"/>
+</bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host13"/>
+<constructor-arg index="1" value="12"/>
+<constructor-arg index="2" value="32000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid31"/>
+</bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host14"/>
+<constructor-arg index="1" value="8"/>
+<constructor-arg index="2" value="32000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid21"/>
+</bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host15"/>
+<constructor-arg index="1" value="12"/>
+<constructor-arg index="2" value="23000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid27"/>
+</bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host16"/>
+<constructor-arg index="1" value="16"/>
+<constructor-arg index="2" value="32000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid30"/>
+</bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host17"/>
+<constructor-arg index="1" value="12"/>
+<constructor-arg index="2" value="32000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid31"/>
+</bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host18"/>
+<constructor-arg index="1" value="8"/>
+<constructor-arg index="2" value="32000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid21"/>
+</bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host19"/>
+<constructor-arg index="1" value="12"/>
+<constructor-arg index="2" value="23000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid27"/>
+</bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host20"/>
+<constructor-arg index="1" value="16"/>
+<constructor-arg index="2" value="32000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid30"/>
+</bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host21"/>
+<constructor-arg index="1" value="12"/>
+<constructor-arg index="2" value="32000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid31"/>
+</bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host22"/>
+<constructor-arg index="1" value="8"/>
+<constructor-arg index="2" value="32000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid21"/>
+</bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host23"/>
+<constructor-arg index="1" value="12"/>
+<constructor-arg index="2" value="23000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid27"/>
+</bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host24"/>
+<constructor-arg index="1" value="16"/>
+<constructor-arg index="2" value="32000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid30"/>
+</bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host25"/>
+<constructor-arg index="1" value="12"/>
+<constructor-arg index="2" value="32000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid31"/>
+</bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host26"/>
+<constructor-arg index="1" value="8"/>
+<constructor-arg index="2" value="32000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid21"/>
+</bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host27"/>
+<constructor-arg index="1" value="12"/>
+<constructor-arg index="2" value="23000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid27"/>
+</bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host28"/>
+<constructor-arg index="1" value="16"/>
+<constructor-arg index="2" value="32000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid30"/>
+</bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host29"/>
+<constructor-arg index="1" value="12"/>
+<constructor-arg index="2" value="32000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid31"/>
+</bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host30"/>
+<constructor-arg index="1" value="8"/>
+<constructor-arg index="2" value="32000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid21"/>
+</bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host31"/>
+<constructor-arg index="1" value="12"/>
+<constructor-arg index="2" value="23000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid27"/>
+</bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host32"/>
+<constructor-arg index="1" value="16"/>
+<constructor-arg index="2" value="32000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid30"/>
+</bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host33"/>
+<constructor-arg index="1" value="12"/>
+<constructor-arg index="2" value="32000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid31"/>
+</bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host34"/>
+<constructor-arg index="1" value="8"/>
+<constructor-arg index="2" value="32000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid21"/>
+</bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host35"/>
+<constructor-arg index="1" value="12"/>
+<constructor-arg index="2" value="23000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid27"/>
+</bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host36"/>
+<constructor-arg index="1" value="16"/>
+<constructor-arg index="2" value="32000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid30"/>
+</bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host37"/>
+<constructor-arg index="1" value="12"/>
+<constructor-arg index="2" value="32000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid31"/>
+</bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host38"/>
+<constructor-arg index="1" value="8"/>
+<constructor-arg index="2" value="32000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid21"/>
+</bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host39"/>
+<constructor-arg index="1" value="12"/>
+<constructor-arg index="2" value="23000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid27"/>
+</bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host40"/>
+<constructor-arg index="1" value="16"/>
+<constructor-arg index="2" value="32000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid30"/>
+</bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host41"/>
+<constructor-arg index="1" value="12"/>
+<constructor-arg index="2" value="32000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid31"/>
+</bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host42"/>
+<constructor-arg index="1" value="8"/>
+<constructor-arg index="2" value="32000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid21"/>
+</bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host43"/>
+<constructor-arg index="1" value="12"/>
+<constructor-arg index="2" value="23000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid27"/>
+</bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host44"/>
+<constructor-arg index="1" value="16"/>
+<constructor-arg index="2" value="32000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid30"/>
+</bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host45"/>
+<constructor-arg index="1" value="12"/>
+<constructor-arg index="2" value="32000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid31"/>
+</bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host46"/>
+<constructor-arg index="1" value="8"/>
+<constructor-arg index="2" value="32000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid21"/>
+</bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host47"/>
+<constructor-arg index="1" value="12"/>
+<constructor-arg index="2" value="23000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid27"/>
+</bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host48"/>
+<constructor-arg index="1" value="16"/>
+<constructor-arg index="2" value="32000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid30"/>
+</bean>
+<bean class="es.bsc.demiurge.fake.HostFake">
+<constructor-arg index="0" value="host49"/>
+<constructor-arg index="1" value="12"/>
+<constructor-arg index="2" value="32000"/>
+<constructor-arg index="3" value="1500"/>
+<constructor-arg index="4" value="0"/>
+<constructor-arg index="5" value="0"/>
+<constructor-arg index="6" value="0"/>
+<constructor-arg index="7" value="bscgrid31"/>
+</bean>
 			</util:list>
 		</constructor-arg>
 	</bean>

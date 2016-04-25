@@ -12,7 +12,6 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.optaplanner.core.api.score.Score;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
-import org.optaplanner.core.api.score.buildin.hardsoftdouble.HardSoftDoubleScore;
 import org.optaplanner.core.impl.score.director.simple.SimpleScoreCalculator;
 
 import java.util.List;
@@ -53,15 +52,11 @@ public class ScoreCalculatorPerfAwareConsolidation implements SimpleScoreCalcula
 
         }
 
-        /*int softScore = 10 * (solution.countOffHosts() + solution.countIdleHosts())
-                - VmPlacementConfig.initialClusterState.get().countVmMigrationsNeeded(solution);*/
-
         int softScore = 10 * (solution.countOffHosts() + solution.countIdleHosts())
-                - (VmPlacementConfig.initialClusterState.get().countVmMigrationsNeeded(solution)
-                * 60);
+                - (VmPlacementConfig.initialClusterState.get().countVmMigrationsNeeded(solution));
 
         int hardScore = calculateHardScore(solution);
-        System.out.println("---- " + HardSoftDoubleScore.valueOf(hardScore,softScore) + " ----");
+        //System.out.println("---- " + HardSoftScore.valueOf(hardScore,softScore) + " ----");
         return HardSoftScore.valueOf(hardScore,softScore);
 
     }

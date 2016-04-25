@@ -6,6 +6,7 @@ import es.bsc.demiurge.cloudsuiteperformancedriver.models.VmSize;
 import es.bsc.demiurge.core.clopla.domain.ClusterState;
 import es.bsc.demiurge.core.clopla.domain.Host;
 import es.bsc.demiurge.core.clopla.domain.Vm;
+import es.bsc.demiurge.core.clopla.placement.config.VmPlacementConfig;
 import es.bsc.demiurge.core.clopla.placement.scorecalculators.ScoreCalculatorCommon;
 import es.bsc.demiurge.core.configuration.Config;
 import es.bsc.demiurge.renewit.manager.PerformanceVmManager;
@@ -84,7 +85,9 @@ public class ScoreCalculatorPerfAwarePowerAware implements SimpleScoreCalculator
             }
 
 
+            //softScore -= powerModeller.getCloplaHostPowerConsumptionPerformanceModels(h, vms_in_host);
             softScore -= powerModeller.getCloplaHostPowerConsumptionPerformanceModels(h, vms_in_host);
+            softScore -= 0.1*VmPlacementConfig.initialClusterState.get().countVmMigrationsNeeded(solution);
 
         }
         //System.out.println("Cluster consumption: " + -softScore);

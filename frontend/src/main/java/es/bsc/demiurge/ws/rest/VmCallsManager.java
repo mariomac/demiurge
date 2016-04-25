@@ -150,4 +150,9 @@ public class VmCallsManager {
         return result;
     }
 
+    public double predictClusterConsumption(String vmDescriptions) throws CloudMiddlewareException{
+        inputValidator.checkVmDescriptions(gson.fromJson(vmDescriptions, JsonObject.class));
+        double consumption = vmManager.predictClusterConsumption(gson.fromJson(vmDescriptions, ListVms.class).getVms());
+        return consumption;
+    }
 }

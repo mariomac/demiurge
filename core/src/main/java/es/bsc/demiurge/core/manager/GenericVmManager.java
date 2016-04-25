@@ -576,6 +576,11 @@ public class GenericVmManager implements VmManager {
         return 0;
     }
 
+    @Override
+    public double predictClusterConsumption(List<Vm> vms) throws CloudMiddlewareException {
+        return 0.0;
+    }
+
 
 // test methods
 }

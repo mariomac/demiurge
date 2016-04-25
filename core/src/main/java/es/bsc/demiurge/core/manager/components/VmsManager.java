@@ -515,4 +515,11 @@ public class VmsManager {
 	public void resize(String vmId, String flavourId) {
 		cloudMiddleware.resize(vmId, flavourId);
 	}
-}
+
+    public double predictClusterConsumption(List<Vm> vms) throws CloudMiddlewareException {
+
+        RecommendedPlan recommendedPlan = selfAdaptationManager.getRecommendedPlanForDeployment(vms);
+        return recommendedPlan.getPredictedClusterConsumption();
+    }
+
+    }

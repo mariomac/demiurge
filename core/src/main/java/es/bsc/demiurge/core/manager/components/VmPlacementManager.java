@@ -41,6 +41,8 @@ import org.optaplanner.core.api.score.buildin.hardsoftdouble.HardSoftDoubleScore
 
 import java.util.*;
 
+import static es.bsc.demiurge.core.utils.FileSystem.writeToFile;
+
 /**
  * @author Mario Macias (github.com/mariomac), David Ortiz Lopez (david.ortiz@bsc.es)
  */
@@ -224,12 +226,18 @@ public class VmPlacementManager {
 
             if (s instanceof HardSoftDoubleScore){
                 if (((HardSoftDoubleScore) s).getHardScore() != 0){
+                    String fname = "VMactions.csv";
+                    String s2 = "rejected, ";
+                    writeToFile(fname, System.currentTimeMillis()/1000, s2);
                     throw new CloudMiddlewareException("DEPLOYMENT REJECTED: Hard score not respected\n");
                 }
             }
             else {
                 Number[] scoreArray = s.toLevelNumbers();
                 if (scoreArray[0] != 0) {
+                    String fname = "VMactions.csv";
+                    String s2 = "rejected, ";
+                    writeToFile(fname, System.currentTimeMillis()/1000, s2);
                     throw new CloudMiddlewareException("DEPLOYMENT REJECTED: Hard score not respected\n");
                 }
             }
@@ -248,7 +256,9 @@ public class VmPlacementManager {
             System.out.println("**********  " + clusterStateRecommendedPlan.getFinalClusterConsumption() + "***********");
             System.out.println("*******************************************");
 
-            return cc.getRecommendedPlan(clusterStateRecommendedPlan);
+            RecommendedPlan bestPlan = cc.getRecommendedPlan(clusterStateRecommendedPlan);
+            bestPlan.setPredictedClusterConsumption(clusterStateRecommendedPlan.getFinalClusterConsumption());
+            return bestPlan;
         }else
         {
             throw new CloudMiddlewareException("DEPLOYMENT REJECTED: There are no hosts supporting the required performance");

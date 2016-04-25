@@ -106,12 +106,12 @@ public class PerformanceVmManager extends GenericVmManager {
         double pow = 0;
 
         HashMap <String, Integer> hmap = new HashMap<>();
+
         for (Host h : hosts){
             hmap.put(h.getHostname(), 0);
-            if (h.isOn()) {
+            /*if (h.isOn()) {
                 pow += performanceDriverCore.getModeller().getIdlePowerHost(h.getType());
-            }
-
+            }*/
         }
         for (VmDeployed vm : vms.getVms()){
 
@@ -124,7 +124,7 @@ public class PerformanceVmManager extends GenericVmManager {
             pow += vmPowerEstimation - host.getIdlePower();
 
             if (hmap.get(hostName) == 0){
-                pow += 5;
+                pow += host.getIdlePower() +  5;
                 hmap.put(hostName, 1);
             }
 
@@ -132,6 +132,11 @@ public class PerformanceVmManager extends GenericVmManager {
 
         return pow;
 
+    }
+
+    @Override
+    public double predictClusterConsumption(List<Vm> vms) throws CloudMiddlewareException {
+        return  super.getVmsManager().predictClusterConsumption(vms);
     }
 
 

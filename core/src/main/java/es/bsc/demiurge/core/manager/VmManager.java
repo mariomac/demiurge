@@ -287,4 +287,6 @@ public interface VmManager {
 	void resize(String vmId, String flavourId);
 
     double getClusterConsumption();
+
+    double predictClusterConsumption(List<Vm> vms) throws CloudMiddlewareException;
 }

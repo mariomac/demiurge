@@ -10,9 +10,9 @@ import es.bsc.demiurge.cloudsuiteperformancedriver.cloud_suite_cloud.config.VmmC
 import es.bsc.demiurge.cloudsuiteperformancedriver.cloud_suite_cloud.config.models.ModelsConfig;
 import es.bsc.demiurge.cloudsuiteperformancedriver.cloud_suite_cloud.schedulers.PerfAndEnergyAwareScheduler;
 import es.bsc.demiurge.cloudsuiteperformancedriver.cloud_suite_cloud.schedulers.Scheduler;
-import es.bsc.demiurge.cloudsuiteperformancedriver.models.CloudSuiteBenchmark;
-import es.bsc.demiurge.cloudsuiteperformancedriver.models.VmSize;
 import es.bsc.demiurge.cloudsuiteperformancedriver.utils.Utils;
+import es.bsc.demiurge.cloudsuiteperformancedriver.workloads.Workload;
+import es.bsc.demiurge.cloudsuiteperformancedriver.workloads.WorkloadExecutor;
 
 public class Main {
 
@@ -28,10 +28,10 @@ public class Main {
         VmmAdapter vmmAdapter = new VmmAdapter(gson.fromJson(Utils.readFile("cloudConfig.json"), VmmConfig.class),
                 imageRepo);
         Cloud cloud = new Cloud(scheduler, vmmAdapter);
-/*
+
         WorkloadExecutor workloadExecutor = new WorkloadExecutor(cloud, modeller);
         workloadExecutor.executeWorkload(gson.fromJson(Utils.readFile("workload.json"), Workload.class));
-*/
+/*
         //bscgrid30
         VmSize size = new VmSize(8,32,150);
         String type = "bscgrid27";
@@ -90,7 +90,7 @@ public class Main {
         perf = modeller.getPerformanceFromVmSize(size, CloudSuiteBenchmark.WEB_SERVING, type);
         System.out.println("WEB_SERVING: " + perf);
 
-
+*/
 
     }
 

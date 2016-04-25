@@ -189,6 +189,24 @@ public class ClusterState extends AbstractPersistable implements Solution<Score>
     }
 
     /**
+     * Returns the score of VM migrations needed to go from this cluster state to the given one.
+     *
+     * @param destinyClusterState the destiny cluster state
+     * @return the number of VM migrations needed
+     */
+    public int scoreVmMigrationsNeeded(ClusterState destinyClusterState) {
+        int result = 0;
+        for (Vm vm: vms) {
+            if (!vm.isInTheSameHost(destinyClusterState.getVmById(vm.getId()))) {
+                int diskNorm = (vm.getDiskGb()-1)/(150-1)*10;
+                int ramNorm = (vm.getRamMb()-1024)/(64*1024-1024)*10;
+                result +=  diskNorm + ramNorm ;
+            }
+        }
+        return result;
+    }
+
+    /**
      * Gets a VM by ID.
      *  
      * @param id the VM ID
