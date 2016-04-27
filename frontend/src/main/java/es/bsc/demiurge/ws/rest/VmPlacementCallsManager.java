@@ -24,8 +24,10 @@ import es.bsc.demiurge.core.models.scheduling.VmPlacement;
 import es.bsc.demiurge.core.models.vms.Vm;
 import es.bsc.demiurge.core.cloudmiddleware.CloudMiddlewareException;
 import es.bsc.demiurge.core.manager.VmManager;
+import es.bsc.demiurge.core.models.hosts.HardwareInfo;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * This class implements the REST calls that are related with the placement of VMs.

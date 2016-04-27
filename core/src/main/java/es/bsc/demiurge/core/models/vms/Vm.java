@@ -44,6 +44,9 @@ public class Vm {
     private String ovfId = "";
     private String slaId = "";
     private boolean needsFloatingIp = false;
+    private String processorArchitecture = null;
+    private String processorBrand = null;
+    private String diskType = null;
 
     private String preferredHost;
 
@@ -129,6 +132,56 @@ public class Vm {
         this.slaId = slaId;
         this.preferredHost = preferredHost;
     }
+    
+    public Vm(String name, String image, VmRequirements vmDeployRequirements,
+              String initScript, String applicationId) {
+        this.name = name;
+        this.image = image;
+        this.cpus = vmDeployRequirements.getCpus();
+        this.ramMb = vmDeployRequirements.getRamMb();
+        this.diskGb = vmDeployRequirements.getDiskGb();
+        this.swapMb = vmDeployRequirements.getSwapMb();
+        this.processorArchitecture = vmDeployRequirements.getProcessorArchitecture();
+        this.processorBrand = vmDeployRequirements.getProcessorBrand();
+        this.diskType = vmDeployRequirements.getDiskType();
+        this.initScript = initScript;
+        this.applicationId = applicationId;
+    }
+    
+    public Vm(String name, String image, VmRequirements vmDeployRequirements,
+              String initScript, String applicationId, String ovfId, String slaId) {
+        this.name = name;
+        this.image = image;
+        this.cpus = vmDeployRequirements.getCpus();
+        this.ramMb = vmDeployRequirements.getRamMb();
+        this.diskGb = vmDeployRequirements.getDiskGb();
+        this.swapMb = vmDeployRequirements.getSwapMb();
+        this.processorArchitecture = vmDeployRequirements.getProcessorArchitecture();
+        this.processorBrand = vmDeployRequirements.getProcessorBrand();
+        this.diskType = vmDeployRequirements.getDiskType();
+        this.initScript = initScript;
+        this.applicationId = applicationId;
+        this.ovfId = ovfId;
+        this.slaId = slaId;
+    }
+    
+    public Vm(String name, String image, VmRequirements vmDeployRequirements,
+              String initScript, String applicationId, String ovfId, String slaId, String preferredHost) {
+        this.name = name;
+        this.image = image;
+        this.cpus = vmDeployRequirements.getCpus();
+        this.ramMb = vmDeployRequirements.getRamMb();
+        this.diskGb = vmDeployRequirements.getDiskGb();
+        this.swapMb = vmDeployRequirements.getSwapMb();
+        this.processorArchitecture = vmDeployRequirements.getProcessorArchitecture();
+        this.processorBrand = vmDeployRequirements.getProcessorBrand();
+        this.diskType = vmDeployRequirements.getDiskType();
+        this.initScript = initScript;
+        this.applicationId = applicationId;
+        this.ovfId = ovfId;
+        this.slaId = slaId;
+        this.preferredHost = preferredHost;
+    }
 
     public String getName() {
         return name;
@@ -204,6 +257,30 @@ public class Vm {
 
     public boolean belongsToAnApp() {
         return applicationId != null && !applicationId.equals("") && !applicationId.equals(" ");
+    }
+    
+    public String getProcessorArchitecture() {
+        return processorArchitecture;
+    }
+    
+    public void setProcessorArchitecture(String processorArchitecture) {
+        this.processorArchitecture = processorArchitecture;
+    }
+    
+    public String getProcessorBrand() {
+        return processorBrand;
+    }
+    
+    public void setProcessorBrand(String processorBrand) {
+        this.processorBrand = processorBrand;
+    }
+    
+    public String getDiskType() {
+        return diskType;
+    }
+    
+    public void setDiskType(String diskType) {
+        this.diskType = diskType;
     }
 
     @Override

@@ -317,8 +317,7 @@ public class GenericVmManager implements VmManager {
     public RecommendedPlan getRecommendedPlan(RecommendedPlanRequest recommendedPlanRequest,
                                               boolean assignVmsToCurrentHosts,
                                               List<Vm> vmsToDeploy) throws CloudMiddlewareException {
-
-        return vmPlacementManager.getRecommendedPlan(db.getCurrentSchedulingAlg(),recommendedPlanRequest, assignVmsToCurrentHosts, vmsToDeploy);
+        return vmPlacementManager.getRecommendedPlan(db.getCurrentSchedulingAlg(),recommendedPlanRequest, assignVmsToCurrentHosts, vmsToDeploy, vmsManager.getHardwareInfo());
     }
 
     /**

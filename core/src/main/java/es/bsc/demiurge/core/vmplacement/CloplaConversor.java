@@ -23,13 +23,14 @@ import es.bsc.demiurge.core.clopla.domain.ConstructionHeuristic;
 import es.bsc.demiurge.core.clopla.placement.config.VmPlacementConfig;
 import es.bsc.demiurge.core.clopla.placement.config.localsearch.*;
 import es.bsc.demiurge.core.manager.components.EstimatesManager;
+import es.bsc.demiurge.core.models.hosts.HardwareInfo;
 import es.bsc.demiurge.core.models.scheduling.RecommendedPlan;
 import es.bsc.demiurge.core.models.scheduling.RecommendedPlanRequest;
 import es.bsc.demiurge.core.models.vms.VmDeployed;
-import es.bsc.demiurge.core.clopla.placement.config.localsearch.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * The function of this class is to convert the data types used in then VM Manager Core, to the equivalent data
@@ -66,17 +67,18 @@ public class CloplaConversor {
 
         return result;
     }
-
+    
     /**
      * Converts a list of hosts as defined in the VMM core to a list of hosts as defined in the VM placement library.
-     *
-     * @param hosts the list of host used by the VMM core
-     * @return the list of host used by the VM placement library
+     * @param hosts
+     * @param hwinfo
+     * @return 
      */
-    public List<es.bsc.demiurge.core.clopla.domain.Host> getCloplaHosts(List<es.bsc.demiurge.core.monitoring.hosts.Host> hosts) {
+    public List<es.bsc.demiurge.core.clopla.domain.Host> getCloplaHosts(
+            List<es.bsc.demiurge.core.monitoring.hosts.Host> hosts, Map<String, HardwareInfo> hwinfo) {
         List<es.bsc.demiurge.core.clopla.domain.Host> result = new ArrayList<>();
         for (es.bsc.demiurge.core.monitoring.hosts.Host host: hosts) {
-            result.add(CloplaHostFactory.getCloplaHost(host));
+            result.add(CloplaHostFactory.getCloplaHost(host, hwinfo.get(host.getHostname())) );
         }
         return result;
     }
@@ -115,6 +117,11 @@ public class CloplaConversor {
      * @return the recommended plan
      */
     public RecommendedPlan getRecommendedPlan(ClusterState clusterState) {
+        //When no positive hard score has been provided, we do not provide a recommended plan
+        if(!clusterState.hasHardScorePositive()){
+            return null;
+        }
+        
         RecommendedPlan result = new RecommendedPlan();
         for (es.bsc.demiurge.core.clopla.domain.Vm vm: clusterState.getVms()) {
             result.addVmToHostAssignment(vm.getAlphaNumericId(), vm.getHost().getHostname());
@@ -157,7 +164,8 @@ public class CloplaConversor {
                                                                 List<es.bsc.demiurge.core.clopla.domain.Host> cloplaHosts,
                                                                 boolean assignVmsToHosts) {
         es.bsc.demiurge.core.clopla.domain.Vm result = new es.bsc.demiurge.core.clopla.domain.Vm.Builder(
-                id, vm.getCpus(), vm.getRamMb(), vm.getDiskGb())
+                id, vm.getCpus(), vm.getRamMb(), vm.getDiskGb(), 
+                vm.getProcessorArchitecture(), vm.getProcessorBrand(), vm.getDiskType())
                 .appId(vm.getApplicationId())
                 .alphaNumericId(vm.getId())
                 .build();
@@ -175,7 +183,8 @@ public class CloplaConversor {
     // Note: This function should probably be merged with getCloplaVm
 	protected static es.bsc.demiurge.core.clopla.domain.Vm getCloplaVmToDeploy(Long id, es.bsc.demiurge.core.models.vms.Vm vm) {
         return new es.bsc.demiurge.core.clopla.domain.Vm.Builder(
-                id, vm.getCpus(), vm.getRamMb(), vm.getDiskGb())
+                id, vm.getCpus(), vm.getRamMb(), vm.getDiskGb(), 
+                vm.getProcessorArchitecture(), vm.getProcessorBrand(), vm.getDiskType())
                 .appId(vm.getApplicationId())
                 .alphaNumericId(vm.getName())
                 .build();

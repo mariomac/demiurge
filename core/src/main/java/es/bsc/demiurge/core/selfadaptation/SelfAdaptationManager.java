@@ -29,11 +29,13 @@ import es.bsc.demiurge.core.models.scheduling.*;
 import es.bsc.demiurge.core.selfadaptation.options.AfterVmDeploymentSelfAdaptationOps;
 import es.bsc.demiurge.core.selfadaptation.options.SelfAdaptationOptions;
 import es.bsc.demiurge.core.db.VmManagerDbFactory;
+import es.bsc.demiurge.core.models.hosts.HardwareInfo;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Self-adaptation Manager.
@@ -45,16 +47,15 @@ public class SelfAdaptationManager {
     private VmManager vmManager;
     private VmManagerDb db;
 	private Logger logger = LogManager.getLogger(SelfAdaptationManager.class);
-
+    
     /**
-     * Class constructor.
-     *
+     * 
      * @param vmManager instance of the VMM
      * @param dbName The name of the DB used by the VMM
      */
     public SelfAdaptationManager(VmManager vmManager, String dbName) {
         this.vmManager = vmManager;
-        db = VmManagerDbFactory.getDb(dbName);
+        this.db = VmManagerDbFactory.getDb(dbName);
     }
 
     /**

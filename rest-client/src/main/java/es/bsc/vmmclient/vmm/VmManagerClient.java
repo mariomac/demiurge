@@ -1,6 +1,8 @@
 package es.bsc.vmmclient.vmm;
 
 import es.bsc.demiurge.core.models.hosts.HardwareInfo;
+import es.bsc.demiurge.core.models.vms.Vm;
+import es.bsc.demiurge.core.models.vms.VmDeployed;
 import es.bsc.demiurge.core.models.vms.VmRequirements;
 import es.bsc.vmmclient.models.*;
 import es.bsc.vmmclient.rest.VmmRestClient;
