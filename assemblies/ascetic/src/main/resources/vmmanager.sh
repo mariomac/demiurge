@@ -8,7 +8,8 @@
 # update-rc.d vmmanager defaults
 
 start() {
-java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=54321 -jar /home/ubuntu/vmmanager/uber-vmmanagercore-0.0.1-SNAPSHOT.jar 2>&1 > /var/log/vmmanager.log &
+echo "Output available at /home/ubuntu/vmmanager/nohup.out..."
+cd /home/ubuntu/vmmanager/ && nohup java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=54321 -jar /home/ubuntu/vmmanager/uber-vmmanagercore-0.0.1-SNAPSHOT.jar &
 }
 stop() {
 kill `ps -ef | grep uber-vmmanagercore | grep -v grep | awk '{print $2}'`
@@ -24,6 +25,7 @@ case "$1" in
         ;;
   restart)
         stop
+        sleep 3
         start
         ;;
   *)
