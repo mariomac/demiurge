@@ -1393,3 +1393,211 @@ Loading configuration: Config{
 	zabbixDbPassword='null'
 	deployVmWithVolume='false'
 }
+2016-04-27 10:59:16,634 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-04-27 10:59:16,689 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[host0, host1, host2, host3, host4, host5, host6, host7, host8, host9, host10, host11, host12, host13, host14, host15, host16, host17, host18, host19, host20, host21, host22, host23, host24, host25, host26, host27, host28, host29, host30, host31, host32, host33, host34, host35, host36, host37, host38, host39, host40, host41, host42, host43, host44, host45, host46, host47, host48, host49]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-04-27 11:13:33,969 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-04-27 11:13:33,980 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[host0, host1, host2, host3, host4, host5, host6, host7, host8, host9, host10, host11, host12, host13, host14, host15, host16, host17, host18, host19, host20, host21, host22, host23, host24, host25, host26, host27, host28, host29, host30, host31, host32, host33, host34, host35, host36, host37, host38, host39, host40, host41, host42, host43, host44, host45, host46, host47, host48, host49]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-04-27 11:13:50,904 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-04-27 11:13:50,915 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[host0, host1, host2, host3, host4, host5, host6, host7, host8, host9, host10, host11, host12, host13, host14, host15, host16, host17, host18, host19, host20, host21, host22, host23, host24, host25, host26, host27, host28, host29, host30, host31, host32, host33, host34, host35, host36, host37, host38, host39, host40, host41, host42, host43, host44, host45, host46, host47, host48, host49]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-04-27 11:13:58,402 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-04-27 11:13:58,412 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[host0, host1, host2, host3, host4, host5, host6, host7, host8, host9, host10, host11, host12, host13, host14, host15, host16, host17, host18, host19, host20, host21, host22, host23, host24, host25, host26, host27, host28, host29, host30, host31, host32, host33, host34, host35, host36, host37, host38, host39, host40, host41, host42, host43, host44, host45, host46, host47, host48, host49]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-04-27 11:14:37,763 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-04-27 11:14:37,774 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[host0, host1, host2, host3, host4, host5, host6, host7, host8, host9, host10, host11, host12, host13, host14, host15, host16, host17, host18, host19, host20, host21, host22, host23, host24, host25, host26, host27, host28, host29, host30, host31, host32, host33, host34, host35, host36, host37, host38, host39, host40, host41, host42, host43, host44, host45, host46, host47, host48, host49]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-04-27 11:14:45,372 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-04-27 11:14:45,388 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[host0, host1, host2, host3, host4, host5, host6, host7, host8, host9, host10, host11, host12, host13, host14, host15, host16, host17, host18, host19, host20, host21, host22, host23, host24, host25, host26, host27, host28, host29, host30, host31, host32, host33, host34, host35, host36, host37, host38, host39, host40, host41, host42, host43, host44, host45, host46, host47, host48, host49]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-04-27 11:15:39,345 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-04-27 11:15:39,357 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[host0, host1, host2, host3, host4, host5, host6, host7, host8, host9, host10, host11, host12, host13, host14, host15, host16, host17, host18, host19, host20, host21, host22, host23, host24, host25, host26, host27, host28, host29, host30, host31, host32, host33, host34, host35, host36, host37, host38, host39, host40, host41, host42, host43, host44, host45, host46, host47, host48, host49]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-04-27 11:15:57,058 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-04-27 11:15:57,068 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[host0, host1, host2, host3, host4, host5, host6, host7, host8, host9, host10, host11, host12, host13, host14, host15, host16, host17, host18, host19, host20, host21, host22, host23, host24, host25, host26, host27, host28, host29, host30, host31, host32, host33, host34, host35, host36, host37, host38, host39, host40, host41, host42, host43, host44, host45, host46, host47, host48, host49]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-04-27 11:46:59,982 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-04-27 11:46:59,993 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[host0, host1, host2, host3, host4, host5, host6, host7, host8, host9, host10, host11, host12, host13, host14, host15, host16, host17, host18, host19, host20, host21, host22, host23, host24, host25, host26, host27, host28, host29, host30, host31, host32, host33, host34, host35, host36, host37, host38, host39, host40, host41, host42, host43, host44, host45, host46, host47, host48, host49]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-04-27 11:47:22,439 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-04-27 11:47:22,449 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[host0, host1, host2, host3, host4, host5, host6, host7, host8, host9, host10, host11, host12, host13, host14, host15, host16, host17, host18, host19, host20, host21, host22, host23, host24, host25, host26, host27, host28, host29, host30, host31, host32, host33, host34, host35, host36, host37, host38, host39, host40, host41, host42, host43, host44, host45, host46, host47, host48, host49]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-04-27 11:47:38,236 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-04-27 11:47:38,246 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[host0, host1, host2, host3, host4, host5, host6, host7, host8, host9, host10, host11, host12, host13, host14, host15, host16, host17, host18, host19, host20, host21, host22, host23, host24, host25, host26, host27, host28, host29, host30, host31, host32, host33, host34, host35, host36, host37, host38, host39, host40, host41, host42, host43, host44, host45, host46, host47, host48, host49]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-04-27 11:48:27,530 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-04-27 11:48:27,541 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[host0, host1, host2, host3, host4, host5, host6, host7, host8, host9, host10, host11, host12, host13, host14, host15, host16, host17, host18, host19, host20, host21, host22, host23, host24, host25, host26, host27, host28, host29, host30, host31, host32, host33, host34, host35, host36, host37, host38, host39, host40, host41, host42, host43, host44, host45, host46, host47, host48, host49]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-04-27 11:49:20,889 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-04-27 11:49:20,900 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[host0, host1, host2, host3, host4, host5, host6, host7, host8, host9, host10, host11, host12, host13, host14, host15, host16, host17, host18, host19, host20, host21, host22, host23, host24, host25, host26, host27, host28, host29, host30, host31, host32, host33, host34, host35, host36, host37, host38, host39, host40, host41, host42, host43, host44, host45, host46, host47, host48, host49]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-04-27 11:49:41,449 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-04-27 11:49:41,459 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[host0, host1, host2, host3, host4, host5, host6, host7, host8, host9, host10, host11, host12, host13, host14, host15, host16, host17, host18, host19, host20, host21, host22, host23, host24, host25, host26, host27, host28, host29, host30, host31, host32, host33, host34, host35, host36, host37, host38, host39, host40, host41, host42, host43, host44, host45, host46, host47, host48, host49]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-04-27 11:50:18,875 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-04-27 11:50:18,885 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[host0, host1, host2, host3, host4, host5, host6, host7, host8, host9, host10, host11, host12, host13, host14, host15, host16, host17, host18, host19, host20, host21, host22, host23, host24, host25, host26, host27, host28, host29, host30, host31, host32, host33, host34, host35, host36, host37, host38, host39, host40, host41, host42, host43, host44, host45, host46, host47, host48, host49]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}
+2016-04-27 11:50:43,738 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-04-27 11:50:43,750 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration: Config{
+	dbName='VmManagerDb'
+	hosts=[host0, host1, host2, host3, host4, host5, host6, host7, host8, host9, host10, host11, host12, host13, host14, host15, host16, host17, host18, host19, host20, host21, host22, host23, host24, host25, host26, host27, host28, host29, host30, host31, host32, host33, host34, host35, host36, host37, host38, host39, host40, host41, host42, host43, host44, host45, host46, host47, host48, host49]
+	connectionPort='34372'
+	deployPackage='null'
+	zabbixDbIp='null'
+	zabbixDbUser='null'
+	zabbixDbPassword='null'
+	deployVmWithVolume='false'
+}

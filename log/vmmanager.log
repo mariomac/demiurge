@@ -6910,3 +6910,9 @@ Loading configuration: Config{
 	zabbixDbPassword='null'
 	deployVmWithVolume='false'
 }
+2016-04-28 15:10:45,569 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-04-28 15:11:38,145 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /etc/ascetic/vmm/vmmconfig.properties
+2016-04-28 15:12:01,618 DEBUG  - es.bsc.demiurge.core.configuration.Config
+Loading configuration file: /opt/demiurge/config.properties

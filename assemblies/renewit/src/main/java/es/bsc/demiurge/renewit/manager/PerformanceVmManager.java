@@ -20,6 +20,7 @@ import org.apache.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 /**
  * @author Mauro Canuto (mauro.canuto@bsc.es)
@@ -31,6 +32,9 @@ public class PerformanceVmManager extends GenericVmManager {
 
     public PerformanceVmManager() {
         super();
+
+        // For Vms that have to be deployed after a time
+        scheduledExecutorService = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors()/2);
 
     }
 
@@ -77,6 +81,7 @@ public class PerformanceVmManager extends GenericVmManager {
                 vm.setRamMb(vmSize.getRamGb()*1024);
                 vm.setDiskGb(vmSize.getDiskGb());
 
+                vm.setPowerEstimated(getPowerEstimantion(vm.getExtraParameters().getBenchmark(), host, vmSize));
                 logger.info(VmPlacementToString(vm, host));
 
             }
@@ -89,6 +94,11 @@ public class PerformanceVmManager extends GenericVmManager {
 
     }
 
+    public double getPowerEstimantion(CloudSuiteBenchmark benchmark, Host h, VmSize vmSize){
+
+        return performanceDriverCore.getModeller().getBenchmarkAvgPower(benchmark, h.getType(), vmSize);
+
+    }
 
     public VmSize getVmSizesVMM(Vm vm, Host h){
         return performanceDriverCore.getModeller().getMinVmSizesWithAtLeastPerformance(vm.getExtraParameters().getPerformance(), vm.getExtraParameters().getBenchmark(), CloudsuiteUtils.convertVMMHostToPerformanceHost(h));

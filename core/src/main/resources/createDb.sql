@@ -30,4 +30,6 @@ CREATE TABLE IF NOT EXISTS vm_benchmark_performance
 (id VARCHAR(255),
   benchmark VARCHAR(255),
   performance DOUBLE PRECISION,
+  powerEstimated DOUBLE PRECISION,
+  timeRequest BIGINT,
 PRIMARY KEY (id))

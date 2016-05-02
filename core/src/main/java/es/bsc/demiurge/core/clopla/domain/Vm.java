@@ -46,6 +46,8 @@ public class Vm extends AbstractPersistable {
     private ExtraParameters extraParameters;// This is valid within the RenewIT project
     private double powerConsumption; // This is valid within the RenewIT project
     private double powerEstimation; // This is valid within the RenewIT project
+    private boolean deployAfter = false;
+    private long timeForDeploy = 0;
 
     public Vm() { } // OptaPlanner needs no arg constructor to clone
 
@@ -206,6 +208,22 @@ public class Vm extends AbstractPersistable {
     public String toString() {
         return "VM - ID:" + id.toString() + ", cpus:" + ncpus + ", ram:" + ramMb + ", disk:" + diskGb
                 + ", app:" + appId;
+    }
+
+    public boolean isDeployAfter() {
+        return deployAfter;
+    }
+
+
+    public long getTimeForDeploy() {
+        return timeForDeploy;
+    }
+
+    public void setTimeForDeploy(long timeForDeploy) {
+        if (timeForDeploy != 0){
+            this.deployAfter = true;
+        }
+        this.timeForDeploy = timeForDeploy;
     }
 
 }

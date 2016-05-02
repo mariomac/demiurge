@@ -18,10 +18,16 @@
 
 package es.bsc.demiurge.core.utils;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import java.io.*;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.PosixFilePermissions;
+
+import static java.nio.file.Files.setPosixFilePermissions;
 
 /**
  * This helper class contains auxiliary methods to work with the file system.
@@ -31,6 +37,7 @@ import java.nio.file.Path;
  */
 public class FileSystem {
 
+    private static final Logger logger = LogManager.getLogger(FileSystem.class);
     // Suppress default constructor for non-instantiability
     private FileSystem() {
         throw new AssertionError();
@@ -61,5 +68,63 @@ public class FileSystem {
         writer.close();
 
     }
+
+    public static String getFilePath(String configFile) {
+
+        String path = System.getProperty("user.dir");
+
+        File fileObject = new File(path.concat(configFile));
+        if (!fileObject.exists()) {
+            try {
+                createDefaultConfigFile(fileObject);
+            } catch (Exception ex) {
+                logger.error("Error reading " + path.concat(configFile) + " configuration file: ", ex);
+            }
+        }
+
+        return path.concat(configFile);
+    }
+
+    private static void createDefaultConfigFile(File fileObject) throws Exception {
+        logger.debug("File " + fileObject.getAbsolutePath() + " didn't exist. Creating one with default values...");
+
+        //Create parent directories.
+        logger.debug("Creating parent directories.");
+        new File(fileObject.getParent()).mkdirs();
+
+        //Create an empty file to copy the contents of the default file.
+        logger.debug("Creating empty file.");
+        new File(fileObject.getAbsolutePath()).createNewFile();
+
+        //Copy file.
+        logger.debug("Copying file " + fileObject.getName());
+        InputStream streamIn = FileSystem.class.getResourceAsStream("/" + fileObject.getName());
+        FileOutputStream streamOut = new FileOutputStream(fileObject.getAbsolutePath());
+        byte[] buf = new byte[8192];
+        while (true) {
+            int length = streamIn.read(buf);
+            if (length < 0) {
+                break;
+            }
+            streamOut.write(buf, 0, length);
+        }
+
+        //Close streams after copying.
+        try {
+            streamIn.close();
+        } catch (IOException ex) {
+            logger.error("Couldn't close input stream");
+            logger.error(ex.getMessage());
+        }
+        try {
+            streamOut.close();
+        } catch (IOException ex) {
+            logger.error("Couldn't close file output stream");
+            logger.error(ex.getMessage());
+        }
+
+        setPosixFilePermissions(fileObject.toPath(), PosixFilePermissions.fromString("rwxr-xr-x"));
+    }
+
 
 }

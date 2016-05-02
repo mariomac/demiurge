@@ -73,4 +73,5 @@ public class RecommendedPlan {
     public void setPredictedClusterConsumption(double predictedClusterConsumption) {
         this.predictedClusterConsumption = predictedClusterConsumption;
     }
+
 }

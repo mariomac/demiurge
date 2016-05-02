@@ -35,6 +35,7 @@ import es.bsc.demiurge.core.models.vms.ExtraParameters;
 import es.bsc.demiurge.core.models.vms.Vm;
 import es.bsc.demiurge.core.models.vms.VmDeployed;
 import es.bsc.demiurge.core.monitoring.hosts.Host;
+import es.bsc.demiurge.core.predictors.ArrivalsWorkloadPredictionManager;
 import es.bsc.demiurge.core.scheduler.Scheduler;
 import es.bsc.demiurge.core.selfadaptation.AfterVmDeleteSelfAdaptationRunnable;
 import es.bsc.demiurge.core.selfadaptation.SelfAdaptationManager;
@@ -43,6 +44,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import java.util.*;
+import java.util.concurrent.ScheduledExecutorService;
 
 import static es.bsc.autonomicbenchmarks.utils.Utils.getBenchmark;
 import static es.bsc.demiurge.core.utils.FileSystem.writeToFile;
@@ -65,16 +67,20 @@ public class VmsManager {
 
     // Specific for RenewIT
     private QueueBenchmarkManager queueBenchmarkManager;
+    private ScheduledExecutorService scheduledExecutorService;
+    private ArrivalsWorkloadPredictionManager arrivalsWorkloadPredictionManager;
+
 
 //    private static final String ASCETIC_ZABBIX_SCRIPT_PATH = "/DFS/ascetic/vm-scripts/zabbix_agents.sh";
 
-    public VmsManager(HostsManager hostsManager, CloudMiddleware cloudMiddleware, VmManagerDb db, 
+    public VmsManager(HostsManager hostsManager, CloudMiddleware cloudMiddleware, VmManagerDb db,
                       SelfAdaptationManager selfAdaptationManager,
-					  EstimatesManager estimatorsManager,
-					  List<VmmListener> listeners,
-                      QueueBenchmarkManager queueBenchmarkManager
-                      ) {
-		this.listeners = listeners;
+                      EstimatesManager estimatorsManager,
+                      List<VmmListener> listeners,
+                      QueueBenchmarkManager queueBenchmarkManager,
+                      ScheduledExecutorService scheduledExecutorService, ArrivalsWorkloadPredictionManager arrivalsWorkloadPredictionManager) {
+
+        this.listeners = listeners;
 
         this.hostsManager = hostsManager;
         this.cloudMiddleware = cloudMiddleware;
@@ -83,6 +89,8 @@ public class VmsManager {
         this.estimatorsManager = estimatorsManager;
 
         this.queueBenchmarkManager = queueBenchmarkManager;
+        this.scheduledExecutorService  = scheduledExecutorService;
+        this.arrivalsWorkloadPredictionManager = arrivalsWorkloadPredictionManager;
 
     }
 
@@ -190,7 +198,7 @@ public class VmsManager {
 
         cloudMiddleware.destroy(vmId);
         db.deleteVm(vmId);
-        db.deletePerformanceOfVM(vmId);
+        //db.deletePerformanceOfVM(vmId);
 
 		for(VmmListener l : listeners) {
 			l.onVmDestruction(vmToBeDeleted);
@@ -217,10 +225,22 @@ public class VmsManager {
         // HashMap (VmDescription,ID after deployment). Used to return the IDs in the same order that they are received
         Map<Vm, String> ids = new HashMap<>();
 
+
+        // set timeRequest for all VMs
+        for (Vm v : vms){
+            long t = System.currentTimeMillis()/1000;
+            v.setTimeRequest(t);
+
+            v.setPowerEstimated(arrivalsWorkloadPredictionManager.getEstimatedPowerForBenchmark(v.getExtraParameters().getBenchmarkStr()));
+            arrivalsWorkloadPredictionManager.addBenchmarkToQueue(v);
+
+        }
+
         DeploymentPlan deploymentPlan = chooseBestDeploymentPlan(vms);
 
         // Loop through the VM assignments to hosts defined in the best deployment plan
         for (VmAssignmentToHost vmAssignmentToHost: deploymentPlan.getVmsAssignationsToHosts()) {
+
             Vm vmToDeploy = vmAssignmentToHost.getVm();
             Host hostForDeployment = vmAssignmentToHost.getHost();
 
@@ -256,7 +276,7 @@ public class VmsManager {
             }
 
             if (vmToDeploy.getExtraParameters() != null) {
-                db.insertVm(vmId, vmToDeploy.getApplicationId(), vmToDeploy.getOvfId(), vmToDeploy.getSlaId(), vmToDeploy.getExtraParameters().getBenchmarkStr(), vmToDeploy.getExtraParameters().getPerformance());
+                db.insertVm(vmId, vmToDeploy.getApplicationId(), vmToDeploy.getOvfId(), vmToDeploy.getSlaId(), vmToDeploy.getExtraParameters().getBenchmarkStr(), vmToDeploy.getExtraParameters().getPerformance(), vmToDeploy.getPowerEstimated(), vmToDeploy.getTimeRequest());
             }else{
                 db.insertVm(vmId, vmToDeploy.getApplicationId(), vmToDeploy.getOvfId(), vmToDeploy.getSlaId());
             }

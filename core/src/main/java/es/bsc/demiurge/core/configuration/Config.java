@@ -63,6 +63,11 @@ public enum Config {
     private static final String DEFAULT_DB_NAME = "VmManagerDb";
     private static final String DEFAULT_BEANS_LOCATION = "/Beans.xml";
 
+    // Renewit predictions
+    public static final String ENERGY_PREDICTOR_R_FILE = "/energyPredictor.R";
+    public static final String DEFAULT_ENERGY_PREDICTION_FILE = "predictionEnergyOut.csv";
+
+    public static final String DEFAULT_WORKLOAD_PREDICTOR_R_FILE = "/workloadPredictor.R";
 
     public static final String PERF_POWER_ALGORITHM_PREFIX = "perfAware";
     // TODO: remove public ATTRIBUTES and access only through apache configuration
@@ -107,8 +112,11 @@ public enum Config {
 
 	private List<VmmGlobalListener> vmmGlobalListeners;
 
+    public boolean enablePredictions;
+    public String energyProfilesFile;
 
-	Config() {
+
+    Config() {
         configuration = getPropertiesObjectFromConfigFile();
 		initializeClassAttributes();
     }
@@ -195,6 +203,10 @@ public enum Config {
         runBenchmarkAutomatically = configuration.getBoolean("runBenchmarkAutomatically", false);
         numberOfFakeHosts = configuration.getInt("numberOfFakeHosts");
 		cryptSalt = configuration.getString("crypt.salt", "addYourOwnSaltPropertyToTheConfigFile");
+
+
+        enablePredictions = configuration.getBoolean("enablePredictions", false);
+        energyProfilesFile = configuration.getString("energyProfilesFile");
 
 		logger.debug("Loading configuration: " + toString());
     }

@@ -66,7 +66,7 @@ public interface VmManagerDb {
      * @param benchmark the benchmark running within the VM
      * @param performance the performance required
      */
-    void insertVm(String vmId, String appId, String ovfId, String slaId,  String benchmark, double performance);
+    void insertVm(String vmId, String appId, String ovfId, String slaId,  String benchmark, double performance, double powerEstimated, long timeRequest);
 
     /**
      * Deletes a VM from the DB.
@@ -154,5 +154,7 @@ public interface VmManagerDb {
     double getPerformanceOfVm(String vmId);
 
     void deletePerformanceOfVM(String vmId);
+
+    List<Double> getPastPowerForBenchmark(String benchmark, int limitResults);
 
 }

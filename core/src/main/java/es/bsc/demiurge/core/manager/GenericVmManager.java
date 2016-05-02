@@ -38,9 +38,12 @@ import es.bsc.demiurge.core.models.vms.Vm;
 import es.bsc.demiurge.core.models.vms.VmDeployed;
 import es.bsc.demiurge.core.monitoring.hosts.Host;
 import es.bsc.demiurge.core.monitoring.hosts.HostFactory;
+import es.bsc.demiurge.core.predictors.ArrivalsWorkloadPredictionManager;
+import es.bsc.demiurge.core.predictors.EnergyPredictionManager;
 import es.bsc.demiurge.core.selfadaptation.PeriodicSelfAdaptationRunnable;
 import es.bsc.demiurge.core.selfadaptation.SelfAdaptationManager;
 import es.bsc.demiurge.core.selfadaptation.options.SelfAdaptationOptions;
+import es.bsc.demiurge.core.utils.FileSystem;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -48,6 +51,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * Generic VM Manager.
@@ -80,6 +84,11 @@ public class GenericVmManager implements VmManager {
     // Specific for RenewIT
     private BenchmarkController benchmarkController;
     private QueueBenchmarkManager queueBenchmarkManager;
+    protected ScheduledExecutorService scheduledExecutorService;
+    private EnergyPredictionManager energyPredictionManager;
+    private ArrivalsWorkloadPredictionManager arrivalsWorkloadPredictionManager;
+
+    protected long startTime = System.currentTimeMillis()/1000;
 
 	/**
      * Constructs a VmManager with the name of the database to be used.
@@ -445,10 +454,49 @@ public class GenericVmManager implements VmManager {
         queueBenchmarkManager = new QueueBenchmarkManager();
         benchmarkController = new BenchmarkController(queueBenchmarkManager);
 
+
         //Start new thread that takes care of the cloudsuite benchmark run inside VMs
         startBenchmarkControllerThread();
 
-        vmsManager = new VmsManager(hostsManager, cloudMiddleware, db, selfAdaptationManager, estimatesManager, conf.getVmmListeners(), queueBenchmarkManager);
+        // if predictions are enabled
+        if (Config.INSTANCE.enablePredictions) {
+            /********** Green Energy predictions **********/
+            String rFile = Config.INSTANCE.ENERGY_PREDICTOR_R_FILE;
+            String outputFile = Config.INSTANCE.DEFAULT_ENERGY_PREDICTION_FILE; // it will be created
+
+            String rFilePath = null;
+            int numForecast = 10;
+            int maxInputSamples = 100;
+
+            //URL url = getClass().getResource(rFile);
+            //rFilePath = url.getPath();
+            rFilePath = FileSystem.getFilePath(rFile);
+
+            if (rFilePath != null) {
+                //type = green, total, RES
+                energyPredictionManager = new EnergyPredictionManager(startTime, rFilePath, Config.INSTANCE.energyProfilesFile, "green", numForecast, maxInputSamples, outputFile);
+                startEnergyPredictionManagerThread();
+            }else{
+                log.error("ENERGY PREDICTION NOT POSSIBLE: File '"+ rFile + "'does not exists");
+            }
+
+            /********** Workload predictions **********/
+
+
+
+            rFile = Config.INSTANCE.DEFAULT_WORKLOAD_PREDICTOR_R_FILE;
+            rFilePath = FileSystem.getFilePath(rFile);
+            String workloadFile = "/workload.csv"; // it will be created
+            outputFile = "/predictionWorkloadOut.csv";  // it will be created
+
+            arrivalsWorkloadPredictionManager = new ArrivalsWorkloadPredictionManager(startTime, db, rFilePath, workloadFile, numForecast, maxInputSamples, outputFile);
+
+            //Start new threads that takes care of the predictions
+            //startWorkloadPredicionManagerThread();*/
+
+        }
+
+        vmsManager = new VmsManager(hostsManager, cloudMiddleware, db, selfAdaptationManager, estimatesManager, conf.getVmmListeners(), queueBenchmarkManager, scheduledExecutorService, arrivalsWorkloadPredictionManager);
 
         selfAdaptationOptsManager = new SelfAdaptationOptsManager(selfAdaptationManager);
         vmPlacementManager = new VmPlacementManager(vmsManager, hostsManager,estimatesManager);
@@ -478,7 +526,19 @@ public class GenericVmManager implements VmManager {
 		}));
 	}
 
-	@Override
+    private void startEnergyPredictionManagerThread() {
+        log.debug("RENEWIT: Starting energy prediction Thread");
+        Thread thread = new Thread(energyPredictionManager);
+        thread.start();
+    }
+
+    private void startWorkloadPredicionManagerThread() {
+        log.debug("RENEWIT: Starting workload prediction Thread");
+        Thread thread = new Thread(arrivalsWorkloadPredictionManager);
+        thread.start();
+    }
+
+    @Override
 	public EstimatesManager getEstimatesManager() {
 		return estimatesManager;
 	}

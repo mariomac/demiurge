@@ -180,13 +180,13 @@ public class VmManagerDbHsql implements VmManagerDb {
     }
 
     @Override
-    public void insertVm(String vmId, String appId, String ovfId, String slaId, String benchmark, double performance) {
+    public void insertVm(String vmId, String appId, String ovfId, String slaId, String benchmark, double performance, double powerEstimated, long timeRequest) {
         try {
             update("INSERT INTO virtual_machines (id, appId, ovfId, slaId) "
                     + "VALUES ('" + vmId + "', '" + appId + "', '" + ovfId + "', '" + slaId + "')");
 
-            update("INSERT INTO vm_benchmark_performance (id, benchmark, performance) "
-                    + "VALUES ('" + vmId + "', '" + benchmark + "', " + performance + ")");
+            update("INSERT INTO vm_benchmark_performance (id, benchmark, performance, powerEstimated, timeRequest) "
+                    + "VALUES ('" + vmId + "', '" + benchmark + "', " + performance + ", " + powerEstimated + ", "+ timeRequest +")");
 
         } catch (SQLException e) {
             log.error(ERROR_INSERT_VM, e);
@@ -197,6 +197,8 @@ public class VmManagerDbHsql implements VmManagerDb {
     public void deleteVm(String vmId) {
         try {
             update("DELETE FROM virtual_machines WHERE id = '" + vmId + "'");
+
+            deletePerformanceOfVM(vmId);
         } catch (SQLException e) {
 			log.error(ERROR_DELETE_VM,e);
         }
@@ -387,6 +389,22 @@ public class VmManagerDbHsql implements VmManagerDb {
         } catch (SQLException e) {
             log.error(ERROR_DELETE_VM,e);
         }
+    }
+
+    @Override
+    public List<Double> getPastPowerForBenchmark(String benchmark, int limitResults) {
+
+        List<Double> power = new ArrayList<>();
+        List<String> res = new ArrayList<>();
+        try {
+            res = query("SELECT powerEstimated FROM vm_benchmark_performance WHERE benchmark = '" + benchmark + "' ORDER BY timeRequest LIMIT " + limitResults);
+        } catch (SQLException e) {
+            return power;
+        }
+
+
+        for(String s : res) power.add(Double.valueOf(s));
+        return power;
     }
 
 

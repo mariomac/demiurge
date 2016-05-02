@@ -17,6 +17,7 @@ public enum Conf {
 
     INSTANCE;
 
+
     private String configurationFileName = null;
     private static Logger log = LogManager.getLogger(Conf.class);
 
@@ -24,6 +25,9 @@ public enum Conf {
     private static final String DEFAULT_CONF_CLASSPATH_LOCATION = "/config_cloudsuite.properties";
     private static final String PROPNAME_CONF_FILE = "config_cloudsuite";
     private static final String DEFAULT_CONF_FILE_LOCATION = "config_cloudsuite.properties";
+
+
+
 
     public String instancesPath;
     public String resultsPath;

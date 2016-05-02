@@ -47,7 +47,10 @@ public class Vm {
 
     // The next two parameters are just valid within the RenewIT project
     private ExtraParameters extraParameters;
-
+    private boolean deployAfter = false;
+    private long timeForDeploy = 0;
+    private double powerEstimated;
+    private long timeRequest; //when the vm deployment request was received
     private String preferredHost;
 
     // TODO: apply builder pattern instead of having several constructors.
@@ -241,5 +244,37 @@ public class Vm {
      */
     public void setExtraParameters(ExtraParameters extra) {
         this.extraParameters = extra;
+    }
+
+    public boolean isDeployAfter() {
+        return deployAfter;
+    }
+
+
+    public long getTimeForDeploy() {
+        return timeForDeploy;
+    }
+
+    public void setTimeForDeploy(long timeForDeploy) {
+        if (timeForDeploy != 0){
+            this.deployAfter = true;
+        }
+        this.timeForDeploy = timeForDeploy;
+    }
+
+    public double getPowerEstimated() {
+        return powerEstimated;
+    }
+
+    public void setPowerEstimated(double powerEstimated) {
+        this.powerEstimated = powerEstimated;
+    }
+
+    public long getTimeRequest() {
+        return timeRequest;
+    }
+
+    public void setTimeRequest(long timeRequest) {
+        this.timeRequest = timeRequest;
     }
 }
