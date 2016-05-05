@@ -4,6 +4,7 @@ import es.bsc.demiurge.core.models.hosts.HardwareInfo;
 import es.bsc.demiurge.core.models.vms.Vm;
 import es.bsc.demiurge.core.models.vms.VmDeployed;
 import es.bsc.demiurge.core.models.vms.VmRequirements;
+import es.bsc.demiurge.core.monitoring.hosts.Slot;
 import es.bsc.vmmclient.models.*;
 import es.bsc.vmmclient.rest.VmmRestClient;
 
@@ -116,5 +117,9 @@ public class VmManagerClient implements VmManager {
     
     public String getHardwareInfo(String hostname, String hardware, String property) {
         return vmmRestClient.getVmmService().getHardwareInfo(hostname, hardware, property);
+    }
+    
+    public List<Slot> getSlots() {
+        return vmmRestClient.getVmmService().getSlots();
     }
 }

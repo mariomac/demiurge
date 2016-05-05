@@ -46,14 +46,12 @@ public class VmPlacementManager {
     private final VmsManager vmsManager;
     private final HostsManager hostsManager;
     private final EstimatesManager estimatesManager;
-    private final Map<String, HardwareInfo> hwinfo;
 
     public VmPlacementManager(VmsManager vmsManager, HostsManager hostsManager, 
-                              EstimatesManager estimatesManager, Map<String, HardwareInfo> hwinfo) {
+                              EstimatesManager estimatesManager) {
         this.vmsManager = vmsManager;
         this.hostsManager = hostsManager;
         this.estimatesManager = estimatesManager;
-        this.hwinfo = hwinfo;
     }
     
     /**

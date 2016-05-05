@@ -25,6 +25,7 @@ import es.bsc.demiurge.core.db.VmManagerDbFactory;
 import es.bsc.demiurge.core.manager.VmManager;
 import es.bsc.demiurge.core.models.hosts.HardwareInfo;
 import es.bsc.demiurge.core.models.vms.VmRequirements;
+import es.bsc.demiurge.core.monitoring.hosts.Slot;
 
 import es.bsc.demiurge.ws.rest.error.ErrorHandler;
 import org.apache.log4j.LogManager;
@@ -257,7 +258,19 @@ public class DemiurgeRestV1 {
 			throw new ErrorHandler(e, Response.Status.INTERNAL_SERVER_ERROR);
 		}
 	}
-
+    
+    @GET
+    @Path("/slots")
+    @Consumes("application/json")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Slot> getSlots() {
+		try {
+			return vmPlacementCallsManager.getSlots();
+		} catch (CloudMiddlewareException e) {
+			log.error("Error getting available slots: " + e.getMessage(), e);
+			throw new ErrorHandler(e, Response.Status.INTERNAL_SERVER_ERROR);
+		}
+	}
 
     //================================================================================
     //  Self Adaptation Methods

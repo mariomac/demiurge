@@ -88,12 +88,12 @@ public class CloplaConversor {
      *
      * @param schedAlgorithmName the scheduling algorithm
      * @param recommendedPlanRequest the recommended plan request
+     * @param estimatesManager
      * @return the placement configuration for the VM placement library
      */
 	public VmPlacementConfig getCloplaConfig(String schedAlgorithmName,
                                              RecommendedPlanRequest recommendedPlanRequest,
-                                             EstimatesManager estimatesManager)
-	{
+                                             EstimatesManager estimatesManager) {
 		int timeLimitSec = recommendedPlanRequest.getTimeLimitSeconds();
 		if (getLocalSearch(recommendedPlanRequest) == null) {
 			timeLimitSec = 1; // It does not matter because the local search alg will not be run, but the

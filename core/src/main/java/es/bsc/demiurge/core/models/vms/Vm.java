@@ -21,8 +21,6 @@ package es.bsc.demiurge.core.models.vms;
 import com.google.common.base.Preconditions;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
-import java.io.File;
-
 /**
  * VM.
  *
@@ -49,7 +47,7 @@ public class Vm {
     private String diskType = null;
 
     private String preferredHost;
-
+    
     // TODO: apply builder pattern instead of having several constructors.
     // This really needs a refactoring, although several classes will be affected.
 
@@ -182,7 +180,7 @@ public class Vm {
         this.slaId = slaId;
         this.preferredHost = preferredHost;
     }
-
+    
     public String getName() {
         return name;
     }
@@ -212,13 +210,7 @@ public class Vm {
     }
 
     public void setInitScript(String initScript) {
-        // If a path for an loadConfiguration script was specified
         if (initScript != null && !initScript.equals("")) {
-            // Check that the path is valid and the file can be read
-            File f = new File(initScript);
-            if (!f.isFile() || !f.canRead()) {
-                throw new IllegalArgumentException("The path for the loadConfiguration script is not valid");
-            }
             this.initScript = initScript;
         }
     }
@@ -282,12 +274,12 @@ public class Vm {
     public void setDiskType(String diskType) {
         this.diskType = diskType;
     }
-
+    
     @Override
     public String toString() {
         return ReflectionToStringBuilder.toString(this);
     }
-
+    
     private void validateConstructorParams(int cpus, int ramMb, int diskGb, int swapMb) {
         Preconditions.checkArgument(cpus > 0, "CPUs was %s but expected positive", cpus);
         Preconditions.checkArgument(ramMb > 0, "RAM MB was %s but expected positive", ramMb);

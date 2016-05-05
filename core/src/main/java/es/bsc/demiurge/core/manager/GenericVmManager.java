@@ -427,7 +427,7 @@ public class GenericVmManager implements VmManager {
         List<Host> hosts = new ArrayList<>();
 
         for(String hostname : Config.INSTANCE.hosts) {
-                hosts.add(hf.getHost(hostname));
+            hosts.add(hf.getHost(hostname));
         }
 
         hostsManager = new HostsManager(hosts);
@@ -438,7 +438,7 @@ public class GenericVmManager implements VmManager {
         vmsManager = new VmsManager(hostsManager, cloudMiddleware, db, selfAdaptationManager, estimatesManager, conf.getVmmListeners(), conf.getHwinfo());
 
         selfAdaptationOptsManager = new SelfAdaptationOptsManager(selfAdaptationManager);
-        vmPlacementManager = new VmPlacementManager(vmsManager, hostsManager, estimatesManager, conf.getHwinfo());
+        vmPlacementManager = new VmPlacementManager(vmsManager, hostsManager, estimatesManager);
 
         // Start periodic self-adaptation thread if it is not already running.
         // This check would not be needed if only one instance of this class was created.
@@ -448,17 +448,17 @@ public class GenericVmManager implements VmManager {
         }
 
         for(VmmGlobalListener l : conf.getVmmGlobalListeners()) {
-                l.onVmmStart();
+            l.onVmmStart();
         }
 
         Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-                @Override
-                public void run() {
-                        log.debug("Notifying vmm global listeners on shutdown hook");
-                        for(VmmGlobalListener l : conf.getVmmGlobalListeners()) {
-                                l.onVmmStop();
-                        }
+            @Override
+            public void run() {
+                log.debug("Notifying vmm global listeners on shutdown hook");
+                for(VmmGlobalListener l : conf.getVmmGlobalListeners()) {
+                    l.onVmmStop();
                 }
+            }
         }));
     }
 

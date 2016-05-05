@@ -94,7 +94,7 @@ public enum Config {
     public String zabbixDbPassword;
 
 	private Map<String,Class<? extends SimpleScoreCalculator>> placementPolicies;
-    private Configuration configuration;
+    private final Configuration configuration;
 	private List<VmmListener> vmmListeners;
 	private HostFactory hostFactory;
 	private VmManager vmManager;
