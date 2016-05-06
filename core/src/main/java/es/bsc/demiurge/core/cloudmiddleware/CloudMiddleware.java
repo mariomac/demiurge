@@ -201,7 +201,8 @@ public interface CloudMiddleware {
     
     /**
      * Returns information about hypervisors.
+     * @param region
      * @return 
      */
-	Map<String, HardwareInfo>  getHypervisors();
+	Map<String, HardwareInfo>  getHypervisors(String region);
 }
