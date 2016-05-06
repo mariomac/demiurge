@@ -27,6 +27,7 @@ import es.bsc.demiurge.core.models.hosts.HardwareInfo;
 import es.bsc.demiurge.core.models.scheduling.RecommendedPlan;
 import es.bsc.demiurge.core.models.scheduling.RecommendedPlanRequest;
 import es.bsc.demiurge.core.models.vms.VmDeployed;
+import es.bsc.demiurge.core.models.vms.VmRequirements;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,7 +79,9 @@ public class CloplaConversor {
             List<es.bsc.demiurge.core.monitoring.hosts.Host> hosts, Map<String, HardwareInfo> hwinfo) {
         List<es.bsc.demiurge.core.clopla.domain.Host> result = new ArrayList<>();
         for (es.bsc.demiurge.core.monitoring.hosts.Host host: hosts) {
-            result.add(CloplaHostFactory.getCloplaHost(host, hwinfo.get(host.getHostname())) );
+            HardwareInfo hostHardwareInfo = hwinfo.containsKey(host.getHostname()) ?
+                    hwinfo.get(host.getHostname()) : new HardwareInfo();
+            result.add(CloplaHostFactory.getCloplaHost(host, hostHardwareInfo) );
         }
         return result;
     }
@@ -141,10 +144,15 @@ public class CloplaConversor {
             result.add(new es.bsc.demiurge.core.models.vms.Vm(
                     vm.getAlphaNumericId(),
                     null,
-                    vm.getNcpus(),
-                    vm.getRamMb(),
-                    vm.getDiskGb(),
-                    0, // Is this a problem? Clopla does not deal with swap
+                    new VmRequirements(
+                        vm.getNcpus(),
+                        vm.getRamMb(),
+                        vm.getDiskGb(),
+                        0, // Is this a problem? Clopla does not deal with swap
+                        vm.getProcessorArchitecture(),
+                        vm.getProcessorBrand(),
+                        vm.getDiskType()
+                    ),
                     null,
                     null));
         }

@@ -795,9 +795,14 @@ public class OpenStackJclouds implements CloudMiddleware {
 	}
 
     @Override
-    public Map<String, HardwareInfo> getHypervisors() {
+    public Map<String, HardwareInfo> getHypervisors(String region) {
         Map<String, HardwareInfo> result = new HashMap<>();
-        HypervisorApi api = openStackJcloudsApis.getNovaApi().getHypervisorApi("RegionOne").get();
+        if(region == null || region.equals("")){
+            logger.warn("A region must be provided to check hypervisors' data from OpenStack");
+            return result;
+        }
+        
+        HypervisorApi api = openStackJcloudsApis.getNovaApi().getHypervisorApi(region).get();
         List<HypervisorDetails> l = api.listInDetail().toList();
         for(int i = 0; i < l.size(); i++){
             try{
@@ -813,8 +818,7 @@ public class OpenStackJclouds implements CloudMiddleware {
             catch(Exception e){
                 e.printStackTrace();
             }
-        }
-        
+        }        
         return result;
     }
 }

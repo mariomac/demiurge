@@ -74,6 +74,7 @@ public enum Config {
 
     // OpenStack configuration
     public boolean deployVmWithVolume;
+    public String region;
 
 
     // Servers host names
@@ -186,6 +187,7 @@ public enum Config {
         zabbixDbUser = configuration.getString("zabbixDbUser");
         zabbixDbPassword = configuration.getString("zabbixDbPassword");
         deployVmWithVolume = configuration.getBoolean("deployVmWithVolume", false);
+        region = configuration.getString("openstack.region");
 
 		cryptSalt = configuration.getString("crypt.salt", "addYourOwnSaltPropertyToTheConfigFile");
 

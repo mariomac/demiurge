@@ -182,19 +182,19 @@ public class Host extends AbstractPersistable {
      * Originally (ncpus - ncpusused) < 0?
      */
     private double getCpuOverCapacityScore(HostUsage hostUsage) {
-        if(ncpus < hostUsage.getNcpusUsed()) {
-            return (hostUsage.getNcpusUsed()/(double)ncpus);
+        if(ncpus > 0 && ncpus < hostUsage.getNcpusUsed()) {
+            return (hostUsage.getNcpusUsed()/(double)ncpus );
         } else {
             return 0;
         }
     }
 
     private double getRamOverCapacityScore(HostUsage hostUsage) {
-        return ((ramMb - hostUsage.getRamMbUsed()) < 0) ? - (hostUsage.getRamMbUsed()/ramMb) : 0.0;
+        return (ramMb > 0 && ramMb - hostUsage.getRamMbUsed() < 0) ? - (hostUsage.getRamMbUsed()/ramMb) : 0.0;
     }
 
     private double getDiskOverCapacityScore(HostUsage hostUsage) {
-        return ((diskGb - hostUsage.getDiskGbUsed()) < 0) ? - (hostUsage.getDiskGbUsed()/diskGb) : 0.0;
+        return (diskGb > 0 && diskGb - hostUsage.getDiskGbUsed() < 0) ? - (hostUsage.getDiskGbUsed()/diskGb) : 0.0;
     }
 
     /**

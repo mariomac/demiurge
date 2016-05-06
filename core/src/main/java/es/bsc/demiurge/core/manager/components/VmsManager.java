@@ -461,13 +461,13 @@ public class VmsManager {
 	}
     
     public Map<String,HardwareInfo> getHardwareInfo() {
-        Map<String, HardwareInfo> hypervisors = cloudMiddleware.getHypervisors();
+        Map<String, HardwareInfo> hypervisors = cloudMiddleware.getHypervisors(Config.INSTANCE.region);
         return HardwareInfo.merge(hwinfo, hypervisors);
 	}
     
     public String getHardwareInfo(String hostname, String hardware, String property) {
         Map<String, HardwareInfo> osIncludedHwInfo = 
-            HardwareInfo.merge(hwinfo, cloudMiddleware.getHypervisors());
+            HardwareInfo.merge(hwinfo, cloudMiddleware.getHypervisors(Config.INSTANCE.region));
         HardwareInfo hostnameHwInfo = osIncludedHwInfo.get(hostname);
         
         if(hardware.equalsIgnoreCase("cpu")){
