@@ -345,6 +345,12 @@ public class Vm {
         this.diskType = diskType;
     }
     
+    public VmRequirements getVmRequirements() {
+        return new VmRequirements(
+            this.cpus, this.ramMb, this.diskGb, this.swapMb, this.processorArchitecture, this.processorBrand, this.diskType
+        );
+    }
+    
     @Override
     public String toString() {
         return ReflectionToStringBuilder.toString(this);

@@ -19,6 +19,8 @@
 package es.bsc.demiurge.core.models.vms;
 
 import com.google.common.base.MoreObjects;
+import java.util.HashMap;
+import java.util.Map;
 
 public class VmRequirements {
 
@@ -121,6 +123,26 @@ public class VmRequirements {
      */
     public void setDiskType(String diskType) {
         this.diskType = diskType;
+    }
+    
+    /**
+     * Delivers those requirements that are optional.
+     * 
+     * @return the list of optional requirements
+     */
+    public Map<String, String> getOptionalRequirements() {
+        Map<String, String> requirements = new HashMap<>();
+        if(diskType != null){
+            requirements.put("disk_type", diskType);
+        }
+        if(this.processorArchitecture != null){
+            requirements.put("processor_architecture", processorArchitecture);
+        }
+        if(this.processorBrand != null){
+            requirements.put("processor_brand", processorBrand);
+        }
+        
+        return requirements;
     }
 
     @Override

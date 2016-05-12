@@ -488,7 +488,12 @@ public class GenericVmManager implements VmManager {
     public VmsManager getVmsManager() {
         return vmsManager;
     }
-
+    
+    /**
+     * Starts a self-adaptation thread triggered externally.
+     * 
+     * @throws CloudMiddlewareException 
+     */
     @Override
     public void executeOnDemandSelfAdaptation() throws CloudMiddlewareException {
         new Thread(new Runnable() {
@@ -502,6 +507,24 @@ public class GenericVmManager implements VmManager {
                 } catch (CloudMiddlewareException e) {
                     log.error(e.getMessage(),e);
                 }
+            }
+        },"onDemandSelfAdaptationThread").start();
+    }
+    
+    /**
+     * Executes a self-adaptation thread based on new requirements that can be obtained from SLAm.
+     * 
+     * @param newRequirements a map of vmIds where each element contains a map of requirements (requirement, requirement_value)
+     * @throws CloudMiddlewareException 
+     */
+    @Override
+    public void executeSelfAdaptationWithNewRequirements(final Map<String,Map<String, String>> newRequirements) throws CloudMiddlewareException {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                log.debug("Starting new Thread for self-adaptaion");
+                selfAdaptationManager.applyOnDemandSelfAdaptation(newRequirements);
+                log.debug("Self-adaptation thread ended");
             }
         },"onDemandSelfAdaptationThread").start();
     }

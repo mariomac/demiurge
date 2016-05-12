@@ -33,6 +33,7 @@ import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Self-adaptation Manager.
@@ -145,17 +146,39 @@ public class SelfAdaptationManager {
 			}
 		}
     }
+    
+    /**
+     * Applies a self-adaptation action triggered externally.
+     * 
+     * @throws CloudMiddlewareException 
+     */
+    public void applyOnDemandSelfAdaptation() throws CloudMiddlewareException {
+        AfterVmDeploymentSelfAdaptationOps ops = getSelfAdaptationOptions().getAfterVmDeploymentSelfAdaptationOps();
+        RecommendedPlanRequest recommendedPlanRequest = new RecommendedPlanRequest(
+            ops.getMaxExecTimeSeconds(),ops.getConstructionHeuristic().getName(),ops.getLocalSearchAlgorithm());
 
-	public void applyOnDemandSelfAdaptation() throws CloudMiddlewareException {
-		AfterVmDeploymentSelfAdaptationOps ops = getSelfAdaptationOptions().getAfterVmDeploymentSelfAdaptationOps();
-		RecommendedPlanRequest recommendedPlanRequest = new RecommendedPlanRequest(
-				ops.getMaxExecTimeSeconds(),ops.getConstructionHeuristic().getName(),ops.getLocalSearchAlgorithm());
-
-		VmPlacement[] deploymentPlan = vmManager.getRecommendedPlan(recommendedPlanRequest,
-				true,
-				new ArrayList<Vm>()
-			).getVMPlacements();
-		vmManager.executeDeploymentPlan(deploymentPlan);
+        VmPlacement[] deploymentPlan = vmManager.getRecommendedPlan(recommendedPlanRequest,
+                true,
+                new ArrayList<Vm>()
+            ).getVMPlacements();
+        vmManager.executeDeploymentPlan(deploymentPlan);
+    }
+    
+    /**
+     * Applies on demand self adaptation with a list of new requirements per VM.
+     * In case this requirements are not met, they are not persisted in db.
+     * 
+     * @param newRequirements 
+     */
+	public void applyOnDemandSelfAdaptation(Map<String,Map<String, String>> newRequirements) {
+        db.insertRequirements(newRequirements);
+        try{
+            applyOnDemandSelfAdaptation();
+        }
+        catch(Exception e){
+            logger.error("applyOnDemandSelfAdaptation failed - " + e.getMessage(), e);
+            db.rollbackRequirements(); //new requirements are rollbacked when self-adaptation fails.
+        }
 	}
 
     /**

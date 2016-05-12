@@ -275,6 +275,8 @@ public interface VmManager {
     String getVmsEstimates(List<String> vmIds) throws Exception;
 
     void executeOnDemandSelfAdaptation() throws CloudMiddlewareException ;
+    
+    void executeSelfAdaptationWithNewRequirements(Map<String,Map<String, String>> newRequirements) throws CloudMiddlewareException;
 
     HostsManager getHostsManager();
     VmManagerDb getDB();
