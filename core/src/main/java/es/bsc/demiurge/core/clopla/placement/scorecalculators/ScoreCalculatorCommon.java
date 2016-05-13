@@ -21,6 +21,7 @@ package es.bsc.demiurge.core.clopla.placement.scorecalculators;
 
 import es.bsc.demiurge.core.clopla.domain.ClusterState;
 import es.bsc.demiurge.core.clopla.domain.Host;
+import es.bsc.demiurge.core.clopla.domain.Vm;
 
 /**
  * This class includes score functions that are used in several score calculators.
@@ -42,8 +43,8 @@ public abstract class ScoreCalculatorCommon {
     
     public static double getClusterHardwareScore(ClusterState clusterState) {
         double result = 0;
-        for (Host host: clusterState.getHosts()) {
-            if(!host.matchesHardwareRequirements(clusterState.getVms())){
+        for (Vm vm : clusterState.getVms()) {
+            if(vm.getHost() != null && !vm.getHost().matchesHardwareRequirements(vm)){
                 result -= PENALTY_FOR_WRONG_HARDWARE;
             }
         }
