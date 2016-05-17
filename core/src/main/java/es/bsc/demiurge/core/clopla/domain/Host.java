@@ -112,19 +112,32 @@ public class Host extends AbstractPersistable {
      */
     public boolean matchesHardwareRequirements(List<Vm> vms) {
         for(Vm vm : vms){
-            String vmDiskType = vm.getDiskType();
-            if(vmDiskType != null && diskType != null && !diskType.equals(vmDiskType) ){
-                return false;
-            }
-            String vmProcessorBrand = vm.getProcessorBrand();
-            if(vmProcessorBrand != null && processorBrand != null && !processorBrand.equals(vmProcessorBrand)){
-                return false;
-            }
-            String vmProcessorArchitecture = vm.getProcessorArchitecture();
-            if(vm.getProcessorArchitecture() != null && processorArchitecture != null && !processorArchitecture.equals(vmProcessorArchitecture)){
+            if(!matchesHardwareRequirements(vm)){
                 return false;
             }
         }
+        return true;
+    }
+    
+    /**
+     * Checks if a Vm matches hardware requirements of a specific host.
+     * 
+     * @param vm
+     * @return 
+     */
+    public boolean matchesHardwareRequirements(Vm vm) {
+        String vmDiskType = vm.getDiskType();
+        if(vmDiskType != null && diskType != null && !diskType.equals(vmDiskType) ){
+            return false;
+        }
+        String vmProcessorBrand = vm.getProcessorBrand();
+        if(vmProcessorBrand != null && processorBrand != null && !processorBrand.equals(vmProcessorBrand)){
+            return false;
+        }
+        String vmProcessorArchitecture = vm.getProcessorArchitecture();
+        if(vm.getProcessorArchitecture() != null && processorArchitecture != null && !processorArchitecture.equals(vmProcessorArchitecture)){
+            return false;
+        } 
         return true;
     }
 
@@ -173,9 +186,25 @@ public class Host extends AbstractPersistable {
         return initiallyOff;
     }
     
+    public String toStringOptionals() {
+        String optionals = "";
+        if(this.processorArchitecture != null){
+            optionals += "processorArchitecture:'" + processorArchitecture + "'";
+        }
+        if(this.processorBrand != null){
+            optionals += ", processorBrand:'" + processorBrand + "'";
+        }
+        if(this.diskType != null){
+            optionals += ", diskType:'" + diskType + "'";
+        }
+        
+        return optionals;
+    }
+    
     @Override
     public String toString() {
-        return "Host - ID:" + id.toString() + ", cpus:" + ncpus + ", ram:" + ramMb + ", disk:" + diskGb;
+        return "Host - ID:" + id.toString() + ", cpus:" + ncpus + ", ram:" + 
+            ramMb + ", disk:" + diskGb + "; OPTIONALS= " + toStringOptionals();
     }
 
     /*

@@ -157,8 +157,9 @@ public class SelfAdaptationManager {
         RecommendedPlanRequest recommendedPlanRequest = new RecommendedPlanRequest(
             ops.getMaxExecTimeSeconds(),ops.getConstructionHeuristic().getName(),ops.getLocalSearchAlgorithm());
 
-        VmPlacement[] deploymentPlan = vmManager.getRecommendedPlan(recommendedPlanRequest,
-                true,
+        VmPlacement[] deploymentPlan = vmManager.getRecommendedPlan(
+                recommendedPlanRequest,
+                false,
                 new ArrayList<Vm>()
             ).getVMPlacements();
         vmManager.executeDeploymentPlan(deploymentPlan);

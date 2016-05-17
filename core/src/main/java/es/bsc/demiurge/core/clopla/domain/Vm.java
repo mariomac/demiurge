@@ -176,11 +176,26 @@ public class Vm extends AbstractPersistable {
     public void setHost(Host host) {
         this.host = host;
     }
+    
+    public String toStringOptionals() {
+        String optionals = "";
+        if(this.processorArchitecture != null){
+            optionals += "processorArchitecture:'" + processorArchitecture + "'";
+        }
+        if(this.processorBrand != null){
+            optionals += ", processorBrand:'" + processorBrand + "'";
+        }
+        if(this.diskType != null){
+            optionals += ", diskType:'" + diskType + "'";
+        }
+        
+        return optionals;
+    }
 
     @Override
     public String toString() {
         return "VM - ID:" + id.toString() + ", cpus:" + ncpus + ", ram:" + ramMb + ", disk:" + diskGb
-                + ", app:" + appId;
+                + ", app:" + appId + "; OPTIONALS= " + toStringOptionals();
     }
 
 }

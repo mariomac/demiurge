@@ -45,7 +45,8 @@ public class CloplaConversor {
      * Converts a list of VMs as defined in the VMM core to a list of VMs as defined in the VM placement library.
      * It is possible to initialize in each one of the VMs, the host where they are deployed in.
      *
-     * @param vms the list of VMs used by the VMM core
+     * @param vms the list of VMs already deployed
+     * @param vmsToDeploy the list of VMs that we want to deploy
      * @param hosts the list of hosts as defined by the VM placement library
      * @param assignVmsToHosts indicates whether it is needed to set the hosts in the VMs
      * @return the list of VMs used by the VM placement library
