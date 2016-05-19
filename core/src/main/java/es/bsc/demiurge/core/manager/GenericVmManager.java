@@ -416,7 +416,7 @@ public class GenericVmManager implements VmManager {
     public void doInitActions() {
         this.cloudMiddleware = conf.getCloudMiddleware();
 
-        selfAdaptationManager = new SelfAdaptationManager(this, GenericVmManager.conf.dbName);
+        selfAdaptationManager = new SelfAdaptationManager(this, GenericVmManager.conf.dbName, conf.getVmmGlobalListeners());
 
         // Initialize all the VMM components
         imageManager = new ImageManager(cloudMiddleware);
@@ -499,14 +499,11 @@ public class GenericVmManager implements VmManager {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    log.debug("Starting new Thread for self-adaptaion");
-                    selfAdaptationManager.applyOnDemandSelfAdaptation();
-                    log.debug("Self-adaptation thread ended");
-
-                } catch (CloudMiddlewareException e) {
-                    log.error(e.getMessage(),e);
-                }
+                log.debug("Starting new Thread for self-adaptaion");
+                selfAdaptationManager.applyOnDemandSelfAdaptation(
+                        new SelfAdaptationAction()
+                );
+                log.debug("Self-adaptation thread ended");
             }
         },"onDemandSelfAdaptationThread").start();
     }
@@ -514,16 +511,18 @@ public class GenericVmManager implements VmManager {
     /**
      * Executes a self-adaptation thread based on new requirements that can be obtained from SLAm.
      * 
-     * @param newRequirements a map of vmIds where each element contains a map of requirements (requirement, requirement_value)
+     * @param slamMessage the message received via SLA manager.
      * @throws CloudMiddlewareException 
      */
     @Override
-    public void executeSelfAdaptationWithNewRequirements(final Map<String,Map<String, String>> newRequirements) throws CloudMiddlewareException {
+    public void executeOnDemandSelfAdaptation(final String slamMessage) throws CloudMiddlewareException {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 log.debug("Starting new Thread for self-adaptaion");
-                selfAdaptationManager.applyOnDemandSelfAdaptation(newRequirements);
+                selfAdaptationManager.applyOnDemandSelfAdaptation( 
+                    new SelfAdaptationAction(slamMessage) 
+                );
                 log.debug("Self-adaptation thread ended");
             }
         },"onDemandSelfAdaptationThread").start();

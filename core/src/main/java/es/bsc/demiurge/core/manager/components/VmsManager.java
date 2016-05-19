@@ -61,10 +61,8 @@ public class VmsManager {
                       SelfAdaptationManager selfAdaptationManager,
 					  EstimatesManager estimatorsManager,
 					  List<VmmListener> listeners,
-                      Map<String, HardwareInfo> hwinfo
-					  ) {
+                      Map<String, HardwareInfo> hwinfo) {
 		this.listeners = listeners;
-
         this.hostsManager = hostsManager;
         this.cloudMiddleware = cloudMiddleware;
         this.db = db;

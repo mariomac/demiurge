@@ -47,24 +47,17 @@ public class ActiveMqAdapter {
         Connection connection = null;
         Session session = null;
         try {
-            // Create a Connection
             connection = connectionFactory.createConnection();
-            connection.start();
-
-            // Create a Session
             session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+            TextMessage tm = session.createTextMessage(message);
 
-            // Create the destination
-            Destination destination = session.createTopic(topic);
-
-            // Create a MessageProducer from the Session to the Topic
-            MessageProducer producer = session.createProducer(destination);
-            producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
-
-            producer.send(session.createTextMessage(message));
-
+            Destination dest = session.createQueue(topic);
+            MessageProducer mp = session.createProducer(dest);
+            mp.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
+            mp.send(tm);
             session.close();
             connection.close();
+            
         } catch (Exception e) {
 			LogManager.getLogger(ActiveMqAdapter.class).warn("[VMM] Could not send topic " + topic + " to the message queue");
 		} finally {
