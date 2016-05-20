@@ -25,10 +25,25 @@ public final class SelfAdaptationAction {
     private String slamMessage = null;
     private String exception = null;
     private Boolean success = false;
+    private Boolean assignVmsToHosts = true; //in general, we pre-assign all deployed VMS to its host
+    private Map<String, Boolean> vmIdsToReassign = null; //you can mark several VMs for reassignation by not pre-assigning them
     
-    public SelfAdaptationAction() { }
+    public SelfAdaptationAction() {
+        this.assignVmsToHosts = true;
+    }
+    
+    public SelfAdaptationAction(Boolean assignVmsToHosts) {
+        this.assignVmsToHosts = assignVmsToHosts;
+    }
     
     public SelfAdaptationAction(String slamMessage) {
+        this.assignVmsToHosts = true;
+        this.slamMessage = slamMessage;
+        readRequirementsFromViolationMessages(slamMessage);
+    }
+    
+    public SelfAdaptationAction(String slamMessage, Boolean assignVmsToHosts) {
+        this.assignVmsToHosts = assignVmsToHosts;
         this.slamMessage = slamMessage;
         readRequirementsFromViolationMessages(slamMessage);
     }
@@ -85,7 +100,6 @@ public final class SelfAdaptationAction {
      * vm_requirements that will be needed for self-adaptation.
      * 
      * @param xml
-     * @return 
      */
     public void readRequirementsFromViolationMessages(String xml){
         Map<String, Map<String, String>> newRequirements = new HashMap<>();
@@ -204,5 +218,38 @@ public final class SelfAdaptationAction {
      */
     public Boolean getSuccess() {
         return success;
+    }
+
+    /**
+     * @return the assignVmToHosts
+     */
+    public Boolean assignVmsToHosts() {
+        return assignVmsToHosts;
+    }
+
+    /**
+     * @param assignVmsToHosts the assignVmToHosts to set
+     */
+    public void setAssignVmsToHosts(Boolean assignVmsToHosts) {
+        this.assignVmsToHosts = assignVmsToHosts;
+    }
+    
+    /**
+     * Adds a new vmId to the list of VMs to self-adapt.
+     * @param vmId 
+     */
+    public void addVmIdToReassign(String vmId) {
+        if(vmIdsToReassign == null){ vmIdsToReassign = new HashMap<>(); }
+        vmIdsToReassign.put(vmId, false);
+    }
+    
+    /**
+     * Checks if a specific VM should be self adapted or not.
+     * 
+     * @param vmId
+     * @return 
+     */
+    public boolean shouldVmBeReassigned(String vmId) {
+        return vmIdsToReassign.containsKey(vmId);
     }
 }

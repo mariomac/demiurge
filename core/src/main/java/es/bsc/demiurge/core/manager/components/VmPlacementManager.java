@@ -93,7 +93,7 @@ public class VmPlacementManager {
      * 
      * @param schedulingAlgorithm
      * @param recommendedPlanRequest the request
-     * @param assignVmsToCurrentHosts indicates whether the hosts should be set in the VM instances
+     * @param selfAdaptationAction indicates whether the hosts should be set in the VM instances
      * @param vmsToDeploy list of VMs that need to be deployed
      * @param hwinfo
      * @return
@@ -101,7 +101,7 @@ public class VmPlacementManager {
      */
     public RecommendedPlan getRecommendedPlan(String schedulingAlgorithm,
                                               RecommendedPlanRequest recommendedPlanRequest,
-                                              boolean assignVmsToCurrentHosts,
+                                              SelfAdaptationAction selfAdaptationAction,
                                               List<Vm> vmsToDeploy,
                                               Map<String, HardwareInfo> hwinfo) throws CloudMiddlewareException {
         CloplaConversor cc = Config.INSTANCE.getCloplaConversor();
@@ -112,7 +112,7 @@ public class VmPlacementManager {
                         getVmsDeployedAndScheduledNonDeployed(),
                         vmsToDeploy,
                         cc.getCloplaHosts(hosts, hwinfo),
-                        assignVmsToCurrentHosts),
+                        selfAdaptationAction),
                 cc.getCloplaConfig(
 						schedulingAlgorithm,
                         recommendedPlanRequest,

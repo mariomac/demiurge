@@ -21,6 +21,7 @@ package es.bsc.demiurge.core.clopla.placement.scorecalculators;
 
 import es.bsc.demiurge.core.clopla.domain.ClusterState;
 import es.bsc.demiurge.core.clopla.domain.Host;
+import es.bsc.demiurge.core.clopla.domain.Vm;
 
 /**
  * This class includes score functions that are used in several score calculators.

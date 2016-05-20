@@ -309,7 +309,8 @@ public class ClusterState extends AbstractPersistable implements Solution<Score>
      */
     public boolean hasHardScorePositive() {
         Score clusterStateScore = getScore();
-        if(clusterStateScore instanceof org.optaplanner.core.api.score.buildin.hardmediumsoft.HardMediumSoftScore){
+        if(clusterStateScore instanceof org.optaplanner.core.api.score.buildin.hardmediumsoft.HardMediumSoftScore ||
+           clusterStateScore instanceof org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore){
             int clusterScore = clusterStateScore.toLevelNumbers()[0].intValue();
             if(clusterScore < 0){
                 return false;

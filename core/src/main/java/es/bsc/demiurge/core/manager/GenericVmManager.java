@@ -309,15 +309,15 @@ public class GenericVmManager implements VmManager {
      * This function calculates a deployment plan based on a request. It uses the VM placement library.
      *
      * @param recommendedPlanRequest the request
-     * @param assignVmsToCurrentHosts indicates whether the hosts should be set in the VM instances
+     * @param selfAdaptationAction indicates whether the hosts should be set in the VM instances
      * @param vmsToDeploy list of VMs that need to be deployed
      * @return the recommended plan
      */
     @Override
     public RecommendedPlan getRecommendedPlan(RecommendedPlanRequest recommendedPlanRequest,
-                                              boolean assignVmsToCurrentHosts,
+                                              SelfAdaptationAction selfAdaptationAction,
                                               List<Vm> vmsToDeploy) throws CloudMiddlewareException {
-        return vmPlacementManager.getRecommendedPlan(db.getCurrentSchedulingAlg(),recommendedPlanRequest, assignVmsToCurrentHosts, vmsToDeploy, vmsManager.getHardwareInfo());
+        return vmPlacementManager.getRecommendedPlan(db.getCurrentSchedulingAlg(),recommendedPlanRequest, selfAdaptationAction, vmsToDeploy, vmsManager.getHardwareInfo());
     }
 
     /**

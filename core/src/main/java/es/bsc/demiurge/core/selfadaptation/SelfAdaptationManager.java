@@ -99,7 +99,7 @@ public class SelfAdaptationManager {
                 constrHeuristicName,
                 null);
 
-        return vmManager.getRecommendedPlan(recommendedPlanRequest, true, vmsToDeploy);
+        return vmManager.getRecommendedPlan(recommendedPlanRequest, new SelfAdaptationAction(), vmsToDeploy);
     }
 
     /**
@@ -130,7 +130,7 @@ public class SelfAdaptationManager {
         try {
             VmPlacement[] deploymentPlan = vmManager.getRecommendedPlan(
                     recommendedPlanRequest, 
-                    true, 
+                    action, 
                     new ArrayList<Vm>()
                 ).getVMPlacements();
             vmManager.executeDeploymentPlan(deploymentPlan);
@@ -164,7 +164,7 @@ public class SelfAdaptationManager {
         try {
             VmPlacement[] deploymentPlan = vmManager.getRecommendedPlan(
                     recommendedPlanRequest, 
-                    true, 
+                    action, 
                     new ArrayList<Vm>()
                 ).getVMPlacements();
             vmManager.executeDeploymentPlan(deploymentPlan);
@@ -186,6 +186,12 @@ public class SelfAdaptationManager {
         logger.info("Executing on demand self-adaptation");
         db.insertRequirements(action.getSlamRequirements());
         
+        if(action.getSlamRequirements() != null){
+            for(String vmId : action.getSlamRequirements().keySet()){
+                action.addVmIdToReassign(vmId);
+            }
+        }
+        
         try{
             AfterVmDeploymentSelfAdaptationOps ops = 
                 getSelfAdaptationOptions().getAfterVmDeploymentSelfAdaptationOps();
@@ -195,10 +201,10 @@ public class SelfAdaptationManager {
             
             RecommendedPlanRequest recommendedPlanRequest = new RecommendedPlanRequest(
                 ops.getMaxExecTimeSeconds(),ops.getConstructionHeuristic().getName(),ops.getLocalSearchAlgorithm());
-
+            
             VmPlacement[] deploymentPlan = vmManager.getRecommendedPlan(
                     recommendedPlanRequest,
-                    false, //TODO: Deselect only VMs affected by requirements.
+                    action,
                     new ArrayList<Vm>()
                 ).getVMPlacements();
             vmManager.executeDeploymentPlan(deploymentPlan);
@@ -236,7 +242,7 @@ public class SelfAdaptationManager {
             
             VmPlacement[] deploymentPlan = vmManager.getRecommendedPlan(
                     recommendedPlanRequest, 
-                    true, 
+                    action, 
                     new ArrayList<Vm>()
                 ).getVMPlacements();
             
