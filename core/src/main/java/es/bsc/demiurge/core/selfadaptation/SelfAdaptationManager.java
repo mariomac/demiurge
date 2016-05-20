@@ -207,9 +207,9 @@ public class SelfAdaptationManager {
                     action,
                     new ArrayList<Vm>()
                 ).getVMPlacements();
-            vmManager.executeDeploymentPlan(deploymentPlan);
-            
             action.setDeploymentPlan(deploymentPlan);
+            
+            vmManager.executeDeploymentPlan(deploymentPlan);
             db.commitRequirements();
         }
         catch(Exception e){

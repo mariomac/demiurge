@@ -149,7 +149,7 @@ public final class SelfAdaptationAction {
      */
     public void addVmIdToReassign(String vmId) {
         if(vmIdsToReassign == null){ vmIdsToReassign = new HashMap<>(); }
-        vmIdsToReassign.put(vmId, false);
+        vmIdsToReassign.put(vmId, true);
     }
     
     /**
@@ -159,6 +159,6 @@ public final class SelfAdaptationAction {
      * @return 
      */
     public boolean shouldVmBeReassigned(String vmId) {
-        return vmIdsToReassign.containsKey(vmId);
+        return vmIdsToReassign != null && vmIdsToReassign.containsKey(vmId);
     }
 }
