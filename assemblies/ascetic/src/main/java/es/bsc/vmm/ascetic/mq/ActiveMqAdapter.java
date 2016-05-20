@@ -30,10 +30,17 @@ import java.util.Map;
 import java.util.Set;
 
 public class ActiveMqAdapter {
-
-    private final ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(
+    private final ActiveMQConnectionFactory connectionFactory;
+    
+    public ActiveMqAdapter() {
+        connectionFactory = new ActiveMQConnectionFactory(
             Config.INSTANCE.getConfiguration().getString("activeMqUrl","tcp://localhost:61616")
-    );
+        );
+    }
+    
+    public ActiveMqAdapter(String url) {
+        connectionFactory = new ActiveMQConnectionFactory(url);
+    }
 
     private final Logger log = LogManager.getLogger(ActiveMqAdapter.class);
 
