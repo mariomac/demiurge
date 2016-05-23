@@ -153,6 +153,7 @@ public class CloplaConversor {
                         0, // Is this a problem? Clopla does not deal with swap
                         vm.getProcessorArchitecture(),
                         vm.getProcessorBrand(),
+                        vm.getProcessorModel(),
                         vm.getDiskType()
                     ),
                     null,
@@ -175,7 +176,7 @@ public class CloplaConversor {
                                                                 SelfAdaptationAction selfAdaptationAction) {
         es.bsc.demiurge.core.clopla.domain.Vm result = new es.bsc.demiurge.core.clopla.domain.Vm.Builder(
                 id, vm.getCpus(), vm.getRamMb(), vm.getDiskGb(), 
-                vm.getProcessorArchitecture(), vm.getProcessorBrand(), vm.getDiskType())
+                vm.getProcessorArchitecture(), vm.getProcessorBrand(), vm.getProcessorModel(), vm.getDiskType())
                 .appId(vm.getApplicationId())
                 .alphaNumericId(vm.getId())
                 .build();
@@ -195,7 +196,7 @@ public class CloplaConversor {
 	protected static es.bsc.demiurge.core.clopla.domain.Vm getCloplaVmToDeploy(Long id, es.bsc.demiurge.core.models.vms.Vm vm) {
         return new es.bsc.demiurge.core.clopla.domain.Vm.Builder(
                 id, vm.getCpus(), vm.getRamMb(), vm.getDiskGb(), 
-                vm.getProcessorArchitecture(), vm.getProcessorBrand(), vm.getDiskType())
+                vm.getProcessorArchitecture(), vm.getProcessorBrand(), vm.getProcessorModel(), vm.getDiskType())
                 .appId(vm.getApplicationId())
                 .alphaNumericId(vm.getName())
                 .build();
