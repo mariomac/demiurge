@@ -821,4 +821,9 @@ public class OpenStackJclouds implements CloudMiddleware {
         }        
         return result;
     }
+
+    @Override
+    public es.bsc.demiurge.core.monitoring.hosts.Host createHost(String hostname) {
+        return new HostOpenStack(hostname, this);
+    }
 }

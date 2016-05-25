@@ -25,6 +25,7 @@ import es.bsc.demiurge.core.models.hosts.HardwareInfo;
 import es.bsc.demiurge.core.models.images.ImageToUpload;
 import es.bsc.demiurge.core.models.vms.VmDeployed;
 import es.bsc.demiurge.core.models.vms.VmRequirements;
+import es.bsc.demiurge.core.monitoring.hosts.Host;
 
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -268,7 +269,12 @@ public class FakeCloudMiddleware implements CloudMiddleware {
 	}
 
     @Override
-    public Map<String, HardwareInfo> getHypervisors() {
+    public Map<String, HardwareInfo> getHypervisors(String region) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Host createHost(String hostname) {
+        return new HostFake(hostname);
     }
 }
