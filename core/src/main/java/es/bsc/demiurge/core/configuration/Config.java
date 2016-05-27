@@ -225,6 +225,10 @@ public enum Config {
 	public Map<String,Class<? extends SimpleScoreCalculator>> getPlacementPolicies() {
 		return placementPolicies;
 	}
+    
+    public void setPlacementPolicies(Map<String,Class<? extends SimpleScoreCalculator>> placementPolicies) {
+		this.placementPolicies = placementPolicies;
+	}
 
 	public Monitoring getMonitoring() {
         return monitoring;
