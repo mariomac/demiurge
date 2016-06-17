@@ -69,6 +69,41 @@ public class FileSystem {
 
     }
 
+    public static void writeStringToFile(String fname, String s,  boolean append){
+        PrintWriter writer = null;
+        try {
+            writer = new PrintWriter(new BufferedWriter(new FileWriter(fname, append)));
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        writer.append(s + "\n");
+        writer.close();
+
+    }
+
+    public static void writeToFile(String fname, long timestamp, int s, boolean append){
+        PrintWriter writer = null;
+        try {
+            writer = new PrintWriter(new BufferedWriter(new FileWriter(fname, append)));
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        writer.append(timestamp + "," + s + "\n");
+        writer.close();
+
+    }
+
+
     public static String getFilePath(String configFile) {
 
         String path = System.getProperty("user.dir");

@@ -65,7 +65,7 @@ public enum Config {
 
     // Renewit predictions
     public static final String ENERGY_PREDICTOR_R_FILE = "/energyPredictor.R";
-    public static final String DEFAULT_ENERGY_PREDICTION_FILE = "predictionEnergyOut.csv";
+    public static final String DEFAULT_ENERGY_PREDICTION_FILE = "/tmp/predictionEnergyOut2.csv";
 
     public static final String DEFAULT_WORKLOAD_PREDICTOR_R_FILE = "/workloadPredictor.R";
 
@@ -114,6 +114,7 @@ public enum Config {
 
     public boolean enablePredictions;
     public String energyProfilesFile;
+    public boolean vmAutoDestroy;
 
 
     Config() {
@@ -207,6 +208,7 @@ public enum Config {
 
         enablePredictions = configuration.getBoolean("enablePredictions", false);
         energyProfilesFile = configuration.getString("energyProfilesFile");
+        vmAutoDestroy = configuration.getBoolean("vmAutoDestroy", false);
 
 		logger.debug("Loading configuration: " + toString());
     }
@@ -233,6 +235,7 @@ public enum Config {
         /*
          * Extra initialization actions for managers
          */
+
         vmManager.doInitActions();
 
 

@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS virtual_machines
   slaId VARCHAR(255),
   benchmark VARCHAR(255),
   performance DOUBLE PRECISION,
+  perfId VARCHAR(255),
 PRIMARY KEY (id)) ;
 
 CREATE TABLE IF NOT EXISTS current_scheduling_alg

@@ -13,6 +13,7 @@ import es.bsc.demiurge.core.models.scheduling.*;
 import es.bsc.demiurge.core.models.vms.Vm;
 import es.bsc.demiurge.core.models.vms.VmDeployed;
 import es.bsc.demiurge.core.monitoring.hosts.Host;
+import es.bsc.demiurge.core.predictors.EnergyFileModel;
 import es.bsc.demiurge.core.selfadaptation.options.SelfAdaptationOptions;
 
 import java.util.List;
@@ -289,4 +290,6 @@ public interface VmManager {
     double getClusterConsumption();
 
     double predictClusterConsumption(List<Vm> vms) throws CloudMiddlewareException;
+
+    EnergyFileModel getEnergyUsageAtTime();
 }

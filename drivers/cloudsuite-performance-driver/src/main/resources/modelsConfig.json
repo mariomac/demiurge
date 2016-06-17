@@ -3,6 +3,7 @@
     {
       "hostname": "bscgrid21",
       "idlePower": 116,
+      "maxPower": 400,
       "powerModels": [
         {
           "benchmark": "data_analytics",
@@ -139,6 +140,7 @@
     {
       "hostname": "bscgrid27",
       "idlePower": 148,
+      "maxPower": 330,
       "powerModels": [
         {
           "benchmark": "data_analytics",
@@ -273,8 +275,146 @@
       ]
     },
     {
+      "hostname": "bscgrid29",
+      "idlePower": 75,
+      "maxPower": 300,
+      "powerModels": [
+        {
+          "benchmark": "data_analytics",
+          "cpusCoefficients": [0.22604],
+          "ramGbCoefficients": [0.56187],
+          "diskGbCoefficients": [],
+          "independentTerm": 97.54829
+        },
+        {
+          "benchmark": "web_search",
+          "cpusCoefficients": [9.161e+00, -6.671e-01, 2.261e-02, -2.802e-04],
+          "ramGbCoefficients": [],
+          "diskGbCoefficients": [],
+          "independentTerm": 9.802e+01
+        },
+        {
+          "benchmark": "media_streaming",
+          "cpusCoefficients": [3.737830, -0.059791],
+          "ramGbCoefficients": [],
+          "diskGbCoefficients": [],
+          "independentTerm": 99.956713
+        },
+        {
+          "benchmark": "graph_analytics",
+          "cpusCoefficients": [1.55624, -0.03861],
+          "ramGbCoefficients": [],
+          "diskGbCoefficients": [],
+          "independentTerm": 104.09485
+        },
+        {
+          "benchmark": "software_testing",
+          "cpusCoefficients": [4.87074, -0.09013],
+          "ramGbCoefficients": [],
+          "diskGbCoefficients": [],
+          "independentTerm":101.92788
+        },
+        {
+          "benchmark": "data_caching",
+          "cpusCoefficients": [5.7728481, -0.1885763, 0.0019626],
+          "ramGbCoefficients": [],
+          "diskGbCoefficients": [0.3984186],
+          "independentTerm": 86.1440415
+        },
+        {
+          "benchmark": "data_serving",
+          "cpusCoefficients": [3.233071, -0.050912],
+          "ramGbCoefficients": [],
+          "diskGbCoefficients": [],
+          "independentTerm": 104.483098
+        },
+        {
+          "benchmark": "web_serving",
+          "cpusCoefficients": [1.335348, -0.031188],
+          "ramGbCoefficients": [],
+          "diskGbCoefficients": [],
+          "independentTerm": 104.858732
+        }
+      ],
+      "performanceModels": [
+        {
+          "benchmark": "data_analytics",
+          "cpusCoefficients": [-2.0371177, 0.1182047, -0.0019956],
+          "ramGbCoefficients": [-0.3658173],
+          "diskGbCoefficients": [],
+          "independentTerm": 22.6291772,
+          "maxPerformance": 3.3421044,
+          "minPerformance": 19.24
+        },
+        {
+          "benchmark": "web_search",
+          "cpusCoefficients": [9.614e+01, -7.093e+00, 2.308e-01, -2.744e-03],
+          "ramGbCoefficients": [],
+          "diskGbCoefficients": [],
+          "independentTerm": -3.473e+01,
+          "maxPerformance": 453.228016,
+          "minPerformance": 54.54
+        },
+        {
+          "benchmark": "media_streaming",
+          "cpusCoefficients": [272.42],
+          "ramGbCoefficients": [],
+          "diskGbCoefficients": [],
+          "independentTerm": 722.44,
+          "maxPerformance": 5081.16,
+          "minPerformance": 994.86
+        },
+        {
+          "benchmark": "graph_analytics",
+          "cpusCoefficients": [-2.008e+02, 3.537e+01, -3.083e+00, 1.397e-01, -3.155e-03, 2.806e-05],
+          "ramGbCoefficients": [],
+          "diskGbCoefficients": [],
+          "independentTerm": 6.950e+02,
+          "maxPerformance": 226.8426,
+          "minPerformance": 526.63
+        },
+        {
+          "benchmark": "software_testing",
+          "cpusCoefficients": [200.742, -2.781],
+          "ramGbCoefficients": [],
+          "diskGbCoefficients": [],
+          "independentTerm": 2.975,
+          "maxPerformance": 2502.911,
+          "minPerformance": 200.94
+        },
+        {
+          "benchmark": "data_caching",
+          "cpusCoefficients": [3.799e+04, -2.097e+03, 3.225e+01],
+          "ramGbCoefficients": [],
+          "diskGbCoefficients": [],
+          "independentTerm":-1.234e+04,
+          "maxPerformance": 190764.0,
+          "minPerformance": 23585.25
+        },
+        {
+          "benchmark": "data_serving",
+          "cpusCoefficients": [1408.113, -22.619],
+          "ramGbCoefficients": [3794.178, -265.976, 5.748],
+          "diskGbCoefficients": [],
+          "independentTerm": -10382.178,
+          "maxPerformance": 23675.614,
+          "minPerformance": 0
+        },
+        {
+          "benchmark": "web_serving",
+          "cpusCoefficients": [123.207521, -19.378940, 1.302344, -0.031289],
+          "ramGbCoefficients": [],
+          "diskGbCoefficients": [],
+          "independentTerm": 42.489781,
+          "maxPerformance": 326.538173,
+          "minPerformance": 147.59
+        }
+      ]
+    },
+    {
       "hostname": "bscgrid30",
       "idlePower": 75,
+      "maxPower": 300,
       "powerModels": [
         {
           "benchmark": "data_analytics",
@@ -411,6 +551,7 @@
     {
       "hostname": "bscgrid31",
       "idlePower": 90,
+      "maxPower": 360,
       "powerModels": [
         {
           "benchmark": "data_analytics",
@@ -545,144 +686,9 @@
       ]
     },
     {
-      "hostname": "bscgrid30",
-      "idlePower": 75,
-      "powerModels": [
-        {
-          "benchmark": "data_analytics",
-          "cpusCoefficients": [0.22604],
-          "ramGbCoefficients": [0.56187],
-          "diskGbCoefficients": [],
-          "independentTerm": 97.54829
-        },
-        {
-          "benchmark": "web_search",
-          "cpusCoefficients": [9.161e+00, -6.671e-01, 2.261e-02, -2.802e-04],
-          "ramGbCoefficients": [],
-          "diskGbCoefficients": [],
-          "independentTerm": 9.802e+01
-        },
-        {
-          "benchmark": "media_streaming",
-          "cpusCoefficients": [3.737830, -0.059791],
-          "ramGbCoefficients": [],
-          "diskGbCoefficients": [],
-          "independentTerm": 99.956713
-        },
-        {
-          "benchmark": "graph_analytics",
-          "cpusCoefficients": [1.55624, -0.03861],
-          "ramGbCoefficients": [],
-          "diskGbCoefficients": [],
-          "independentTerm": 104.09485
-        },
-        {
-          "benchmark": "software_testing",
-          "cpusCoefficients": [4.87074, -0.09013],
-          "ramGbCoefficients": [],
-          "diskGbCoefficients": [],
-          "independentTerm":101.92788
-        },
-        {
-          "benchmark": "data_caching",
-          "cpusCoefficients": [5.7728481, -0.1885763, 0.0019626],
-          "ramGbCoefficients": [],
-          "diskGbCoefficients": [0.3984186],
-          "independentTerm": 86.1440415
-        },
-        {
-          "benchmark": "data_serving",
-          "cpusCoefficients": [3.233071, -0.050912],
-          "ramGbCoefficients": [],
-          "diskGbCoefficients": [],
-          "independentTerm": 104.483098
-        },
-        {
-          "benchmark": "web_serving",
-          "cpusCoefficients": [1.335348, -0.031188],
-          "ramGbCoefficients": [],
-          "diskGbCoefficients": [],
-          "independentTerm": 104.858732
-        }
-      ],
-      "performanceModels": [
-        {
-          "benchmark": "data_analytics",
-          "cpusCoefficients": [-2.0371177, 0.1182047, -0.0019956],
-          "ramGbCoefficients": [-0.3658173],
-          "diskGbCoefficients": [],
-          "independentTerm": 22.6291772,
-          "maxPerformance": 3.3421044,
-          "minPerformance": 19.24
-        },
-        {
-          "benchmark": "web_search",
-          "cpusCoefficients": [9.614e+01, -7.093e+00, 2.308e-01, -2.744e-03],
-          "ramGbCoefficients": [],
-          "diskGbCoefficients": [],
-          "independentTerm": -3.473e+01,
-          "maxPerformance": 453.228016,
-          "minPerformance": 54.54
-        },
-        {
-          "benchmark": "media_streaming",
-          "cpusCoefficients": [272.42],
-          "ramGbCoefficients": [],
-          "diskGbCoefficients": [],
-          "independentTerm": 722.44,
-          "maxPerformance": 5081.16,
-          "minPerformance": 994.86
-        },
-        {
-          "benchmark": "graph_analytics",
-          "cpusCoefficients": [-2.008e+02, 3.537e+01, -3.083e+00, 1.397e-01, -3.155e-03, 2.806e-05],
-          "ramGbCoefficients": [],
-          "diskGbCoefficients": [],
-          "independentTerm": 6.950e+02,
-          "maxPerformance": 226.8426,
-          "minPerformance": 526.63
-        },
-        {
-          "benchmark": "software_testing",
-          "cpusCoefficients": [200.742, -2.781],
-          "ramGbCoefficients": [],
-          "diskGbCoefficients": [],
-          "independentTerm": 2.975,
-          "maxPerformance": 2502.911,
-          "minPerformance": 200.94
-        },
-        {
-          "benchmark": "data_caching",
-          "cpusCoefficients": [3.799e+04, -2.097e+03, 3.225e+01],
-          "ramGbCoefficients": [],
-          "diskGbCoefficients": [],
-          "independentTerm":-1.234e+04,
-          "maxPerformance": 190764.0,
-          "minPerformance": 23585.25
-        },
-        {
-          "benchmark": "data_serving",
-          "cpusCoefficients": [1408.113, -22.619],
-          "ramGbCoefficients": [3794.178, -265.976, 5.748],
-          "diskGbCoefficients": [],
-          "independentTerm": -10382.178,
-          "maxPerformance": 23675.614,
-          "minPerformance": 0
-        },
-        {
-          "benchmark": "web_serving",
-          "cpusCoefficients": [123.207521, -19.378940, 1.302344, -0.031289],
-          "ramGbCoefficients": [],
-          "diskGbCoefficients": [],
-          "independentTerm": 42.489781,
-          "maxPerformance": 326.538173,
-          "minPerformance": 147.59
-        }
-      ]
-    },
-    {
-      "hostname": "bscgrid31",
+      "hostname": "bscgrid28",
       "idlePower": 90,
+      "maxPower": 360,
       "powerModels": [
         {
           "benchmark": "data_analytics",
@@ -814,8 +820,6 @@
           "maxPerformance": 289.8595,
           "minPerformance": 170.69
         }
-
-
       ]
     }
   ]

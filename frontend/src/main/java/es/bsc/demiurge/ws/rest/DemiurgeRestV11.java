@@ -23,6 +23,7 @@ import es.bsc.demiurge.core.configuration.Config;
 import es.bsc.demiurge.core.db.VmManagerDb;
 import es.bsc.demiurge.core.db.VmManagerDbFactory;
 import es.bsc.demiurge.core.manager.VmManager;
+import es.bsc.demiurge.core.predictors.EnergyFileModel;
 import es.bsc.demiurge.ws.rest.error.ErrorHandler;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -32,6 +33,8 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
+
+import static es.bsc.demiurge.renewit.ganglia.GangliaAdapter.getHostGangliaMetrics;
 
 /**
  * REST interface for the VM Manager.
@@ -91,7 +94,7 @@ public class DemiurgeRestV11 {
         try {
             return vmCallsManager.deployVMs(vmDescriptions);
         } catch (final CloudMiddlewareException e) {
-            log.error("Error deploying VMs: " + e.getMessage(), e);
+            log.error("Error deploying VMs: " + e.getMessage());
             throw new ErrorHandler(e, Response.Status.INTERNAL_SERVER_ERROR);
         }
     }
@@ -389,7 +392,42 @@ public class DemiurgeRestV11 {
     @GET
     @Path("/powerConsumption")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getPowerConsumption() { return "{\"clusterConsumption\": " + vmManager.getClusterConsumption() + "}";}
+    public String getPowerConsumption() {
+
+        EnergyFileModel energyFileModel = vmManager.getEnergyUsageAtTime();
+
+        return "{" +
+                    "\"ClusterConsumption\": " + vmManager.getClusterConsumption() + "," +
+                    "\"TotalEnergy\": " + energyFileModel.getTotalEnergy() + "," +
+                    "\"RenewableEnergy\": " + energyFileModel.getRenewableEnergy() + "," +
+                    "\"RES\": " + energyFileModel.getRES() +
+                "}";
+
+    }
+
+    @GET
+    @Path("/powerConsumptionBscgrid")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getPowerConsumptionBscgrid() {
+
+        EnergyFileModel energyFileModel = vmManager.getEnergyUsageAtTime();
+        long time = System.currentTimeMillis()/1000;
+
+        Double bscgrid28 = getHostGangliaMetrics("bscgrid28",time-6, time);
+        Double bscgrid29 = getHostGangliaMetrics("bscgrid29",time-6, time);
+        Double bscgrid30 = getHostGangliaMetrics("bscgrid30",time-6, time);
+        Double bscgrid31 = getHostGangliaMetrics("bscgrid31",time-6, time);
+
+        Double total = bscgrid28 + bscgrid29 + bscgrid30 + bscgrid31;
+
+        return "{" +
+                "\"ClusterConsumption\": " + total + "," +
+                "\"TotalEnergy\": " + energyFileModel.getTotalEnergy() + "," +
+                "\"RenewableEnergy\": " + energyFileModel.getRenewableEnergy() + "," +
+                "\"RES\": " + energyFileModel.getRES() +
+                "}";
+
+    }
 
 
     @POST
@@ -404,5 +442,6 @@ public class DemiurgeRestV11 {
             throw new ErrorHandler(e, Response.Status.INTERNAL_SERVER_ERROR);
         }
     }
+
 
 }

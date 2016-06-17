@@ -19,6 +19,7 @@ public class Modeller {
     private final Map<String, Map<CloudSuiteBenchmark, ModelFormulaMaxPerf>> performanceModels = new HashMap<>();
 
     private final HashMap<String, Double> idleValues = new HashMap<>();
+    private final HashMap<String, Double> maxPowerValues = new HashMap<>();
 
     public Modeller(ModelsConfig modelsConfig) {
         for (HostModelsConfig hostModelsConfig : modelsConfig.getModels()) {
@@ -51,6 +52,7 @@ public class Modeller {
 
 
             idleValues.put(hostname, hostModelsConfig.getIdlePower());
+            maxPowerValues.put(hostname, hostModelsConfig.getMaxPower());
         }
     }
 
@@ -214,6 +216,9 @@ public class Modeller {
 
     }
 
+    public double getMaxPower(String hostname) {
+        return maxPowerValues.get(hostname);
+    }
 
     @Override
     public String toString() {

@@ -1601,3 +1601,25 @@ Loading configuration: Config{
 	zabbixDbPassword='null'
 	deployVmWithVolume='false'
 }
+2016-05-30 11:46:25,579 ERROR  - es.bsc.demiurge.renewit.ganglia.GangliaAdapter
+Metric powerWatts not found: handshake alert:  unrecognized_name
+2016-05-30 11:46:55,382 ERROR  - es.bsc.demiurge.renewit.ganglia.GangliaAdapter
+Metric powerWatts not found: handshake alert:  unrecognized_name
+2016-05-30 11:48:15,689 ERROR  - es.bsc.demiurge.renewit.ganglia.GangliaAdapter
+Metric powerWatts not found: handshake alert:  unrecognized_name
+2016-05-30 11:48:45,874 ERROR  - es.bsc.demiurge.renewit.ganglia.GangliaAdapter
+Metric powerWatts not found: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+2016-05-30 11:49:40,492 ERROR  - es.bsc.demiurge.renewit.ganglia.GangliaAdapter
+Metric powerWatts not found: handshake alert:  unrecognized_name
+2016-05-30 11:50:21,116 ERROR  - es.bsc.demiurge.renewit.ganglia.GangliaAdapter
+Metric powerWatts not found: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+2016-05-30 11:51:30,095 ERROR  - es.bsc.demiurge.renewit.ganglia.GangliaAdapter
+Metric powerWatts not found: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+2016-05-30 11:51:42,137 ERROR  - es.bsc.demiurge.renewit.ganglia.GangliaAdapter
+Metric powerWatts not found: java.lang.RuntimeException: Unexpected error: java.security.InvalidAlgorithmParameterException: the trustAnchors parameter must be non-empty
+2016-05-30 11:51:52,586 ERROR  - es.bsc.demiurge.renewit.ganglia.GangliaAdapter
+Metric powerWatts not found: java.lang.RuntimeException: Unexpected error: java.security.InvalidAlgorithmParameterException: the trustAnchors parameter must be non-empty
+2016-05-30 11:52:30,109 ERROR  - es.bsc.demiurge.renewit.ganglia.GangliaAdapter
+Metric powerWatts not found: java.lang.RuntimeException: Unexpected error: java.security.InvalidAlgorithmParameterException: the trustAnchors parameter must be non-empty
+2016-05-30 12:02:36,372 ERROR  - es.bsc.demiurge.renewit.ganglia.GangliaAdapter
+Metric powerWatts not found: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target

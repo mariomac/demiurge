@@ -37,13 +37,13 @@ public class EnergyPredictionManager implements Runnable {
 
     @Override
     public void run() {
-        logger.info("Energy start time:" + startTime);
+        //logger.info("Energy start time:" + DEMIURGE_START_TIME);
 
         while (true) {
 
             long now = System.currentTimeMillis() / 1000 - startTime;
 
-            //logger.info("Energy prediction: " + now);
+            logger.info("--------- Current time: " + now +" ---------");
             predictValues(now);
 
             // Wait 10 seconds before checking again
@@ -81,9 +81,7 @@ public class EnergyPredictionManager implements Runnable {
     }
 
 
-
-
-
-
-
+    public String getEnergyPredictionFile() {
+        return outputFile;
+    }
 }

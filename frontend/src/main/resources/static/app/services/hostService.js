@@ -31,8 +31,8 @@
         function getHosts() {
             return $http({method: 'GET', url: BASE_URL + 'nodes'});
         }
-
     }
+
     HostService.$inject = ['$http', 'BASE_URL'];
 
 })();

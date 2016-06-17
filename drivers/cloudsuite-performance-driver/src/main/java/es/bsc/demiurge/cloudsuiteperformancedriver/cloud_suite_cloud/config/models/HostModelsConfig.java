@@ -9,6 +9,7 @@ public class HostModelsConfig {
 
     private final String hostname;
     private final double idlePower;
+    private final double maxPower;
     private final List<FormulaConfig> powerModels = new ArrayList<>();
     private final List<FormulaConfig> performanceModels = new ArrayList<>();
 
@@ -17,12 +18,14 @@ public class HostModelsConfig {
         this.powerModels.addAll(powerModels);
         this.performanceModels.addAll(performanceModels);
         this.idlePower = 0;
+        this.maxPower = 500;
     }
-    public HostModelsConfig(String hostname, List<FormulaConfig> powerModels, List<FormulaConfig> performanceModels, double idlePower) {
+    public HostModelsConfig(String hostname, List<FormulaConfig> powerModels, List<FormulaConfig> performanceModels, double idlePower, double maxPower) {
         this.hostname = hostname;
         this.powerModels.addAll(powerModels);
         this.performanceModels.addAll(performanceModels);
         this.idlePower = idlePower;
+        this.maxPower = maxPower;
     }
 
     public String getHostname() {
@@ -48,4 +51,7 @@ public class HostModelsConfig {
                 .toString();
     }
 
+    public Double getMaxPower() {
+        return maxPower;
+    }
 }

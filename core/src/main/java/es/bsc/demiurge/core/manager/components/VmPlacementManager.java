@@ -137,7 +137,14 @@ public class VmPlacementManager {
 
         //FIRST STEP: Before building the cluster state,  check if the host (MaxPF-TH) support the required performance of the VM (PF):
         //   PF =< MaxPF-TH
-        for (Vm vm : vmsToDeploy){
+
+        // sum old vms
+        List<VmDeployed> oldVms = getVmsDeployedAndScheduledNonDeployed();
+        ArrayList<Vm> joinedVms = new ArrayList<Vm>();
+        joinedVms.addAll(vmsToDeploy);
+        joinedVms.addAll(oldVms);
+
+        for (Vm vm : joinedVms){
 
             // Read the benchmark for the VM
             CloudSuiteBenchmark vmBenchmark = vm.getExtraParameters().getBenchmark();
@@ -159,6 +166,13 @@ public class VmPlacementManager {
                     h.setIdlePower(performanceDriverCore.getModeller().getIdlePowerHost(h.getType()));
                 }else{
                     h.setIdlePower(0d);
+                }
+
+                // Assign max power
+                if (performanceDriverCore.getModeller().getMaxPower(h.getType()) > 0){
+                    h.setMaxPower(performanceDriverCore.getModeller().getMaxPower(h.getType()));
+                }else{
+                    h.setMaxPower(500d);
                 }
 
                 double hostMaxPerf = performanceDriverCore.getModeller().getBenchmarkMaxPerformanceHost(vmBenchmark, h.getType());
@@ -247,6 +261,12 @@ public class VmPlacementManager {
                     CloudSuiteBenchmark benchmark = vmBestCLuster.getExtraParameters().getBenchmark();
                     VmSize vmSize = new VmSize(vmBestCLuster.getNcpus(), vmBestCLuster.getRamMb() * 1024, vmBestCLuster.getDiskGb());
                     double newVMPowerEstimation = performanceDriverCore.getModeller().getBenchmarkAvgPower(benchmark, vmBestCLuster.getHost().getType(), vmSize);
+
+                    if (newVMPowerEstimation > vmBestCLuster.getHost().getMaxPower()){
+                        newVMPowerEstimation = vmBestCLuster.getHost().getMaxPower();
+                    }
+
+
                     vmBestCLuster.setPowerEstimation(newVMPowerEstimation);
                 }
             }

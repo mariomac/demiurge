@@ -19,7 +19,6 @@
 package es.bsc.demiurge.core.manager.components;
 
 import es.bsc.autonomicbenchmarks.benchmarks.GenericBenchmark;
-import es.bsc.autonomicbenchmarks.controllers.QueueBenchmarkManager;
 import es.bsc.autonomicbenchmarks.models.VmAutonomic;
 import es.bsc.demiurge.core.cloudmiddleware.CloudMiddleware;
 import es.bsc.demiurge.core.cloudmiddleware.CloudMiddlewareException;
@@ -35,7 +34,6 @@ import es.bsc.demiurge.core.models.vms.ExtraParameters;
 import es.bsc.demiurge.core.models.vms.Vm;
 import es.bsc.demiurge.core.models.vms.VmDeployed;
 import es.bsc.demiurge.core.monitoring.hosts.Host;
-import es.bsc.demiurge.core.predictors.ArrivalsWorkloadPredictionManager;
 import es.bsc.demiurge.core.scheduler.Scheduler;
 import es.bsc.demiurge.core.selfadaptation.AfterVmDeleteSelfAdaptationRunnable;
 import es.bsc.demiurge.core.selfadaptation.SelfAdaptationManager;
@@ -44,7 +42,6 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import java.util.*;
-import java.util.concurrent.ScheduledExecutorService;
 
 import static es.bsc.autonomicbenchmarks.utils.Utils.getBenchmark;
 import static es.bsc.demiurge.core.utils.FileSystem.writeToFile;
@@ -54,21 +51,17 @@ import static es.bsc.demiurge.core.utils.FileSystem.writeToFile;
  */
 public class VmsManager {
 
-    private static final int MAX_RUNNING_TIME = 3600*12; // 12 HOURS
+    protected static final int MAX_RUNNING_TIME = 3600*12; // 12 HOURS
     private final Logger log = LogManager.getLogger(VmsManager.class);
-    private final HostsManager hostsManager;
-    private final CloudMiddleware cloudMiddleware;
-    private final VmManagerDb db;
+    protected final HostsManager hostsManager;
+    protected final CloudMiddleware cloudMiddleware;
+    protected final VmManagerDb db;
     private final SelfAdaptationManager selfAdaptationManager;
     private Scheduler scheduler;
     private final EstimatesManager estimatorsManager;
-	private final List<VmmListener> listeners;
+	protected final List<VmmListener> listeners;
     private static final String fname = "VMactions.csv";
-
-    // Specific for RenewIT
-    private QueueBenchmarkManager queueBenchmarkManager;
-    private ScheduledExecutorService scheduledExecutorService;
-    private ArrivalsWorkloadPredictionManager arrivalsWorkloadPredictionManager;
+    protected double MAX_DC_POWER_SUPPORTED;
 
 
 //    private static final String ASCETIC_ZABBIX_SCRIPT_PATH = "/DFS/ascetic/vm-scripts/zabbix_agents.sh";
@@ -76,23 +69,19 @@ public class VmsManager {
     public VmsManager(HostsManager hostsManager, CloudMiddleware cloudMiddleware, VmManagerDb db,
                       SelfAdaptationManager selfAdaptationManager,
                       EstimatesManager estimatorsManager,
-                      List<VmmListener> listeners,
-                      QueueBenchmarkManager queueBenchmarkManager,
-                      ScheduledExecutorService scheduledExecutorService, ArrivalsWorkloadPredictionManager arrivalsWorkloadPredictionManager) {
+                      List<VmmListener> listeners) {
 
         this.listeners = listeners;
-
         this.hostsManager = hostsManager;
         this.cloudMiddleware = cloudMiddleware;
         this.db = db;
         this.selfAdaptationManager = selfAdaptationManager;
         this.estimatorsManager = estimatorsManager;
 
-        this.queueBenchmarkManager = queueBenchmarkManager;
-        this.scheduledExecutorService  = scheduledExecutorService;
-        this.arrivalsWorkloadPredictionManager = arrivalsWorkloadPredictionManager;
-
     }
+
+
+
 
     /**
      * Returns a list of the VMs deployed.
@@ -144,7 +133,9 @@ public class VmsManager {
             vm.setApplicationId(db.getAppIdOfVm(vm.getId()));
             vm.setOvfId(db.getOvfIdOfVm(vm.getId()));
             vm.setSlaId(db.getSlaIdOfVm(vm.getId()));
-            vm.setExtraParameters(new ExtraParameters(db.getBenchmarkOfVm(vm.getId()), db.getPerformanceOfVm(vm.getId())));
+
+            String perfIdVm = db.getPerfIdOfVm(vm.getId());
+            vm.setExtraParameters(new ExtraParameters(db.getBenchmarkOfVm(perfIdVm), db.getPerformanceOfVm(perfIdVm)));
         }
         return vm;
     }
@@ -203,8 +194,6 @@ public class VmsManager {
 		for(VmmListener l : listeners) {
 			l.onVmDestruction(vmToBeDeleted);
 		}
-        // RENEWIT: remove benchmark from queue in BenchmarkController
-        queueBenchmarkManager.removeBenchmarkFromQueue(vmId);
 
 		log.debug(vmId + " destruction took " + (System.currentTimeMillis()/1000.0) + " seconds");
 		performAfterVmDeleteSelfAdaptation();
@@ -225,23 +214,13 @@ public class VmsManager {
         // HashMap (VmDescription,ID after deployment). Used to return the IDs in the same order that they are received
         Map<Vm, String> ids = new HashMap<>();
 
-
-        // set timeRequest for all VMs
-        for (Vm v : vms){
-            long t = System.currentTimeMillis()/1000;
-            v.setTimeRequest(t);
-
-            v.setPowerEstimated(arrivalsWorkloadPredictionManager.getEstimatedPowerForBenchmark(v.getExtraParameters().getBenchmarkStr()));
-            arrivalsWorkloadPredictionManager.addBenchmarkToQueue(v);
-
-        }
-
         DeploymentPlan deploymentPlan = chooseBestDeploymentPlan(vms);
 
         // Loop through the VM assignments to hosts defined in the best deployment plan
         for (VmAssignmentToHost vmAssignmentToHost: deploymentPlan.getVmsAssignationsToHosts()) {
 
             Vm vmToDeploy = vmAssignmentToHost.getVm();
+
             Host hostForDeployment = vmAssignmentToHost.getHost();
 
             // Note: this is only valid for the Ascetic project
@@ -299,9 +278,6 @@ public class VmsManager {
                 VmAutonomic vmAutonomic = new VmAutonomic(vmDeployed.getId(), vmDeployed.getName(), vmDeployed.getIpAddress(), vmDeployed.getCpus(), vmDeployed.getRamMb()*1024, vmDeployed.getDiskGb(), hostForDeployment.getHostname());
                 benchmarkToRun.runBenchmark(vmAutonomic);
 
-                // IF RUNNING TIME != 0
-                queueBenchmarkManager.addBenchmarkToQueue(benchmarkToRun);
-
             }
 
 
@@ -317,6 +293,7 @@ public class VmsManager {
 
         return idsDeployedVms;
     }
+
 
     /**
      * Performs an action on a VM (reboot, suspend, etc.).
@@ -383,7 +360,7 @@ public class VmsManager {
     }
 
 
-    private String deployVm(Vm vm, Host host) throws CloudMiddlewareException {
+    protected String deployVm(Vm vm, Host host) throws CloudMiddlewareException {
         // If the host is not on, turn it on and wait
         if (!host.isOn()) {
             hostsManager.pressHostPowerButton(host.getHostname());
@@ -400,7 +377,7 @@ public class VmsManager {
         return cloudMiddleware.deploy(vm, host.getHostname());
     }
 
-    private String deployVmWithVolume(Vm vm, Host host, String isoPath) throws CloudMiddlewareException {
+    protected String deployVmWithVolume(Vm vm, Host host, String isoPath) throws CloudMiddlewareException {
         // If the host is not on, turn it on and wait
         if (!host.isOn()) {
             hostsManager.pressHostPowerButton(host.getHostname());
@@ -426,7 +403,7 @@ public class VmsManager {
         thread.start();
     }
 
-    private void performAfterVmsDeploymentSelfAdaptation() {
+    protected void performAfterVmsDeploymentSelfAdaptation() {
         Logger.getLogger(VmsManager.class).warn("**** AFTER VMs DEPLOYMENT SELF-ADAPTATION IS DISABLED ***");
 //        Thread thread = new Thread(
 //                new AfterVmsDeploymentSelfAdaptationRunnable(selfAdaptationManager),
@@ -457,7 +434,11 @@ public class VmsManager {
 				vmAssignmentToHosts.add(new VmAssignmentToHost(vm, host));
 			}
 		}
-		return new DeploymentPlan(vmAssignmentToHosts);
+
+        double clusterEstimation = recommendedPlan.getPredictedClusterConsumption();
+        DeploymentPlan dp = new DeploymentPlan(vmAssignmentToHosts);
+        dp.setPredictedClusterConsumption(clusterEstimation);
+		return dp;
 
     }
 
@@ -541,5 +522,7 @@ public class VmsManager {
         RecommendedPlan recommendedPlan = selfAdaptationManager.getRecommendedPlanForDeployment(vms);
         return recommendedPlan.getPredictedClusterConsumption();
     }
+
+
 
     }

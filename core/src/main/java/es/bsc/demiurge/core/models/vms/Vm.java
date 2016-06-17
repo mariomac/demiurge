@@ -50,7 +50,10 @@ public class Vm {
     private boolean deployAfter = false;
     private long timeForDeploy = 0;
     private double powerEstimated;
-    private long timeRequest; //when the vm deployment request was received
+    private long timeRequest = 0; //when the vm deployment request was received
+    private boolean wasPostponed = false;
+    private String tempId;
+
     private String preferredHost;
 
     // TODO: apply builder pattern instead of having several constructors.
@@ -121,6 +124,27 @@ public class Vm {
         this.ovfId = ovfId;
         this.slaId = slaId;
         this.preferredHost = preferredHost;
+    }
+
+    public Vm(Vm v) {
+        this.name = v.name;
+        this.image = v.image;
+        this.cpus = v.cpus;
+        this.ramMb = v.ramMb;
+        this.diskGb = v.diskGb;
+        this.swapMb = 0;
+        setInitScript(v.initScript);
+        this.applicationId = v.applicationId;
+        this.ovfId = v.ovfId;
+        this.slaId = v.slaId;
+        this.preferredHost = v.preferredHost;
+        this.timeForDeploy = v.getTimeForDeploy();
+        this.timeRequest = v.getTimeRequest();
+        this.wasPostponed = v.wasPostponed;
+        this.powerEstimated = v.getPowerEstimated();
+        this.extraParameters = v.getExtraParameters();
+        this.deployAfter = v.deployAfter;
+        this.tempId = v.getTempId();
     }
 
 
@@ -276,5 +300,21 @@ public class Vm {
 
     public void setTimeRequest(long timeRequest) {
         this.timeRequest = timeRequest;
+    }
+
+    public boolean isWasPostponed() {
+        return wasPostponed;
+    }
+
+    public void setWasPostponed(boolean wasPostponed) {
+        this.wasPostponed = wasPostponed;
+    }
+
+    public String getTempId() {
+        return tempId;
+    }
+
+    public void setTempId(String tempId) {
+        this.tempId = tempId;
     }
 }

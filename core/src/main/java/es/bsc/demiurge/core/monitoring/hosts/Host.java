@@ -43,6 +43,7 @@ public abstract class Host {
     protected double assignedMemoryMb;
     protected double assignedDiskGb;
     protected double idlePower;
+    protected double maxPower;
     protected String type;
 
 
@@ -52,6 +53,7 @@ public abstract class Host {
     protected AtomicBoolean turnedOff = new AtomicBoolean(false); // Several threads might try to turn on/off
 
     private Logger logger = LogManager.getLogger(Host.class);
+
 
     /**
      * Class constructor
@@ -262,6 +264,15 @@ public abstract class Host {
 
     public void setIdlePower(double idlePower) {
         this.idlePower = idlePower;
+    }
+
+
+    public double getMaxPower() {
+        return maxPower;
+    }
+
+    public void setMaxPower(double maxPower) {
+        this.maxPower = maxPower;
     }
 
     public String getType() {

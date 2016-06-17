@@ -38,6 +38,7 @@ public class HostGanglia extends Host {
 		initTotalResources();
 		initAssignedResources();
 		initPower();
+		this.type = hostname;
 	}
 
 	private void setGangliaHost() {

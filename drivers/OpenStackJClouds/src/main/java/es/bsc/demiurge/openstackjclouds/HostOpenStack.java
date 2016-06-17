@@ -39,6 +39,7 @@ public class HostOpenStack extends Host {
         this.openStackJclouds = openStackJclouds;
         initTotalResources();
         initAssignedResources();
+        this.type = name;
     }
 
     private void initTotalResources() {

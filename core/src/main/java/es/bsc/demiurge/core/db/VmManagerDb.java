@@ -19,6 +19,7 @@
 package es.bsc.demiurge.core.db;
 
 import es.bsc.demiurge.core.auth.UserDao;
+import es.bsc.demiurge.core.predictors.TimeSeriesArrivals;
 import es.bsc.demiurge.core.selfadaptation.options.SelfAdaptationOptions;
 
 import java.util.List;
@@ -68,6 +69,9 @@ public interface VmManagerDb {
      */
     void insertVm(String vmId, String appId, String ovfId, String slaId,  String benchmark, double performance, double powerEstimated, long timeRequest);
 
+    void insertVm(String vmId, String appId, String ovfId, String slaId,  String benchmark, double performance, double powerEstimated, long timeRequest, String perfId);
+
+    void insertVmIntoArrivals(String vmId, String appId, String ovfId, String slaId,  String benchmark, double performance, double powerEstimated, long timeRequest);
     /**
      * Deletes a VM from the DB.
      *
@@ -155,6 +159,11 @@ public interface VmManagerDb {
 
     void deletePerformanceOfVM(String vmId);
 
+    void deleteAllPerformanceOfVM();
+
     List<Double> getPastPowerForBenchmark(String benchmark, int limitResults);
+
+    TimeSeriesArrivals getPastPower(int limitResults);
+    String getPerfIdOfVm(String vmId);
 
 }

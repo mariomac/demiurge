@@ -21,6 +21,7 @@ package es.bsc.demiurge.core.db;
 import com.google.gson.Gson;
 import es.bsc.demiurge.core.auth.JdbcUserDao;
 import es.bsc.demiurge.core.auth.UserDao;
+import es.bsc.demiurge.core.predictors.TimeSeriesArrivals;
 import es.bsc.demiurge.core.selfadaptation.options.SelfAdaptationOptions;
 import org.apache.log4j.Logger;
 
@@ -185,9 +186,33 @@ public class VmManagerDbHsql implements VmManagerDb {
             update("INSERT INTO virtual_machines (id, appId, ovfId, slaId) "
                     + "VALUES ('" + vmId + "', '" + appId + "', '" + ovfId + "', '" + slaId + "')");
 
+           // update("INSERT INTO vm_benchmark_performance (id, benchmark, performance, powerEstimated, timeRequest) "
+             //       + "VALUES ('" + vmId + "', '" + benchmark + "', " + performance + ", " + powerEstimated + ", "+ timeRequest +")");
+
+        } catch (SQLException e) {
+            log.error(ERROR_INSERT_VM, e);
+        }
+    }
+
+    @Override
+    public void insertVm(String vmId, String appId, String ovfId, String slaId, String benchmark, double performance, double powerEstimated, long timeRequest, String perfId) {
+        try {
+            update("INSERT INTO virtual_machines (id, appId, ovfId, slaId, perfId) "
+                    + "VALUES ('" + vmId + "', '" + appId + "', '" + ovfId + "', '" + slaId + "', '" + perfId + "')");
+
+            // update("INSERT INTO vm_benchmark_performance (id, benchmark, performance, powerEstimated, timeRequest) "
+            //       + "VALUES ('" + vmId + "', '" + benchmark + "', " + performance + ", " + powerEstimated + ", "+ timeRequest +")");
+
+        } catch (SQLException e) {
+            log.error(ERROR_INSERT_VM, e);
+        }
+    }
+
+    @Override
+    public void insertVmIntoArrivals(String vmId, String appId, String ovfId, String slaId, String benchmark, double performance, double powerEstimated, long timeRequest) {
+        try {
             update("INSERT INTO vm_benchmark_performance (id, benchmark, performance, powerEstimated, timeRequest) "
                     + "VALUES ('" + vmId + "', '" + benchmark + "', " + performance + ", " + powerEstimated + ", "+ timeRequest +")");
-
         } catch (SQLException e) {
             log.error(ERROR_INSERT_VM, e);
         }
@@ -259,6 +284,20 @@ public class VmManagerDbHsql implements VmManagerDb {
     }
 
     @Override
+    public String getPerfIdOfVm(String vmId) {
+        List<String> appId = new ArrayList<>();
+        try {
+            appId = query("SELECT perfId FROM virtual_machines WHERE id = '" + vmId + "'");
+        } catch (SQLException e) {
+            appId.add("");
+        }
+        if (appId.isEmpty()) {
+            appId.add("");
+        }
+        return appId.get(0);
+    }
+
+    @Override
     public List<String> getAllVmIds() {
         List<String> vmIds = new ArrayList<>();
         try {
@@ -293,7 +332,8 @@ public class VmManagerDbHsql implements VmManagerDb {
         }
         // If a scheduling alg. has not been selected, return Distribution by default
 		// quick hack. TODO: allow configuring default
-        return "distribution";
+        //return "distribution";
+        return "perfAwarePowerAware";
     }
     
     @Override
@@ -392,20 +432,42 @@ public class VmManagerDbHsql implements VmManagerDb {
     }
 
     @Override
+    public void deleteAllPerformanceOfVM() {
+        try {
+            update("DELETE FROM vm_benchmark_performance");
+        } catch (SQLException e) {
+            log.error(ERROR_DELETE_ALL_VMS, e);
+        }
+    }
+    @Override
     public List<Double> getPastPowerForBenchmark(String benchmark, int limitResults) {
 
         List<Double> power = new ArrayList<>();
-        List<String> res = new ArrayList<>();
+        List<String> res;
         try {
             res = query("SELECT powerEstimated FROM vm_benchmark_performance WHERE benchmark = '" + benchmark + "' ORDER BY timeRequest LIMIT " + limitResults);
         } catch (SQLException e) {
             return power;
         }
 
-
         for(String s : res) power.add(Double.valueOf(s));
         return power;
     }
 
+    @Override
+    public TimeSeriesArrivals getPastPower(int limitResults) {
+
+        TimeSeriesArrivals power = new TimeSeriesArrivals();
+        List<String> res;
+        try {
+            res = query("SELECT timeRequest,powerEstimated FROM vm_benchmark_performance ORDER BY timeRequest DESC LIMIT " + limitResults);
+        } catch (SQLException e) {
+            return power;
+        }
+        for (int i = 0; i< res.size() ; i +=2){
+            power.addValue(Long.valueOf(res.get(i)), Double.valueOf(res.get(i+1)));
+        }
+        return power;
+    }
 
 }

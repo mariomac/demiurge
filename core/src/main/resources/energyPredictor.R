@@ -24,18 +24,21 @@ file_output = args[6]
 
 
 FREQUENCY = 1
-
+interval = 1
 data <- read.csv(file, check.names=FALSE)
 
-start = NOW - MAX
+start = NOW*interval - MAX*interval
 
-if (start < 0){
-    start = 0
-}
+if (start <0){start = 0}
 cat("start: ", start, "\n")
 cat("end: ",NOW, "\n")
+
 data <- data[start:NOW,]
+
+
+
 data <- data[complete.cases(data), ]
+
 switch(type,
 green = { TYPE = "Energia.renovable"},
 total = { TYPE = "Energia.total"},
@@ -54,4 +57,5 @@ result_file = data.frame(cbind(timestamp = time, value = fcast.values))
 #cat(fcast.values, sep = "\n")
 
 write.csv(result_file, file = file_output ,row.names=FALSE)
+
 

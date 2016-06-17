@@ -11,17 +11,24 @@ import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import static es.bsc.demiurge.core.utils.FileSystem.deleteFile;
+import static es.bsc.demiurge.core.manager.GenericVmManager.DEMIURGE_START_TIME;
 
 /**
  * @author Mauro Canuto (mauro.canuto@bsc.es)
+ *
+ * 1. get from db power of past benchmark
+ * 2. save these values into inputFile
+ * 3. apply time series (R script) -> will write outputfile
+ * 4. read output file
+ *
  */
 public class ArrivalsWorkloadPredictionManager implements Runnable {
     private final Logger logger = LogManager.getLogger(ArrivalsWorkloadPredictionManager.class);
 
-    final BlockingQueue<Vm> workloadNewArrivals;
+    private final BlockingQueue<Vm> workloadNewArrivals;
 
     private static int indexPower = 0;
+    private static int indexPowerTotal = 0;
     private VmManagerDb db;
     private String rScript;
     private String workloadProfilesFile;
@@ -42,12 +49,12 @@ public class ArrivalsWorkloadPredictionManager implements Runnable {
         this.outputFile = outputFile;
         this.startTime = startTime;
         this.workloadNewArrivals = new LinkedBlockingQueue<>();
-        writeHeader(workloadProfilesFile);
+        //writeHeader(workloadProfilesFile);
     }
 
     @Override
     public void run() {
-        logger.info("Workload prediction start time:" + startTime);
+        logger.info("Demiurge start time:" + DEMIURGE_START_TIME);
 
         while (true) {
 
@@ -57,55 +64,123 @@ public class ArrivalsWorkloadPredictionManager implements Runnable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            long now = System.currentTimeMillis() / 1000 - DEMIURGE_START_TIME;
 
-            //get past power
-
-
-            // add power from queue of last vms
-
-
-            // predict next values
-
-
-            // empty queue
-
-
+            //logger.info("Arrivals prediction: " + now);
+            getEstimatedPowerArrivals(now);
 
         }
     }
 
+    /**
+     *
+     * @param now
+     * @param inputFile
+     * @param outputFile
+     * @param valuesToPredict
+     */
+    public void predictValues(long now, String inputFile, String outputFile, int valuesToPredict, int interval){
+        //log.info("Predicting");
+        String RscriptPath = this.rScript;
 
-    public double getEstimatedPowerForBenchmark(String benchmark){
-        double defaultPower = 30.00;
-        writeHeader(tempFileInput);
-        List<Double> pastPower = db.getPastPowerForBenchmark(benchmark, maxInputSamples);
+        try {
+            String line;
+            Process p = Runtime.getRuntime().exec(new String[]{RscriptPath, inputFile, Integer.toString(valuesToPredict), Long.toString(now), Integer.toString(this.maxInputSamples), outputFile, Integer.toString(interval)});
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(p.getInputStream()));
+            while ((line = in.readLine()) != null) {
+                //System.out.println(line);
+            }
+            in.close();
 
-        if (pastPower.size() == 0){
-            deleteFile(tempFileInput);
-            return defaultPower;
+        } catch (Exception e) {
+            e.printStackTrace();
+
         }
 
-        for (Double p : pastPower){
-            writePastPower(indexPower, p, tempFileInput);
-            indexPower += 1;
+    }
+
+    public List<Double> getEstimatedPowerArrivals(long now){
+
+        //now = now - DEMIURGE_START_TIME;
+        double defaultPower = 0.0;
+        double vmPower = 0.0;
+
+        TimeSeriesArrivals pastPower = db.getPastPower(200);
+
+        //Normalize power to now
+        for (int i = 0; i < pastPower.getTimeArray().size() ; i++){
+            Long time = pastPower.getTimeArray().get(i);// - DEMIURGE_START_TIME;
+            pastPower.getTimeArray().set(i, time);
         }
 
-        long now = System.currentTimeMillis() / 1000 - startTime;
-        predictValues(now, tempFileInput, tempFileOut, 1);
 
-        ArrayList<Double> res = readOutputCsvFile(tempFileOut);
+        //System.out.println("Number of VM requests in the past:" + pastPower.getTimeArray().size());
+
+        if (pastPower.getTimeArray().size() == 0 && this.workloadNewArrivals.size() == 0){
+            //deleteFile(workloadProfilesFile);
+            return null;
+        }
+
+        writeHeader(workloadProfilesFile);
+        /*
+        // This divides the array in a way that there is at least a value inside the interval
+        // Get granularity
+        Integer interval = pastPower.getIntervalWithAtLeastOneValue();
+        if (interval == 0){
+            interval = 1;
+        }
+        List<Double> vals = pastPower.getSumValuesSplittedInterval(interval);
+*/
+
+        //This divides the array in equal parts MAX_TIME/NUM_SAMPLE. It can happen
+        //that in some intervals there are no values. (better for timeseries).
+
+        Integer interval = pastPower.getIntervalSamples();
+        if (interval == 0){
+            interval = 1;
+        }
+        List<Double> vals = pastPower.getSumValuesForIntervalSamples(interval);
+
+        // Write file with past samples grouped (summed) by interval
+
+        for (int i = 1; i <= vals.size(); i++){
+            indexPowerTotal = i*interval;
+            writePastPower(indexPowerTotal, vals.get(i-1), workloadProfilesFile);
+        }
+/*
+        //Append arrivals in queue - check if we actually use this
+        if (this.workloadNewArrivals.size() > 0){
+            Iterator<Vm> iteratorExecuting= this.workloadNewArrivals.iterator();
+            while (iteratorExecuting.hasNext()) {
+                Vm vm = iteratorExecuting.next(); // must be called before you can call i.remove()
+                vmPower += vm.getPowerEstimated();
+                iteratorExecuting.remove();
+            }
+            writePastPower((int)now, vmPower, workloadProfilesFile);
+
+        }
+*/
+
+        predictValues(now, workloadProfilesFile, outputFile, windowForecast, interval);
+
+        ArrayList<Double> res = readOutputCsvFile(outputFile);
 
         try{
             defaultPower = res.get(0);
-
+            return res;
         }catch (IndexOutOfBoundsException e){
             logger.error("Error in predicting benchmark power from past arrivals");
             logger.error(e.getMessage());
+            return null;
+        }catch (NullPointerException e){
+            logger.warn("Not enough past samples of VM arrivals to predict the future");
+            return null;
         }finally {
-            deleteFile(tempFileInput);
-            deleteFile(tempFileOut);
-            return defaultPower;
-        }
+            //deleteFile(workloadProfilesFile);
+            //deleteFile(outputFile);
+
+            }
 
     }
 
@@ -116,7 +191,7 @@ public class ArrivalsWorkloadPredictionManager implements Runnable {
         List<Double> pastPower = db.getPastPowerForBenchmark(benchmark, maxInputSamples);
 
         if (pastPower.size() == 0){
-            deleteFile(tempFileInput);
+            //deleteFile(tempFileInput);
             return defaultPower;
         }
 
@@ -124,7 +199,8 @@ public class ArrivalsWorkloadPredictionManager implements Runnable {
             writePastPower(indexPower, p, tempFileInput);
             indexPower += 1;
         }
-        predictValues(now, tempFileInput, tempFileOut, 1);
+
+        predictValues(now, tempFileInput, tempFileOut, 1, 1);
 
         ArrayList<Double> res = readOutputCsvFile(tempFileOut);
         try{
@@ -134,8 +210,8 @@ public class ArrivalsWorkloadPredictionManager implements Runnable {
             logger.error("Error in predicting benchmark power from past arrivals");
             logger.error(e.getMessage());
         }finally {
-            deleteFile(tempFileInput);
-            deleteFile(tempFileOut);
+            //deleteFile(tempFileInput);
+            //deleteFile(tempFileOut);
             return defaultPower;
         }
 
@@ -181,6 +257,7 @@ public class ArrivalsWorkloadPredictionManager implements Runnable {
     }
 
     public boolean addBenchmarkToQueue(Vm b){
+        logger.debug("Adding vm to arrivals benchmark quque");
         return workloadNewArrivals.offer(b);
     }
 
@@ -190,26 +267,6 @@ public class ArrivalsWorkloadPredictionManager implements Runnable {
     }
 
 
-    public void predictValues(long now, String inputFile, String outputFile, int valuesToPredict){
-        //log.info("Predicting");
-        String RscriptPath = this.rScript;
-
-        try {
-            String line;
-            Process p = Runtime.getRuntime().exec(new String[]{RscriptPath, inputFile, Integer.toString(valuesToPredict), Long.toString(now), Integer.toString(this.maxInputSamples), outputFile});
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(p.getInputStream()));
-            while ((line = in.readLine()) != null) {
-                //System.out.println(line);
-            }
-            in.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-
-        }
-
-    }
 
 
     public ArrayList<Double> readOutputCsvFile(String file) {
@@ -218,7 +275,8 @@ public class ArrivalsWorkloadPredictionManager implements Runnable {
         try {
             br = new BufferedReader(new FileReader(file));
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            e.getMessage();
+            return null;
         }
         String line;
         boolean firstLine = true;
@@ -237,5 +295,18 @@ public class ArrivalsWorkloadPredictionManager implements Runnable {
             e.printStackTrace();
         }
         return resEnergy;
+    }
+
+    public boolean checkEmptyQueue() {
+        if (this.workloadNewArrivals.size() == 0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public String getArrivalsPredictionFile() {
+        return outputFile;
     }
 }

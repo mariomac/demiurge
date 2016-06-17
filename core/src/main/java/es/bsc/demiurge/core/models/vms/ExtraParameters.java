@@ -65,4 +65,8 @@ public class ExtraParameters {
     public void setPerformance(Integer performance) {
         this.performance = performance;
     }
+
+    public void setRunningTime(int runningTime) {
+        this.runningTime = runningTime;
+    }
 }

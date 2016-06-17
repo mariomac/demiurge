@@ -36,6 +36,7 @@ public class DeploymentPlan {
 
     //TODO: I should control that in this list a single host does not appear in several assignations
     private List<VmAssignmentToHost> vmsAssignationsToHosts = new ArrayList<>();
+    private double predictedClusterConsumption;
 
     public DeploymentPlan(List<VmAssignmentToHost> vmsAssignationsToHosts) {
         this.vmsAssignationsToHosts = vmsAssignationsToHosts;
@@ -117,6 +118,13 @@ public class DeploymentPlan {
         return result;
     }
 
+    public double getPredictedClusterConsumption() {
+        return predictedClusterConsumption;
+    }
+
+    public void setPredictedClusterConsumption(double predictedClusterConsumption) {
+        this.predictedClusterConsumption = predictedClusterConsumption;
+    }
 }
 
 

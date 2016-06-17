@@ -39,18 +39,15 @@ import es.bsc.demiurge.core.models.vms.VmDeployed;
 import es.bsc.demiurge.core.monitoring.hosts.Host;
 import es.bsc.demiurge.core.monitoring.hosts.HostFactory;
 import es.bsc.demiurge.core.predictors.ArrivalsWorkloadPredictionManager;
+import es.bsc.demiurge.core.predictors.EnergyFileModel;
 import es.bsc.demiurge.core.predictors.EnergyPredictionManager;
 import es.bsc.demiurge.core.selfadaptation.PeriodicSelfAdaptationRunnable;
 import es.bsc.demiurge.core.selfadaptation.SelfAdaptationManager;
 import es.bsc.demiurge.core.selfadaptation.options.SelfAdaptationOptions;
-import es.bsc.demiurge.core.utils.FileSystem;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ScheduledExecutorService;
 
 /**
@@ -63,32 +60,34 @@ import java.util.concurrent.ScheduledExecutorService;
 public class GenericVmManager implements VmManager {
 
     // VMM components. The VMM delegates all the work to this subcomponents
-    private ImageManager imageManager;
-    private HostsManager hostsManager;
-    private VmsManager vmsManager;
-    private SelfAdaptationOptsManager selfAdaptationOptsManager;
+    protected ImageManager imageManager;
+    protected HostsManager hostsManager;
+    protected VmsManager vmsManager;
+    protected SelfAdaptationOptsManager selfAdaptationOptsManager;
     protected VmPlacementManager vmPlacementManager;
-    private EstimatesManager estimatesManager;
-    
-    private CloudMiddleware cloudMiddleware;
-    private SelfAdaptationManager selfAdaptationManager;
-	private VmManagerDb db;
+    protected EstimatesManager estimatesManager;
+
+    protected CloudMiddleware cloudMiddleware;
+    protected SelfAdaptationManager selfAdaptationManager;
+    protected VmManagerDb db;
 
     // Specific for the Ascetic project
 
-    private static boolean periodicSelfAdaptationThreadRunning = false;
+    protected static boolean periodicSelfAdaptationThreadRunning = false;
 
-    private static final Config conf = Config.INSTANCE;
+    protected static final Config conf = Config.INSTANCE;
 	private Logger log = LogManager.getLogger(GenericVmManager.class);
 
     // Specific for RenewIT
-    private BenchmarkController benchmarkController;
-    private QueueBenchmarkManager queueBenchmarkManager;
+    protected BenchmarkController benchmarkController;
+    protected QueueBenchmarkManager queueBenchmarkManager;
     protected ScheduledExecutorService scheduledExecutorService;
-    private EnergyPredictionManager energyPredictionManager;
-    private ArrivalsWorkloadPredictionManager arrivalsWorkloadPredictionManager;
+    protected ScheduledExecutorService scheduledDestroyService;
+    protected EnergyPredictionManager energyPredictionManager;
+    protected ArrivalsWorkloadPredictionManager arrivalsWorkloadPredictionManager;
+    protected static SortedMap<Long, ArrayList<Vm>> postponedDeployment;
 
-    protected long startTime = System.currentTimeMillis()/1000;
+    public static long DEMIURGE_START_TIME = System.currentTimeMillis()/1000;
 
 	/**
      * Constructs a VmManager with the name of the database to be used.
@@ -99,8 +98,7 @@ public class GenericVmManager implements VmManager {
 
     }
 
-
-    //================================================================================
+//================================================================================
     // VM Methods
     //================================================================================
 
@@ -458,51 +456,10 @@ public class GenericVmManager implements VmManager {
         //Start new thread that takes care of the cloudsuite benchmark run inside VMs
         startBenchmarkControllerThread();
 
-        // if predictions are enabled
-        if (Config.INSTANCE.enablePredictions) {
-            /********** Green Energy predictions **********/
-            String rFile = Config.INSTANCE.ENERGY_PREDICTOR_R_FILE;
-            String outputFile = Config.INSTANCE.DEFAULT_ENERGY_PREDICTION_FILE; // it will be created
-
-            String rFilePath = null;
-            int numForecast = 10;
-            int maxInputSamples = 100;
-
-            //URL url = getClass().getResource(rFile);
-            //rFilePath = url.getPath();
-            rFilePath = FileSystem.getFilePath(rFile);
-
-            if (rFilePath != null) {
-                //type = green, total, RES
-                energyPredictionManager = new EnergyPredictionManager(startTime, rFilePath, Config.INSTANCE.energyProfilesFile, "green", numForecast, maxInputSamples, outputFile);
-                startEnergyPredictionManagerThread();
-            }else{
-                log.error("ENERGY PREDICTION NOT POSSIBLE: File '"+ rFile + "'does not exists");
-            }
-
-            /********** Workload predictions **********/
-
-
-
-            rFile = Config.INSTANCE.DEFAULT_WORKLOAD_PREDICTOR_R_FILE;
-            rFilePath = FileSystem.getFilePath(rFile);
-            String workloadFile = "/workload.csv"; // it will be created
-            outputFile = "/predictionWorkloadOut.csv";  // it will be created
-
-            arrivalsWorkloadPredictionManager = new ArrivalsWorkloadPredictionManager(startTime, db, rFilePath, workloadFile, numForecast, maxInputSamples, outputFile);
-
-            //Start new threads that takes care of the predictions
-            //startWorkloadPredicionManagerThread();*/
-
-        }
-
-        vmsManager = new VmsManager(hostsManager, cloudMiddleware, db, selfAdaptationManager, estimatesManager, conf.getVmmListeners(), queueBenchmarkManager, scheduledExecutorService, arrivalsWorkloadPredictionManager);
+        vmsManager = new VmsManager(hostsManager, cloudMiddleware, db, selfAdaptationManager, estimatesManager, conf.getVmmListeners());
 
         selfAdaptationOptsManager = new SelfAdaptationOptsManager(selfAdaptationManager);
         vmPlacementManager = new VmPlacementManager(vmsManager, hostsManager,estimatesManager);
-
-
-
 
         // Start periodic self-adaptation thread if it is not already running.
         // This check would not be needed if only one instance of this class was created.
@@ -526,34 +483,28 @@ public class GenericVmManager implements VmManager {
 		}));
 	}
 
-    private void startEnergyPredictionManagerThread() {
-        log.debug("RENEWIT: Starting energy prediction Thread");
-        Thread thread = new Thread(energyPredictionManager);
-        thread.start();
-    }
-
-    private void startWorkloadPredicionManagerThread() {
-        log.debug("RENEWIT: Starting workload prediction Thread");
-        Thread thread = new Thread(arrivalsWorkloadPredictionManager);
-        thread.start();
-    }
 
     @Override
 	public EstimatesManager getEstimatesManager() {
 		return estimatesManager;
 	}
 
-    private void startPeriodicSelfAdaptationThread() {
+    protected void startPeriodicSelfAdaptationThread() {
         Thread thread = new Thread(
                 new PeriodicSelfAdaptationRunnable(selfAdaptationManager),
                 "periodicSelfAdaptationThread");
         thread.start();
     }
 
-    private void startBenchmarkControllerThread() {
+    protected void startBenchmarkControllerThread() {
         log.debug("RENEWIT: Starting benchmark VM controller Thread");
         Thread thread = new Thread(benchmarkController);
         thread.start();
+    }
+
+
+    public static SortedMap<Long, ArrayList<Vm>> getPostponedDeployment() {
+        return postponedDeployment;
     }
 
 	@Override
@@ -639,6 +590,11 @@ public class GenericVmManager implements VmManager {
     @Override
     public double predictClusterConsumption(List<Vm> vms) throws CloudMiddlewareException {
         return 0.0;
+    }
+
+    @Override
+    public EnergyFileModel getEnergyUsageAtTime() {
+        return null;
     }
 
 

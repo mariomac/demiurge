@@ -36,6 +36,7 @@ public class Host extends AbstractPersistable {
     private final List<Long> fixedVmsIds = new ArrayList<>(); // IDs of the VMs that need to be deployed in this host
     private final boolean initiallyOff; // The host was off before the planning started
     private final double idlePower;
+    private final double maxPower;
     private double actualPowerConsumption = -1d;
     private String type;
 
@@ -47,6 +48,7 @@ public class Host extends AbstractPersistable {
         this.diskGb = diskGb;
         this.initiallyOff = initiallyOff;
         this.idlePower = 0d;
+        this.maxPower = 500d;
     }
 
     //Constructor with idle power
@@ -58,6 +60,8 @@ public class Host extends AbstractPersistable {
         this.diskGb = diskGb;
         this.initiallyOff = initiallyOff;
         this.idlePower = idlePower;
+        this.maxPower = 500d;
+
     }
 
     //Constructor with type
@@ -69,9 +73,21 @@ public class Host extends AbstractPersistable {
         this.diskGb = diskGb;
         this.initiallyOff = initiallyOff;
         this.idlePower = idlePower;
+        this.maxPower = 500d;
         this.type = type;
     }
 
+    public Host(Long id, String hostname, int ncpus, double ramMb, double diskGb, boolean initiallyOff, double idlePower, double maxPower, String type) {
+        this.hostname = hostname;
+        this.id = id;
+        this.ncpus = ncpus;
+        this.ramMb = ramMb;
+        this.diskGb = diskGb;
+        this.initiallyOff = initiallyOff;
+        this.idlePower = idlePower;
+        this.maxPower = maxPower;
+        this.type = type;
+    }
     /**
      * Returns the usage of a host given a list of VMs.
      * This method checks the host to which each VM has been assigned, and returns the sum of
@@ -196,5 +212,9 @@ public class Host extends AbstractPersistable {
 
     public String getType() {
         return type;
+    }
+
+    public double getMaxPower() {
+        return  maxPower;
     }
 }

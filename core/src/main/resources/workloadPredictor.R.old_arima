@@ -1,0 +1,120 @@
+#!/usr/bin/env Rscript
+
+args <- commandArgs(trailingOnly = TRUE)
+
+
+if (length(args) != 6){
+    cat("ERROR IN PASSING PARAMETERS: EXPECTED 5")
+    stop("ERROR IN PASSING PARAMETERS: EXPECTED 5")
+}
+
+if("forecast" %in% rownames(installed.packages()) == FALSE) {install.packages("forecast", dependencies = TRUE, repos="http://cran.us.r-project.org")}
+library(forecast)
+
+file = args[1]
+NUM_FORECAST = strtoi(args[2])
+NOW = strtoi(args[3])
+MAX = strtoi(args[4])
+file_output = args[5]
+interval = strtoi(args[6])
+#
+#file = "/home/mcanuto/BSC/Projects/RenewIT/RES_2015_short.csv"
+# type = "green"
+# NUM_FORECAST = window #Number of predicted values
+# MAX = 100 #Max number of past values to consider
+# NOW = 2 #Current time index
+
+FREQUENCY = 1
+cat(args)
+data <- read.csv(file, check.names=FALSE)
+
+
+start = NOW*interval - MAX*interval
+
+if (start <0){start = 0}
+cat("start: ", start, "\n")
+cat("end: ",NOW, "\n")
+
+#data <- data[start:NOW,]
+
+data <- data[data$time >= start & data$time <= NOW,]
+data <- data[complete.cases(data), ]
+#cat("Input power: ")
+#cat (data$power , "\n")
+power.ts = data$power
+
+sensor<- ts(power.ts,frequency=FREQUENCY)
+fit <- auto.arima(sensor)
+fcast <- forecast(fit, h = NUM_FORECAST)
+
+fcast.values = c(fcast$mean)
+#cat("Output power: ", fcast.values, "\n")
+#cat(fcast.values, sep = "\n")
+
+time = seq(from=(NOW+FREQUENCY*interval), to=(NOW+NUM_FORECAST*interval), by=interval)
+
+result_file = data.frame(cbind(timestamp = time, value = fcast.values))
+
+
+write.csv(result_file, file = file_output, row.names=FALSE)
+
+#!/usr/bin/env Rscript
+
+args <- commandArgs(trailingOnly = TRUE)
+
+
+if (length(args) != 6){
+    cat("ERROR IN PASSING PARAMETERS: EXPECTED 5")
+    stop("ERROR IN PASSING PARAMETERS: EXPECTED 5")
+}
+
+if("forecast" %in% rownames(installed.packages()) == FALSE) {install.packages("forecast", dependencies = TRUE, repos="http://cran.us.r-project.org")}
+library(forecast)
+
+file = args[1]
+NUM_FORECAST = strtoi(args[2])
+NOW = strtoi(args[3])
+MAX = strtoi(args[4])
+file_output = args[5]
+interval = strtoi(args[6])
+#
+#file = "/home/mcanuto/BSC/Projects/RenewIT/RES_2015_short.csv"
+# type = "green"
+# NUM_FORECAST = window #Number of predicted values
+# MAX = 100 #Max number of past values to consider
+# NOW = 2 #Current time index
+
+FREQUENCY = 1
+cat(args)
+data <- read.csv(file, check.names=FALSE)
+
+
+start = NOW*interval - MAX*interval
+
+if (start <0){start = 0}
+cat("start: ", start, "\n")
+cat("end: ",NOW, "\n")
+
+#data <- data[start:NOW,]
+
+data <- data[data$time >= start & data$time <= NOW,]
+data <- data[complete.cases(data), ]
+#cat("Input power: ")
+#cat (data$power , "\n")
+power.ts = data$power
+
+sensor<- ts(power.ts,frequency=FREQUENCY)
+fit <- auto.arima(sensor)
+fcast <- forecast(fit, h = NUM_FORECAST)
+
+fcast.values = c(fcast$mean)
+#cat("Output power: ", fcast.values, "\n")
+#cat(fcast.values, sep = "\n")
+
+time = seq(from=(NOW+FREQUENCY*interval), to=(NOW+NUM_FORECAST*interval), by=interval)
+
+result_file = data.frame(cbind(timestamp = time, value = fcast.values))
+
+
+write.csv(result_file, file = file_output, row.names=FALSE)
+
