@@ -52,7 +52,6 @@ public class VmPlacementProblemTest extends TestCase {
     }
     
     public void testConsolidationScenario() {
-        //Config.INSTANCE.loadBeansConfig();
         List<Host> hosts = new ArrayList<>();
         List<Vm> vms = new ArrayList<>();
         
@@ -83,7 +82,6 @@ public class VmPlacementProblemTest extends TestCase {
     }
     
     public void testDistributionScenario() {
-        //Config.INSTANCE.loadBeansConfig();
         List<Host> hosts = new ArrayList<>();
         List<Vm> vms = new ArrayList<>();
         
@@ -111,5 +109,34 @@ public class VmPlacementProblemTest extends TestCase {
         assertEquals("compute1", solution.getVms().get(0).getHost().getHostname());
         assertEquals("compute2", solution.getVms().get(1).getHost().getHostname());
         assertEquals("compute3", solution.getVms().get(2).getHost().getHostname());
+    }
+    
+    public void testHwPlatformMigration() {
+        List<Host> hosts = new ArrayList<>();
+        List<Vm> vms = new ArrayList<>();
+        
+        Host host1 = new Host(1L, "compute1", 4, 8, 200, "x86_64", "Intel", null, "SSD", false);
+        hosts.add( host1 );
+        Host host2 = new Host(2L, "compute2", 4, 8, 200, "x86_64", "Intel", null, "RAID", false);
+        hosts.add( host2 );
+        
+        Vm vm1 = new Vm.Builder(1L, 1, 2, 50, "x86_64", "Intel", null, "RAID").build();
+        vm1.setHost(host1);
+        vms.add( vm1 );
+        
+        VmPlacementConfig config =
+            new VmPlacementConfig.Builder(
+                "consolidation",
+                5,
+                ConstructionHeuristic.FIRST_FIT_DECREASING,
+                new LateAcceptance(400),
+                false
+            ).build();
+        
+        Config.INSTANCE.setPlacementPolicies(placementPolicies);
+        VmPlacementProblem problem = new VmPlacementProblem(hosts, vms, config);
+        ClusterState solution = problem.getBestSolution();
+        
+        assertEquals("compute2", solution.getVms().get(0).getHost().getHostname());
     }
 }
